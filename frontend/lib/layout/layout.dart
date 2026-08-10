@@ -4,16 +4,12 @@ import 'package:frontend/data/app_bar_titles.dart';
 import 'package:frontend/shared/components/appbar/app_bar.dart';
 import 'package:frontend/shared/components/bottom_nav_bar/bottom_nav_bar.dart';
 
-
-
-
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
 
   @override
   ConsumerState<LayoutScreen> createState() => _LayoutScreenState();
 }
-
 
 class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   int screen = 0;
@@ -22,7 +18,10 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: APP_BAR_TITLES[screen]),
-      bottomNavigationBar: BottomNavBar(currentIndex: screen, onTap: (i) => setState(() => screen = i)),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: screen,
+        onTap: (i) => setState(() => screen = i),
+      ),
     );
   }
 }

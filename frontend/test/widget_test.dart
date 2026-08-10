@@ -7,24 +7,38 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:frontend/main.dart';
+import 'package:frontend/app/app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('shows the application shell', (WidgetTester tester) async {
+    await tester.pumpWidget(const ProviderScope(child: InfraMonitorApp()));
+    await tester.pump(const Duration(milliseconds: 300));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Overview'), findsWidgets);
+    expect(find.text('Servers'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.text('Servers'));
     await tester.pump();
+    expect(find.text('MONITORED SERVERS'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Incidents'));
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.text('INCIDENT QUEUE'), findsOneWidget);
+
+    await tester.tap(find.text('AI'));
+    await tester.pump();
+    expect(find.text('SUGGESTED PROMPTS'), findsOneWidget);
+
+    await tester.tap(find.text('Analytics'));
+    await tester.pump();
+    expect(find.text('OPERATIONAL METRICS'), findsOneWidget);
+
+    await tester.tap(find.text('More'));
+    await tester.pump();
+    expect(find.text('SECURITY & AUDIT'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 }

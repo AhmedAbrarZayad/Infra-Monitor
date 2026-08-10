@@ -7,7 +7,11 @@ typedef OnNavTap = void Function(int index);
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   final OnNavTap onTap;
-  const BottomNavBar({super.key, required this.currentIndex, required this.onTap});
+  const BottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   static const List<IconData> _icons = [
     Icons.home,
@@ -20,9 +24,15 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = List<BottomNavigationBarItem>.generate(APP_BAR_TITLES.length, (i) {
-      return BottomNavigationBarItem(icon: Icon(_icons[i], size: 20), label: APP_BAR_TITLES[i]);
-    });
+    final items = List<BottomNavigationBarItem>.generate(
+      APP_BAR_TITLES.length,
+      (i) {
+        return BottomNavigationBarItem(
+          icon: Icon(_icons[i], size: 20),
+          label: APP_BAR_TITLES[i],
+        );
+      },
+    );
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,

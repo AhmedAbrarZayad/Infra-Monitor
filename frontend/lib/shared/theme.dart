@@ -25,6 +25,13 @@ class AppTheme {
       unselectedItemColor: AppColors.textSecondary,
       showUnselectedLabels: true,
     ),
+    navigationBarTheme: const NavigationBarThemeData(
+      height: 64,
+      backgroundColor: AppColors.surface,
+      indicatorColor: Color(0xFF162A48),
+      labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: 9)),
+      iconTheme: WidgetStatePropertyAll(IconThemeData(size: 20)),
+    ),
     textTheme: AppFonts.textTheme(AppColors.textPrimary),
   );
 }
