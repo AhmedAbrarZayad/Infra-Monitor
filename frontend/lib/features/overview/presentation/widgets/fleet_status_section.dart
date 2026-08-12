@@ -42,41 +42,44 @@ class FleetStatusSection extends StatelessWidget {
                   .map(
                     (metric) => SizedBox(
                       width: width,
-                      height: 90,
-                      child: DashboardPanel(
-                        padding: const EdgeInsets.all(11),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              metric.label,
-                              style: const TextStyle(
-                                color: Color(0xFF8993A4),
-                                fontSize: 10,
-                                fontFamily: 'monospace',
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(minHeight: 90),
+                        child: DashboardPanel(
+                          padding: const EdgeInsets.all(11),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                metric.label,
+                                style: const TextStyle(
+                                  color: Color(0xFF8993A4),
+                                  fontSize: 10,
+                                  fontFamily: 'monospace',
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              metric.value,
-                              style: TextStyle(
-                                color: _valueColor(metric),
-                                fontSize: 21,
-                                fontWeight: FontWeight.w700,
+                              const SizedBox(height: 5),
+                              Text(
+                                metric.value,
+                                style: TextStyle(
+                                  color: _valueColor(metric),
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              metric.caption,
-                              style: const TextStyle(
-                                color: Color(0xFF8C95A5),
-                                fontSize: 10,
-                                fontFamily: 'monospace',
+                              const SizedBox(),
+                              Text(
+                                metric.caption,
+                                style: const TextStyle(
+                                  color: Color(0xFF8C95A5),
+                                  fontSize: 10,
+                                  fontFamily: 'monospace',
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
+                      )
                     ),
                   )
                   .toList(),
