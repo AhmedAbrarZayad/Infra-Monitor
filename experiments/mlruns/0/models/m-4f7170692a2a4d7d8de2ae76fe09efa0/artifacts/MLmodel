@@ -1,0 +1,24 @@
+artifact_path: file:c:/Users/ahmed/OneDrive/Documents/Projects/AI Incident Report
+  and Infrastructure monitoring/Infra-Monitor/model/mlruns/0/models/m-4f7170692a2a4d7d8de2ae76fe09efa0/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.13.9
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.7.2
+    skops_trusted_types: null
+mlflow_version: 3.15.1
+model_id: m-4f7170692a2a4d7d8de2ae76fe09efa0
+model_size_bytes: 2637181
+model_uuid: m-4f7170692a2a4d7d8de2ae76fe09efa0
+prompts: null
+run_id: 00814925c3cf4fb39b45ced995aa4d91
+utc_time_created: '2026-08-12 16:08:45.655604'
