@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings as django_settings
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -38,7 +39,6 @@ class ForgotPasswordView(APIView):
         try:
             user = Users.objects.get(email=email)
         except Users.DoesNotExist:
-            # Don't reveal that the email doesn't exist
             return Response(
                 {"message": success_message},
                 status=status.HTTP_200_OK,
@@ -47,9 +47,13 @@ class ForgotPasswordView(APIView):
         otp = OTPService.generate_password_reset_otp(user)
 
         email_service = GmailOAuth2EmailService()
-        email_service.send_password_reset_otp(user, otp)
+        email_sent = email_service.send_password_reset_otp(user, otp)
 
-        return Response(
-            {"message": success_message},
-            status=status.HTTP_200_OK,
-        )
+        response_data = {"message": success_message}
+
+        if django_settings.DEBUG:
+            response_data["debug_otp"] = otp
+            response_data["email_sent"] = email_sent
+
+        return Response(response_data, status=status.HTTP_200_OK)
+

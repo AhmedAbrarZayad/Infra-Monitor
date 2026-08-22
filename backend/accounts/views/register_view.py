@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -33,12 +34,23 @@ class RegisterView(APIView):
 
         # Send verification OTP email
         email_service = GmailOAuth2EmailService()
-        email_service.send_email_verification_otp(user, otp)
+        email_sent = email_service.send_email_verification_otp(user, otp)
 
-        return Response(
-            {
-                "message": "Registration successful. Please check your email for the verification code.",
-                "user": UserSerializer(user).data,
-            },
-            status=status.HTTP_201_CREATED,
-        )
+        if not email_sent:
+            logger.warning(
+                "Failed to send verification email to %s. OTP was generated but not delivered.",
+                user.email,
+            )
+
+        response_data = {
+            "message": "Registration successful. Please check your email for the verification code.",
+            "user": UserSerializer(user).data,
+        }
+
+        # In DEBUG mode, include the OTP in the response for testing
+        if settings.DEBUG:
+            response_data["debug_otp"] = otp
+            response_data["email_sent"] = email_sent
+
+        return Response(response_data, status=status.HTTP_201_CREATED)
+

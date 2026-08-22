@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings as django_settings
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -32,7 +33,6 @@ class ResendOTPView(APIView):
         try:
             user = Users.objects.get(email=email)
         except Users.DoesNotExist:
-            # Return success anyway to prevent email enumeration
             return Response(
                 {"message": "If an account exists with this email, a new verification code has been sent."},
                 status=status.HTTP_200_OK,
@@ -47,9 +47,15 @@ class ResendOTPView(APIView):
         otp = OTPService.generate_email_verification_otp(user)
 
         email_service = GmailOAuth2EmailService()
-        email_service.send_email_verification_otp(user, otp)
+        email_sent = email_service.send_email_verification_otp(user, otp)
 
-        return Response(
-            {"message": "If an account exists with this email, a new verification code has been sent."},
-            status=status.HTTP_200_OK,
-        )
+        response_data = {
+            "message": "If an account exists with this email, a new verification code has been sent.",
+        }
+
+        if django_settings.DEBUG:
+            response_data["debug_otp"] = otp
+            response_data["email_sent"] = email_sent
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
