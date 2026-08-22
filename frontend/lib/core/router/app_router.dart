@@ -30,6 +30,9 @@ GoRouter createAppRouter(WidgetRef ref) {
 
       final isPublicRoute = publicPaths.any((p) => currentPath.startsWith(p));
 
+      print("is Authenticated? ${isAuthenticated}");
+      print("is Public Route? ${isPublicRoute}");
+
       // If not authenticated and trying to access a protected route
       if (!isAuthenticated && !isPublicRoute) {
         // Still loading/initializing — don't redirect yet

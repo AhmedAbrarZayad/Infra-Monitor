@@ -211,7 +211,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     AuthButton(
                       label: 'Create Account',
                       isLoading: isLoading,
-                      onPressed: isLoading ? null : _handleRegister,
+                      onPressed: _handleRegister,
                     ),
                     const SizedBox(height: 24),
 

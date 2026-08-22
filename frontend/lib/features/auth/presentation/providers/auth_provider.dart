@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../data/auth_repository.dart';
-import '../data/models/user_model.dart';
-import '../domain/auth_state.dart';
+import '../../data/auth_repository.dart';
+import '../../data/models/user_model.dart';
+import '../../domain/auth_state.dart';
 
 /// Global auth repository provider.
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

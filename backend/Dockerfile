@@ -11,7 +11,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 
 
-FROM python:3.14-slim as runtime
+FROM python:3.14-slim AS runtime
 
 WORKDIR /app
 

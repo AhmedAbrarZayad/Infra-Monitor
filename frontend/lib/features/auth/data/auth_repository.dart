@@ -77,6 +77,7 @@ class AuthRepository {
     String firstName = '',
     String lastName = '',
   }) async {
+    print("the base url is ${_baseUrl}");
     final response = await _client.post(
       Uri.parse('$_baseUrl/register/'),
       headers: _headers(),

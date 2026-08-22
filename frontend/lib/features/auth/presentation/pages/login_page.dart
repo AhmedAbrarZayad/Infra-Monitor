@@ -78,7 +78,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         colors: [AppColors.primary, AppColors.secondary],
                       ).createShader(bounds),
                       child: Text(
-                        '🚀 Infra Monitor',
+                        'Infra Monitor',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           fontSize: 28,
