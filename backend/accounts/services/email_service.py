@@ -57,7 +57,7 @@ class GmailOAuth2EmailService:
             msg["Subject"] = subject
             msg.attach(MIMEText(html_body, "html"))
 
-            with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            with smtplib.SMTP("smtp.gmail.com", 465) as server:
                 server.ehlo()
                 server.starttls()
                 server.ehlo()
