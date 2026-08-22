@@ -10,8 +10,27 @@ erDiagram
         string full_name
         string role
         boolean is_active
+        boolean is_email_verified
         datetime created_at
         datetime updated_at
+    }
+
+    EMAIL_VERIFICATION_OTP {
+        int id PK
+        int user_id FK
+        string otp
+        boolean is_used
+        datetime expires_at
+        datetime created_at
+    }
+
+    PASSWORD_RESET_OTP {
+        int id PK
+        int user_id FK
+        string otp
+        boolean is_used
+        datetime expires_at
+        datetime created_at
     }
 
     USER_PREFERENCE {
@@ -205,6 +224,8 @@ erDiagram
 
     USER ||--o| USER_PREFERENCE : has
     USER ||--o{ SERVER : registers
+    USER ||--o{ EMAIL_VERIFICATION_OTP : has
+    USER ||--o{ PASSWORD_RESET_OTP : has
     USER |o--o{ INCIDENT : assigned_to
     USER ||--o{ INCIDENT_UPDATE : performs
     USER ||--o{ ASSISTANT_CONVERSATION : starts
