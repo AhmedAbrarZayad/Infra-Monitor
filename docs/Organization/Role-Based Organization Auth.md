@@ -13,7 +13,7 @@ The design supports:
 - exactly one owner per organization;
 - at most one organization owned by an account;
 - organization-scoped `OWNER`, `ADMIN`, and `ENGINEER` roles;
-- approval-based organization membership; and
+- approval-based organization membership using an `approved` flag; and
 - strict isolation of infrastructure data between organizations.
 
 Ownership transfer and organization deletion are outside v1.
@@ -23,10 +23,10 @@ Ownership transfer and organization deletion are outside v1.
 | Term | Meaning |
 | --- | --- |
 | Owner | The account that created an organization. There is exactly one per organization. |
-| Admin | A member appointed by the owner who can process join requests and remove engineers. |
+| Admin | A member appointed by the owner who can approve or reject pending memberships and remove engineers. |
 | Engineer | A regular approved member with operational access but no organization administration access. |
 | Membership | The approved relationship between a user and an organization, including the user's role. |
-| Join request | A user's request to become an engineer in an organization. |
+| Pending membership | An `ENGINEER` organization membership whose `approved` field is `false`. |
 | Active organization | The organization whose infrastructure and operational data the application currently displays. |
 
 ## 3. User Flows
@@ -41,8 +41,8 @@ flowchart TD
     B --> C{Approved membership exists?}
     C -- Yes --> D[Select active organization]
     D --> E[Open app shell]
-    C -- No --> F{Pending request exists?}
-    F -- Yes --> G[Show pending request screen]
+    C -- No --> F{Unapproved membership exists?}
+    F -- Yes --> G[Show pending membership screen]
     F -- No --> H[Show organization onboarding]
     H --> I[Create organization]
     H --> J[Search and request to join]
@@ -86,21 +86,21 @@ Only authenticated, email-verified users may search for organizations. Search re
 - short summary; and
 - logo.
 
-Search must not expose owners, members, join requests, servers, incidents, metrics, logs, or other tenant data.
+Search must not expose owners, members, pending memberships, servers, incidents, metrics, logs, or other tenant data.
 
-After selecting an organization, the user submits a join request. New approved memberships always begin with the `ENGINEER` role. Users may have pending requests for different organizations, but may have only one pending request per organization.
+After selecting an organization, the system creates an `ENGINEER` membership with `approved=false`. Approval changes that same membership to `approved=true`. Users may have pending memberships in different organizations, but the unique user/organization membership constraint permits only one membership per organization.
 
-### 3.4 Pending and rejected requests
+### 3.4 Pending memberships and rejection
 
-A user with no approved memberships remains outside the app shell while a request is pending. The pending screen displays the organization, submission time, and current status.
+A user with no approved memberships remains outside the app shell while a membership has `approved=false`. The pending screen displays the organization and submission time.
 
-When a request is:
+When a pending membership is:
 
-- **approved**, an `ENGINEER` membership is created and the organization becomes active if the user has no active organization;
-- **rejected**, no membership is created and the rejected status is shown; or
-- **resubmitted**, a new request is created after rejection so the review history remains immutable.
+- **approved**, its `approved` field becomes `true` and the organization becomes active if the user has no active organization;
+- **rejected**, the unapproved membership is deleted and the user returns to organization onboarding; or
+- **resubmitted**, a new unapproved membership is created after the previous one was rejected and deleted.
 
-A user who already has an approved membership may submit and monitor additional join requests from **More** without losing access to the current organization.
+A user who already has an approved membership may create and monitor additional unapproved memberships from **More** without losing access to the current organization. Rejection history is retained in the audit log rather than in a separate join-request model.
 
 ### 3.5 Multiple organizations
 
@@ -125,8 +125,8 @@ Roles belong to `OrganizationMembership`, not `Users`. A global role cannot repr
 | --- | :---: | :---: | :---: |
 | View organization operational data | Yes | Yes | Yes |
 | Use servers, incidents, analytics, and AI features | Yes | Yes | Yes |
-| View pending join requests | Yes | Yes | No |
-| Approve or reject join requests | Yes | Yes | No |
+| View pending memberships | Yes | Yes | No |
+| Approve or reject pending memberships | Yes | Yes | No |
 | Remove engineers | Yes | Yes | No |
 | Promote engineer to admin | Yes | No | No |
 | Demote admin to engineer | Yes | No | No |
@@ -175,7 +175,8 @@ Organization names do not need to be globally unique. The UI uses the summary an
 | `organization` | foreign key | Required; cascade on organization deletion when deletion is introduced |
 | `user` | foreign key | Required; cascade on user deletion |
 | `role` | enum | `OWNER`, `ADMIN`, or `ENGINEER` |
-| `joined_at` | datetime | Server generated |
+| `approved` | boolean | `false` for a pending engineer; `true` for an active member |
+| `created_at` | datetime | Server generated |
 | `updated_at` | datetime | Server managed |
 
 Constraints:
@@ -183,34 +184,23 @@ Constraints:
 - unique `(organization, user)`;
 - one `OWNER` membership per organization using a conditional unique constraint;
 - an `OWNER` membership's user must equal `organization.owner`; and
+- `OWNER` and `ADMIN` memberships must always have `approved=true`; and
 - owner membership creation and ownership assignment occur in one transaction.
 
-The `Users` model exposes organizations through a many-to-many relation using this model as the explicit through table.
+The `Users` model exposes organizations through a many-to-many relation using this model as the explicit through table. Application access and active-organization selection consider only memberships where `approved=true`.
 
 The existing `Users.role` field must be deprecated. During compatibility migration it may remain readable, but new authorization code must ignore it. Remove it only after every consumer has migrated to membership roles.
 
-### 5.3 OrganizationJoinRequest
+### 5.3 Membership approval lifecycle
 
-| Field | Type | Rules |
-| --- | --- | --- |
-| `id` | UUID, primary key | Generated by server |
-| `organization` | foreign key | Required |
-| `requester` | foreign key to `Users` | Required |
-| `status` | enum | `PENDING`, `APPROVED`, or `REJECTED` |
-| `reviewed_by` | foreign key to `Users`, nullable | Set for approved/rejected requests |
-| `reviewed_at` | datetime, nullable | Set with final status |
-| `created_at` | datetime | Server generated |
-| `updated_at` | datetime | Server managed |
+There is no separate join-request model. The membership row is the request and its `approved` boolean is the complete approval state:
 
-Constraints and transitions:
+- joining creates `role=ENGINEER, approved=false`;
+- approval updates `approved` to `true`;
+- rejection deletes the unapproved membership; and
+- reapplication creates a new unapproved membership.
 
-- conditional unique constraint on `(organization, requester)` where status is `PENDING`;
-- a current member cannot submit another request to the same organization;
-- only `PENDING -> APPROVED` and `PENDING -> REJECTED` are valid transitions;
-- completed requests are immutable audit records; and
-- reapplication creates a new `PENDING` row.
-
-Approval must run transactionally and lock the join-request row. It verifies reviewer permissions, confirms the requester is not already a member, creates the `ENGINEER` membership, and marks the request approved. Concurrent approval attempts must not create duplicate memberships.
+Approval must run transactionally and lock the membership row. It verifies reviewer permissions, confirms `approved=false`, and changes it to `true`. Rejection similarly locks and deletes only an unapproved membership. The audit subsystem records the actor and outcome before the transaction completes. Concurrent decisions must return a conflict rather than approve or reject an already-processed membership.
 
 ### 5.4 Server ownership
 
@@ -231,9 +221,6 @@ erDiagram
     USER ||--o| ORGANIZATION : owns
     USER ||--o{ ORGANIZATION_MEMBERSHIP : has
     ORGANIZATION ||--|{ ORGANIZATION_MEMBERSHIP : contains
-    USER ||--o{ ORGANIZATION_JOIN_REQUEST : submits
-    USER |o--o{ ORGANIZATION_JOIN_REQUEST : reviews
-    ORGANIZATION ||--o{ ORGANIZATION_JOIN_REQUEST : receives
     ORGANIZATION ||--o{ SERVER : owns
 
     ORGANIZATION {
@@ -251,17 +238,7 @@ erDiagram
         uuid organization_id FK
         int user_id FK
         string role
-        datetime joined_at
-        datetime updated_at
-    }
-
-    ORGANIZATION_JOIN_REQUEST {
-        uuid id PK
-        uuid organization_id FK
-        int requester_id FK
-        string status
-        int reviewed_by_id FK
-        datetime reviewed_at
+        boolean approved
         datetime created_at
         datetime updated_at
     }
@@ -269,13 +246,13 @@ erDiagram
 
 ## 6. API Contract
 
-All endpoints require JWT authentication unless stated otherwise. UUID values shown as `{organization_id}` and `{request_id}` are canonical identifiers.
+All endpoints require JWT authentication unless stated otherwise. UUID values shown as `{organization_id}` and `{membership_id}` are canonical identifiers.
 
 ### 6.1 Organization context and discovery
 
 | Method | Endpoint | Permission | Purpose |
 | --- | --- | --- | --- |
-| `GET` | `/api/organizations/context/` | Authenticated | Return memberships, pending/rejected requests, owned-organization eligibility, and recommended active organization |
+| `GET` | `/api/organizations/context/` | Authenticated | Return approved and pending memberships, owned-organization eligibility, and recommended active organization |
 | `GET` | `/api/organizations/search/?q=` | Authenticated + verified | Search public organization metadata |
 | `POST` | `/api/organizations/` | Authenticated + verified + does not own org | Create organization and owner membership |
 | `GET` | `/api/organizations/{organization_id}/` | Member | Return organization details visible to members |
@@ -293,10 +270,11 @@ The context response is the source of truth for routing after login and app rest
         "logo_url": null
       },
       "role": "ENGINEER",
-      "joined_at": "2026-08-22T12:00:00Z"
+      "approved": true,
+      "created_at": "2026-08-22T12:00:00Z"
     }
   ],
-  "join_requests": [],
+  "pending_memberships": [],
   "can_create_organization": true,
   "recommended_organization_id": "8ed2d642-3db5-47b2-8b7d-b965f5d4da11"
 }
@@ -304,16 +282,16 @@ The context response is the source of truth for routing after login and app rest
 
 The server recommends an active organization but does not need to store UI selection in v1. The client persists the explicit selection locally and verifies it against the latest memberships during startup.
 
-### 6.2 Join requests
+### 6.2 Membership requests and approval
 
 | Method | Endpoint | Permission | Purpose |
 | --- | --- | --- | --- |
-| `POST` | `/api/organizations/{organization_id}/join-requests/` | Authenticated non-member | Submit a request |
-| `GET` | `/api/organizations/{organization_id}/join-requests/` | Owner or admin | List pending requests for administration |
-| `POST` | `/api/organizations/{organization_id}/join-requests/{request_id}/approve/` | Owner or admin | Approve and create engineer membership |
-| `POST` | `/api/organizations/{organization_id}/join-requests/{request_id}/reject/` | Owner or admin | Reject request |
+| `POST` | `/api/organizations/{organization_id}/memberships/` | Authenticated non-member | Create an unapproved engineer membership |
+| `GET` | `/api/organizations/{organization_id}/memberships/?approved=false` | Owner or admin | List pending memberships |
+| `POST` | `/api/organizations/{organization_id}/memberships/{membership_id}/approve/` | Owner or admin | Set the membership's `approved` field to `true` |
+| `DELETE` | `/api/organizations/{organization_id}/memberships/{membership_id}/reject/` | Owner or admin | Reject by deleting the unapproved membership |
 
-Approval returns `201 Created` with the membership. Repeated or stale decisions return `409 Conflict`. Attempts involving a request from another organization return `404 Not Found`, avoiding cross-tenant disclosure.
+Creating a pending membership returns `201 Created`. Approval returns `200 OK` with the updated membership. Repeated or stale decisions return `409 Conflict`. Attempts involving a membership from another organization return `404 Not Found`, avoiding cross-tenant disclosure.
 
 ### 6.3 Membership administration
 
@@ -353,16 +331,16 @@ Existing unscoped endpoints must be migrated or wrapped so they cannot return da
 | `401` | Missing or invalid JWT |
 | `403` | Authenticated member lacks the required role |
 | `404` | Organization-scoped object is absent or outside the caller's organization |
-| `409` | Duplicate membership/request, ownership limit, or already-reviewed request |
+| `409` | Duplicate membership, ownership limit, or already-processed membership decision |
 
 ## 7. Backend Architecture
 
-Create a dedicated organization domain/app rather than placing organization behavior in generic account views. It owns the three organization models, serializers, services, permission classes, endpoints, and tests.
+Create a dedicated organization domain/app rather than placing organization behavior in generic account views. It owns the organization and membership models, serializers, services, permission classes, endpoints, and tests.
 
 Use service-layer transactions for:
 
 - organization plus owner-membership creation;
-- join-request approval;
+- membership approval and rejection;
 - role changes; and
 - membership removal.
 
@@ -384,7 +362,6 @@ Authentication remains responsible for tokens and the authenticated user. Add a 
 - `initial/loading`;
 - `needsOnboarding`;
 - `pendingOnly`;
-- `rejectedOnly`;
 - `ready` with memberships and active organization; and
 - `error`.
 
@@ -395,10 +372,9 @@ Routing behavior:
 | Authentication | Organization context | Destination |
 | --- | --- | --- |
 | Unauthenticated | Any | Login |
-| Authenticated | No membership/request | Organization onboarding |
-| Authenticated | Pending requests only | Pending screen |
-| Authenticated | Rejected requests only | Onboarding with rejection/reapply state |
-| Authenticated | At least one membership | App shell |
+| Authenticated | No membership | Organization onboarding |
+| Authenticated | Unapproved memberships only | Pending screen |
+| Authenticated | At least one approved membership | App shell |
 
 ### 8.2 More tab
 
@@ -408,14 +384,14 @@ The existing More tab becomes the entry point for:
 - organization profile summary;
 - create organization, when eligible;
 - search/join another organization;
-- request-status history;
+- pending-membership status;
 - member list; and
 - organization administration for owner/admin roles.
 
 Visibility rules:
 
 - engineers see organization context and membership information but no administration controls;
-- admins see pending requests and may approve, reject, and remove engineers; and
+- admins see pending memberships and may approve, reject, and remove engineers; and
 - owners additionally see role promotion/demotion and admin removal controls.
 
 Client-side visibility improves UX but is not a security boundary. Every action remains protected by backend authorization.
@@ -451,9 +427,9 @@ Until backfill completes, unassigned servers must be inaccessible through applic
 
 ## 10. Security and Audit Requirements
 
-- Log organization creation, join-request decisions, promotions, demotions, and membership removals with actor, target, organization, action, and timestamp.
+- Log organization creation, membership approval/rejection, promotions, demotions, and membership removals with actor, target, organization, action, and timestamp.
 - Never include secrets, JWTs, OTPs, server credentials, or OAuth credentials in audit events.
-- Apply throttling to organization search and join-request creation.
+- Apply throttling to organization search and unapproved-membership creation.
 - Escape search input and use bounded, paginated results.
 - Return generic not-found responses for cross-organization object IDs.
 - Recheck authorization inside write transactions to prevent time-of-check/time-of-use races.
@@ -469,18 +445,18 @@ Until backfill completes, unassigned servers must be inaccessible through applic
 - Owner and owner membership always refer to the same user.
 - A user can hold different roles in different organizations.
 - Duplicate memberships are rejected.
-- Only one pending request per user/organization is allowed.
-- Rejected users can create a new request.
+- The unique membership constraint prevents duplicate pending or approved memberships per user/organization.
+- Rejected users can create a new unapproved membership.
 - Approval creates exactly one engineer membership under concurrent calls.
-- Completed request records cannot be changed.
+- Approved memberships cannot be rejected through the pending-membership endpoint.
 - Legacy backfill is safe and idempotent.
 
 ### 11.2 API authorization tests
 
 - Unauthenticated users cannot use organization endpoints.
 - Users without membership cannot access the app's operational APIs.
-- Engineers cannot list or decide pending requests.
-- Admins can approve/reject requests and remove engineers.
+- Engineers cannot list or decide pending memberships.
+- Admins can approve/reject pending memberships and remove engineers.
 - Admins cannot promote, demote, or remove admins or the owner.
 - Owners can promote/demote members and remove non-owner members.
 - No role can modify or remove the owner through v1 endpoints.
@@ -492,7 +468,7 @@ Until backfill completes, unassigned servers must be inaccessible through applic
 
 - Authenticated users without memberships are routed to onboarding.
 - Pending-only users remain on the pending screen.
-- Rejected users can return to organization search and reapply.
+- Rejected users return to organization search and can reapply.
 - Approved users enter the app shell after context refresh.
 - Role-specific controls in More match the active membership.
 - Switching organizations invalidates and reloads scoped providers.
@@ -516,9 +492,8 @@ The feature is complete when:
 - organization onboarding gates the current app shell;
 - all operational data access is scoped to a verified membership and organization ID;
 - owner, admin, and engineer permissions match the matrix;
-- join requests support approval, rejection, and reapplication;
+- unapproved memberships support approval, rejection by deletion, and reapplication;
 - the active-organization switcher safely reloads all tenant state;
 - existing servers are assigned through the controlled legacy migration;
 - the global user role is no longer used for authorization; and
 - backend, Flutter, and end-to-end isolation tests pass.
-
