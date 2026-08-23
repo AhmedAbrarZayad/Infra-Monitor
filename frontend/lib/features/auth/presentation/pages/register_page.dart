@@ -116,7 +116,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           child: AuthTextField(
                             controller: _firstNameController,
                             label: 'First Name',
-                            hint: 'John',
+                            hint: 'Priyanta',
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -124,7 +124,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           child: AuthTextField(
                             controller: _lastNameController,
                             label: 'Last Name',
-                            hint: 'Doe',
+                            hint: 'Dhar',
                           ),
                         ),
                       ],
@@ -135,7 +135,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     AuthTextField(
                       controller: _usernameController,
                       label: 'Username',
-                      hint: 'johndoe',
+                      hint: 'Priantadhar',
                       validator: (v) {
                         if (v == null || v.trim().isEmpty) return 'Username is required';
                         if (v.trim().length < 3) return 'At least 3 characters';

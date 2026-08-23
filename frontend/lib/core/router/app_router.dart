@@ -36,7 +36,7 @@ GoRouter createAppRouter(WidgetRef ref) {
       // If not authenticated and trying to access a protected route
       if (!isAuthenticated && !isPublicRoute) {
         // Still loading/initializing — don't redirect yet
-        if (authState is AuthInitial) return null;
+        //if (authState is AuthInitial) return null;
         return '/login';
       }
 

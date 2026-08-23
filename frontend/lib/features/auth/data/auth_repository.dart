@@ -124,6 +124,7 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
+    print("base url is ${_baseUrl}");
     final response = await _client.post(
       Uri.parse('$_baseUrl/login/'),
       headers: _headers(),
