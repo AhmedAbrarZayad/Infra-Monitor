@@ -1,8 +1,8 @@
-# Role-Based Organization Authentication
+# Role-Based Organization Authentication and Multi-Tenancy
 
 ## 1. Purpose
 
-This document specifies organization onboarding, organization-scoped roles, membership approval, tenant isolation, and mobile navigation for Infra Monitor.
+This document is the v1 architecture and implementation plan for organization onboarding, organization-scoped roles, membership approval, tenant isolation, and mobile navigation for Infra Monitor.
 
 Email registration, OTP verification, login, and JWT issuance remain unchanged. Organization onboarding begins after an authenticated user has verified their email.
 
@@ -16,17 +16,21 @@ The design supports:
 - approval-based organization membership using an `approved` flag; and
 - strict isolation of infrastructure data between organizations.
 
-Ownership transfer and organization deletion are outside v1.
+The design deliberately keeps authentication separate from organization authorization. A JWT identifies a user; the current membership in the organization URL determines access. This avoids token refreshes whenever a role changes and allows one user to have different roles in different organizations.
+
+The v1 product terminology is **Super admin**, **Admin**, and **Engineer**. In the database and API, the first role is named `OWNER`: it is the immutable creator/owner role and is the only role allowed to manage admins. The UI may display `OWNER` as “Super admin” without introducing a second role.
+
+Ownership transfer, organization deletion, invitation links, and self-service leaving are outside v1. Search plus an approval request is the first join mechanism. A later invitation-link feature should create the same pending membership through a tokenized, expiring flow rather than bypassing membership checks.
 
 ## 2. Terminology
 
 | Term | Meaning |
 | --- | --- |
-| Owner | The account that created an organization. There is exactly one per organization. |
+| Owner / Super admin | The account that created an organization. There is exactly one per organization and it cannot be managed by normal membership endpoints. |
 | Admin | A member appointed by the owner who can approve or reject pending memberships and remove engineers. |
 | Engineer | A regular approved member with operational access but no organization administration access. |
 | Membership | The approved relationship between a user and an organization, including the user's role. |
-| Pending membership | An `ENGINEER` organization membership whose `approved` field is `false`. |
+| Pending membership | An `ENGINEER` organization membership whose `approved` field is `false`; the row is also the join request in v1. |
 | Active organization | The organization whose infrastructure and operational data the application currently displays. |
 
 ## 3. User Flows
@@ -210,11 +214,24 @@ Add a required `organization` foreign key to `Servers`:
 Organization 1 ─── * Server
 ```
 
-One organization may have multiple servers; a server belongs to exactly one organization. Services, metrics, logs, detections, alerts, incidents, and AI analyses inherit their tenant boundary through their server or another already-scoped parent.
+One organization may have multiple servers; a server belongs to exactly one organization. Services and metrics inherit their tenant boundary through their server or another already-scoped parent. `Alert`, `Incident`, `LogEntry`, and `AnomalyDetection` currently allow a null server, so each nullable model must receive a direct immutable `organization` foreign key before its API is made organization-scoped. A null server must never mean public or global data.
 
 Records with nullable server relationships must retain enough organization linkage to prevent losing their tenant boundary. Before implementation, each such model must be audited; where records can outlive or exist without a server, add a direct immutable organization foreign key rather than infer tenant ownership from a null relationship.
 
-### 5.5 Relationship diagram
+### 5.5 Operational ownership and assignment
+
+Incidents and other problem records are created inside the active organization. The backend derives `organization` from the scoped URL and validates that referenced servers, services, evidence, and assignees belong to the same organization. An assignee must have an approved membership in that organization. The existing `Incident.assigned_to` relation can be retained; every read and write must validate it through organization membership.
+
+The v1 incident workflow is:
+
+1. An owner, admin, or engineer views an organization-scoped problem.
+2. An owner or admin assigns it to an approved engineer, or clears the assignment.
+3. The assignee updates status and adds resolution feedback using the incident domain API.
+4. Members with operational access can view the status and feedback.
+
+Assignment is an incident capability, not a new organization role. Keep status, assignee, and feedback fields in the incident domain; add only the organization foreign key needed for tenant isolation. Record assignment and resolution changes in the audit trail.
+
+### 5.6 Relationship diagram
 
 ```mermaid
 erDiagram
@@ -323,7 +340,17 @@ All operational resources must be addressed beneath the organization context or 
 
 Existing unscoped endpoints must be migrated or wrapped so they cannot return data without an organization membership check. Clients must not send an arbitrary `organization_id` when creating child records; the server derives it from the scoped URL and authenticated membership.
 
-### 6.5 Standard errors
+### 6.5 Incident workflow APIs
+
+| Method | Endpoint | Permission | Purpose |
+| --- | --- | --- | --- |
+| `PATCH` | `/api/organizations/{organization_id}/incidents/{incident_id}/assignment/` | Owner or admin | Assign an approved organization engineer or clear the assignee |
+| `PATCH` | `/api/organizations/{organization_id}/incidents/{incident_id}/status/` | Assigned engineer, owner, or admin | Change the incident status |
+| `POST` | `/api/organizations/{organization_id}/incidents/{incident_id}/feedback/` | Assigned engineer, owner, or admin | Add resolution or investigation feedback |
+
+The incident domain owns the exact status vocabulary and transition rules. Assignment and feedback endpoints must retrieve incidents through organization-filtered querysets and must reject an assignee from another organization.
+
+### 6.6 Standard errors
 
 | Status | Meaning |
 | --- | --- |
@@ -352,6 +379,20 @@ Reusable permission and queryset components must provide:
 - organization-filtered object retrieval.
 
 Do not duplicate role-ranking logic across views. Explicit capabilities are preferable to assuming `OWNER > ADMIN > ENGINEER` for every operation, because admins have deliberately limited member-management powers.
+
+### 7.1 Recommended implementation order
+
+Implement the feature in vertical slices so the existing auth flow remains deployable:
+
+1. **Organization foundation:** add the organization app, models, constraints, migrations, and service tests. Keep `Users.role` unchanged.
+2. **Context and onboarding:** add context, create, search, join, approval, and membership-management APIs, then add Flutter routing for the tested context states.
+3. **Tenant anchor:** add `Servers.organization`, run the controlled legacy backfill, and make it required. Audit nullable problem records and add direct organization links where required.
+4. **Scoped reads:** migrate list/detail querysets to organization-scoped access, starting with servers and incidents. Unassigned legacy rows remain inaccessible.
+5. **Scoped writes and workflow:** derive tenant ownership from URL context, validate same-organization references, then add assignment, status, and feedback operations.
+6. **Client isolation:** add the organization switcher, scoped provider/cache keys, and late-response protection.
+7. **Compatibility cleanup:** remove authorization reads of `Users.role`; remove the field only in a later release after all consumers have migrated.
+
+Each slice ships with model/service tests and API isolation tests before the next slice starts. This keeps rollback boundaries clear and avoids a simultaneous auth, schema, and client rewrite.
 
 ## 8. Flutter Navigation and State
 
