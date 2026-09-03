@@ -157,6 +157,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+    "DEFAULT_THROTTLE_RATES": {
+        "organization_search": "60/minute",
+        "membership_request": "10/hour",
+    },
 }
 
 # ─────────────────────────────────────────────────────────────────

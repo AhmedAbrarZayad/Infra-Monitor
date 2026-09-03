@@ -40,6 +40,12 @@ class AuthError extends AuthState {
   const AuthError(this.message);
 }
 
+/// A stored session could not be restored because of a retryable network error.
+class AuthSessionRestoreError extends AuthState {
+  final String message;
+  const AuthSessionRestoreError(this.message);
+}
+
 /// Registration succeeded — user needs to verify email.
 class AuthEmailVerificationRequired extends AuthState {
   final String email;

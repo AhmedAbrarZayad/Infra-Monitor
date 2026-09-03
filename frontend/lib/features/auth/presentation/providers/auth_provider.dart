@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../data/auth_repository.dart';
-import '../../data/models/user_model.dart';
 import '../../domain/auth_state.dart';
 
 /// Global auth repository provider.
@@ -35,8 +34,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier({
     required this.repository,
     required this.storage,
-  }) : super(const AuthInitial()) {
-    _tryAutoLogin();
+    AuthState initialState = const AuthInitial(),
+    bool autoLogin = true,
+  }) : super(initialState) {
+    if (autoLogin) _tryAutoLogin();
   }
 
   /// Check for stored tokens on app start.
@@ -53,28 +54,34 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // Try to refresh the token to validate it
       final tokens = await repository.refreshToken(refreshToken: refreshToken);
       await _persistTokens(tokens['access']!, tokens['refresh']!);
-
-      // We don't have user data from token refresh,
-      // so we use a placeholder user. The UI should fetch
-      // the full profile separately if needed.
+      final user = await repository.getMe(accessToken: tokens['access']!);
       state = AuthAuthenticated(
-        user: UserModel(
-          id: 0,
-          username: '',
-          email: '',
-          firstName: '',
-          lastName: '',
-          role: '',
-          isEmailVerified: true,
-          createdAt: '',
-        ),
+        user: user,
         accessToken: tokens['access']!,
         refreshToken: tokens['refresh']!,
       );
+    } on ApiException catch (error) {
+      if (error.statusCode == 401) {
+        await _clearTokens();
+        state = const AuthUnauthenticated();
+      } else {
+        state = AuthSessionRestoreError(error.message);
+      }
     } catch (_) {
+      state = const AuthSessionRestoreError(
+        'Unable to restore your session. Check your connection and try again.',
+      );
+    }
+  }
+
+  Future<void> retrySessionRestore() async {
+    state = const AuthInitial();
+    await _tryAutoLogin();
+  }
+
+  Future<void> clearSession() async {
       await _clearTokens();
       state = const AuthUnauthenticated();
-    }
   }
 
   /// Register a new user.
@@ -226,5 +233,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> _clearTokens() async {
     await storage.delete(key: _accessTokenKey);
     await storage.delete(key: _refreshTokenKey);
+    await storage.delete(key: 'active_organization_id');
   }
 }

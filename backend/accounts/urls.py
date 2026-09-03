@@ -9,10 +9,8 @@ from accounts.views import (
     LogoutView,
     ForgotPasswordView,
     ResetPasswordView,
+    MeView,
 )
-from accounts.views.organization_view import create_new_organization, OrganizationList
-
-
 app_name = "accounts"
 
 urlpatterns = [
@@ -28,7 +26,5 @@ urlpatterns = [
     path("reset-password/", ResetPasswordView.as_view(), name="auth-reset-password"),
     # JWT token refresh
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
-    # Organization
-    path("organizations/context/", create_new_organization),
-    path("organizations/search/", OrganizationList.as_view())
+    path("me/", MeView.as_view(), name="me"),
 ]

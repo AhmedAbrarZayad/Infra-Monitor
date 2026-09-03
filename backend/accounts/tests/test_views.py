@@ -231,6 +231,31 @@ class LogoutViewTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+class MeViewTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = Users.objects.create_user(
+            username="profile-user",
+            email="profile@example.com",
+            password="TestPass123!",
+            first_name="Profile",
+            last_name="User",
+            is_email_verified=True,
+        )
+
+    def test_me_requires_authentication(self):
+        response = self.client.get("/api/auth/me/")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_me_returns_authenticated_user(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get("/api/auth/me/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], self.user.id)
+        self.assertEqual(response.data["email"], self.user.email)
+        self.assertNotIn("password", response.data)
+
+
 class ForgotPasswordViewTest(TestCase):
     """Integration tests for POST /api/auth/forgot-password/"""
 

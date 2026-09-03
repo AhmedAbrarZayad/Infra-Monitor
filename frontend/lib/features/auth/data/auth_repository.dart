@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../core/config/env_config.dart';
 import 'models/auth_response.dart';
+import 'models/user_model.dart';
 
 /// Exception thrown when an API call returns a non-success status.
 class ApiException implements Exception {
@@ -77,7 +78,6 @@ class AuthRepository {
     String firstName = '',
     String lastName = '',
   }) async {
-    print("the base url is ${_baseUrl}");
     final response = await _client.post(
       Uri.parse('$_baseUrl/register/'),
       headers: _headers(),
@@ -124,7 +124,6 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    print("base url is ${_baseUrl}");
     final response = await _client.post(
       Uri.parse('$_baseUrl/login/'),
       headers: _headers(),
@@ -195,5 +194,15 @@ class AuthRepository {
       'access': data['access'] as String,
       'refresh': (data['refresh'] as String?) ?? refreshToken,
     };
+  }
+
+  /// GET /api/auth/me/
+  Future<UserModel> getMe({required String accessToken}) async {
+    final response = await _client.get(
+      Uri.parse('$_baseUrl/me/'),
+      headers: _headers(accessToken: accessToken),
+    );
+    _checkResponse(response);
+    return UserModel.fromJson(_decodeResponse(response));
   }
 }

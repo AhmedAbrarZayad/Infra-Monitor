@@ -246,5 +246,27 @@ void main() {
         );
       });
     });
+
+    group('getMe', () {
+      test('returns the authenticated profile with bearer token', () async {
+        repository = createRepoWithMock((request) async {
+          expect(request.url.path, '/api/auth/me/');
+          expect(request.headers['Authorization'], 'Bearer access-token');
+          return http.Response(jsonEncode({
+            'id': 7,
+            'username': 'profile',
+            'email': 'profile@example.com',
+            'first_name': 'Profile',
+            'last_name': 'User',
+            'role': 'viewer',
+            'is_email_verified': true,
+            'created_at': '2026-01-01T00:00:00Z',
+          }), 200);
+        });
+        final result = await repository.getMe(accessToken: 'access-token');
+        expect(result.id, 7);
+        expect(result.email, 'profile@example.com');
+      });
+    });
   });
 }
