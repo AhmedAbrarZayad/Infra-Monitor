@@ -20,15 +20,10 @@ class OrganizationService:
     @staticmethod
     @transaction.atomic
     def create_organization(*, user, validated_data):
-        if OrganizationMembership.objects.select_for_update().filter(user=user, role="OWNER").exists():
-            raise OrganizationConflict("This account already owns an organization.", "ownership_limit_reached")
-        try:
-            organization = Organization.objects.create(**validated_data)
-            membership = OrganizationMembership.objects.create(
-                organization=organization, user=user, role="OWNER", approved=True
-            )
-        except IntegrityError as exc:
-            raise OrganizationConflict("This account already owns an organization.", "ownership_limit_reached") from exc
+        organization = Organization.objects.create(**validated_data)
+        membership = OrganizationMembership.objects.create(
+            organization=organization, user=user, role="OWNER", approved=True
+        )
         logger.info("organization_created actor_user_id=%s organization_id=%s", user.pk, organization.pk)
         return organization, membership
 

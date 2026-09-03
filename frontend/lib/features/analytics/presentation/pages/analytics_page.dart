@@ -234,6 +234,9 @@ class _AnalyticsPageState extends ConsumerState<AnalyticsPage> {
     ),
   );
   Widget _rankPanel(Map<String, int> items, bool alerts) {
+    if (items.isEmpty) {
+      return const AppPanel(child: Text('No analytics data available yet.'));
+    }
     final max = items.values.reduce((a, b) => a > b ? a : b);
     return AppPanel(
       child: Column(

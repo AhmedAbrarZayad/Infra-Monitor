@@ -2,15 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../ai_assistant/presentation/providers/assistant_providers.dart';
-import '../../../analytics/presentation/providers/analytics_providers.dart';
 import '../../../auth/data/auth_repository.dart';
 import '../../../auth/domain/auth_state.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
-import '../../../incidents/presentation/providers/incidents_providers.dart';
-import '../../../more/presentation/providers/preferences_providers.dart';
-import '../../../overview/presentation/providers/overview_providers.dart';
-import '../../../servers/presentation/providers/servers_providers.dart';
 import '../../data/organization_models.dart';
 import '../../data/organization_repository.dart';
 import '../../domain/organization_context_state.dart';
@@ -114,7 +108,6 @@ class OrganizationContextNotifier extends StateNotifier<OrganizationContextState
     if (membership == null) return;
     await storage.write(key: activeOrganizationStorageKey, value: organizationId);
     state = OrganizationReady(current.context, membership);
-    _invalidateOrganizationData();
   }
 
   Future<void> _applyContext(OrganizationContext context) async {
@@ -137,12 +130,4 @@ class OrganizationContextNotifier extends StateNotifier<OrganizationContextState
     state = OrganizationReady(context, active);
   }
 
-  void _invalidateOrganizationData() {
-    ref.invalidate(overviewDashboardProvider);
-    ref.invalidate(serversProvider);
-    ref.invalidate(incidentsProvider);
-    ref.invalidate(analyticsProvider);
-    ref.invalidate(assistantContextProvider);
-    ref.invalidate(preferencesProvider);
-  }
 }

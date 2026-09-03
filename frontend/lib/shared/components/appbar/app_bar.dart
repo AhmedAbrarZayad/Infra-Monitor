@@ -12,8 +12,8 @@ class CustomAppBar extends ConsumerStatefulWidget
   const CustomAppBar({
     super.key,
     required this.title,
+    required this.role,
     this.subtitle,
-    this.role = 'Admin',
   });
 
   @override

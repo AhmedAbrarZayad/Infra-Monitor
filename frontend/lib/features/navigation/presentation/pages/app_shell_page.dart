@@ -9,6 +9,8 @@ import '../../../incidents/presentation/providers/incidents_providers.dart';
 import '../../../more/presentation/pages/more_page.dart';
 import '../../../overview/presentation/pages/overview_page.dart';
 import '../../../overview/presentation/providers/overview_providers.dart';
+import '../../../organizations/domain/organization_context_state.dart';
+import '../../../organizations/presentation/providers/organization_provider.dart';
 import '../../../servers/presentation/pages/servers_page.dart';
 import '../../../servers/presentation/providers/servers_providers.dart';
 import '../widgets/app_bottom_navigation.dart';
@@ -42,6 +44,10 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
 
   @override
   Widget build(BuildContext context) {
+    final organizationState = ref.watch(organizationContextProvider);
+    final role = organizationState is OrganizationReady
+        ? organizationState.activeMembership.displayRole
+        : '';
     final overview = ref.watch(overviewDashboardProvider);
     final overviewSubtitle = overview.when(
       data: (data) =>
@@ -66,6 +72,7 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: _titles[_selectedIndex],
+        role: role,
         subtitle: switch (_selectedIndex) {
           0 => overviewSubtitle,
           1 => serversSubtitle,

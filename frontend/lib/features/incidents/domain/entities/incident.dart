@@ -1,5 +1,6 @@
 class Incident {
   const Incident({
+    this.apiId,
     required this.id,
     required this.severity,
     required this.status,
@@ -12,6 +13,7 @@ class Incident {
     required this.aiConfidence,
     required this.acknowledgement,
   });
+  final String? apiId;
   final String id,
       severity,
       status,

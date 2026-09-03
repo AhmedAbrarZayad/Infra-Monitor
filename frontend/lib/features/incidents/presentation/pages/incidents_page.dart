@@ -91,15 +91,7 @@ class _IncidentsPageState extends ConsumerState<IncidentsPage> {
                           Expanded(
                             child: AppButton(
                               label: 'Acknowledge all critical',
-                              onPressed: () {},
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: AppButton(
-                              label: 'Assign to me',
-                              variant: AppButtonVariant.secondary,
-                              onPressed: () {},
+                              onPressed: visible.any((item) => item.severity == 'CRITICAL' && item.status == 'NEW') ? () => ref.read(incidentActionsProvider).acknowledgeCritical(visible.where((item) => item.severity == 'CRITICAL' && item.status == 'NEW').map((item) => item.apiId!).toList()) : null,
                             ),
                           ),
                         ],
@@ -111,6 +103,8 @@ class _IncidentsPageState extends ConsumerState<IncidentsPage> {
                             '${visible.length} incidents · sorted by detection time',
                       ),
                       const SizedBox(height: 10),
+                      if (visible.isEmpty)
+                        const AppPanel(child: Text('No incidents found for this organization.')),
                       ...visible.map(
                         (item) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
@@ -129,7 +123,7 @@ class _IncidentsPageState extends ConsumerState<IncidentsPage> {
   );
 }
 
-class _IncidentCard extends StatelessWidget {
+class _IncidentCard extends ConsumerWidget {
   const _IncidentCard(this.item);
   final Incident item;
   Color get color => item.severity == 'CRITICAL'
@@ -138,7 +132,7 @@ class _IncidentCard extends StatelessWidget {
       ? const Color(0xFFFFB51F)
       : const Color(0xFF3BB8FF);
   @override
-  Widget build(BuildContext context) => AppPanel(
+  Widget build(BuildContext context, WidgetRef ref) => AppPanel(
     borderColor: item.severity == 'CRITICAL' ? const Color(0xFF682936) : null,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,6 +163,10 @@ class _IncidentCard extends StatelessWidget {
           item.title,
           style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
         ),
+        if (item.owner == 'unassigned' && item.status != 'RESOLVED') ...[
+          const SizedBox(height: 10),
+          AppButton(label: 'Assign to me', variant: AppButtonVariant.secondary, onPressed: item.apiId == null ? null : () => ref.read(incidentActionsProvider).assignToMe(item.apiId!)),
+        ],
         const SizedBox(height: 8),
         Text(
           '▰ ${item.server}  ·  ${item.service}  ·  ${item.environment}',

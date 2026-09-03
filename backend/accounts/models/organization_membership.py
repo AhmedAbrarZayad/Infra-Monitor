@@ -40,11 +40,6 @@ class OrganizationMembership(models.Model):
                 condition=models.Q(role="OWNER"),
                 name="unique_owner_per_organization",
             ),
-            models.UniqueConstraint(
-                fields=["user"],
-                condition=models.Q(role="OWNER"),
-                name="unique_owned_organization_per_user",
-            ),
             models.CheckConstraint(
                 condition=models.Q(role="ENGINEER") | models.Q(approved=True),
                 name="privileged_memberships_are_approved",

@@ -212,6 +212,9 @@ GMAIL_REFRESH_TOKEN = os.getenv("GMAIL_REFRESH_TOKEN", "")
 # ─────────────────────────────────────────────────────────────────
 
 OTP_EXPIRY_MINUTES = int(os.getenv("OTP_EXPIRY_MINUTES", "10"))
+MONITORING_ENROLLMENT_EXPIRY_MINUTES = int(os.getenv("MONITORING_ENROLLMENT_EXPIRY_MINUTES", "15"))
+MONITORING_INSTALL_URL = os.getenv("MONITORING_INSTALL_URL", "https://monitor.example/install")
+MONITORING_CREDENTIAL_OVERLAP_MINUTES = int(os.getenv("MONITORING_CREDENTIAL_OVERLAP_MINUTES", "15"))
 
 # ─────────────────────────────────────────────────────────────────
 # Frontend URLs

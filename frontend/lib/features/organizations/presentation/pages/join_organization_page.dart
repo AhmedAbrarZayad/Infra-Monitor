@@ -5,6 +5,7 @@ import '../../../../shared/colors/colors.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_panel.dart';
 import '../../data/organization_models.dart';
+import '../../domain/organization_context_state.dart';
 import '../providers/organization_provider.dart';
 
 class JoinOrganizationPage extends ConsumerStatefulWidget {
@@ -55,7 +56,17 @@ class _JoinOrganizationPageState extends ConsumerState<JoinOrganizationPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    final contextState = ref.watch(organizationContextProvider);
+    final approvedIds = contextState is OrganizationReady
+        ? contextState.context.memberships.map((item) => item.organization.id).toSet()
+        : <String>{};
+    final pendingIds = switch (contextState) {
+      OrganizationReady state => state.context.pendingMemberships.map((item) => item.organization.id).toSet(),
+      OrganizationPendingOnly state => state.context.pendingMemberships.map((item) => item.organization.id).toSet(),
+      _ => <String>{},
+    };
+    return Scaffold(
     backgroundColor: AppColors.background,
     appBar: AppBar(title: const Text('Join organization')),
     body: Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 760), child: ListView(
@@ -79,11 +90,17 @@ class _JoinOrganizationPageState extends ConsumerState<JoinOrganizationPage> {
             const SizedBox(height: 4), Text(organization.summary, style: const TextStyle(color: AppColors.textSecondary)),
           ])),
           const SizedBox(width: 10),
-          AppButton(label: 'Request to join', isLoading: _joiningId == organization.id,
-            onPressed: _joiningId == null ? () => _join(organization) : null),
+          if (approvedIds.contains(organization.id))
+            const AppButton(label: 'Already a member', variant: AppButtonVariant.secondary, onPressed: null)
+          else if (pendingIds.contains(organization.id))
+            const AppButton(label: 'Request pending', variant: AppButtonVariant.secondary, onPressed: null)
+          else
+            AppButton(label: 'Request to join', isLoading: _joiningId == organization.id,
+              onPressed: _joiningId == null ? () => _join(organization) : null),
         ])))),
         if (_hasMore) Padding(padding: const EdgeInsets.only(top: 16), child: AppButton(label: 'Load more', variant: AppButtonVariant.secondary, onPressed: _searching ? null : () => _search(append: true))),
       ],
     ))),
-  );
+    );
+  }
 }

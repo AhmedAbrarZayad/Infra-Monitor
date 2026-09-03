@@ -34,6 +34,10 @@ class OverviewPage extends ConsumerWidget {
                       children: [
                         _EnvironmentBar(updatedAt: data.updatedAt),
                         const SizedBox(height: 20),
+                        if (data.serverCount == 0) ...[
+                          const Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 32), child: Text('No infrastructure connected.'))),
+                          const SizedBox(height: 20),
+                        ],
                         FleetStatusSection(metrics: data.fleetMetrics),
                         _gap,
                         IncidentsSection(

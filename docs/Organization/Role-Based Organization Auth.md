@@ -11,7 +11,7 @@ The design supports:
 - users belonging to multiple organizations;
 - exactly one active organization at a time;
 - exactly one owner per organization;
-- at most one organization owned by an account;
+- multiple organizations owned by an account;
 - organization-scoped `OWNER`, `ADMIN`, and `ENGINEER` roles;
 - approval-based organization membership using an `approved` flag; and
 - strict isolation of infrastructure data between organizations.
@@ -72,14 +72,13 @@ The user provides, at minimum:
 
 Creation must be atomic:
 
-1. Confirm that the user does not already own an organization.
-2. Create the organization with the user as `owner`.
-3. Create the user's membership with role `OWNER`.
-4. Return the organization and membership as the new active context.
+1. Create the organization.
+2. Create the user's membership with role `OWNER`.
+3. Return the organization and membership as the new active context.
 
 If any step fails, neither the organization nor membership is retained.
 
-Users may create an organization later from **More** if they do not already own one, even if they are members of other organizations.
+Users may create additional organizations later from **More**, even if they already own or belong to other organizations.
 
 ### 3.3 Join an organization
 
@@ -163,11 +162,11 @@ UUID primary keys are preferred for new externally referenced organization recor
 | `name` | string | Required; indexed for case-insensitive search |
 | `summary` | string/text | Required; length-limited |
 | `logo_url` | URL/string, nullable | Public organization-search metadata only |
-| `owner` | one-to-one `Users` | Required; `PROTECT` deletion behavior |
+| `owner` | Derived from the unique `OWNER` membership | Required logically; not stored directly |
 | `created_at` | datetime | Server generated |
 | `updated_at` | datetime | Server managed |
 
-The one-to-one owner relationship enforces that one account owns no more than one organization. Each organization must have exactly one owner.
+Each organization has exactly one owner, while an account may own multiple organizations.
 
 Organization names do not need to be globally unique. The UI uses the summary and logo for disambiguation, while all API operations use the UUID.
 
@@ -271,7 +270,7 @@ All endpoints require JWT authentication unless stated otherwise. UUID values sh
 | --- | --- | --- | --- |
 | `GET` | `/api/organizations/context/` | Authenticated | Return approved and pending memberships, owned-organization eligibility, and recommended active organization |
 | `GET` | `/api/organizations/search/?q=` | Authenticated + verified | Search public organization metadata |
-| `POST` | `/api/organizations/` | Authenticated + verified + does not own org | Create organization and owner membership |
+| `POST` | `/api/organizations/` | Authenticated + verified | Create organization and owner membership |
 | `GET` | `/api/organizations/{organization_id}/` | Member | Return organization details visible to members |
 
 The context response is the source of truth for routing after login and app restoration. A representative response is:
@@ -358,7 +357,7 @@ The incident domain owns the exact status vocabulary and transition rules. Assig
 | `401` | Missing or invalid JWT |
 | `403` | Authenticated member lacks the required role |
 | `404` | Organization-scoped object is absent or outside the caller's organization |
-| `409` | Duplicate membership, ownership limit, or already-processed membership decision |
+| `409` | Duplicate membership or already-processed membership decision |
 
 ## 7. Backend Architecture
 
@@ -462,7 +461,7 @@ Tenant introduction must be staged so existing server rows never become ambiguou
 7. migrate all API and Flutter consumers away from global `Users.role`;
 8. remove `Users.role` in a later compatibility release.
 
-The migration command must abort if the owner email is missing, ambiguous, unverified, already owns a different organization, or cannot safely own the legacy organization. It must be idempotent and report counts before and after assignment.
+The migration command must abort if the owner email is missing, ambiguous, unverified, or cannot safely own the legacy organization. It must be idempotent and report counts before and after assignment.
 
 Until backfill completes, unassigned servers must be inaccessible through application APIs rather than treated as globally visible.
 
@@ -481,7 +480,7 @@ Until backfill completes, unassigned servers must be inaccessible through applic
 
 ### 11.1 Backend model and service tests
 
-- An account cannot own two organizations.
+- An account can own multiple organizations.
 - An organization cannot have two owner memberships.
 - Owner and owner membership always refer to the same user.
 - A user can hold different roles in different organizations.

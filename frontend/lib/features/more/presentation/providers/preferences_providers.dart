@@ -1,15 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/data_sources/preferences_data_source.dart';
-import '../../data/repositories/preferences_repository_impl.dart';
+import '../../../../core/api/operational_api.dart';
+import '../../../auth/domain/auth_state.dart'; import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../organizations/domain/organization_context_state.dart'; import '../../../organizations/presentation/providers/organization_provider.dart';
 import '../../domain/entities/user_preferences.dart';
-import '../../domain/repositories/preferences_repository.dart';
-
-final preferencesDataSourceProvider = Provider<PreferencesDataSource>(
-  (ref) => DummyPreferencesDataSource(),
-);
-final preferencesRepositoryProvider = Provider<PreferencesRepository>(
-  (ref) => PreferencesRepositoryImpl(ref.watch(preferencesDataSourceProvider)),
-);
-final preferencesProvider = FutureProvider<UserPreferences>(
-  (ref) => ref.watch(preferencesRepositoryProvider).getPreferences(),
-);
+final preferencesProvider=FutureProvider<UserPreferences>((ref)async{final a=ref.watch(authProvider);final o=ref.watch(organizationContextProvider);if(a is! AuthAuthenticated||o is! OrganizationReady)throw StateError('No active session');final api=OperationalApi(a.accessToken,o.activeMembership.organization.id);final x=await api.getApiMap('auth/me/preferences/');return UserPreferences(name:'',email:a.user.email,role:o.activeMembership.role,environment:x['default_environment']??'production',streamState:'',notifications:(x['notifications_enabled']??false)?'enabled':'disabled',theme:x['theme']??'dark',refreshInterval:'${x['refresh_interval_seconds']??10}s',timezone:x['timezone']??'UTC');});
+Future<void> setNotifications(WidgetRef ref,bool enabled)async{final a=ref.read(authProvider);final o=ref.read(organizationContextProvider);if(a is! AuthAuthenticated||o is! OrganizationReady)return;await OperationalApi(a.accessToken,o.activeMembership.organization.id).patchApi('auth/me/preferences/',{'notifications_enabled':enabled});ref.invalidate(preferencesProvider);}

@@ -5,6 +5,7 @@ from .views.organization_view import (
     MembershipApproveView, MembershipRejectView, OrganizationCollectionView, OrganizationContextView,
     OrganizationDetailView, OrganizationSearchView,
 )
+from .views import EnrollmentDetailView, EnrollmentTokenView, RotateServerCredentialView, ServerMonitoringView
 
 app_name = "organizations"
 
@@ -19,4 +20,8 @@ urlpatterns = [
     path("<uuid:organization_id>/members/", MemberListView.as_view(), name="members"),
     path("<uuid:organization_id>/members/<int:user_id>/role/", MemberRoleView.as_view(), name="member-role"),
     path("<uuid:organization_id>/members/<int:user_id>/", MemberDetailView.as_view(), name="member-detail"),
+    path("<uuid:organization_id>/monitoring/enrollments/", EnrollmentTokenView.as_view(), name="organization-enrollments"),
+    path("<uuid:organization_id>/monitoring/enrollments/<uuid:enrollment_id>/", EnrollmentDetailView.as_view(), name="organization-enrollment-detail"),
+    path("<uuid:organization_id>/servers/<uuid:server_id>/monitoring/", ServerMonitoringView.as_view(), name="server-monitoring"),
+    path("<uuid:organization_id>/servers/<uuid:server_id>/monitoring/credentials/rotate/", RotateServerCredentialView.as_view(), name="server-monitoring-credential-rotate"),
 ]

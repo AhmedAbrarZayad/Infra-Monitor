@@ -40,7 +40,7 @@ class OrganizationContextView(APIView):
         return Response({
             "memberships": OrganizationMembershipSerializer(approved, many=True).data,
             "pending_memberships": OrganizationMembershipSerializer(pending, many=True).data,
-            "can_create_organization": not any(item.role == "OWNER" for item in memberships),
+            "can_create_organization": True,
             "recommended_organization_id": str(approved[0].organization_id) if approved else None,
         })
 

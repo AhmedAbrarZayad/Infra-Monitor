@@ -1,15 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/data_sources/analytics_data_source.dart';
-import '../../data/repositories/analytics_repository_impl.dart';
+import '../../../../core/api/operational_api.dart';
+import '../../../auth/domain/auth_state.dart'; import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../organizations/domain/organization_context_state.dart'; import '../../../organizations/presentation/providers/organization_provider.dart';
 import '../../domain/entities/analytics_dashboard.dart';
-import '../../domain/repositories/analytics_repository.dart';
-
-final analyticsDataSourceProvider = Provider<AnalyticsDataSource>(
-  (ref) => DummyAnalyticsDataSource(),
-);
-final analyticsRepositoryProvider = Provider<AnalyticsRepository>(
-  (ref) => AnalyticsRepositoryImpl(ref.watch(analyticsDataSourceProvider)),
-);
-final analyticsProvider = FutureProvider<AnalyticsDashboard>(
-  (ref) => ref.watch(analyticsRepositoryProvider).getAnalytics(),
-);
+String duration(dynamic seconds)=>seconds==null?'Unavailable':'${((seconds as num)/60).round()}m';
+final analyticsProvider=FutureProvider<AnalyticsDashboard>((ref)async{final a=ref.watch(authProvider);final o=ref.watch(organizationContextProvider);if(a is! AuthAuthenticated||o is! OrganizationReady)throw StateError('No active organization');final x=await OperationalApi(a.accessToken,o.activeMembership.organization.id).getMap('analytics/');final m=x['metrics'] as Map<String,dynamic>? ??{};final series=x['series'] as Map<String,dynamic>? ??{};List<double>s(String k)=>(series[k] as List? ??[]).map((v)=>(v as num).toDouble()).toList();return AnalyticsDashboard(metrics:[AnalyticsMetric('MEAN TIME TO ACKNOWLEDGE',duration(m['mtta_seconds']),''),AnalyticsMetric('MEAN TIME TO RESOLVE',duration(m['mttr_seconds']),''),AnalyticsMetric('OPEN INCIDENTS','${m['open']??0}',''),AnalyticsMetric('RESOLVED (7D)','${m['resolved_7d']??0}','')],cpu:s('cpu'),memory:s('memory'),latency:s('latency'),frequency:s('frequency'),opened:s('opened'),resolved:s('resolved'),uptime:s('uptime'),categories:Map<String,int>.from(x['categories']??{}),servers:Map<String,int>.from(x['servers']??{}),insights:List<String>.from(x['insights']??[]));});

@@ -103,5 +103,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Overview'), findsWidgets);
     expect(find.text('Servers'), findsOneWidget);
+    expect(find.text('Super admin'), findsOneWidget);
   });
 }

@@ -7,3 +7,5 @@ from .verify_email_serializer import VerifyEmailSerializer
 from .resend_otp_serializer import ResendOTPSerializer
 from .organization_membership_serializer import OrganizationMembershipSerializer
 from .organization_serializer import OrganizationSerializer
+from .create_enrollment_token_serializer import EnrollmentTokenCreateSerializer
+from .enrollment_token_serializer import EnrollmentTokenSerializer

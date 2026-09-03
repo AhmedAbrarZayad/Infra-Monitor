@@ -22,4 +22,13 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/", include("accounts.urls")),
     path("api/organizations/", include("accounts.organization_urls")),
+    path("api/organizations/<uuid:organization_id>/", include("infra_monitor.operational_urls")),
+]
+
+from infra_monitor.operational_views import DependencyHealthView, LiveView, LogBatchView, PreferencesView, ReadyView, WorkerHealthView
+urlpatterns += [
+    path("api/auth/me/preferences/", PreferencesView.as_view()),
+    path("api/health/live/", LiveView.as_view()), path("api/health/ready/", ReadyView.as_view()),
+    path("api/internal/health/dependencies/", DependencyHealthView.as_view()), path("api/internal/health/workers/", WorkerHealthView.as_view()),
+    path("api/internal/logs/batches/", LogBatchView.as_view()),
 ]

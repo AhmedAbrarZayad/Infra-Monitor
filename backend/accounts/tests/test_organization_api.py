@@ -38,7 +38,7 @@ class OrganizationModelTests(TestCase):
                 organization=self.organization, user=self.owner, role="ENGINEER", approved=False
             )
 
-    def test_only_one_owner_per_organization_and_user(self):
+    def test_only_one_owner_per_organization_but_user_may_own_multiple(self):
         OrganizationMembership.objects.create(
             organization=self.organization, user=self.owner, role="OWNER", approved=True
         )
@@ -48,10 +48,10 @@ class OrganizationModelTests(TestCase):
                 organization=self.organization, user=another_user, role="OWNER", approved=True
             )
         another_org = Organization.objects.create(name="Second", summary="Second")
-        with self.assertRaises(IntegrityError), transaction.atomic():
-            OrganizationMembership.objects.create(
-                organization=another_org, user=self.owner, role="OWNER", approved=True
-            )
+        second_membership = OrganizationMembership.objects.create(
+            organization=another_org, user=self.owner, role="OWNER", approved=True
+        )
+        self.assertEqual(second_membership.user, self.owner)
 
     def test_privileged_memberships_must_be_approved(self):
         with self.assertRaises(IntegrityError), transaction.atomic():
@@ -70,6 +70,19 @@ class OrganizationServiceTests(TestCase):
         self.assertEqual(membership.user, user)
         self.assertEqual(membership.role, "OWNER")
         self.assertTrue(membership.approved)
+
+    def test_user_can_create_multiple_organizations(self):
+        user = make_user("multi-owner@example.com")
+        OrganizationService.create_organization(
+            user=user, validated_data={"name": "First", "summary": "First"}
+        )
+        OrganizationService.create_organization(
+            user=user, validated_data={"name": "Second", "summary": "Second"}
+        )
+        self.assertEqual(
+            OrganizationMembership.objects.filter(user=user, role="OWNER").count(),
+            2,
+        )
 
 
 class OrganizationApiTests(TestCase):

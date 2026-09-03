@@ -71,6 +71,13 @@ class OrganizationMembership {
         createdAt: DateTime.parse(json['created_at'] as String),
         updatedAt: DateTime.parse(json['updated_at'] as String),
       );
+
+  String get displayRole => switch (role) {
+        'OWNER' => 'Super admin',
+        'ADMIN' => 'Admin',
+        'ENGINEER' => 'Engineer',
+        final value => value,
+      };
 }
 
 class OrganizationContext {

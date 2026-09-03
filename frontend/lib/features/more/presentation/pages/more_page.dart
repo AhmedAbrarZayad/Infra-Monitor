@@ -23,7 +23,6 @@ class MorePage extends ConsumerStatefulWidget {
 
 class _MorePageState extends ConsumerState<MorePage> {
   String environment = 'Production';
-  String stream = 'live';
 
   @override
   Widget build(BuildContext context) {
@@ -65,22 +64,58 @@ class _MorePageState extends ConsumerState<MorePage> {
               Text(active.organization.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
               const SizedBox(height: 4),
               Text(active.organization.summary, style: const TextStyle(color: AppColors.textSecondary)),
-              if (contextData.memberships.length > 1) ...[
-                const SizedBox(height: 14),
-                DropdownButtonFormField<String>(
-                  initialValue: active.organization.id,
-                  decoration: const InputDecoration(labelText: 'Active organization'),
-                  items: contextData.memberships.map((item) => DropdownMenuItem(value: item.organization.id, child: Text(item.organization.name))).toList(),
-                  onChanged: (value) { if (value != null) ref.read(organizationContextProvider.notifier).selectOrganization(value); },
-                ),
-              ],
-              const SizedBox(height: 14),
-              Wrap(spacing: 10, runSpacing: 10, children: [
-                AppButton(label: 'Join organization', icon: Icons.group_add_outlined, variant: AppButtonVariant.secondary, onPressed: () => context.push('/organization/join')),
-                if (contextData.canCreateOrganization)
-                  AppButton(label: 'Create organization', icon: Icons.add_business, onPressed: () => context.push('/organization/create')),
-              ]),
             ])),
+            const SizedBox(height: 12),
+            Wrap(spacing: 10, runSpacing: 10, children: [
+              if (contextData.memberships.length > 1)
+                AppButton(
+                  label: 'Switch organization',
+                  icon: Icons.swap_horiz,
+                  onPressed: () => showModalBottomSheet<void>(
+                    context: context,
+                    builder: (sheetContext) => SafeArea(
+                      child: ListView(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(bottom: 12),
+                        children: [
+                          const ListTile(
+                            title: Text(
+                              'Switch organization',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          ...contextData.memberships.map(
+                            (membership) => ListTile(
+                              leading: Icon(
+                                membership.organization.id == active.organization.id
+                                    ? Icons.check_circle
+                                    : Icons.business_outlined,
+                                color: membership.organization.id == active.organization.id
+                                    ? AppColors.success
+                                    : null,
+                              ),
+                              title: Text(membership.organization.name),
+                              subtitle: Text(membership.displayRole),
+                              selected: membership.organization.id == active.organization.id,
+                              onTap: membership.organization.id == active.organization.id
+                                  ? null
+                                  : () async {
+                                      Navigator.pop(sheetContext);
+                                      await ref
+                                          .read(organizationContextProvider.notifier)
+                                          .selectOrganization(membership.organization.id);
+                                    },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              AppButton(label: 'Join another organization', icon: Icons.group_add_outlined, variant: AppButtonVariant.secondary, onPressed: () => context.push('/organization/join')),
+              if (contextData.canCreateOrganization)
+                AppButton(label: 'Create organization', icon: Icons.add_business, onPressed: () => context.push('/organization/create')),
+            ]),
             if (contextData.pendingMemberships.isNotEmpty) ...[
               const SizedBox(height: 22),
               const SectionTitle('PENDING REQUESTS'),
@@ -108,16 +143,14 @@ class _MorePageState extends ConsumerState<MorePage> {
             const SizedBox(height: 10),
             _choices(['Production', 'Staging'], environment, (value) => setState(() => environment = value)),
             const SizedBox(height: 22),
-            const SectionTitle('STREAM STATE', subtitle: 'simulate real-time connection states'),
-            const SizedBox(height: 10),
-            _choices(['live', 'reconnecting', 'offline'], stream, (value) => setState(() => stream = value)),
-            const SizedBox(height: 22),
             const SectionTitle('PREFERENCES'),
             const SizedBox(height: 10),
             AppPanel(child: Wrap(spacing: 28, runSpacing: 18, children: [
               _preference('NOTIFICATIONS', preferences.notifications), _preference('THEME', preferences.theme),
               _preference('REFRESH INTERVAL', preferences.refreshInterval), _preference('TIMEZONE', preferences.timezone),
             ])),
+            const SizedBox(height: 10),
+            AppButton(label: preferences.notifications == 'enabled' ? 'Disable notifications' : 'Enable notifications', variant: AppButtonVariant.secondary, onPressed: () => setNotifications(ref, preferences.notifications != 'enabled')),
             const SizedBox(height: 22),
             SizedBox(width: double.infinity, child: AppButton(label: 'Sign out', icon: Icons.logout, variant: AppButtonVariant.danger, onPressed: () async {
               final confirmed = await AppDialogs.confirm(context, title: 'Sign out?', message: 'Are you sure you want to end this session?', confirmLabel: 'Sign out', isDestructive: true);
