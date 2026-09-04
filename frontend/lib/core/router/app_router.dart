@@ -18,6 +18,7 @@ import '../../features/organizations/presentation/pages/organization_onboarding_
 import '../../features/organizations/presentation/pages/pending_organization_page.dart';
 import '../../features/organizations/presentation/providers/organization_provider.dart';
 import '../../features/servers/presentation/pages/server_detail_page.dart';
+import '../../features/servers/presentation/pages/add_server_page.dart';
 
 class RouterRefreshNotifier extends ChangeNotifier {
   void refresh() => notifyListeners();
@@ -91,6 +92,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       GoRoute(path: '/', builder: (_, _) => const AppShellPage()),
+      GoRoute(path: '/servers/add', builder: (_, _) => const AddServerPage()),
       GoRoute(
         path: '/servers/:serverId',
         builder: (_, state) =>

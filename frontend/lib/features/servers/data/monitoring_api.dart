@@ -3,6 +3,31 @@ import 'package:http/http.dart' as http;
 import '../../../core/api/operational_api.dart';
 import '../domain/entities/server.dart';
 
+class ServerEnrollment {
+  const ServerEnrollment({
+    required this.id,
+    required this.serverName,
+    required this.environment,
+    required this.expiresAt,
+    required this.installCommand,
+  });
+
+  final String id;
+  final String serverName;
+  final String environment;
+  final DateTime expiresAt;
+  final String installCommand;
+
+  factory ServerEnrollment.fromJson(Map<String, dynamic> json) =>
+      ServerEnrollment(
+        id: json['enrollment_id'] as String,
+        serverName: json['server_name'] as String,
+        environment: json['environment'] as String,
+        expiresAt: DateTime.parse(json['expires_at'] as String),
+        installCommand: json['install_command'] as String,
+      );
+}
+
 class MonitoringApi {
   MonitoringApi(String token, String organizationId, {http.Client? client})
     : _api = OperationalApi(token, organizationId, client: client);
@@ -27,6 +52,16 @@ class MonitoringApi {
           .toList(growable: false);
   Future<MonitoredService> serviceHealth(String id) async =>
       MonitoredService.fromJson(await _api.getMap('services/$id/health/'));
+
+  Future<ServerEnrollment> createEnrollment({
+    required String serverName,
+    required String environment,
+  }) async => ServerEnrollment.fromJson(
+    await _api.post('monitoring/enrollments/', {
+      'server_name': serverName,
+      'environment': environment,
+    }),
+  );
 
   Future<MetricSeries> serverMetrics(
     String id, {

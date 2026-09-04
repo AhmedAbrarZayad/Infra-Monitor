@@ -7,6 +7,8 @@ import '../../domain/entities/server.dart';
 import '../providers/servers_providers.dart';
 import '../widgets/server_card.dart';
 import '../widgets/server_filter_chip.dart';
+import '../../../organizations/domain/organization_context_state.dart';
+import '../../../organizations/presentation/providers/organization_provider.dart';
 
 class ServersPage extends ConsumerStatefulWidget {
   const ServersPage({super.key});
@@ -30,6 +32,10 @@ class _ServersPageState extends ConsumerState<ServersPage> {
   @override
   Widget build(BuildContext context) {
     final servers = ref.watch(serversProvider);
+    final organization = ref.watch(organizationContextProvider);
+    final canAddServer =
+        organization is OrganizationReady &&
+        const {'OWNER', 'ADMIN'}.contains(organization.activeMembership.role);
     return AsyncValueView(
       value: servers,
       data: (allServers) {
@@ -125,6 +131,14 @@ class _ServersPageState extends ConsumerState<ServersPage> {
                               fontFamily: 'monospace',
                             ),
                           ),
+                          if (canAddServer) ...[
+                            const SizedBox(height: 14),
+                            FilledButton.icon(
+                              onPressed: () => context.push('/servers/add'),
+                              icon: const Icon(Icons.add_to_queue, size: 18),
+                              label: const Text('Add server'),
+                            ),
+                          ],
                         ],
                       ),
                     ),

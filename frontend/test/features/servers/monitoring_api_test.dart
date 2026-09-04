@@ -93,4 +93,38 @@ void main() {
       step: 15,
     );
   });
+
+  test('creates an organization-scoped server enrollment', () async {
+    final client = MockClient((request) async {
+      expect(request.method, 'POST');
+      expect(
+        request.url.path,
+        '/api/organizations/org-1/monitoring/enrollments/',
+      );
+      expect(request.headers['authorization'], 'Bearer token-1');
+      expect(jsonDecode(request.body), {
+        'server_name': 'Multipass Lab',
+        'environment': 'development',
+      });
+      return http.Response(
+        jsonEncode({
+          'enrollment_id': 'enrollment-1',
+          'server_name': 'Multipass Lab',
+          'environment': 'development',
+          'expires_at': '2026-09-04T01:15:00Z',
+          'install_command': 'curl example | sudo sh',
+        }),
+        201,
+      );
+    });
+
+    final enrollment = await MonitoringApi(
+      'token-1',
+      'org-1',
+      client: client,
+    ).createEnrollment(serverName: 'Multipass Lab', environment: 'development');
+
+    expect(enrollment.id, 'enrollment-1');
+    expect(enrollment.installCommand, 'curl example | sudo sh');
+  });
 }
