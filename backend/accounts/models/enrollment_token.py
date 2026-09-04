@@ -16,6 +16,12 @@ class EnrollmentToken(models.Model):
         EXPIRED = "EXPIRED", "Expired"
         CANCELLED = "CANCELLED", "Cancelled"
 
+    class InstallerStage(models.TextChoices):
+        INSTALLER_STARTED = "INSTALLER_STARTED", "Installer started"
+        COLLECTOR_INSTALLED = "COLLECTOR_INSTALLED", "Collector installed"
+        COLLECTOR_STARTED = "COLLECTOR_STARTED", "Collector started"
+        FAILED = "FAILED", "Failed"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="monitoring_enrollments")
     server = models.OneToOneField(Servers, null=True, blank=True, on_delete=models.SET_NULL, related_name="monitoring_enrollment")
@@ -25,6 +31,7 @@ class EnrollmentToken(models.Model):
     server_name = models.CharField(max_length=255)
     environment = models.CharField(max_length=64)
     stage = models.CharField(max_length=16, choices=Stage.choices, default=Stage.CREATED, db_index=True)
+    installer_stage = models.CharField(max_length=32, choices=InstallerStage.choices, blank=True)
     expires_at = models.DateTimeField(db_index=True)
     consumed_at = models.DateTimeField(null=True, blank=True)
     cancelled_at = models.DateTimeField(null=True, blank=True)

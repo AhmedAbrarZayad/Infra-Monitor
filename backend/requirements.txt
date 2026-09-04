@@ -4,6 +4,9 @@ djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
 python-dotenv
+httpx
+protobuf
+python-snappy
 google-auth
 google-auth-oauthlib
 google-auth-httplib2

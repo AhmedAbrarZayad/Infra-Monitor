@@ -17,7 +17,8 @@ from alert.models import Alert
 from incident.models import Incident, IncidentAlert, IncidentUpdate
 from log.models import LogEntry
 from ml_model.models import AnomalyDetection
-from servers.models import Metrics, Servers, Service
+from servers.models import Servers, Service
+from servers.services import InvalidMetricError, VictoriaMetricsQueryAdapter
 
 
 def membership(request, organization_id, roles=None):
@@ -74,14 +75,20 @@ class PreferencesView(APIView):
 
 
 def latest_metric(server, code, service=None):
-    qs = Metrics.objects.filter(server_id=server, metric_type=code)
-    if service is not None: qs = qs.filter(service_id=service)
-    return qs.order_by("-recorded_at").first()
+    return VictoriaMetricsQueryAdapter().latest(server=server, code=code, service=service)
 
 
 def metric_value(server, code, service=None):
-    item = latest_metric(server, code, service)
-    return None if item is None else {"value": item.value, "unit": item.unit, "recorded_at": item.recorded_at, "labels": item.labels}
+    result = latest_metric(server, code, service)
+    item = result["point"]
+    if item is None:
+        return None
+    return {"value": item["value"], "unit": item["unit"], "recorded_at": item["recorded_at"], "labels": item["labels"]}
+
+
+def metric_history(server, code, service=None, limit=30):
+    result = VictoriaMetricsQueryAdapter().range(server=server, code=code, service=service)
+    return [point["value"] for point in result["points"][-limit:]]
 
 
 def server_data(item):
@@ -91,7 +98,7 @@ def server_data(item):
             "alert_count": Alert.objects.filter(organization=item.organization, server_id=item, state__in=["ACTIVE", "ACKNOWLEDGED"]).count(),
             "metrics": {code: metric_value(item, code) for code in ["cpu_r", "mem_u", "disk_u"]},
             "service_count": item.services.count(),
-            "cpu_history": list(Metrics.objects.filter(server_id=item, metric_type="cpu_r").order_by("-recorded_at").values_list("value", flat=True)[:30])[::-1]}
+            "cpu_history": metric_history(item, "cpu_r")}
 
 
 def service_data(item):
@@ -143,15 +150,39 @@ class MetricRangeView(APIView):
         else: server = get_object_or_404(Servers, organization=org, pk=server_id)
         code = request.query_params.get("metric")
         if not code: return Response({"metric": ["This query parameter is required."]}, status=400)
-        qs = Metrics.objects.filter(server_id=server, metric_type=code)
-        if service is not None: qs = qs.filter(service_id=service)
-        start = parse_datetime(request.query_params.get("from", "")); end = parse_datetime(request.query_params.get("to", ""))
-        if start: qs = qs.filter(recorded_at__gte=start)
-        if end: qs = qs.filter(recorded_at__lte=end)
-        qs = qs.order_by("recorded_at")[:5000]
-        units = list(qs.values_list("unit", flat=True).distinct()[:2])
-        return Response({"metric": code, "unit": units[0] if len(units) == 1 else None,
-                         "available": bool(units), "points": [{"timestamp": x.recorded_at, "value": x.value, "unit": x.unit, "labels": x.labels} for x in qs]})
+        raw_start = request.query_params.get("from", "")
+        raw_end = request.query_params.get("to", "")
+        start = parse_datetime(raw_start); end = parse_datetime(raw_end)
+        if raw_start and start is None:
+            return Response({"from": ["Use a valid ISO-8601 timestamp."]}, status=400)
+        if raw_end and end is None:
+            return Response({"to": ["Use a valid ISO-8601 timestamp."]}, status=400)
+        try:
+            result = VictoriaMetricsQueryAdapter().range(
+                server=server,
+                code=code,
+                service=service,
+                start=start,
+                end=end,
+                step=request.query_params.get("step"),
+            )
+        except (InvalidMetricError, ValueError) as exc:
+            return Response({"detail": str(exc)}, status=400)
+        return Response({
+            "metric": code,
+            "unit": result["unit"],
+            "available": result["available"],
+            "availability": result["availability"],
+            "points": [
+                {
+                    "timestamp": point["timestamp"],
+                    "value": point["value"],
+                    "unit": point["unit"],
+                    "labels": point["labels"],
+                }
+                for point in result["points"]
+            ],
+        })
 
 
 class ServiceListView(APIView):
@@ -355,15 +386,15 @@ class OverviewView(APIView):
         for code,label in [("cpu_r","HIGHEST CPU"),("mem_u","HIGHEST MEMORY"),("disk_u","HIGHEST DISK")]:
             candidates=[]
             for server in servers:
-                metric=latest_metric(server,code)
-                if metric and metric.unit.lower() in {"percent","%","percentage"}: candidates.append((metric.value,server,metric))
+                metric=latest_metric(server,code)["point"]
+                if metric and metric["unit"].lower() in {"percent","%","percentage"}: candidates.append((metric["value"],server,metric))
             if candidates:
-                value,server,metric=max(candidates,key=lambda x:x[0]); attention.append({"label":label,"resource":server.name,"value":value,"unit":metric.unit,"severity":"CRITICAL" if value>=90 else "WARNING" if value>=70 else "INFO"})
+                value,server,metric=max(candidates,key=lambda x:x[0]); attention.append({"label":label,"resource":server.name,"value":value,"unit":metric["unit"],"severity":"CRITICAL" if value>=90 else "WARNING" if value>=70 else "INFO"})
         return Response({"server_count":servers.count(),"open_incident_count":incidents.count(),"updated_at":timezone.now(),
             "fleet":{x:servers.filter(status=x).count() for x,_ in Servers.Status.choices},
             "critical_incidents":[incident_data(x) for x in incidents.filter(severity="CRITICAL")[:5]],
             "high_incidents":[incident_data(x) for x in incidents.filter(severity="HIGH")[:5]],"attention_items":attention,
-            "alerts":[alert_data(x) for x in alerts],"platform_health":[{"component":"api","status":"HEALTHY"}],"telemetry_available":Metrics.objects.filter(server_id__organization=org).exists()})
+            "alerts":[alert_data(x) for x in alerts],"platform_health":[{"component":"api","status":"HEALTHY"}],"telemetry_available":servers.filter(monitoring_connection__last_metric_at__isnull=False).exists()})
 
 class AnalyticsView(APIView):
     def get(self,request,organization_id):
@@ -371,8 +402,14 @@ class AnalyticsView(APIView):
         resolved=incidents.filter(status="RESOLVED",resolved_at__isnull=False)
         durations=[(x.resolved_at-x.detected_at).total_seconds() for x in resolved if x.resolved_at]
         ack=[(x.acknowledged_at-x.detected_at).total_seconds() for x in incidents.filter(acknowledged_at__isnull=False)]
-        def values(*codes): return list(Metrics.objects.filter(server_id__organization=org,metric_type__in=codes).order_by("-recorded_at").values_list("value",flat=True)[:100])[::-1]
-        return Response({"available":incidents.exists() or Metrics.objects.filter(server_id__organization=org).exists(),
+        def values(*codes):
+            collected=[]
+            for server in Servers.objects.filter(organization=org):
+                for code in codes:
+                    try: collected.extend(metric_history(server,code,limit=100))
+                    except InvalidMetricError: continue
+            return collected[-100:]
+        return Response({"available":incidents.exists() or Servers.objects.filter(organization=org,monitoring_connection__last_metric_at__isnull=False).exists(),
             "metrics":{"mtta_seconds":sum(ack)/len(ack) if ack else None,"mttr_seconds":sum(durations)/len(durations) if durations else None,"open":incidents.exclude(status="RESOLVED").count(),"resolved_7d":resolved.filter(resolved_at__gte=now-timedelta(days=7)).count()},
             "series":{"cpu":values("cpu_r"),"memory":values("mem_u"),"latency":values("latency","request_latency"),"frequency":[],"opened":[],"resolved":[],"uptime":values("uptime")},
             "categories":dict(incidents.values_list("category").annotate(c=Count("incident_id"))),
@@ -390,7 +427,9 @@ class ReadyView(APIView):
         except Exception:return Response({"status":"not_ready"},status=503)
 class DependencyHealthView(APIView):
     permission_classes=[IsAdminUser]
-    def get(self,request):return Response({"database":"ok","telemetry":"not_configured","ml":"not_configured","gemini":"not_configured"})
+    def get(self,request):
+        telemetry = "ok" if VictoriaMetricsQueryAdapter().healthy() else "unavailable"
+        return Response({"database":"ok","telemetry":telemetry,"ml":"not_configured","gemini":"not_configured"})
 class WorkerHealthView(APIView):
     permission_classes=[IsAdminUser]
     def get(self,request):return Response({"status":"not_configured","workers":[]})

@@ -13,6 +13,7 @@ import '../../../organizations/domain/organization_context_state.dart';
 import '../../../organizations/presentation/providers/organization_provider.dart';
 import '../../../servers/presentation/pages/servers_page.dart';
 import '../../../servers/presentation/providers/servers_providers.dart';
+import '../../../servers/domain/entities/server.dart';
 import '../widgets/app_bottom_navigation.dart';
 
 class AppShellPage extends ConsumerStatefulWidget {
@@ -48,44 +49,48 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
     final role = organizationState is OrganizationReady
         ? organizationState.activeMembership.displayRole
         : '';
-    final overview = ref.watch(overviewDashboardProvider);
-    final overviewSubtitle = overview.when(
-      data: (data) =>
-          '${data.serverCount} servers  ·  ${data.openIncidentCount} open incidents',
-      loading: () => 'loading infrastructure…',
-      error: (error, stackTrace) => 'infrastructure unavailable',
-    );
-    final servers = ref.watch(serversProvider);
-    final serversSubtitle = servers.when(
-      data: (items) =>
-          '${items.length} registered  ·  ${items.where((item) => item.lastSeen.contains('m ago')).length} stale agent',
-      loading: () => 'loading servers…',
-      error: (error, stackTrace) => 'servers unavailable',
-    );
-    final incidents = ref.watch(incidentsProvider);
-    final incidentsSubtitle = incidents.when(
-      data: (items) =>
-          '${items.where((item) => item.status != 'RESOLVED').length} open  ·  ${items.where((item) => item.acknowledgement == 'not acknowledged').length} unacknowledged',
-      loading: () => 'loading incidents…',
-      error: (error, stackTrace) => 'incidents unavailable',
-    );
+    final subtitle = switch (_selectedIndex) {
+      0 =>
+        ref
+            .watch(overviewDashboardProvider)
+            .when(
+              data: (data) =>
+                  '${data.serverCount} servers · ${data.openIncidentCount} open incidents',
+              loading: () => 'loading infrastructure…',
+              error: (_, _) => 'infrastructure unavailable',
+            ),
+      1 =>
+        ref
+            .watch(serversProvider)
+            .when(
+              data: (items) =>
+                  '${items.length} registered · ${items.where((item) => item.status == ServerStatus.healthy).length} healthy',
+              loading: () => 'loading servers…',
+              error: (_, _) => 'servers unavailable',
+            ),
+      2 =>
+        ref
+            .watch(incidentsProvider)
+            .when(
+              data: (items) =>
+                  '${items.where((item) => item.status != 'RESOLVED').length} open · ${items.where((item) => item.acknowledgement == 'not acknowledged').length} unacknowledged',
+              loading: () => 'loading incidents…',
+              error: (_, _) => 'incidents unavailable',
+            ),
+      3 => 'advisory · grounded in telemetry',
+      4 => 'operational summary',
+      5 => 'account · preferences · audit',
+      _ => null,
+    };
     return Scaffold(
       appBar: CustomAppBar(
         title: _titles[_selectedIndex],
         role: role,
-        subtitle: switch (_selectedIndex) {
-          0 => overviewSubtitle,
-          1 => serversSubtitle,
-          2 => incidentsSubtitle,
-          3 => 'advisory  ·  grounded in telemetry',
-          4 => 'window 24h  ·  6 servers',
-          5 => 'account  ·  preferences  ·  audit',
-          _ => null,
-        },
+        subtitle: subtitle,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final content = IndexedStack(index: _selectedIndex, children: _pages);
+          final content = _pages[_selectedIndex];
           if (constraints.maxWidth < 900) return content;
           return Row(
             children: [

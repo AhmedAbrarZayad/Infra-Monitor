@@ -54,11 +54,15 @@ class _ChartPainter extends CustomPainter {
   }
 
   void _line(Canvas canvas, Size size, List<double> data, Color shade) {
+    if (data.length < 2) return;
+    final minimum = data.reduce((a, b) => a < b ? a : b);
+    final maximum = data.reduce((a, b) => a > b ? a : b);
+    final spread = maximum == minimum ? 1.0 : maximum - minimum;
     final path = Path();
     for (var i = 0; i < data.length; i++) {
       final p = Offset(
         i * size.width / (data.length - 1),
-        size.height * (1 - data[i]),
+        size.height * (1 - ((data[i] - minimum) / spread)),
       );
       i == 0 ? path.moveTo(p.dx, p.dy) : path.lineTo(p.dx, p.dy);
     }
@@ -72,6 +76,9 @@ class _ChartPainter extends CustomPainter {
   }
 
   void _bars(Canvas canvas, Size size, List<double> data, Color shade) {
+    if (data.isEmpty) return;
+    final maximum = data.reduce((a, b) => a > b ? a : b);
+    final scale = maximum <= 0 ? 1.0 : maximum;
     final gap = 8.0;
     final width = (size.width - gap * (data.length + 1)) / data.length;
     for (var i = 0; i < data.length; i++) {
@@ -79,9 +86,9 @@ class _ChartPainter extends CustomPainter {
         RRect.fromRectAndRadius(
           Rect.fromLTWH(
             gap + i * (width + gap),
-            size.height * (1 - data[i]),
+            size.height * (1 - data[i] / scale),
             width,
-            size.height * data[i],
+            size.height * data[i] / scale,
           ),
           const Radius.circular(3),
         ),

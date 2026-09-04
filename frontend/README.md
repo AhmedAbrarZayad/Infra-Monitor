@@ -1,17 +1,22 @@
-# frontend
+# Infra Monitor Flutter client
 
-A new Flutter project.
+The client reads organization-scoped operational telemetry from the Django API. Set `API_BASE_URL` in `frontend/.env`; include `/api` and use a host reachable from the selected device.
 
-## Getting Started
+```dotenv
+# Android emulator
+API_BASE_URL=http://10.0.2.2:8000/api
 
-This project is a starting point for a Flutter application.
+# Flutter web or desktop on the development machine
+API_BASE_URL=http://localhost:8000/api
 
-A few resources to get you started if this is your first Flutter project:
+# Production behind the external HTTPS reverse proxy
+API_BASE_URL=https://monitor.example.com/api
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+For a physical phone, use the development machine's LAN address and allow that host/origin in Django. Production must use HTTPS.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+dart format --set-exit-if-changed lib test
+flutter analyze
+flutter test
+```

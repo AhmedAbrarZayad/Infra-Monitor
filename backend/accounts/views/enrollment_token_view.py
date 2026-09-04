@@ -1,3 +1,5 @@
+import shlex
+
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -32,7 +34,23 @@ class EnrollmentTokenView(GenericAPIView):
         )
         data = EnrollmentTokenSerializer(enrollment).data
         install_url = getattr(settings, "MONITORING_INSTALL_URL", "https://monitor.example/install")
-        data.update({"token": raw_token, "install_command": f"curl -fsSL {install_url} | sudo sh -s -- --token {raw_token}"})
+        # The installer needs the public backend origin so it can call the
+        # internal enrollment and status endpoints. An explicit setting is
+        # useful behind a reverse proxy; otherwise derive it from this request.
+        server_url = getattr(settings, "MONITORING_PUBLIC_BASE_URL", "").rstrip("/")
+        if not server_url:
+            server_url = getattr(settings, "MONITORING_SERVER_URL", "").rstrip("/")
+        if not server_url:
+            server_url = request.build_absolute_uri("/").rstrip("/")
+
+        # Quote every dynamic shell argument so configuration values cannot
+        # accidentally change the generated command's meaning.
+        install_command = (
+            f"curl -fsSL {shlex.quote(install_url)} | sudo sh -s -- "
+            f"--token {shlex.quote(raw_token)} "
+            f"--server {shlex.quote(server_url)}"
+        )
+        data.update({"token": raw_token, "install_command": install_command})
         return Response(data, status=status.HTTP_201_CREATED)
 
     def get(self, request, organization_id):

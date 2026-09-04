@@ -35,7 +35,12 @@ class OverviewPage extends ConsumerWidget {
                         _EnvironmentBar(updatedAt: data.updatedAt),
                         const SizedBox(height: 20),
                         if (data.serverCount == 0) ...[
-                          const Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 32), child: Text('No infrastructure connected.'))),
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 32),
+                              child: Text('No infrastructure connected.'),
+                            ),
+                          ),
                           const SizedBox(height: 20),
                         ],
                         FleetStatusSection(metrics: data.fleetMetrics),
@@ -72,47 +77,26 @@ class OverviewPage extends ConsumerWidget {
   }
 }
 
-class _EnvironmentBar extends StatefulWidget {
+class _EnvironmentBar extends StatelessWidget {
   const _EnvironmentBar({required this.updatedAt});
 
   final String updatedAt;
 
   @override
-  State<_EnvironmentBar> createState() => _EnvironmentBarState();
-}
-
-class _EnvironmentBarState extends State<_EnvironmentBar> {
-  bool production = true;
-
-  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            color: const Color(0xFF111722),
-            border: Border.all(color: const Color(0xFF2A3445)),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              _tab(
-                'Production',
-                production,
-                () => setState(() => production = true),
-              ),
-              _tab(
-                'Staging',
-                !production,
-                () => setState(() => production = false),
-              ),
-            ],
+        const Text(
+          'ALL ENVIRONMENTS',
+          style: TextStyle(
+            color: Color(0xFF5D9DFF),
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const Spacer(),
         Text(
-          'updated ${widget.updatedAt}',
+          'updated $updatedAt',
           style: const TextStyle(
             color: Color(0xFF8C95A5),
             fontSize: 10,
@@ -122,24 +106,4 @@ class _EnvironmentBarState extends State<_EnvironmentBar> {
       ],
     );
   }
-
-  Widget _tab(String label, bool selected, VoidCallback onTap) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(9),
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: selected ? const Color(0xFF162A48) : null,
-        borderRadius: BorderRadius.circular(9),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: selected ? const Color(0xFF5D9DFF) : const Color(0xFF8C95A5),
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-  );
 }

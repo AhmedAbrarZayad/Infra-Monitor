@@ -1,10 +1,100 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/api/operational_api.dart';
-import '../../../auth/domain/auth_state.dart'; import '../../../auth/presentation/providers/auth_provider.dart';
-import '../../../organizations/domain/organization_context_state.dart'; import '../../../organizations/presentation/providers/organization_provider.dart';
+import '../../../auth/domain/auth_state.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../organizations/domain/organization_context_state.dart';
+import '../../../organizations/presentation/providers/organization_provider.dart';
 import '../../domain/entities/overview_dashboard.dart';
+import '../../../servers/presentation/providers/servers_providers.dart';
 
-Severity severity(String x)=>Severity.values.firstWhere((s)=>s.name==x.toLowerCase(),orElse:()=>Severity.info);
-IncidentSummary summary(Map<String,dynamic>x)=>IncidentSummary(id:x['code']??x['id'].toString(),severity:severity(x['severity']??'INFO'),status:x['status']??'',title:x['title']??'',server:x['server']??'',service:x['service']??'',environment:x['environment']??'',age:relativeTime(x['detected_at']),owner:(x['assigned_to'] as Map?)?['username']??'unassigned',aiNote:x['ai_confidence']==null?'Not analyzed':'AI confidence available');
-final overviewDashboardProvider=FutureProvider<OverviewDashboard>((ref)async{final a=ref.watch(authProvider);final o=ref.watch(organizationContextProvider);if(a is! AuthAuthenticated||o is! OrganizationReady)throw StateError('No active organization');final x=await OperationalApi(a.accessToken,o.activeMembership.organization.id).getMap('overview/');final fleet=x['fleet'] as Map<String,dynamic>? ??{};return OverviewDashboard(serverCount:x['server_count']??0,openIncidentCount:x['open_incident_count']??0,updatedAt:relativeTime(x['updated_at']),fleetMetrics:fleet.entries.map((e)=>FleetMetric(e.key,'${e.value}','servers',null)).toList(),criticalIncidents:(x['critical_incidents'] as List? ??[]).map((e)=>summary(e)).toList(),highIncidents:(x['high_incidents'] as List? ??[]).map((e)=>summary(e)).toList(),attentionItems:(x['attention_items'] as List? ??[]).map((e){final m=e as Map<String,dynamic>;return AttentionItem(m['label']??'',m['resource']??'','${m['value']??''}${m['unit']=='percent'?'%':''}',severity(m['severity']??'INFO'));}).toList(),alerts:(x['alerts'] as List? ??[]).map((e){final m=e as Map<String,dynamic>;return AlertItem(severity:severity(m['severity']??'INFO'),title:m['title']??'',time:relativeTime(m['triggered_at']),resource:'',description:m['description']??'');}).toList(),healthItems:(x['platform_health'] as List? ??[]).map((e){final m=e as Map<String,dynamic>;return HealthItem(m['component']??'',m['status']??'','',m['status']=='HEALTHY');}).toList());});
+Severity severity(String x) => Severity.values.firstWhere(
+  (s) => s.name == x.toLowerCase(),
+  orElse: () => Severity.info,
+);
+IncidentSummary summary(Map<String, dynamic> x) => IncidentSummary(
+  id: x['code'] ?? x['id'].toString(),
+  severity: severity(x['severity'] ?? 'INFO'),
+  status: x['status'] ?? '',
+  title: x['title'] ?? '',
+  server: x['server'] ?? '',
+  service: x['service'] ?? '',
+  environment: x['environment'] ?? '',
+  age: relativeTime(x['detected_at']),
+  owner: (x['assigned_to'] as Map?)?['username'] ?? 'unassigned',
+  aiNote: x['ai_confidence'] == null
+      ? 'Not analyzed'
+      : 'AI confidence available',
+);
+final overviewDashboardProvider = FutureProvider.autoDispose<OverviewDashboard>(
+  (ref) async {
+    final a = ref.watch(authProvider);
+    final o = ref.watch(organizationContextProvider);
+    if (a is! AuthAuthenticated || o is! OrganizationReady)
+      throw StateError('No active organization');
+    final x = await OperationalApi(
+      a.accessToken,
+      o.activeMembership.organization.id,
+    ).getMap('overview/');
+    final fleet = x['fleet'] as Map<String, dynamic>? ?? {};
+    final health = (x['platform_health'] as List? ?? []).map((e) {
+      final m = e as Map<String, dynamic>;
+      return HealthItem(
+        m['component'] ?? '',
+        m['status'] ?? '',
+        '',
+        m['status'] == 'HEALTHY',
+      );
+    }).toList();
+    final telemetry = x['telemetry_available'] == true;
+    health.add(
+      HealthItem(
+        'telemetry',
+        telemetry ? 'READY' : 'NO DATA',
+        telemetry
+            ? 'VictoriaMetrics is receiving samples'
+            : 'No server metrics received yet',
+        telemetry,
+      ),
+    );
+    final interval = await ref.watch(monitoringRefreshIntervalProvider.future);
+    final timer = Timer(interval, ref.invalidateSelf);
+    ref.onDispose(timer.cancel);
+    return OverviewDashboard(
+      serverCount: x['server_count'] ?? 0,
+      openIncidentCount: x['open_incident_count'] ?? 0,
+      updatedAt: relativeTime(x['updated_at']),
+      fleetMetrics: fleet.entries
+          .map((e) => FleetMetric(e.key, '${e.value}', 'servers', null))
+          .toList(),
+      criticalIncidents: (x['critical_incidents'] as List? ?? [])
+          .map((e) => summary(e))
+          .toList(),
+      highIncidents: (x['high_incidents'] as List? ?? [])
+          .map((e) => summary(e))
+          .toList(),
+      attentionItems: (x['attention_items'] as List? ?? []).map((e) {
+        final m = e as Map<String, dynamic>;
+        return AttentionItem(
+          m['label'] ?? '',
+          m['resource'] ?? '',
+          '${m['value'] ?? ''}${m['unit'] == 'percent' ? '%' : ''}',
+          severity(m['severity'] ?? 'INFO'),
+        );
+      }).toList(),
+      alerts: (x['alerts'] as List? ?? []).map((e) {
+        final m = e as Map<String, dynamic>;
+        return AlertItem(
+          severity: severity(m['severity'] ?? 'INFO'),
+          title: m['title'] ?? '',
+          time: relativeTime(m['triggered_at']),
+          resource: '',
+          description: m['description'] ?? '',
+        );
+      }).toList(),
+      healthItems: health,
+    );
+  },
+);

@@ -17,12 +17,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from installer.monitoring_views import MetricsWriteView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/", include("accounts.urls")),
     path("api/organizations/", include("accounts.organization_urls")),
     path("api/organizations/<uuid:organization_id>/", include("infra_monitor.operational_urls")),
+    path("api/monitoring/", include("installer.urls")),
+    path("api/internal/monitoring/", include("installer.internal_urls")),
 ]
 
 from infra_monitor.operational_views import DependencyHealthView, LiveView, LogBatchView, PreferencesView, ReadyView, WorkerHealthView
@@ -31,4 +34,5 @@ urlpatterns += [
     path("api/health/live/", LiveView.as_view()), path("api/health/ready/", ReadyView.as_view()),
     path("api/internal/health/dependencies/", DependencyHealthView.as_view()), path("api/internal/health/workers/", WorkerHealthView.as_view()),
     path("api/internal/logs/batches/", LogBatchView.as_view()),
+    path("api/metrics/write", MetricsWriteView.as_view()),
 ]

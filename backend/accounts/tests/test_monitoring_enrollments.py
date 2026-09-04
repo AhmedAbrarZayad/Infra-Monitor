@@ -30,6 +30,7 @@ class MonitoringEnrollmentApiTests(TestCase):
         self.assertEqual(enrollment.token_hash, TokenService.hash_enrollment_token(response.data["token"]))
         self.assertNotIn(response.data["token"], str(EnrollmentToken.objects.values().get(id=enrollment.id)))
         self.assertIn(response.data["token"], response.data["install_command"])
+        self.assertIn("--server http://testserver", response.data["install_command"])
 
     def test_admin_can_create_but_engineer_cannot(self):
         self.client.force_authenticate(self.admin)

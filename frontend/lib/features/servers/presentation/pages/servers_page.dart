@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../shared/widgets/async_value_view.dart';
 import '../../domain/entities/server.dart';
@@ -41,9 +42,9 @@ class _ServersPageState extends ConsumerState<ServersPage> {
               _environment == 'All envs' || server.environment == _environment;
           final matchesUsage =
               !_highUsageOnly ||
-              server.cpu > 70 ||
-              server.memory > 70 ||
-              server.disk > 70;
+              (server.cpu?.value ?? 0) > 70 ||
+              (server.memory?.value ?? 0) > 70 ||
+              (server.disk?.value ?? 0) > 70;
           return matchesSearch &&
               matchesStatus &&
               matchesEnvironment &&
@@ -143,8 +144,11 @@ class _ServersPageState extends ConsumerState<ServersPage> {
                         mainAxisSpacing: 10,
                       ),
                       itemCount: filtered.length,
-                      itemBuilder: (context, index) =>
-                          ServerCard(server: filtered[index]),
+                      itemBuilder: (context, index) => ServerCard(
+                        server: filtered[index],
+                        onTap: () =>
+                            context.push('/servers/${filtered[index].id}'),
+                      ),
                     );
                   },
                 ),

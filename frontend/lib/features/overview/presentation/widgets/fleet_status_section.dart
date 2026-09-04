@@ -79,7 +79,7 @@ class FleetStatusSection extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ),
                   )
                   .toList(),

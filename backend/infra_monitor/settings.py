@@ -35,6 +35,11 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+USE_X_FORWARDED_HOST = os.getenv("USE_X_FORWARDED_HOST", "False").lower() in ("true", "1", "yes")
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_TRUSTED_ORIGINS = [
+    origin for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if origin
+]
 
 
 # Application definition
@@ -58,6 +63,7 @@ INSTALLED_APPS = [
     "servers",
     "alert",
     "ml_model",
+    "installer"
 ]
 
 
@@ -213,8 +219,30 @@ GMAIL_REFRESH_TOKEN = os.getenv("GMAIL_REFRESH_TOKEN", "")
 
 OTP_EXPIRY_MINUTES = int(os.getenv("OTP_EXPIRY_MINUTES", "10"))
 MONITORING_ENROLLMENT_EXPIRY_MINUTES = int(os.getenv("MONITORING_ENROLLMENT_EXPIRY_MINUTES", "15"))
-MONITORING_INSTALL_URL = os.getenv("MONITORING_INSTALL_URL", "https://monitor.example/install")
+MONITORING_INSTALL_URL = os.getenv(
+    "MONITORING_INSTALL_URL",
+    "https://monitor.example/api/monitoring/install.sh",
+)
+MONITORING_PUBLIC_BASE_URL = os.getenv("MONITORING_PUBLIC_BASE_URL", "")
+MONITORING_SERVER_URL = os.getenv("MONITORING_SERVER_URL", MONITORING_PUBLIC_BASE_URL)
 MONITORING_CREDENTIAL_OVERLAP_MINUTES = int(os.getenv("MONITORING_CREDENTIAL_OVERLAP_MINUTES", "15"))
+MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES = int(
+    os.getenv("MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES", str(10 * 1024 * 1024))
+)
+MONITORING_REMOTE_WRITE_MAX_DECOMPRESSED_BYTES = int(
+    os.getenv("MONITORING_REMOTE_WRITE_MAX_DECOMPRESSED_BYTES", str(100 * 1024 * 1024))
+)
+# Django otherwise rejects request.body at its smaller global default before the
+# metrics view can return the intended 413 response at the configured limit.
+DATA_UPLOAD_MAX_MEMORY_SIZE = MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES
+VICTORIAMETRICS_INSERT_URL = os.getenv("VICTORIAMETRICS_INSERT_URL", "http://vminsert:8480")
+VICTORIAMETRICS_WRITE_TIMEOUT_SECONDS = float(
+    os.getenv("VICTORIAMETRICS_WRITE_TIMEOUT_SECONDS", "10")
+)
+VICTORIAMETRICS_SELECT_URL = os.getenv("VICTORIAMETRICS_SELECT_URL", "http://vmselect:8481")
+VICTORIAMETRICS_QUERY_TIMEOUT_SECONDS = float(
+    os.getenv("VICTORIAMETRICS_QUERY_TIMEOUT_SECONDS", "10")
+)
 
 # ─────────────────────────────────────────────────────────────────
 # Frontend URLs

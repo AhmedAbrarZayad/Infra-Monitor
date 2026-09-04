@@ -1,4 +1,5 @@
-from django.urls import reverse
+from unittest.mock import patch
+
 from rest_framework.test import APITestCase
 
 from accounts.models import Organization, OrganizationMembership, Users
@@ -39,5 +40,50 @@ class OperationalApiTests(APITestCase):
         self.client.force_authenticate(None)
         self.assertEqual(self.client.get("/api/health/live/").status_code, 200)
         self.assertEqual(self.client.get("/api/health/ready/").status_code, 200)
+
+    @patch("infra_monitor.operational_views.VictoriaMetricsQueryAdapter")
+    def test_server_metrics_keep_flutter_shape_and_range_availability(self, adapter_class):
+        server = Servers.objects.create(
+            organization=self.org,
+            name="api",
+            host_name="api",
+            environment="prod",
+        )
+        adapter = adapter_class.return_value
+        adapter.latest.return_value = {
+            "available": True,
+            "availability": "available",
+            "unit": "percent",
+            "point": {
+                "value": 42.0,
+                "unit": "percent",
+                "recorded_at": "2026-09-04T00:00:00Z",
+                "labels": {},
+            },
+        }
+        adapter.range.return_value = {
+            "available": True,
+            "availability": "available",
+            "unit": "percent",
+            "points": [{
+                "timestamp": "2026-09-04T00:00:00Z",
+                "value": 42.0,
+                "unit": "percent",
+                "labels": {},
+            }],
+        }
+
+        detail = self.client.get(f"/api/organizations/{self.org.id}/servers/{server.server_id}/")
+        self.assertEqual(detail.status_code, 200)
+        self.assertEqual(detail.data["metrics"]["cpu_r"]["value"], 42.0)
+        self.assertEqual(detail.data["cpu_history"], [42.0])
+
+        metric_range = self.client.get(
+            f"/api/organizations/{self.org.id}/servers/{server.server_id}/metrics/",
+            {"metric": "cpu_r"},
+        )
+        self.assertEqual(metric_range.status_code, 200)
+        self.assertTrue(metric_range.data["available"])
+        self.assertEqual(metric_range.data["availability"], "available")
 
 # Create your tests here.

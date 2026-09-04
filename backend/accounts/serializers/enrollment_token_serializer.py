@@ -11,7 +11,7 @@ class EnrollmentTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnrollmentToken
         fields = [
-            "enrollment_id", "server_name", "environment", "stage", "expires_at",
+            "enrollment_id", "server_name", "environment", "stage", "installer_stage", "expires_at",
             "is_used", "server_id", "first_metric_at", "failure_code",
             "failure_message", "created_at", "updated_at",
         ]

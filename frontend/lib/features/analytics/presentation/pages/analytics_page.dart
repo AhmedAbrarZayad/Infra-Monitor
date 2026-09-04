@@ -3,21 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../shared/widgets/app_panel.dart';
 import '../../../../shared/widgets/async_value_view.dart';
 import '../../../../shared/widgets/section_title.dart';
-import '../../../../shared/widgets/selection_pill.dart';
 import '../../domain/entities/analytics_dashboard.dart';
 import '../providers/analytics_providers.dart';
 import '../widgets/metric_chart.dart';
 
-class AnalyticsPage extends ConsumerStatefulWidget {
+class AnalyticsPage extends ConsumerWidget {
   const AnalyticsPage({super.key});
   @override
-  ConsumerState<AnalyticsPage> createState() => _AnalyticsPageState();
-}
-
-class _AnalyticsPageState extends ConsumerState<AnalyticsPage> {
-  String range = '24h';
-  @override
-  Widget build(BuildContext context) => AsyncValueView(
+  Widget build(BuildContext context, WidgetRef ref) => AsyncValueView(
     value: ref.watch(analyticsProvider),
     data: (data) => ListView(
       padding: const EdgeInsets.all(12),
@@ -28,18 +21,9 @@ class _AnalyticsPageState extends ConsumerState<AnalyticsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: ['1h', '24h', '7d', '30d', 'Custom']
-                      .map(
-                        (item) => SelectionPill(
-                          label: item,
-                          selected: range == item,
-                          onTap: () => setState(() => range = item),
-                        ),
-                      )
-                      .toList(),
+                const Text(
+                  'ALL AVAILABLE HISTORY',
+                  style: TextStyle(color: Color(0xFF8993A4), fontSize: 10),
                 ),
                 const SizedBox(height: 24),
                 const SectionTitle('OPERATIONAL METRICS'),
