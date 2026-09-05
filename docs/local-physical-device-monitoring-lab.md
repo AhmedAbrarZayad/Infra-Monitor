@@ -30,32 +30,45 @@ wsl --list --verbose
 
 `Ubuntu` must show WSL version `2`.
 
+### One-time preparation before presentation day
+
+Complete this once before following the live-demo sequence. Enable systemd if
+`wsl -d Ubuntu -- systemctl is-system-running` returns neither `running` nor
+`degraded`, then restart WSL before continuing. Disable Docker Desktop's
+integration for the `Ubuntu` distribution and install a native Docker engine so
+cAdvisor can inspect its container runtime:
+
+```bash
+sudo apt-get update
+sudo apt-get --fix-broken install
+sudo dpkg --configure -a
+sudo apt-get install -y docker.io stress-ng fio sysstat curl
+sudo systemctl enable --now containerd docker
+getent group docker || sudo groupadd docker
+sudo usermod -aG docker "$USER"
+```
+
+Run `wsl --terminate Ubuntu` once to apply group membership, reopen Ubuntu, and
+verify `groups`, `docker version`, and `systemctl is-active docker containerd`.
+Do not restart WSL again during the live demonstration.
+
 ## 2. Find the device addresses
 
 ```powershell
 ipconfig
-wsl -d Ubuntu -- hostname -I
-wsl -d Ubuntu -- bash -lc "ip route show default"
 ```
 
 Use the IPv4 address of the active Wi-Fi/Ethernet adapter, not WSL, Docker, VPN,
 or loopback. Find the phone address in Android Wi-Fi details. Both should share
 a trusted, non-guest subnet such as `192.168.0.x`.
 
-For `hostname -I`, the first address is the WSL source address used in the
-firewall rule. Ignore Docker's usual `172.17.0.1` bridge address. For the route
-output, record the address after `default via`; that is the Windows destination
-WSL can reliably reach. Example:
-
 ```text
 Windows LAN IP: 192.168.0.107
 Phone IP:       192.168.0.108
-WSL source IP:  172.28.148.9
-WSL gateway:    172.28.144.1
 ```
 
-Resolve all four values before continuing. WSL addresses may change after
-`wsl --shutdown` or a Windows restart.
+Only these two LAN addresses are configured manually. The generated enrollment
+command detects the current Windows gateway inside WSL every time it runs.
 
 ## 3. Configure narrow firewall rules
 
@@ -72,19 +85,19 @@ Get-NetConnectionProfile
 Set-NetConnectionProfile -InterfaceAlias "WiFi" -NetworkCategory Private
 ```
 
-Remove stale duplicate lab rules, then create exact rules for the phone and the
-first WSL address found in step 2:
+Remove stale duplicate lab rules, then create an exact phone rule and a WSL NAT
+range rule. The latter avoids replacing the rule whenever WSL changes address:
 
 ```powershell
 Get-NetFirewallRule -DisplayName "Infra Monitor Phone 7000" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
 Get-NetFirewallRule -DisplayName "Infra Monitor WSL 7000" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
 New-NetFirewallRule -DisplayName "Infra Monitor Phone 7000" -Direction Inbound -Protocol TCP -LocalPort 7000 -RemoteAddress 192.168.0.108 -InterfaceAlias "WiFi" -Action Allow -Profile Any
-New-NetFirewallRule -DisplayName "Infra Monitor WSL 7000" -Direction Inbound -Protocol TCP -LocalPort 7000 -RemoteAddress 172.28.148.9 -Action Allow -Profile Any
+New-NetFirewallRule -DisplayName "Infra Monitor WSL 7000" -Direction Inbound -Protocol TCP -LocalPort 7000 -RemoteAddress 172.16.0.0/12 -Action Allow -Profile Any
 ```
 
-Do not use `172.17.0.1` for the WSL rule. Creating these rules before starting
-Compose is fine; the listener appears when the backend starts. Never disable
-Windows Firewall for the lab.
+The WSL rule permits only TCP port 7000 from the private address block WSL2 uses
+for NAT; it does not expose the port publicly. Creating the rules before
+starting Compose is fine. Never disable Windows Firewall for the lab.
 
 ## 4. Configure the backend and model environments
 
@@ -104,6 +117,10 @@ POSTGRES_USER=monitor
 POSTGRES_PASSWORD=replace-with-a-local-database-password
 POSTGRES_DB=ai-infra-monitor
 ML_SERVICE_TOKEN=replace-with-a-long-random-shared-secret
+GEMINI_API_KEY=replace-with-your-google-ai-studio-api-key
+GEMINI_MODEL=gemini-3.7-flash
+GEMINI_REQUEST_TIMEOUT_SECONDS=60
+ASSISTANT_WS_TICKET_TTL_SECONDS=60
 
 # model/.env
 ML_SERVICE_TOKEN=replace-with-the-same-long-random-shared-secret
@@ -141,13 +158,18 @@ $token
 ```
 
 Paste the printed value as `ML_SERVICE_TOKEN` in both environment files.
+Create the Gemini key in Google AI Studio and put it only in `backend/.env`.
+It is not the ML shared token and must not be copied into `model/.env` or
+`frontend/.env`. The backend container needs outbound internet access to call
+the Gemini API.
 
 Use this local configuration, replacing addresses and passwords:
 
 ```dotenv
 SECRET_KEY=replace-with-a-long-random-local-secret
 DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1,192.168.0.107,172.28.144.1
+# LAN-only demo setting. Use explicit hostnames in a deployed environment.
+ALLOWED_HOSTS=*
 CSRF_TRUSTED_ORIGINS=http://192.168.0.107:7000
 USE_X_FORWARDED_HOST=False
 
@@ -169,9 +191,10 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080,http://127.0.0.
 
 OTP_EXPIRY_MINUTES=10
 MONITORING_ENROLLMENT_EXPIRY_MINUTES=15
-MONITORING_INSTALL_URL=http://172.28.144.1:7000/api/monitoring/install.sh
-MONITORING_PUBLIC_BASE_URL=http://172.28.144.1:7000
-MONITORING_SERVER_URL=http://172.28.144.1:7000
+# Non-WSL fallback. The generated command detects and uses the live WSL gateway.
+MONITORING_INSTALL_URL=http://192.168.0.107:7000/api/monitoring/install.sh
+MONITORING_PUBLIC_BASE_URL=http://192.168.0.107:7000
+MONITORING_SERVER_URL=http://192.168.0.107:7000
 MONITORING_CREDENTIAL_OVERLAP_MINUTES=15
 MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES=10485760
 MONITORING_REMOTE_WRITE_MAX_DECOMPRESSED_BYTES=104857600
@@ -189,9 +212,10 @@ GMAIL_REFRESH_TOKEN=
 Gmail is unnecessary for the seeded verified account. Compose overrides the
 host database address with `postgres:5432` inside Django.
 
-The physical phone continues using `http://192.168.0.107:7000/api` in Flutter.
-The three monitoring URLs use the WSL gateway because the installer and Alloy
-run inside WSL. Setting these values now avoids changing `.env` after startup.
+The physical phone uses `http://192.168.0.107:7000/api` in Flutter. The monitoring
+URLs are safe fallbacks for ordinary Linux hosts. On WSL, the generated command
+automatically replaces their host with the current Windows gateway, and the
+backend returns an Alloy configuration using that same verified address.
 
 ## 5. Start the platform
 
@@ -202,7 +226,6 @@ docker compose ps
 Invoke-RestMethod http://127.0.0.1:7000/api/health/live/
 Invoke-RestMethod http://127.0.0.1:7001/health
 Invoke-RestMethod http://192.168.0.107:7000/api/health/live/
-wsl -d Ubuntu -- curl --connect-timeout 5 --max-time 10 -fsS http://172.28.144.1:7000/api/health/live/
 docker compose exec backend python manage.py seed_dummy_engineer
 ```
 
@@ -234,76 +257,15 @@ Inside Ubuntu:
 
 ```bash
 systemctl is-system-running
-curl --connect-timeout 5 --max-time 10 -fsS http://172.28.144.1:7000/api/health/live/
+systemctl is-active docker containerd
 ```
 
-Use the WSL gateway recorded in step 2, not the Windows LAN address used by the
-phone. If both commands succeed, do not change `backend/.env` or recreate the
-backend; continue directly to the Flutter and enrollment steps.
-
-`running` or `degraded` means systemd is available. Otherwise enable it:
-
-This is one-time recovery, not part of a normal lab run. If it is required,
-stop Compose first. After the WSL restart, return to step 2 and repeat address
-discovery, firewall configuration, environment configuration, and startup
-because the WSL source and gateway addresses may have changed.
-
-```bash
-sudo sh -c 'printf "[boot]\nsystemd=true\n" > /etc/wsl.conf'
-exit
-```
-
-Then in PowerShell:
-
-```powershell
-wsl --shutdown
-wsl -d Ubuntu
-```
-
-Reopen Docker Desktop afterward because `wsl --shutdown` stops its WSL backend.
-
-Install load tools inside Ubuntu:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y stress-ng fio sysstat curl
-```
-
-Alloy's cAdvisor collector needs the Docker Engine's local containerd socket.
-Docker Desktop WSL integration exposes the Docker API socket but not
-`/run/containerd/containerd.sock`, so it cannot supply container CPU, memory,
-and disk metrics. In Docker Desktop → Settings → Resources → WSL Integration,
-**disable** integration for `Ubuntu` and apply/restart. Keep Docker Desktop
-running for the Windows backend.
-
-Install a separate native Docker daemon inside Ubuntu for monitored workloads:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y docker.io
-sudo systemctl enable --now containerd docker
-getent group docker || sudo groupadd docker
-sudo usermod -aG docker "$USER"
-exit
-```
-
-Restart only Ubuntu from PowerShell:
-
-This restart is also one-time setup. After it completes, return to step 2 and
-repeat the address-dependent steps before enrolling the server.
-
-```powershell
-wsl --terminate Ubuntu
-wsl -d Ubuntu
-```
-
-Verify the native daemon and required socket:
+If all three services report `running`, `degraded`, or `active`, do not change
+`backend/.env`; continue directly to Flutter and enrollment.
 
 ```bash
 groups
 docker version
-docker info
-systemctl is-active docker containerd
 test -S /run/containerd/containerd.sock && echo "containerd socket ready"
 ```
 
@@ -312,13 +274,8 @@ check must succeed. Do not use `chmod 666` on Docker sockets; membership in the
 `docker` group is already effectively root-equivalent and should be limited to
 the trusted lab user.
 
-If Alloy was enrolled before this change, its configuration remains valid.
-Restart it after native Docker is ready:
-
-```bash
-sudo systemctl restart alloy
-journalctl -u alloy --since "2 minutes ago" --no-pager
-```
+Do not use `chmod 666` on runtime sockets. The hardened installer grants the
+dedicated Alloy user the required Docker and containerd access automatically.
 
 ## 7. Run Flutter on the phone
 
@@ -353,20 +310,46 @@ Organization owners/admins can enroll servers:
 4. Run the command inside Ubuntu WSL2.
 
 The command contains a secret, single-use token that expires after 15 minutes.
-Do not share or commit it.
+Do not share or commit it. Run the generated command exactly as shown; do not
+replace its URLs manually. On WSL it automatically:
+
+1. detects the current Windows gateway from the default route;
+2. downloads the installer with connection limits and retries;
+3. proves Django is reachable before consuming the token;
+4. uses the same working URL for enrollment, callbacks, and remote write;
+5. grants Alloy Docker and containerd socket access; and
+6. safely replaces an older Alloy configuration when the same host is
+   re-enrolled.
+
+The command should contain `ip route show default`, `--connect-timeout`, and
+`--server "$_im_server"`. These confirm the dynamic installer is active.
 
 ```bash
 systemctl status alloy --no-pager
 journalctl -u alloy -n 100 --no-pager
+grep 'url =' /etc/alloy/config.alloy
 ```
 
-Wait 15–30 seconds and refresh Flutter.
+The URL should contain the current WSL gateway rather than the Windows LAN IP.
+There must be no new `Failed to send batch`, `context deadline exceeded`, or
+`containerd.sock: permission denied` messages. Wait 30–60 seconds and refresh
+Flutter.
+
+Confirm ingestion from Windows before continuing:
+
+```powershell
+docker compose logs backend --tail 200 | Select-String "POST /api/metrics/write"
+```
+
+At least one `204` response means Django accepted and forwarded telemetry.
 
 ## 9. Add discoverable services
 
-Inside Ubuntu using Docker Desktop integration:
+Inside Ubuntu using its native Docker engine:
 
 ```bash
+docker network inspect monitor-ml-net >/dev/null 2>&1 || docker network create monitor-ml-net
+
 docker run -d \
   --name demo-metrics \
   --restart unless-stopped \
@@ -378,13 +361,19 @@ docker run -d \
 
 docker run -d \
   --name demo-load \
+  --network monitor-ml-net \
   --restart unless-stopped \
   --label monitoring.enabled=true \
   --label monitoring.service_name=demo-load \
   alpine sleep infinity
 ```
 
-## 10. Generate and compare load
+## 10. Optional metric showcases
+
+If the goal is to test ML and Gemini, do not run these loads yet. Complete the
+quiet-baseline and first-training steps in section 11 first, then return here if
+you also want to demonstrate the host charts. Training on the showcase load
+would make that activity part of the model's baseline.
 
 Run one test at a time with the Flutter server-detail page open. Before starting,
 record the WSL CPU count and a quiet baseline:
@@ -446,11 +435,11 @@ stress-ng --cpu "$(nproc)" --timeout 90s
 
 ### Memory showcase
 
-Show the total first, then allocate 1 GiB:
+Show the total first, then allocate a conservative 256 MiB with OOM avoidance:
 
 ```bash
 free -h
-stress-ng --vm 1 --vm-bytes 1G --vm-keep --timeout 90s
+stress-ng --vm 1 --vm-bytes 256M --vm-keep --oom-avoid --timeout 90s
 ```
 
 In another terminal:
@@ -459,7 +448,7 @@ In another terminal:
 watch -n 1 free -h
 ```
 
-Expected percentage-point increase is approximately `1 GiB / total WSL memory
+Expected percentage-point increase is approximately `256 MiB / total WSL memory
 × 100`. Existing cache and application activity make it approximate. Do not
 allocate most of WSL's memory; that can force swapping and make Windows sluggish.
 
@@ -537,36 +526,133 @@ docker stats --no-stream
 
 WSL reports its Linux environment's resource view, not total Windows usage.
 
-## 11. Test anomaly detection and crash classification
+## 11. Test ML anomaly detection, Gemini, and crash classification
+
+### Establish a quiet baseline and confirm training
 
 Keep `demo-load` running long enough for Alloy to report all six container
 features: CPU, memory, disk read/write, and network in/out. The ML dispatcher
 runs every five minutes and uses only completed five-minute UTC buckets. On the
-first usable run it trains from the preceding 24 hours, saves a per-service
-artifact, and retries inference.
+first usable run it attempts inference, receives `model_not_found`, trains from
+the available data within the preceding 24 hours, saves a per-service artifact,
+and retries inference. Leave `demo-load` idle during this stage.
 
-Find the discovered service UUID and optionally enqueue it immediately:
+Find the `demo-load` service UUID:
 
 ```powershell
-docker compose exec backend python manage.py shell -c "from servers.models import Service; [print(s.service_id, s.display_name) for s in Service.objects.all()]"
+docker compose exec backend python manage.py shell -c "from servers.models import Service; [print(s.service_id, s.display_name) for s in Service.objects.filter(service_name='demo-load')]"
+```
+
+Wait up to ten minutes while watching the first-time flow:
+
+```powershell
+docker compose logs -f ml_service celery_worker
+```
+
+The successful first-time sequence is:
+
+```text
+POST /infer 404
+POST /train 200
+POST /infer 200
+```
+
+Press `Ctrl+C` to stop following logs. If enough telemetry is already present,
+the task can be enqueued immediately:
+
+```powershell
 docker compose exec backend python manage.py shell -c "from ml_model.tasks import orchestrate_service_ml; print(orchestrate_service_ml.delay('SERVICE_UUID').id)"
-docker compose logs --tail 200 celery_worker ml_service
 docker compose exec ml_service ls -la /code/artifacts/SERVICE_UUID
 ```
 
-Missing or incomplete feature rows are deliberately skipped; they are never
-zero-filled or replaced with host metrics. Let the baseline collect for several
-windows, then generate sustained container CPU, disk, and network load using the
-workloads above. Wait until the next five-minute bucket completes and either let
-Celery beat dispatch normally or enqueue the service task again.
+The artifact directory must contain `model.joblib` and `metadata.json`. If it
+already existed from an earlier lab run, `/infer` returns `200` immediately and
+`/train` is correctly skipped. Missing or incomplete feature rows are skipped;
+they are never zero-filled or replaced with host metrics.
+
+### Produce one controlled anomalous service window
+
+Run all pressure inside the monitored `demo-load` container so the model sees
+service-level rather than host-only evidence. First prepare a 64 MiB file and a
+small HTTP server inside that container. Alpine places the `httpd` applet in
+`busybox-extras`, so install it before starting the server:
+
+```bash
+docker exec demo-load apk add --no-cache busybox-extras
+docker exec demo-load sh -c 'killall httpd 2>/dev/null || true; dd if=/dev/zero of=/tmp/ml-net.bin bs=1M count=64; httpd -p 8080 -h /tmp'
+```
+
+Synchronize the start to the next five-minute UTC boundary. This avoids a load
+that straddles two partial inference buckets:
+
+```bash
+wait_seconds=$((300 - $(date -u +%s) % 300))
+if [ "$wait_seconds" -eq 300 ]; then wait_seconds=0; fi
+echo "Waiting ${wait_seconds}s for the next five-minute UTC boundary"
+sleep "$wait_seconds"
+date -u
+```
+
+Immediately start seven minutes of CPU, memory, disk, and network pressure. The
+aligned start ensures at least one complete five-minute bucket is loaded:
+
+```bash
+docker exec -d demo-load sh -c 'timeout 420 sh -c "yes >/dev/null & yes >/dev/null & wait"'
+docker exec -d demo-load sh -c 'dd if=/dev/zero of=/dev/shm/ml-memory.bin bs=1M count=256; sleep 420; rm -f /dev/shm/ml-memory.bin'
+docker exec -d demo-load sh -c 'timeout 420 sh -c "while true; do dd if=/dev/zero of=/tmp/ml-disk.bin bs=1M count=128; sync; dd if=/tmp/ml-disk.bin of=/dev/null bs=1M; done"'
+docker run -d --rm --name demo-traffic-client --network monitor-ml-net alpine sh -c 'timeout 420 sh -c "while true; do wget -q -O /dev/null http://demo-load:8080/ml-net.bin; done"'
+docker stats demo-load
+```
+
+Use `128` instead of `256` for the memory file if WSL has limited memory. Exit
+`docker stats` with `Ctrl+C`; the detached load continues. After seven minutes,
+enqueue the service once so the just-completed bucket is evaluated without
+waiting for the next periodic dispatch:
+
+```powershell
+docker compose exec backend python manage.py shell -c "from ml_model.tasks import orchestrate_service_ml; print(orchestrate_service_ml.delay('SERVICE_UUID').id)"
+docker compose logs --since 15m ml_service celery_worker
+```
+
+The ML log should show `POST /infer ... 200`. Verify the actual stored decision,
+not merely that the endpoint ran:
+
+```powershell
+docker compose exec backend python manage.py shell -c "from ml_model.models import AnomalyDetection as A; [print(x.service_id_id, x.is_anomaly, round(x.anomaly_score, 4), x.window_started_at, x.window_ended_at) for x in A.objects.order_by('-detected_at')[:10]]"
+```
+
+For `demo-load`, `True` is the successful anomaly-detection result. Isolation
+Forest is statistical, so `False` is a valid normal decision rather than a
+pipeline failure. If the first loaded window is normal, let the same combined
+load cover another complete window and repeat the enqueue/check. Do not retrain:
+the point is to compare loaded windows against the quiet model.
 
 Refresh the phone. An anomalous window appears as a warning under **Overview →
 Needs Attention** and **Server Detail → Anomaly History**, with the message
-“Unusual service behaviour; crash not confirmed.” Isolation Forest can classify
-the generated load as normal, especially with a short baseline, so several
-completed baseline/load windows may be needed.
+“Unusual service behaviour; crash not confirmed.” **Needs Attention remains
+empty until a stored detection has `is_anomaly=true`; ordinary server metrics
+and normal inference results are not shown there.**
 
-Finally stop the monitored container:
+### Ask Gemini about the anomaly
+
+1. Expand the warning under **Overview → Needs Attention** or **Server Detail →
+   Anomaly History**.
+2. Tap **Ask AI**. The app opens the AI tab with that anomaly selected.
+3. Confirm the banner says **AI advice — crash not confirmed** and the six
+   stored metrics match the anomaly card.
+4. Tap **What should I check first?** and send it. The response should appear
+   incrementally rather than all at once.
+5. Move to another tab, return to AI, select the same anomaly, and confirm the
+   saved conversation reloads.
+
+Flutter derives `ws://<WINDOWS_LAN_IP>:7000/ws/...` from the same
+`API_BASE_URL` used for HTTP. Do not add a second phone port or hard-code a WSL
+address. The existing Windows Firewall rule for TCP 7000 carries both HTTP and
+WebSocket traffic.
+
+### Verify that a crash remains a separate lifecycle incident
+
+Only after testing Gemini, stop the monitored container:
 
 ```bash
 docker stop demo-load
@@ -582,7 +668,8 @@ service lifecycle.
 Log out of Flutter. Inside Ubuntu:
 
 ```bash
-docker rm -f demo-metrics demo-load
+docker rm -f demo-traffic-client demo-metrics demo-load 2>/dev/null || true
+docker network rm monitor-ml-net 2>/dev/null || true
 sudo systemctl stop alloy
 ```
 
@@ -678,21 +765,43 @@ script never deletes general VirtualBox VM folders.
 
 - Phone failure: confirm exact phone IP/rule, same non-guest subnet, no VPN, and
   no router client isolation.
-- WSL failure: run `hostname -I` and recreate its exact-IP rule if it changed.
+- WSL failure: confirm the generated command contains `ip route show default`;
+  create a fresh enrollment and run it unchanged. The WSL NAT firewall rule does
+  not need an exact address update.
 - Flutter failure: confirm `frontend/.env` includes `/api`, then rebuild.
-- Enrollment failure: confirm WSL can curl Django and generate a fresh token.
-- Missing metrics: check Alloy logs and `docker compose ps`, then wait two
+- Enrollment failure: use a fresh token. The installer checks the dynamically
+  detected gateway before consuming it and prints a bounded error instead of
+  hanging.
+- Missing metrics: run `grep 'url =' /etc/alloy/config.alloy` and inspect Alloy
+  logs. If the URL or permissions are from an older installation, create and
+  run a new enrollment for the same hostname; re-enrollment rotates the
+  credential and replaces the configuration automatically. Then wait two
   scrape cycles.
 - Missing ML features: confirm the target is a discovered container service and
   all six service-level series exist. Host metrics and partial rows are rejected.
 - Missing artifact: inspect `celery_worker` and `ml_service` logs, verify at
-  least one complete feature row exists, then enqueue the service task again.
+  least two complete one-minute feature rows exist, then enqueue the service
+  task again.
 - Unauthorized ML calls: ensure `ML_SERVICE_TOKEN` is identical in
   `backend/.env` and `model/.env`, then recreate `backend`, `celery_worker`, and
   `ml_service` so they reload it.
 - Celery inactivity: verify Redis is healthy and both `celery_worker` and
   `celery_beat` are running; inspect their logs for broker or task errors.
-- Normal-only inference: collect more baseline windows and sustain load through
-  a full completed five-minute bucket. A test is not guaranteed to be anomalous.
+- Normal-only inference: confirm the artifact was trained during the quiet
+  baseline, then repeat the combined controlled load through another complete
+  five-minute bucket. A statistical test is not guaranteed to be anomalous.
 - Phone does not update: pull to refresh, check the polling preference, and
   confirm the phone can still reach the Windows LAN address on port 7000.
+- Gemini not configured: set `GEMINI_API_KEY` in `backend/.env`, then run
+  `docker compose up -d --build backend`; never put the key in Flutter.
+- Gemini model/key error: inspect `docker compose logs --tail 200 backend`,
+  confirm `GEMINI_MODEL=gemini-3.7-flash`, API-key validity/quota, and Docker
+  outbound internet access.
+- Assistant disconnected: tap **Reconnect**. A new one-time ticket is issued
+  and HTTP history is reloaded; an expired ticket is never reused.
+- Phone HTTP works but chat does not: confirm the backend is running Daphne,
+  the URL starts with `/ws/`, and no proxy/firewall is stripping WebSocket
+  upgrades on port 7000.
+- No AI context: the assistant intentionally lists only `is_anomaly=true`
+  detections. Normal inference windows and lifecycle-only incidents are not
+  chatbot contexts.

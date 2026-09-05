@@ -121,7 +121,7 @@ def evaluate_service(service_id, now=None):
     now = now or timezone.now()
     with transaction.atomic():
         service = (
-            Service.objects.select_for_update()
+            Service.objects.select_for_update(of=("self",))
             .select_related("server_id__organization", "server_id__monitoring_connection")
             .get(service_id=service_id)
         )
@@ -147,7 +147,7 @@ def record_explicit_health(service_id, healthy, now=None):
     now = now or timezone.now()
     with transaction.atomic():
         service = (
-            Service.objects.select_for_update()
+            Service.objects.select_for_update(of=("self",))
             .select_related("server_id__organization")
             .get(service_id=service_id)
         )

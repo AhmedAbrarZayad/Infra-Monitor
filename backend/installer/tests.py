@@ -51,6 +51,7 @@ class InternalMonitoringApiTests(TestCase):
             "os": "ubuntu",
             "architecture": "amd64",
             "docker_available": True,
+            "server_url": "http://172.28.144.1:7000",
         }
         payload.update(payload_overrides)
         response = self.client.post(
@@ -78,8 +79,16 @@ class InternalMonitoringApiTests(TestCase):
         self.assertIn("monitoring_metrics_port", response.data["config"])
         self.assertIn("monitoring_metrics_path", response.data["config"])
         self.assertIn("monitoring_service_name", response.data["config"])
-        self.assertEqual(response.data["ingestion_url"], "https://monitor.example/api/metrics/write")
-        self.assertTrue(VictoriaMetricsTenant.objects.filter(organization=self.organization).exists())
+        self.assertEqual(
+            response.data["ingestion_url"], "http://172.28.144.1:7000/api/metrics/write"
+        )
+        self.assertIn(
+            'url = "http://172.28.144.1:7000/api/metrics/write"',
+            response.data["config"],
+        )
+        self.assertTrue(
+            VictoriaMetricsTenant.objects.filter(organization=self.organization).exists()
+        )
 
     def test_host_only_enrollment_omits_docker_components(self):
         _, response = self.enroll(hostname="host-only", docker_available=False)
@@ -91,7 +100,12 @@ class InternalMonitoringApiTests(TestCase):
     def test_expired_and_replayed_enrollment_tokens_are_rejected(self):
         expired, token = self.create_enrollment(expires_at=timezone.now() - timedelta(seconds=1))
         payload = {"token": token, "hostname": "expired", "os": "ubuntu", "architecture": "amd64"}
-        self.assertEqual(self.client.post("/api/internal/monitoring/enroll/", payload, format="json").status_code, 401)
+        self.assertEqual(
+            self.client.post(
+                "/api/internal/monitoring/enroll/", payload, format="json"
+            ).status_code,
+            401,
+        )
         expired.refresh_from_db()
         self.assertEqual(expired.stage, EnrollmentToken.Stage.EXPIRED)
 
@@ -103,25 +117,48 @@ class InternalMonitoringApiTests(TestCase):
             "architecture": "amd64",
         }
         self.assertEqual(
-            self.client.post("/api/internal/monitoring/enroll/", fresh_payload, format="json").status_code,
+            self.client.post(
+                "/api/internal/monitoring/enroll/", fresh_payload, format="json"
+            ).status_code,
             201,
         )
         self.assertEqual(
-            self.client.post("/api/internal/monitoring/enroll/", fresh_payload, format="json").status_code,
+            self.client.post(
+                "/api/internal/monitoring/enroll/", fresh_payload, format="json"
+            ).status_code,
             401,
         )
 
-    def test_hostname_collision_does_not_consume_token(self):
-        Servers.objects.create(
+    def test_existing_hostname_is_safely_reenrolled(self):
+        server = Servers.objects.create(
             organization=self.organization,
             name="Existing",
             host_name="api-01",
             environment="production",
         )
         enrollment, response = self.enroll()
-        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.status_code, 201)
         enrollment.refresh_from_db()
-        self.assertIsNone(enrollment.consumed_at)
+        self.assertIsNotNone(enrollment.consumed_at)
+        self.assertEqual(response.data["server_id"], server.server_id)
+        self.assertEqual(
+            Servers.objects.filter(
+                organization=self.organization,
+                host_name="api-01",
+            ).count(),
+            1,
+        )
+
+    def test_reenrollment_rotates_the_active_write_credential(self):
+        _, first = self.enroll()
+        old_credential = first.data["credential"]
+
+        _, second = self.enroll()
+
+        self.assertEqual(second.status_code, 201, second.data)
+        self.assertEqual(second.data["server_id"], first.data["server_id"])
+        self.assertIsNone(MonitoringCredentialService.verify(old_credential))
+        self.assertIsNotNone(MonitoringCredentialService.verify(second.data["credential"]))
 
     def test_status_callback_requires_matching_credential_and_bounded_stage(self):
         enrollment, response = self.enroll()
@@ -186,7 +223,9 @@ class InternalMonitoringApiTests(TestCase):
         self.assertEqual(labels["organization_id"], str(self.organization.id))
         self.assertEqual(labels["server_id"], str(response.data["server_id"]))
         self.assertNotIn("vm_account_id", labels)
-        service = Service.objects.get(server_id_id=response.data["server_id"], service_name="payments-api")
+        service = Service.objects.get(
+            server_id_id=response.data["server_id"], service_name="payments-api"
+        )
         self.assertEqual(labels["service_id"], str(service.service_id))
         self.assertEqual(service.port, 8000)
 
@@ -209,7 +248,9 @@ class InternalMonitoringApiTests(TestCase):
         )
         self.assertEqual(repeated.status_code, 204)
         self.assertEqual(
-            Service.objects.filter(server_id_id=response.data["server_id"], service_name="payments-api").count(),
+            Service.objects.filter(
+                server_id_id=response.data["server_id"], service_name="payments-api"
+            ).count(),
             1,
         )
 

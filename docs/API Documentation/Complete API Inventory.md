@@ -106,7 +106,7 @@ There is deliberately no “switch organization” API. Flutter persists the sel
 
 | Status | Method and path | Permission | Purpose and key contract | Consumer / dependency |
 | --- | --- | --- | --- | --- |
-| `EXISTING` | `GET /api/organizations/{organization_id}/overview/?environment=` | Approved member | Returns `server_count`, `open_incident_count`, `updated_at`, fleet status counts, critical/high incident summaries, attention items, recent alerts, platform-health items, and the five latest tenant-owned anomalous detections as `recent_anomalies`. | Overview page; ML detections are warning evidence, not incidents. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/overview/?environment=` | Approved member | Returns `server_count`, `open_incident_count`, `updated_at`, fleet status counts, critical/high incident summaries, recent alerts, platform-health items, and the five latest tenant-owned anomalous detections as `recent_anomalies`. The legacy `attention_items` key remains empty for compatibility. | Overview page; Needs Attention contains only ML detections where `is_anomaly=true`, and those warnings are evidence rather than incidents. |
 
 The overview is intentionally one aggregate endpoint. Separate server, alert, and incident endpoints remain the sources for drill-down screens, but making the mobile client assemble the dashboard would cause inconsistent timestamps and excessive requests.
 
@@ -174,28 +174,23 @@ Current blockers: incidents lack a direct organization field and can lose inferr
 
 The aggregate endpoint is the v1 choice because the current page renders all panels together. More granular analytics endpoints should be introduced only if independent refresh or materially different retention requires them.
 
-### 4.9 AI analyses and Gemini assistant
+### 4.9 Gemini anomaly assistant
 
 | Status | Method and path | Permission | Purpose and key contract | Consumer / dependency |
 | --- | --- | --- | --- | --- |
-| `MISSING` | `GET /api/organizations/{organization_id}/incidents/{incident_id}/analysis/` | Approved member | Returns latest summary, explanation, confidence, ranked root causes, recommendations, findings, generation time, and model/provider metadata safe for display. | Incident detail and assistant context. |
-| `MISSING` | `POST /api/organizations/{organization_id}/incidents/{incident_id}/analysis/` | Owner or admin | Enqueues or refreshes an analysis and returns `202` with job/reference state; idempotency prevents duplicate work. | Future explicit re-analysis action; automatic analysis remains internal. |
-| `MISSING` | `PATCH /api/organizations/{organization_id}/incidents/{incident_id}/recommendations/{recommendation_id}/` | Assignee, owner, or admin | Input completion state; returns updated recommendation. | Future recommendation checklist. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/context/?incident_id=` | Approved member | Returns selectable incident summaries, selected title, authorized evidence preview, and suggested prompts. | Current AI Assistant page. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/conversations/?incident_id=&page=` | Approved member | Lists only the caller’s conversations with title, incident reference, and timestamps. | Conversation history. |
-| `MISSING` | `POST /api/organizations/{organization_id}/assistant/conversations/` | Approved member | Input optional incident UUID/title; creates a caller-owned conversation after tenant validation. | Start chat. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/` | Conversation owner | Returns conversation metadata and incident context. | Restore chat. |
-| `MISSING` | `DELETE /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/` | Conversation owner | Deletes or archives conversation history according to retention policy. | Future history management. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/messages/?page=` | Conversation owner | Paginated user/assistant messages, safe evidence citations, and timestamps. | Chat history. |
-| `MISSING` | `POST /api/organizations/{organization_id}/assistant/websocket-tickets/` | Approved member, throttled | Input conversation UUID; returns a single-use, short-lived ticket bound to user, organization, and conversation. | Authenticates Flutter Web and mobile socket connections without putting a JWT in the URL. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/assistant/context/?anomaly_id=` | Approved member | Latest 20 anomalous detections plus selected stored feature evidence and lifecycle context. | AI tab and anomaly “Ask AI” actions. |
+| `EXISTING` | `POST /api/organizations/{organization_id}/assistant/conversations/` | Approved member | Input `anomaly_id`; idempotently creates or resumes one caller-owned thread per anomaly. | Start or restore anomaly chat. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/messages/?limit=` | Conversation owner | Canonical persisted user/assistant transcript. | Reconnect and history recovery. |
+| `EXISTING` | `POST /api/organizations/{organization_id}/assistant/websocket-tickets/` | Approved member, throttled | Input conversation UUID; returns a hashed-at-rest, single-use 60-second ticket and socket path. | Authenticates Flutter sockets without exposing JWTs. |
+| `DEFERRED` | Incident analysis, general chat, multiple threads, and deletion APIs | — | Deliberately outside the school-project MVP. | No current UI. |
 
 #### WebSocket contract
 
 | Status | Socket path | Permission | Purpose and key contract | Consumer / dependency |
 | --- | --- | --- | --- | --- |
-| `MISSING` | `WSS /ws/organizations/{organization_id}/assistant/conversations/{conversation_id}/?ticket={ticket}` | Single-use socket ticket + conversation owner | Bidirectional Gemini chat. Client sends `user_message` with `client_message_id` and text. Server emits `message_ack`, `generation_started`, `token_delta`, `citation`, `generation_completed`, and safe `generation_error` events. | AI Assistant live chat; Django Channels/ASGI and a channel layer are required. |
+| `EXISTING` | `WS(S) /ws/organizations/{organization_id}/assistant/conversations/{conversation_id}/?ticket={ticket}` | Single-use socket ticket + conversation owner | Client sends `user_message`; Django emits acknowledgement, streaming token, citation, completion, and safe error events. | Flutter AI tab through Django Channels/Daphne. |
 
-User and completed assistant messages are persisted before acknowledgement/completion. After reconnect, Flutter obtains a new ticket and recovers the canonical transcript through the HTTP messages endpoint; it does not request replay over the socket. Gemini is an implementation detail. Prompts and citations must be assembled only from organization-filtered incidents, logs, metrics, analyses, and evidence. The current AI models lack direct organization ownership; conversation scoping must be guaranteed through an immutable organization relation and validated incident parent before chat is exposed.
+User and completed assistant messages are persisted before acknowledgement/completion. Reconnect obtains a new ticket and reloads HTTP history. Gemini receives only authorized stored anomaly evidence and recent messages. It cannot create incidents, modify lifecycle state, execute commands, or treat an anomaly as proof of a crash.
 
 ## 5. Internal service APIs
 
@@ -207,7 +202,7 @@ These endpoints are for operations, workers, and controlled development tooling.
 
 | Status | Method and path | Authorization | Purpose and key contract | Dependency |
 | --- | --- | --- | --- | --- |
-| `MISSING` | `POST /api/organizations/{organization_id}/monitoring/enrollments/` | Owner or admin + verified email | Input server display name, environment, and safe installation options; returns enrollment UUID, single-use token, expiry, and generated install command. | Enrollment persistence and secure token hashing. |
+| `EXISTING` | `POST /api/organizations/{organization_id}/monitoring/enrollments/` | Owner or admin + verified email | Input server display name and environment; returns enrollment UUID, single-use token, expiry, and a generated command that dynamically resolves the Windows gateway under WSL. | Enrollment persistence and secure token hashing. |
 | `MISSING` | `GET /api/organizations/{organization_id}/monitoring/enrollments/?state=&page=` | Owner or admin | Lists pending, connected, expired, cancelled, and failed enrollments without returning token or permanent credential material. | Connect-infrastructure UI and recovery. |
 | `EXISTING` | `GET /api/organizations/{organization_id}/monitoring/enrollments/{enrollment_id}/` | Owner or admin | Polls coarse installer stage, expiry, server UUID, first-metric state, sanitized failure, and connection state; cross-organization IDs return `404`. | Flutter connection progress. |
 | `EXISTING` | `DELETE /api/organizations/{organization_id}/monitoring/enrollments/{enrollment_id}/` | Owner or admin | Soft-cancels an incomplete enrollment, invalidates its token, and revokes partially issued credentials; connected/expired cancellation conflicts. | Flutter cancel action. |
@@ -221,11 +216,17 @@ These endpoints are for operations, workers, and controlled development tooling.
 | --- | --- | --- | --- | --- |
 | `INTERNAL` | `GET /api/monitoring/install.sh` | Public, rate-limited | Returns the versioned Linux installer; production releases are signed and immutable. | Installer distribution/CDN. |
 | `INTERNAL` | `GET /api/monitoring/install.sh.sha256` | Public, rate-limited | Returns the checksum for the exact installer release. | Supply-chain verification. |
-| `INTERNAL` | `POST /api/internal/monitoring/enroll/` | Single-use enrollment token | Transactionally consumes the token, derives organization ownership, creates the server and scoped write credential, and returns server UUID, ingestion URL, and Alloy configuration. | Organization-owned server, hashed credential, generated HCL. |
+| `INTERNAL` | `POST /api/internal/monitoring/enroll/` | Single-use enrollment token | Transactionally consumes the token, derives organization ownership, creates or safely re-enrolls the server, rotates its write credential, and returns an Alloy configuration using the installer-verified callback address. | Organization-owned server, hashed credential, generated HCL. |
 | `INTERNAL` | `POST /api/internal/monitoring/enrollments/{enrollment_id}/status/` | Server write credential | Accepts bounded installer stages and sanitized errors only when credential and enrollment server match. | Flutter polling state; metric arrival remains authoritative. |
 | `INTERNAL` | `POST /api/metrics/write` | Server write credential | Accepts Prometheus `remote_write`; the gateway resolves the trusted tenant from the credential, overwrites identity labels, and routes to `/insert/{account_id}:{project_id}/prometheus/api/v1/write`. | Later VictoriaMetrics cluster plus vmauth/dedicated gateway; Django is not the payload proxy. |
 
 Enrollment automatically creates servers. Alloy host/cAdvisor telemetry and labeled application endpoints automatically upsert services using stable discovered identity. Docker is optional for host monitoring. Missing containers transition to `OFFLINE`/`STALE` rather than being deleted. The current repository still uses central Prometheus; VictoriaMetrics cluster and vmauth are proposed later dependencies, not existing components.
+
+For the WSL school lab, the generated enrollment command discovers the current
+Windows gateway at execution time and uses that verified address for installer
+download, callbacks, and remote write. Re-enrolling the same organization and
+hostname rotates its write credential and replaces the Alloy configuration
+without creating a duplicate server.
 
 ### 5.2 ML training, models, inference, and correlation
 
@@ -311,9 +312,9 @@ The existing `AnomalyDetection` model stores scores and feature values but not t
 | “Acknowledge all critical” | Missing bulk incident acknowledgement |
 | “Assign to me” | Missing self-assignment endpoint |
 | Analytics metrics and charts | Missing analytics aggregate |
-| AI incident selector, evidence and suggested prompts | Missing assistant context and incident evidence APIs |
+| AI anomaly selector, evidence and suggested prompts | Implemented anomaly-assistant context API |
 | ML warm-up/training visibility | Missing organization/service ML readiness APIs |
-| AI prompt send and streamed response | Missing conversation/history, WebSocket-ticket, and organization-scoped chat socket contracts |
+| AI prompt send and streamed response | Implemented persistent conversation/history, one-time ticket, and organization-scoped WebSocket contracts |
 
 The operational frontend data sources currently return hard-coded data. No registered operational backend endpoint is available to replace them yet.
 
@@ -326,7 +327,7 @@ Before organization-scoped operational APIs are exposed:
 3. Audit early UUID fields for automatic generation and early lifecycle timestamps for correct nullability/server management.
 4. Define stable status/severity/environment vocabularies shared by serializers, Prometheus normalization, ML features, and Flutter.
 5. Add durable schemas for enrollments, hashed server credentials, VictoriaMetrics tenant mappings, training/inference/correlation jobs, dataset lineage, model registry/versioning, readiness, and worker health.
-6. Guarantee AI conversation tenancy and define retention/deletion policy before Gemini chat is exposed.
+6. AI anomaly conversations now carry direct organization ownership and one-thread-per-user/anomaly uniqueness; deletion and incident analysis remain deferred.
 7. Keep the current Prometheus development stack operational while treating VictoriaMetrics cluster plus vmauth/dedicated ingestion gateway as a later data-plane dependency.
 
 These changes are not part of this inventory task.
@@ -337,7 +338,7 @@ These changes are not part of this inventory task.
 2. **Operational actions and dashboards:** implement incident/alert actions, Overview, and Analytics using the same scoped query services.
 3. **Exporter enrollment and ingestion (user-owned):** build installation, enrollment, credentials, edge-push collection, trusted tenant routing, discovery, and connection reporting.
 4. **ML pipeline (user-owned):** introduce 72-hour readiness, dataset/model/job lineage, weekly retraining, activation, continuous inference, and idempotent incident correlation.
-5. **Gemini workflows (user-owned):** implement incident analysis, evidence-safe context, conversations, persisted messages, WebSocket tickets, streamed socket events, and HTTP reconnect recovery.
+5. **Gemini anomaly assistant (implemented MVP):** authorized stored anomaly evidence, one persistent thread per user/anomaly, one-time tickets, Django WebSocket streaming, and HTTP reconnect recovery. Incident analysis remains deferred.
 6. **Remaining account/administration work:** decide preference persistence, then add preferences and deferred organization/infrastructure management only where the product needs them.
 
 Every slice should include cross-organization isolation tests, permission-matrix tests, conflict/idempotency tests, serializer tests, and matching Flutter repository/parsing/state tests before replacing its dummy data source.

@@ -39,15 +39,6 @@ class IncidentSummary {
   final String? footer;
 }
 
-class AttentionItem {
-  const AttentionItem(this.label, this.resource, this.value, this.severity);
-
-  final String label;
-  final String resource;
-  final String value;
-  final Severity? severity;
-}
-
 class AlertItem {
   const AlertItem({
     required this.severity,
@@ -81,7 +72,6 @@ class OverviewDashboard {
     required this.fleetMetrics,
     required this.criticalIncidents,
     required this.highIncidents,
-    required this.attentionItems,
     required this.recentAnomalies,
     required this.alerts,
     required this.healthItems,
@@ -93,7 +83,6 @@ class OverviewDashboard {
   final List<FleetMetric> fleetMetrics;
   final List<IncidentSummary> criticalIncidents;
   final List<IncidentSummary> highIncidents;
-  final List<AttentionItem> attentionItems;
   final List<AnomalyDetection> recentAnomalies;
   final List<AlertItem> alerts;
   final List<HealthItem> healthItems;

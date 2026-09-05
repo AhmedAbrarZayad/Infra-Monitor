@@ -8,6 +8,8 @@ httpx
 protobuf
 python-snappy
 celery[redis]
+channels[daphne]
+google-genai
 google-auth
 google-auth-oauthlib
 google-auth-httplib2

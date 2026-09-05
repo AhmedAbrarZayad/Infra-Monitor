@@ -35,7 +35,9 @@ def _invalid_enrollment():
     )
 
 
-def _public_metrics_url(request):
+def _public_metrics_url(request, reported_server_url=""):
+    if reported_server_url:
+        return f"{reported_server_url.rstrip('/')}/api/metrics/write"
     base_url = getattr(settings, "MONITORING_PUBLIC_BASE_URL", "").rstrip("/")
     if base_url:
         return f"{base_url}/api/metrics/write"
@@ -78,54 +80,92 @@ class InternalEnrollmentView(APIView):
                         enrollment.save(update_fields=["stage", "updated_at"])
                     return _invalid_enrollment()
 
-                if Servers.objects.filter(
-                    organization=enrollment.organization,
-                    host_name=payload["hostname"],
-                ).exists():
-                    return Response(
-                        {
-                            "detail": "A server with this hostname is already registered.",
-                            "code": "hostname_already_registered",
-                        },
-                        status=status.HTTP_409_CONFLICT,
+                server = (
+                    Servers.objects.select_for_update()
+                    .filter(
+                        organization=enrollment.organization,
+                        host_name=payload["hostname"],
                     )
-
-                server = Servers.objects.create(
-                    organization=enrollment.organization,
-                    name=enrollment.server_name,
-                    host_name=payload["hostname"],
-                    environment=enrollment.environment,
-                    os_type=payload["os"],
-                    status=Servers.Status.UNKNOWN,
-                    registered_by=enrollment.created_by,
-                    agent_config={
-                        "architecture": payload["architecture"],
-                        "collector": "alloy",
-                        "docker_available": payload["docker_available"],
-                    },
+                    .first()
                 )
-                connection = MonitoringConnection.objects.create(
-                    server=server,
-                    collector="alloy",
-                    status=MonitoringConnection.Status.PENDING,
-                    ingestion_health=MonitoringConnection.IngestionHealth.UNKNOWN,
-                )
-                VictoriaMetricsTenant.objects.get_or_create(
-                    organization=enrollment.organization
-                )
+                agent_config = {
+                    "architecture": payload["architecture"],
+                    "collector": "alloy",
+                    "docker_available": payload["docker_available"],
+                }
+                if server is None:
+                    server = Servers.objects.create(
+                        organization=enrollment.organization,
+                        name=enrollment.server_name,
+                        host_name=payload["hostname"],
+                        environment=enrollment.environment,
+                        os_type=payload["os"],
+                        status=Servers.Status.UNKNOWN,
+                        registered_by=enrollment.created_by,
+                        agent_config=agent_config,
+                    )
+                    connection = MonitoringConnection.objects.create(
+                        server=server,
+                        collector="alloy",
+                    )
+                else:
+                    server.name = enrollment.server_name
+                    server.environment = enrollment.environment
+                    server.os_type = payload["os"]
+                    server.status = Servers.Status.UNKNOWN
+                    server.registered_by = enrollment.created_by
+                    server.agent_config = agent_config
+                    server.save(
+                        update_fields=[
+                            "name",
+                            "environment",
+                            "os_type",
+                            "status",
+                            "registered_by",
+                            "agent_config",
+                        ]
+                    )
+                    connection, _ = MonitoringConnection.objects.get_or_create(
+                        server=server,
+                        defaults={"collector": "alloy"},
+                    )
+                    MonitoringCredentialService.revoke_all(connection)
+                    connection.collector = "alloy"
+                    connection.status = MonitoringConnection.Status.PENDING
+                    connection.ingestion_health = MonitoringConnection.IngestionHealth.UNKNOWN
+                    connection.disconnected_at = None
+                    connection.disconnected_by = None
+                    connection.save(
+                        update_fields=[
+                            "collector",
+                            "status",
+                            "ingestion_health",
+                            "disconnected_at",
+                            "disconnected_by",
+                            "updated_at",
+                        ]
+                    )
+                VictoriaMetricsTenant.objects.get_or_create(organization=enrollment.organization)
                 _, raw_credential = MonitoringCredentialService.issue(
                     connection,
                     actor=enrollment.created_by,
                 )
 
+                # EnrollmentToken.server is currently one-to-one. Preserve old
+                # enrollment audit rows while moving the live server link to
+                # the newest successful re-enrollment.
+                EnrollmentToken.objects.filter(server=server).exclude(id=enrollment.id).update(
+                    server=None
+                )
                 enrollment.server = server
                 enrollment.consumed_at = now
                 enrollment.stage = EnrollmentToken.Stage.INSTALLING
-                enrollment.save(
-                    update_fields=["server", "consumed_at", "stage", "updated_at"]
-                )
+                enrollment.save(update_fields=["server", "consumed_at", "stage", "updated_at"])
 
-                ingestion_url = _public_metrics_url(request)
+                ingestion_url = _public_metrics_url(
+                    request,
+                    payload.get("server_url", ""),
+                )
                 alloy_config = generate_alloy_config(
                     ingestion_url=ingestion_url,
                     organization_id=enrollment.organization_id,
@@ -187,7 +227,10 @@ class InstallerStatusView(APIView):
                 EnrollmentToken.Stage.CANCELLED,
             }:
                 return Response(
-                    {"detail": "Enrollment is no longer installable.", "code": "enrollment_terminal"},
+                    {
+                        "detail": "Enrollment is no longer installable.",
+                        "code": "enrollment_terminal",
+                    },
                     status=409,
                 )
 
@@ -201,9 +244,7 @@ class InstallerStatusView(APIView):
             )
             enrollment.failure_code = payload.get("failure_code", "")
             enrollment.failure_message = "".join(
-                character
-                for character in payload.get("message", "")
-                if character.isprintable()
+                character for character in payload.get("message", "") if character.isprintable()
             )
             enrollment.save(
                 update_fields=[
@@ -244,8 +285,12 @@ class MetricsWriteView(APIView):
                 status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             )
 
-        compressed_limit = getattr(settings, "MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES", 10 * 1024 * 1024)
-        decompressed_limit = getattr(settings, "MONITORING_REMOTE_WRITE_MAX_DECOMPRESSED_BYTES", 100 * 1024 * 1024)
+        compressed_limit = getattr(
+            settings, "MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES", 10 * 1024 * 1024
+        )
+        decompressed_limit = getattr(
+            settings, "MONITORING_REMOTE_WRITE_MAX_DECOMPRESSED_BYTES", 100 * 1024 * 1024
+        )
         content_length = request.headers.get("Content-Length")
         if content_length and content_length.isdigit() and int(content_length) > compressed_limit:
             return Response({"detail": "Remote write payload is too large."}, status=413)
@@ -270,9 +315,7 @@ class MetricsWriteView(APIView):
 
         credential = request.auth
         server = credential.connection.server
-        tenant = VictoriaMetricsTenant.objects.filter(
-            organization=server.organization
-        ).first()
+        tenant = VictoriaMetricsTenant.objects.filter(organization=server.organization).first()
         if tenant is None:
             return Response({"detail": "Metrics tenant is not configured."}, status=503)
 
@@ -302,10 +345,11 @@ class MetricsWriteView(APIView):
             service_ids=service_ids,
         )
         forwarded = snappy.compress(write_request.SerializeToString())
-        base_url = getattr(settings, "VICTORIAMETRICS_INSERT_URL", "http://vminsert:8480").rstrip("/")
+        base_url = getattr(settings, "VICTORIAMETRICS_INSERT_URL", "http://vminsert:8480").rstrip(
+            "/"
+        )
         upstream_url = (
-            f"{base_url}/insert/{tenant.account_id}:{tenant.project_id}"
-            "/prometheus/api/v1/write"
+            f"{base_url}/insert/{tenant.account_id}:{tenant.project_id}/prometheus/api/v1/write"
         )
         headers = {
             "Content-Type": "application/x-protobuf",

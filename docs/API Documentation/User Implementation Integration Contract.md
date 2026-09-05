@@ -80,12 +80,14 @@ The future VictoriaMetrics adapter must preserve the database adapter behavior:
 See [ML Service Architecture](../ML%20Architecture.md) for the runtime topology,
 data ownership, workflow, and failure contract.
 
-## AI handoff
+## Gemini anomaly-assistant handoff
 
-- Gemini reads incidents/evidence only through organization-scoped services after rechecking the active membership and conversation owner.
-- Missing analysis is `null`, displayed as “Not analyzed”; it is never replaced by placeholder confidence.
+- Gemini reads only a selected organization-owned anomalous detection, its stored six service metrics, lifecycle context, and the caller's recent messages.
+- Each user has one persistent conversation per anomaly; cross-user and cross-organization access is rejected.
 - Persist user messages before socket acknowledgement and completed assistant messages before completion events.
-- Citations identify authorized evidence records without exposing secrets, credentials, unrestricted logs, provider errors, or cross-tenant identifiers.
+- Socket tickets are single-use, expire after 60 seconds, and are stored only as hashes.
+- Citations identify authorized evidence without exposing secrets, credentials, provider errors, or cross-tenant records.
+- Gemini advice never creates incidents, changes lifecycle state, executes commands, or confirms a crash from ML evidence alone.
 
 ## Acceptance checks
 

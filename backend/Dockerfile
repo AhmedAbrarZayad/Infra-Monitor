@@ -22,4 +22,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "/venv/bin/python manage.py migrate && /venv/bin/python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "/venv/bin/python manage.py migrate && /venv/bin/daphne -b 0.0.0.0 -p 8000 infra_monitor.asgi:application"]

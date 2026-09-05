@@ -13,7 +13,7 @@ from incident.presenters import present_incident
 from ml_model.models import AnomalyDetection
 from ml_model.presenters import present_anomaly
 from servers.models import Servers
-from servers.presenters import latest_metric, metric_history
+from servers.presenters import metric_history
 from servers.services import InvalidMetricError
 
 
@@ -31,29 +31,6 @@ class OverviewView(APIView):
             .select_related("server_id", "service_id")
             .order_by("-detected_at")[:5]
         )
-        attention_items = []
-        for code, label in [
-            ("cpu_r", "HIGHEST CPU"),
-            ("mem_u", "HIGHEST MEMORY"),
-            ("disk_u", "HIGHEST DISK"),
-        ]:
-            candidates = []
-            for server in servers:
-                metric = latest_metric(server, code)["point"]
-                if metric and metric["unit"].lower() in {"percent", "%", "percentage"}:
-                    candidates.append((metric["value"], server, metric))
-            if candidates:
-                value, server, metric = max(candidates, key=lambda item: item[0])
-                severity = "CRITICAL" if value >= 90 else "WARNING" if value >= 70 else "INFO"
-                attention_items.append(
-                    {
-                        "label": label,
-                        "resource": server.name,
-                        "value": value,
-                        "unit": metric["unit"],
-                        "severity": severity,
-                    }
-                )
         return Response(
             {
                 "server_count": servers.count(),
@@ -69,7 +46,9 @@ class OverviewView(APIView):
                 "high_incidents": [
                     present_incident(item) for item in incidents.filter(severity="HIGH")[:5]
                 ],
-                "attention_items": attention_items,
+                # Retained as an empty compatibility field for older clients.
+                # Needs Attention is exclusively backed by ML anomalies.
+                "attention_items": [],
                 "recent_anomalies": [present_anomaly(item) for item in recent_anomalies],
                 "alerts": [present_alert(item) for item in alerts],
                 "platform_health": [{"component": "api", "status": "HEALTHY"}],

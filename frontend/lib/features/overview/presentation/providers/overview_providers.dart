@@ -76,15 +76,6 @@ final overviewDashboardProvider = FutureProvider.autoDispose<OverviewDashboard>(
       highIncidents: (x['high_incidents'] as List? ?? [])
           .map((e) => summary(e))
           .toList(),
-      attentionItems: (x['attention_items'] as List? ?? []).map((e) {
-        final m = e as Map<String, dynamic>;
-        return AttentionItem(
-          m['label'] ?? '',
-          m['resource'] ?? '',
-          '${m['value'] ?? ''}${m['unit'] == 'percent' ? '%' : ''}',
-          severity(m['severity'] ?? 'INFO'),
-        );
-      }).toList(),
       recentAnomalies: (x['recent_anomalies'] as List? ?? [])
           .whereType<Map<String, dynamic>>()
           .map(AnomalyDetection.fromJson)

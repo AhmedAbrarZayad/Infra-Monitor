@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 urlpatterns = [
+    path("", include("ai.urls")),
     path("", include("dashboard.urls")),
     path("", include("servers.urls")),
     path("", include("alert.urls")),

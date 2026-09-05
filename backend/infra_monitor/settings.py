@@ -45,6 +45,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -100,6 +101,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "infra_monitor.wsgi.application"
+ASGI_APPLICATION = "infra_monitor.asgi.application"
 
 
 # Database
@@ -171,6 +173,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "organization_search": "60/minute",
         "membership_request": "10/hour",
+        "assistant_ticket": "30/minute",
     },
 }
 
@@ -252,6 +255,13 @@ ML_TRAINING_LOOKBACK_HOURS = int(os.getenv("ML_TRAINING_LOOKBACK_HOURS", "24"))
 ML_INFERENCE_WINDOW_SECONDS = int(os.getenv("ML_INFERENCE_WINDOW_SECONDS", "300"))
 ML_METRIC_STEP_SECONDS = int(os.getenv("ML_METRIC_STEP_SECONDS", "60"))
 ML_ORCHESTRATION_INTERVAL_SECONDS = int(os.getenv("ML_ORCHESTRATION_INTERVAL_SECONDS", "300"))
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.7-flash")
+GEMINI_REQUEST_TIMEOUT_SECONDS = float(os.getenv("GEMINI_REQUEST_TIMEOUT_SECONDS", "60"))
+ASSISTANT_WS_TICKET_TTL_SECONDS = int(
+    os.getenv("ASSISTANT_WS_TICKET_TTL_SECONDS", "60")
+)
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/1")

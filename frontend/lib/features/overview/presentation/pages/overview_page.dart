@@ -59,10 +59,7 @@ class OverviewPage extends ConsumerWidget {
                           incidents: data.highIncidents,
                         ),
                         _gap,
-                        AttentionSection(
-                          items: data.attentionItems,
-                          anomalies: data.recentAnomalies,
-                        ),
+                        AttentionSection(anomalies: data.recentAnomalies),
                         _gap,
                         AlertsSection(alerts: data.alerts),
                         _gap,

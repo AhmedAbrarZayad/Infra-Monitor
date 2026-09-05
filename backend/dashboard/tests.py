@@ -28,6 +28,7 @@ class DashboardApiTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["server_count"], 0)
         self.assertFalse(response.data["telemetry_available"])
+        self.assertEqual(response.data["attention_items"], [])
         self.assertEqual(response.data["recent_anomalies"], [])
 
     def test_overview_returns_only_latest_tenant_anomalies_with_resource_names(self):
@@ -111,6 +112,7 @@ class DashboardApiTests(APITestCase):
         response = self.client.get(f"/api/organizations/{organization.id}/overview/")
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["attention_items"], [])
         self.assertEqual(len(response.data["recent_anomalies"]), 1)
         detection = response.data["recent_anomalies"][0]
         self.assertEqual(detection["server_name"], "Ubuntu Lab")

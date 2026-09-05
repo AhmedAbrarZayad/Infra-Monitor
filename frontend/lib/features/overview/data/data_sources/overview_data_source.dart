@@ -63,33 +63,6 @@ class DummyOverviewDataSource implements OverviewDataSource {
           owner: 'M. Fernando',
         ),
       ],
-      attentionItems: [
-        AttentionItem(
-          'HIGHEST CPU',
-          'payment-service-prod',
-          '96%',
-          Severity.critical,
-        ),
-        AttentionItem(
-          'HIGHEST MEMORY',
-          'auth-api-prod',
-          '91%',
-          Severity.warning,
-        ),
-        AttentionItem(
-          'LOW DISK SPACE',
-          'db-primary-prod',
-          '82% used',
-          Severity.warning,
-        ),
-        AttentionItem('RECENT OUTAGE', 'worker-queue-prod', 'offline 6m', null),
-        AttentionItem(
-          'HIGH ERROR RATE',
-          'web-frontend-prod',
-          '4.1%',
-          Severity.warning,
-        ),
-      ],
       recentAnomalies: [],
       alerts: [
         AlertItem(

@@ -15,6 +15,7 @@ import '../../../servers/presentation/pages/servers_page.dart';
 import '../../../servers/presentation/providers/servers_providers.dart';
 import '../../../servers/domain/entities/server.dart';
 import '../widgets/app_bottom_navigation.dart';
+import '../providers/app_navigation_provider.dart';
 
 class AppShellPage extends ConsumerStatefulWidget {
   const AppShellPage({super.key});
@@ -24,8 +25,6 @@ class AppShellPage extends ConsumerStatefulWidget {
 }
 
 class _AppShellPageState extends ConsumerState<AppShellPage> {
-  int _selectedIndex = 0;
-
   static const _titles = [
     'Overview',
     'Servers',
@@ -45,11 +44,13 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
 
   @override
   Widget build(BuildContext context) {
+    final navigation = ref.watch(appNavigationProvider);
+    final selectedIndex = navigation.index;
     final organizationState = ref.watch(organizationContextProvider);
     final role = organizationState is OrganizationReady
         ? organizationState.activeMembership.displayRole
         : '';
-    final subtitle = switch (_selectedIndex) {
+    final subtitle = switch (selectedIndex) {
       0 =>
         ref
             .watch(overviewDashboardProvider)
@@ -84,20 +85,21 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
     };
     return Scaffold(
       appBar: CustomAppBar(
-        title: _titles[_selectedIndex],
+        title: _titles[selectedIndex],
         role: role,
         subtitle: subtitle,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final content = _pages[_selectedIndex];
+          final content = _pages[selectedIndex];
           if (constraints.maxWidth < 900) return content;
           return Row(
             children: [
               NavigationRail(
-                selectedIndex: _selectedIndex,
-                onDestinationSelected: (index) =>
-                    setState(() => _selectedIndex = index),
+                selectedIndex: selectedIndex,
+                onDestinationSelected: ref
+                    .read(appNavigationProvider.notifier)
+                    .select,
                 labelType: NavigationRailLabelType.all,
                 destinations: AppBottomNavigation.destinations
                     .map(
@@ -117,9 +119,10 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
       ),
       bottomNavigationBar: MediaQuery.sizeOf(context).width < 900
           ? AppBottomNavigation(
-              currentIndex: _selectedIndex,
-              onDestinationSelected: (index) =>
-                  setState(() => _selectedIndex = index),
+              currentIndex: selectedIndex,
+              onDestinationSelected: ref
+                  .read(appNavigationProvider.notifier)
+                  .select,
             )
           : null,
     );

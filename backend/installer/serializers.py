@@ -9,6 +9,7 @@ class InternalEnrollmentSerializer(serializers.Serializer):
     os = serializers.CharField(max_length=64)
     architecture = serializers.ChoiceField(choices=("amd64", "arm64"))
     docker_available = serializers.BooleanField(default=False)
+    server_url = serializers.URLField(required=False)
 
 
 class InstallerStatusSerializer(serializers.Serializer):

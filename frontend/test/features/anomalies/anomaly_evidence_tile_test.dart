@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/features/anomalies/domain/entities/anomaly_detection.dart';
 import 'package:frontend/features/anomalies/presentation/widgets/anomaly_evidence_tile.dart';
 
@@ -29,8 +30,10 @@ void main() {
     });
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(body: AnomalyEvidenceTile(anomaly: anomaly)),
+      ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(body: AnomalyEvidenceTile(anomaly: anomaly)),
+        ),
       ),
     );
 
@@ -42,5 +45,6 @@ void main() {
     expect(find.text('ANOMALY SCORE'), findsOneWidget);
     expect(find.text('CPU'), findsOneWidget);
     expect(find.text('NETWORK OUT'), findsOneWidget);
+    expect(find.text('Ask AI'), findsOneWidget);
   });
 }

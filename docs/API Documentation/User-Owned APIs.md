@@ -88,35 +88,31 @@ storage. They must never write Django-owned alert or incident tables directly.
 
 The public anomaly list/detail endpoints are agent-owned consumers of the detections produced here.
 
-## 4. Gemini analyses and chat
+## 4. Gemini anomaly assistant
 
 ### 4.1 HTTP APIs
 
 | Status | Method and path | Permission | Deliverable |
 | --- | --- | --- | --- |
-| `MISSING` | `GET /api/organizations/{organization_id}/incidents/{incident_id}/analysis/` | Approved member | Latest safe analysis, confidence, causes, recommendations, findings, and provenance. |
-| `MISSING` | `POST /api/organizations/{organization_id}/incidents/{incident_id}/analysis/` | Owner or admin | Queue an idempotent explicit analysis/refresh. |
-| `MISSING` | `PATCH /api/organizations/{organization_id}/incidents/{incident_id}/recommendations/{recommendation_id}/` | Assignee, owner, or admin | Update recommendation completion state. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/context/?incident_id=` | Approved member | Authorized incident choices, evidence preview, and suggested prompts. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/conversations/?incident_id=&page=` | Approved member | List only the caller's organization-scoped conversations. |
-| `MISSING` | `POST /api/organizations/{organization_id}/assistant/conversations/` | Approved member | Create a caller-owned conversation after incident validation. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/` | Conversation owner | Restore conversation metadata and incident context. |
-| `MISSING` | `DELETE /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/` | Conversation owner | Delete/archive according to the selected retention policy. |
-| `MISSING` | `GET /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/messages/?page=` | Conversation owner | Return the canonical persisted transcript and citations. |
-| `MISSING` | `POST /api/organizations/{organization_id}/assistant/websocket-tickets/` | Approved member, throttled | Return a short-lived single-use ticket bound to user, organization, and conversation. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/assistant/context/?anomaly_id=` | Approved member | Return the latest 20 anomalous detections, selected six-feature evidence, lifecycle context, and prompts. |
+| `EXISTING` | `POST /api/organizations/{organization_id}/assistant/conversations/` | Approved member | Create or resume the caller's single conversation for `anomaly_id`. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/assistant/conversations/{conversation_id}/messages/?limit=` | Conversation owner | Return the canonical persisted transcript. |
+| `EXISTING` | `POST /api/organizations/{organization_id}/assistant/websocket-tickets/` | Approved member, throttled | Return a hashed-at-rest, short-lived, single-use ticket bound to user, organization, and conversation. |
+| `DEFERRED` | Incident analysis, general chat, multiple threads, and conversation deletion | — | Outside the school-project anomaly-assistant scope. |
 
 ### 4.2 WebSocket protocol
 
 | Status | Socket path | Permission | Deliverable |
 | --- | --- | --- | --- |
-| `MISSING` | `WSS /ws/organizations/{organization_id}/assistant/conversations/{conversation_id}/?ticket={ticket}` | Single-use ticket + conversation owner | Receive `user_message`; emit `message_ack`, `generation_started`, `token_delta`, `citation`, `generation_completed`, and safe `generation_error`. |
+| `EXISTING` | `WS(S) /ws/organizations/{organization_id}/assistant/conversations/{conversation_id}/?ticket={ticket}` | Single-use ticket + conversation owner | Receive `user_message`; emit `message_ack`, `generation_started`, `token_delta`, `citation`, `generation_completed`, and safe `generation_error`. |
 
 - Use HTTP for context, conversation management, and canonical history; use WebSocket only for live messages/generation.
 - Persist a user message before `message_ack` and the complete assistant message before `generation_completed`.
 - Deduplicate client retries by `client_message_id`.
 - On reconnect, issue a new ticket and reload HTTP history rather than replaying the socket.
-- Assemble Gemini context only from organization-authorized incidents, logs, metrics, anomalies, analyses, and evidence.
+- Assemble Gemini context only from the authorized anomaly's stored six-feature window, score, model version, identity, timestamps, current lifecycle state, and latest 20 messages.
 - Keep Gemini credentials, system prompts, raw provider errors, and unrestricted evidence server-side.
+- Gemini is advisory and never creates incidents, changes lifecycle state, or confirms a crash from an anomaly.
 
 ## 5. Required handoffs to agent-owned APIs
 

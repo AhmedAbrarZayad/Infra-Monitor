@@ -153,7 +153,7 @@ Response (`201 Created`, abbreviated):
   "is_used": false,
   "server_id": null,
   "token": "enroll_REDACTED",
-  "install_command": "curl -fsSL http://HOST:7000/api/monitoring/install.sh | sudo sh -s -- --token enroll_REDACTED --server http://HOST:7000"
+  "install_command": "_im_server=...; if WSL then detect current Windows gateway; download with bounded retries; sudo sh installer --token enroll_REDACTED --server $_im_server"
 }
 ```
 
@@ -171,7 +171,9 @@ single-use and must not be logged, committed, or shared.
 
 ## 6. Step 2: installer download and token exchange
 
-The generated command downloads a public script:
+The generated command detects the current Windows gateway when executed under
+WSL, downloads the public script to a temporary file with bounded retries, and
+uses the configured public URL unchanged on ordinary Linux:
 
 ```http
 GET /api/monitoring/install.sh
@@ -200,20 +202,23 @@ Content-Type: application/json
   "hostname": "Zayad",
   "os": "ubuntu",
   "architecture": "amd64",
-  "docker_available": true
+  "docker_available": true,
+  "server_url": "http://REACHABLE_BACKEND:7000"
 }
 ```
 
 Valid architectures are `amd64` and `arm64`. Unknown, expired, cancelled,
 consumed, and replayed tokens all return the same `401` response to avoid token
-state disclosure. A duplicate hostname in one organization returns `409` with
-code `hostname_already_registered`.
+state disclosure. Re-enrolling a hostname already owned by the same organization
+reuses its server record, revokes the previous write credential, and installs a
+fresh configuration. A uniqueness race still returns `409` without exposing
+database details.
 
 On success, one atomic PostgreSQL transaction:
 
 1. locks and validates the enrollment;
-2. creates `servers_servers` with status `UNKNOWN`;
-3. creates `servers_monitoringconnection` with `PENDING/UNKNOWN` health;
+2. creates the server or resets the organization's matching server to `UNKNOWN`;
+3. creates or resets its monitoring connection to `PENDING/UNKNOWN` health;
 4. creates the organization's `accounts_victoriametricstenant` if absent;
 5. creates an `ACTIVE` `servers_serverwritecredential` containing only a hash;
 6. links the enrollment to the server, sets `consumed_at`, and moves it to

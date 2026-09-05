@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/api/operational_api.dart';
 import '../../domain/entities/anomaly_detection.dart';
+import '../../../navigation/presentation/providers/app_navigation_provider.dart';
 
 const _warning = Color(0xFFFFB51F);
 const _muted = Color(0xFF8993A4);
 
-class AnomalyEvidenceTile extends StatelessWidget {
+class AnomalyEvidenceTile extends ConsumerWidget {
   const AnomalyEvidenceTile({required this.anomaly, super.key});
 
   final AnomalyDetection anomaly;
 
   @override
-  Widget build(BuildContext context) => ExpansionTile(
+  Widget build(BuildContext context, WidgetRef ref) => ExpansionTile(
     tilePadding: const EdgeInsets.symmetric(horizontal: 14),
     childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
     leading: const Icon(Icons.warning_amber_rounded, color: _warning),
@@ -51,6 +54,18 @@ class AnomalyEvidenceTile extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+      const SizedBox(height: 8),
+      Align(
+        alignment: Alignment.centerRight,
+        child: TextButton.icon(
+          onPressed: () {
+            ref.read(appNavigationProvider.notifier).openAssistant(anomaly.id);
+            if (GoRouterState.of(context).uri.path != '/') context.go('/');
+          },
+          icon: const Icon(Icons.auto_awesome, size: 16),
+          label: const Text('Ask AI'),
         ),
       ),
     ],

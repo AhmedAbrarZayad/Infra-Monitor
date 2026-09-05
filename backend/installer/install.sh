@@ -47,6 +47,12 @@ done
 # Validate everything before installing packages or writing system files.
 [ -n "$TOKEN" ] || die "--token is required"
 [ -n "$SERVER_URL" ] || die "--server is required"
+
+# Fail before consuming the one-time token when the selected callback address
+# is unreachable. This catches stale WSL gateways immediately.
+curl --connect-timeout 5 --max-time 10 --fail --silent --show-error \
+    "$SERVER_URL/api/health/live/" >/dev/null \
+    || die "cannot reach backend at $SERVER_URL"
 [ "$(id -u)" -eq 0 ] || die "run this installer as root (for example, with sudo)"
 [ "$(uname -s)" = "Linux" ] || die "only Linux is supported"
 command -v systemctl >/dev/null 2>&1 || die "systemd is required"
@@ -99,15 +105,16 @@ PAYLOAD=$(jq -n \
     --arg hostname "$(hostname)" \
     --arg os "$OS_NAME" \
     --arg architecture "$API_ARCH" \
+    --arg server_url "$SERVER_URL" \
     --argjson docker_available "$DOCKER_AVAILABLE" \
-    '{token:$token, hostname:$hostname, os:$os, architecture:$architecture, docker_available:$docker_available}')
+    '{token:$token, hostname:$hostname, os:$os, architecture:$architecture, docker_available:$docker_available, server_url:$server_url}')
 
 # Exchange the short-lived, one-time token for an enrollment ID, permanent
 # write-only server credential, and server-specific Alloy configuration.
 # The JSON body is saved in a file while the variable captures only the HTTP
 # status. Following redirects supports a canonical HTTPS API URL.
 log "enrolling host"
-HTTP_CODE=$(curl --silent --show-error --location \
+HTTP_CODE=$(curl --connect-timeout 5 --max-time 30 --silent --show-error --location \
     --output "$RESPONSE_FILE" --write-out '%{http_code}' \
     --header 'Content-Type: application/json' \
     --data "$PAYLOAD" \
@@ -133,7 +140,7 @@ jq -er '.config // .alloy_config' "$RESPONSE_FILE" > "$TMP_DIR/config.alloy" || 
 # a prerequisite for installing a healthy collector.
 report_status() {
     STATUS_PAYLOAD=$(jq -n --arg stage "$1" '{stage:$stage}')
-    curl --silent --show-error --fail \
+    curl --connect-timeout 5 --max-time 10 --silent --show-error --fail \
         --header "Authorization: Bearer $CREDENTIAL" \
         --header 'Content-Type: application/json' \
         --data "$STATUS_PAYLOAD" \
@@ -151,7 +158,7 @@ curl -fsSL https://apt.grafana.com/gpg.key | gpg --dearmor --yes -o /etc/apt/key
 printf '%s\n' 'deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main' \
     > /etc/apt/sources.list.d/grafana.list
 apt-get update
-apt-get install -y alloy
+apt-get install -y alloy acl
 report_status COLLECTOR_INSTALLED
 
 # Run Alloy as a dedicated, non-login account instead of root. The package will
@@ -173,6 +180,18 @@ chmod 0640 "$ALLOY_CREDENTIAL_FILE"
 if command -v docker >/dev/null 2>&1 && getent group docker >/dev/null 2>&1; then
     log "Docker detected; granting Alloy Docker-socket access (effectively root-equivalent)"
     usermod -aG docker "$ALLOY_USER"
+
+    # cAdvisor also opens containerd when Docker uses the overlayfs storage
+    # driver. Grant only the Alloy account socket access now and after future
+    # containerd restarts instead of running the whole collector as root.
+    if [ -S /run/containerd/containerd.sock ]; then
+        setfacl -m "u:$ALLOY_USER:rw" /run/containerd/containerd.sock
+        install -d -m 0755 /etc/systemd/system/containerd.service.d
+        cat > /etc/systemd/system/containerd.service.d/infra-monitor-alloy-access.conf <<'EOF'
+[Service]
+ExecStartPost=/usr/bin/setfacl -m u:alloy:rw /run/containerd/containerd.sock
+EOF
+    fi
 else
     log "Docker unavailable; host monitoring will still be enabled"
 fi
