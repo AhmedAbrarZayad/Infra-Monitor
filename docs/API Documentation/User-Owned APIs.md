@@ -4,7 +4,7 @@
 
 This is the project owner's end-to-end implementation backlog for automatic exporter installation and telemetry ingestion, ML training/inference, and Gemini chat. The canonical contracts and shared conventions remain in [Complete API Inventory](Complete%20API%20Inventory.md). All remaining platform APIs are assigned in [Agent-Owned APIs](Agent-Owned%20APIs.md).
 
-Ownership includes the necessary Flutter-facing APIs, Django control-plane behavior, internal services/workers, gateway/realtime interfaces, persistence, and tests.
+Ownership includes the necessary Flutter-facing APIs, Django control-plane behavior, internal services/workers, gateway/realtime interfaces, persistence, and tests. `INTERNAL` describes a non-public service API, not an API called by an application user. The ML service boundary and data ownership are defined in [ML Service Architecture](../ML%20Architecture.md).
 
 ## 2. Exporter enrollment and telemetry
 
@@ -31,6 +31,22 @@ Ownership includes the necessary Flutter-facing APIs, Django control-plane behav
 
 ## 3. ML training, inference, and correlation
 
+> **School-project scope:** The production-grade APIs previously planned in
+> this section are deferred. The current implementation requires only FastAPI
+> `POST /train`, FastAPI `POST /infer`, and Django
+> `POST /api/internal/ml/detections/`, protected by a shared Bearer token.
+> Flutter reads detections through the existing authenticated Django anomaly
+> endpoints and never calls FastAPI. Dataset registries, readiness APIs, job
+> registries, model activation, correlation, and automatic ML-created incidents
+> are future work. See [Simple ML Backend Plan](../ML%20Backend%20Work%20Split.md).
+
+The internal endpoints in this section are implemented by the FastAPI ML service,
+not Django. Django triggers or composes ML work using authenticated
+service-to-service calls. FastAPI and its workers query VictoriaMetrics directly
+with trusted tenant mappings, keep durable ML metadata in an ML-owned PostgreSQL
+schema/database, use Redis only for dispatch, and place model binaries in object
+storage. They must never write Django-owned alert or incident tables directly.
+
 ### 3.1 Flutter-facing readiness APIs
 
 | Status | Method and path | Permission | Deliverable |
@@ -42,9 +58,9 @@ Ownership includes the necessary Flutter-facing APIs, Django control-plane behav
 
 | Status | Method and path | Authentication | Deliverable |
 | --- | --- | --- | --- |
-| `INTERNAL` | `POST /api/internal/ml/datasets/` | ML service/operator | Create an immutable dataset definition and build. |
-| `INTERNAL` | `GET /api/internal/ml/datasets/{dataset_id}/` | ML service/operator | Return state, counts, validation, split, and lineage. |
-| `INTERNAL` | `POST /api/internal/ml/training-jobs/` | ML service/operator | Queue idempotent training for a dataset/configuration. |
+| `INTERNAL` | `POST /api/internal/ml/datasets/` | Django scheduler/ML operator | Persist an immutable tenant-scoped dataset definition, dispatch its VictoriaMetrics build, and return `202` with dataset UUID/version. No dataset payload passes through Django. |
+| `INTERNAL` | `GET /api/internal/ml/datasets/{dataset_id}/` | Django/ML operator | Return durable build state, counts, validation, split boundaries, source-window lineage, and definition hash. |
+| `INTERNAL` | `POST /api/internal/ml/training-jobs/` | Django scheduler/ML operator | Queue idempotent training for a completed dataset and versioned algorithm/configuration. |
 | `INTERNAL` | `GET /api/internal/ml/training-jobs/?state=&page=` | ML service/operator | List training progress. |
 | `INTERNAL` | `GET /api/internal/ml/training-jobs/{job_id}/` | ML service/operator | Return training state, metrics, artifact/model reference, and safe failure. |
 | `INTERNAL` | `POST /api/internal/ml/training-jobs/{job_id}/cancel/` | ML service/operator | Cancel supported queued/running work. |
@@ -52,20 +68,23 @@ Ownership includes the necessary Flutter-facing APIs, Django control-plane behav
 | `INTERNAL` | `GET /api/internal/ml/models/{model_id}/` | ML service/operator | Return one model version's safe metadata. |
 | `INTERNAL` | `POST /api/internal/ml/models/{model_id}/activate/` | ML operator | Atomically activate a validated compatible model. |
 | `INTERNAL` | `POST /api/internal/ml/models/{model_id}/deactivate/` | ML operator | Stop new inference with a version while retaining lineage. |
-| `INTERNAL` | `POST /api/internal/ml/inference-jobs/` | ML/telemetry service | Queue idempotent inference for an organization/resource/window. |
+| `INTERNAL` | `POST /api/internal/ml/inference-jobs/` | Django scheduler/ML service | Queue idempotent inference for a trusted organization/resource, active model, and completed metric window. |
 | `INTERNAL` | `GET /api/internal/ml/inference-jobs/{job_id}/` | ML service/operator | Return model/window provenance, state, detections, and safe failure. |
-| `INTERNAL` | `POST /api/internal/ml/correlation-jobs/` | ML/incident service | Correlate detections/alerts into tenant-safe incidents. |
-| `INTERNAL` | `GET /api/internal/ml/correlation-jobs/{job_id}/` | ML/incident service | Return links, created/updated incidents, and conflicts. |
+| `INTERNAL` | `POST /api/internal/ml/correlation-jobs/` | Django scheduler/ML service | Queue correlation of bounded detections/alert references into idempotent incident candidates. |
+| `INTERNAL` | `GET /api/internal/ml/correlation-jobs/{job_id}/` | Django/ML operator | Return candidate links, Django submission outcome, incident UUIDs, and conflicts. |
 
 ### 3.3 Fixed automatic lifecycle
 
+- Detect service crashes/offline state with deterministic application `up`, container last-seen/health/restart/OOM/exit, and heartbeat rules; this path must not depend on ML readiness.
+- Use Isolation Forest only for service-level container degradation/anomaly detection. An anomaly alone never changes lifecycle state to `OFFLINE`.
 - Begin readiness accounting when a discovered service first supplies valid health metrics.
 - Require 72 hours of usable baseline data before automatic first training.
 - Start continuous inference only after a compatible model successfully validates and becomes active.
 - Retrain every seven days by default while the previous active model continues inference.
 - Never activate a failed or incompatible candidate.
 - Preserve dataset, feature, model, and metric-window lineage for every detection.
-- Use idempotent fingerprints and the shared incident domain service when creating alerts/incidents.
+- Build `container_iforest_v1` only from `cpu_r`, `mem_u`, `disk_r`, `disk_w`, `eth1_fi`, and `eth1_fo` series carrying trusted `service_id`; never substitute host metrics or zeros.
+- Submit idempotent incident candidates through Django's authenticated internal incident boundary. Django revalidates tenant/resource ownership and uses the shared incident domain service; ML never writes incident tables.
 
 The public anomaly list/detail endpoints are agent-owned consumers of the detections produced here.
 
@@ -104,7 +123,7 @@ The public anomaly list/detail endpoints are agent-owned consumers of the detect
 - Enrollment must expose organization-owned servers/services and stable state for inventory, health, Overview, and Analytics reads.
 - The telemetry query layer must return normalized bounded series to the agent-owned metric APIs without exposing internal tenant IDs.
 - ML must persist model/version provenance and detections consumed by anomaly, evidence, alert, incident, and analytics APIs.
-- Correlation must call the shared tenant-safe incident service so manually and automatically managed incidents behave identically.
+- Correlation must submit candidates to Django's authenticated tenant-safe incident boundary so manually and automatically managed incidents behave identically; only Django persists incidents.
 - AI may consume the agent-owned evidence API/service but must independently recheck organization/conversation authorization.
 
 ## 6. Completion rule

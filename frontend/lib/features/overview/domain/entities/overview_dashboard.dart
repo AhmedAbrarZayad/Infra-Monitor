@@ -1,3 +1,5 @@
+import '../../../anomalies/domain/entities/anomaly_detection.dart';
+
 enum Severity { critical, high, warning, info }
 
 class FleetMetric {
@@ -80,6 +82,7 @@ class OverviewDashboard {
     required this.criticalIncidents,
     required this.highIncidents,
     required this.attentionItems,
+    required this.recentAnomalies,
     required this.alerts,
     required this.healthItems,
   });
@@ -91,6 +94,7 @@ class OverviewDashboard {
   final List<IncidentSummary> criticalIncidents;
   final List<IncidentSummary> highIncidents;
   final List<AttentionItem> attentionItems;
+  final List<AnomalyDetection> recentAnomalies;
   final List<AlertItem> alerts;
   final List<HealthItem> healthItems;
 }

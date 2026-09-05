@@ -4,6 +4,9 @@
 
 This document is the canonical inventory of HTTP APIs required by the current Flutter application and the planned Prometheus, anomaly-detection, incident, analytics, and Gemini workflows.
 
+The ML deployment and service/data ownership decisions are defined in
+[ML Service Architecture](../ML%20Architecture.md).
+
 It is an evaluation document, not an implementation contract. Important inputs and outputs are listed so endpoints can be selected and implemented in coherent vertical slices. Exact serializers and complete JSON schemas should be defined when an endpoint is approved for implementation.
 
 ## 2. Status legend
@@ -103,7 +106,7 @@ There is deliberately no “switch organization” API. Flutter persists the sel
 
 | Status | Method and path | Permission | Purpose and key contract | Consumer / dependency |
 | --- | --- | --- | --- | --- |
-| `EXISTING` | `GET /api/organizations/{organization_id}/overview/?environment=` | Approved member | Returns `server_count`, `open_incident_count`, `updated_at`, fleet status counts, critical/high incident summaries, attention items, recent alerts, and platform-health items in one consistent snapshot. | Overview page; depends on tenant-scoped servers, metrics, alerts, incidents, and pipeline-health data. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/overview/?environment=` | Approved member | Returns `server_count`, `open_incident_count`, `updated_at`, fleet status counts, critical/high incident summaries, attention items, recent alerts, platform-health items, and the five latest tenant-owned anomalous detections as `recent_anomalies`. | Overview page; ML detections are warning evidence, not incidents. |
 
 The overview is intentionally one aggregate endpoint. Separate server, alert, and incident endpoints remain the sources for drill-down screens, but making the mobile client assemble the dashboard would cause inconsistent timestamps and excessive requests.
 
@@ -226,13 +229,24 @@ Enrollment automatically creates servers. Alloy host/cAdvisor telemetry and labe
 
 ### 5.2 ML training, models, inference, and correlation
 
+> **Current school-project scope:** FastAPI provides synchronous training and
+> inference; Django builds trusted feature rows, schedules work, stores callback
+> results, and exposes them to Flutter. Dataset registries, durable ML jobs,
+> readiness, promotion, retraining, and correlation are not part of the current
+> API. Any rows labelled `MISSING` below are historical production ideas, not
+> required school-project interfaces. See
+> [Simple ML Backend Plan](../ML%20Backend%20Work%20Split.md).
+
 | Status | Method and path | Authorization | Purpose and key contract | Dependency |
 | --- | --- | --- | --- | --- |
+| `EXISTING` | `POST /train` (FastAPI) | Shared Bearer token | Trains one service's Isolation Forest and atomically stores its artifact and metadata. | Called by Django after `model_not_found`. |
+| `EXISTING` | `POST /infer` (FastAPI) | Shared Bearer token | Scores a completed service window and submits the result to Django. | Callback failure fails inference for safe retry. |
+| `EXISTING` | `POST /api/internal/ml/detections/` | Shared Bearer token | Validates tenant/resource relationships and idempotently stores a result. | Internal callback; never exposed to Flutter. |
 | `MISSING` | `GET /api/organizations/{organization_id}/ml/readiness/` | Approved member | Returns organization/service collection progress, valid-data duration, 72-hour warm-up target, first-training state, active model, last inference, and next weekly retraining time. | Flutter learning/readiness states. |
 | `MISSING` | `GET /api/organizations/{organization_id}/services/{service_id}/ml/readiness/` | Approved member | Returns the same lifecycle for one service plus insufficiency reasons such as gaps or unsupported metrics. | Service detail and troubleshooting. |
-| `INTERNAL` | `POST /api/internal/ml/datasets/` | ML service/operator | Defines a reproducible dataset from organization scope, metric selectors, time range, labels, and split policy; returns dataset UUID/version. | Dataset/version storage is absent. |
-| `INTERNAL` | `GET /api/internal/ml/datasets/{dataset_id}/` | ML service/operator | Returns immutable definition, build state, counts, lineage, and validation report. | Durable dataset metadata. |
-| `INTERNAL` | `POST /api/internal/ml/training-jobs/` | ML service/operator | Input dataset, algorithm/config, and idempotency key; queues training and returns job UUID. | Worker queue, artifact storage, job model. |
+| `INTERNAL` | `POST /api/internal/ml/datasets/` | Django scheduler/ML operator | FastAPI persists a reproducible tenant-scoped definition from metric selectors, time range, labels, feature schema, and split policy; returns `202` with dataset UUID/version and builds directly from VictoriaMetrics. | ML-owned dataset/version storage is absent. |
+| `INTERNAL` | `GET /api/internal/ml/datasets/{dataset_id}/` | Django/ML operator | Returns immutable definition, durable build state, counts, split boundaries, source-window lineage, definition hash, and validation report. | Durable ML dataset metadata. |
+| `INTERNAL` | `POST /api/internal/ml/training-jobs/` | Django scheduler/ML operator | Input completed dataset, versioned algorithm/config, and idempotency key; queues training and returns job UUID. | Durable job model, Redis dispatch, object storage. |
 | `INTERNAL` | `GET /api/internal/ml/training-jobs/?state=&page=` | ML service/operator | Lists training jobs and concise progress. | Durable job model. |
 | `INTERNAL` | `GET /api/internal/ml/training-jobs/{job_id}/` | ML service/operator | Returns state, progress, metrics, artifact/model reference, timestamps, and sanitized failure. | Worker/job state. |
 | `INTERNAL` | `POST /api/internal/ml/training-jobs/{job_id}/cancel/` | ML service/operator | Cancels a queued/running job when supported. | Worker cancellation semantics. |
@@ -240,14 +254,14 @@ Enrollment automatically creates servers. Alloy host/cAdvisor telemetry and labe
 | `INTERNAL` | `GET /api/internal/ml/models/{model_id}/` | ML service/operator | Returns one model version’s metadata, not raw secrets or unrestricted artifact paths. | Model registry/artifact storage. |
 | `INTERNAL` | `POST /api/internal/ml/models/{model_id}/activate/` | ML operator | Atomically activates a compatible version and records previous version. | Activation/rollback policy. |
 | `INTERNAL` | `POST /api/internal/ml/models/{model_id}/deactivate/` | ML operator | Stops new inference using a version while retaining lineage. | Safe fallback policy. |
-| `INTERNAL` | `POST /api/internal/ml/inference-jobs/` | ML/telemetry service | Input model or active alias, organization/resource scope, and metric window; queues inference. | Model registry, feature parity, job storage. |
+| `INTERNAL` | `POST /api/internal/ml/inference-jobs/` | Django scheduler/ML service | Input model or active alias, trusted organization/resource scope, and completed metric window; queues direct VictoriaMetrics inference. | Model registry, feature parity, durable job storage. |
 | `INTERNAL` | `GET /api/internal/ml/inference-jobs/{job_id}/` | ML service/operator | Returns progress, model version, input window, detection IDs, and failure state. | Durable inference jobs. |
-| `INTERNAL` | `POST /api/internal/ml/correlation-jobs/` | ML/incident service | Correlates selected detections/alerts into organization incidents and returns job state. | Correlation rules, tenant-safe incident creation. |
-| `INTERNAL` | `GET /api/internal/ml/correlation-jobs/{job_id}/` | ML/incident service | Returns linked detections, alerts, created/updated incidents, and conflicts. | Durable correlation jobs. |
-| `EXISTING` | `GET /api/organizations/{organization_id}/anomalies/?server_id=&service_id=&is_anomaly=&from=&to=&page=` | Approved member | Exposes authorized detection results with score, confidence, feature summary, model version, and window. | Future anomaly drill-down; current `AnomalyDetection` lacks organization/model version. |
-| `EXISTING` | `GET /api/organizations/{organization_id}/anomalies/{detection_id}/` | Approved member | Returns one detection, feature contributions, linked alert/incident, and provenance. | Future evidence UI. |
+| `INTERNAL` | `POST /api/internal/ml/correlation-jobs/` | Django scheduler/ML service | Correlates selected detections/alert references into idempotent incident candidates; Django alone validates and persists incident create/update operations. | Correlation rules and authenticated Django incident boundary. |
+| `INTERNAL` | `GET /api/internal/ml/correlation-jobs/{job_id}/` | Django/ML operator | Returns linked detections/alerts, Django submission outcome, incident UUIDs, and conflicts. | Durable correlation jobs. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/anomalies/?server_id=&service_id=&is_anomaly=&from=&to=&limit=` | Approved member | Returns tenant-authorized results with safe server/service names, scores, six-feature evidence, model version, and window. | Server detail requests anomalous results with a limit of twenty. |
+| `EXISTING` | `GET /api/organizations/{organization_id}/anomalies/{detection_id}/` | Approved member | Returns one tenant-authorized detection. | Authenticated evidence read. |
 
-The default lifecycle starts when a discovered service first supplies valid health metrics. It requires 72 hours of usable baseline data before the first automatic training job. Inference starts only after a compatible model completes validation and becomes active, then runs continuously on completed metric windows. Retraining runs every seven days by default while the current active model continues serving inference; a failed candidate never replaces it. Dataset creation, initial training, scheduled retraining, automatic inference, and correlation are background workflows that use the same durable job records exposed above.
+Deterministic lifecycle rules are authoritative for service crash, restart, stale, and offline detection and operate without ML warm-up or an active model. Isolation Forest detects service-level container degradation using feature schema `container_iforest_v1`: `cpu_r`, `mem_u`, `disk_r`, `disk_w`, `eth1_fi`, and `eth1_fo`; it never consumes host fallback values, and an anomaly alone does not mark a service offline. ML readiness starts when a discovered service first supplies all valid model features and requires 72 hours of usable baseline data before the first automatic training job. Inference starts only after a compatible model completes validation and becomes active, then runs continuously on completed metric windows. Retraining runs every seven days by default while the current active model continues serving inference; a failed candidate never replaces it. Dataset creation, initial training, scheduled retraining, automatic inference, and correlation are background workflows that use the same durable job records exposed above. FastAPI owns those records and queries VictoriaMetrics directly; Redis only dispatches work, model artifacts live in object storage, and correlation submits candidates to Django rather than writing incident tables.
 
 The existing `AnomalyDetection` model stores scores and feature values but not training jobs, datasets, model versions, artifacts, inference jobs, model readiness, or direct organization ownership. Those are implementation blockers, not implicit APIs.
 

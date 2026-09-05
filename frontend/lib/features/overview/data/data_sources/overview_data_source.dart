@@ -90,6 +90,7 @@ class DummyOverviewDataSource implements OverviewDataSource {
           Severity.warning,
         ),
       ],
+      recentAnomalies: [],
       alerts: [
         AlertItem(
           severity: Severity.critical,

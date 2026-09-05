@@ -17,8 +17,13 @@ from servers.services import MonitoringCredentialService
 
 from .alloy_config import generate_alloy_config
 from .authentication import ServerCredentialAuthentication
-from .remote_write import WriteRequest, overwrite_identity, service_metadata
-from .serializers import InternalEnrollmentSerializer, InstallerStatusSerializer
+from .remote_write import (
+    WriteRequest,
+    overwrite_identity,
+    service_health_observations,
+    service_metadata,
+)
+from .serializers import InstallerStatusSerializer, InternalEnrollmentSerializer
 
 
 def _invalid_enrollment():
@@ -272,6 +277,7 @@ class MetricsWriteView(APIView):
             return Response({"detail": "Metrics tenant is not configured."}, status=503)
 
         discovered_services = service_metadata(write_request)
+        health_observations = service_health_observations(write_request)
         service_ids = {}
         with transaction.atomic():
             for service_name, port in discovered_services.items():
@@ -346,12 +352,21 @@ class MetricsWriteView(APIView):
                 Service.objects.filter(
                     server_id=server,
                     service_id__in=service_ids.values(),
-                ).update(status=Servers.Status.HEALTHY, last_reported_at=now)
+                ).update(last_reported_at=now)
             enrollment = EnrollmentToken.objects.select_for_update().filter(server=server).first()
             if enrollment is not None:
                 enrollment.stage = EnrollmentToken.Stage.CONNECTED
                 if enrollment.first_metric_at is None:
                     enrollment.first_metric_at = now
                 enrollment.save(update_fields=["stage", "first_metric_at", "updated_at"])
+
+        from servers.services.lifecycle import evaluate_service, record_explicit_health
+
+        for service_name, service_id in service_ids.items():
+            explicit_health = health_observations.get(service_name)
+            if explicit_health is None:
+                evaluate_service(service_id, now=now)
+            else:
+                record_explicit_health(service_id, explicit_health, now=now)
 
         return HttpResponse(status=upstream.status_code)

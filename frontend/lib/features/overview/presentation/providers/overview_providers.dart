@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/api/operational_api.dart';
+import '../../../anomalies/domain/entities/anomaly_detection.dart';
 import '../../../auth/domain/auth_state.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../organizations/domain/organization_context_state.dart';
@@ -84,6 +85,11 @@ final overviewDashboardProvider = FutureProvider.autoDispose<OverviewDashboard>(
           severity(m['severity'] ?? 'INFO'),
         );
       }).toList(),
+      recentAnomalies: (x['recent_anomalies'] as List? ?? [])
+          .whereType<Map<String, dynamic>>()
+          .map(AnomalyDetection.fromJson)
+          .where((item) => item.isAnomaly)
+          .toList(growable: false),
       alerts: (x['alerts'] as List? ?? []).map((e) {
         final m = e as Map<String, dynamic>;
         return AlertItem(

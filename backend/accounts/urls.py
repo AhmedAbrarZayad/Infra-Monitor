@@ -10,6 +10,7 @@ from accounts.views import (
     ForgotPasswordView,
     ResetPasswordView,
     MeView,
+    PreferencesView,
 )
 app_name = "accounts"
 
@@ -27,4 +28,5 @@ urlpatterns = [
     # JWT token refresh
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("me/", MeView.as_view(), name="me"),
+    path("me/preferences/", PreferencesView.as_view(), name="preferences"),
 ]

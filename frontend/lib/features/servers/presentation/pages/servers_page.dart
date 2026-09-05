@@ -191,6 +191,7 @@ class _ServersPageState extends ConsumerState<ServersPage> {
             ServerStatus.critical,
             ServerStatus.warning,
             ServerStatus.healthy,
+            ServerStatus.stale,
             ServerStatus.offline,
             ServerStatus.unknown,
           ]) ...[

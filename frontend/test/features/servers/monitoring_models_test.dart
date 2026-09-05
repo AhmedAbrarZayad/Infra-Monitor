@@ -58,15 +58,43 @@ void main() {
       'id': 'service-1',
       'server_id': 'server-1',
       'service_name': 'payments',
-      'status': 'HEALTHY',
+      'status': 'STALE',
       'port': 9090,
+      'status_changed_at': '2026-09-04T01:00:00Z',
+      'lifecycle_reason': 'service_telemetry_delayed',
+      'consecutive_failure_observations': 1,
       'metrics': {
         'cpu_r': {'value': 2.2, 'unit': 'percent'},
       },
     });
     expect(service.name, 'payments');
     expect(service.port, 9090);
+    expect(service.status, ServerStatus.stale);
+    expect(service.statusChangedAt, isNotNull);
+    expect(service.lifecycleReason, 'service_telemetry_delayed');
+    expect(service.consecutiveFailureObservations, 1);
     expect(service.metrics['cpu_r']?.value, 2.2);
+  });
+
+  test('service parser tolerates older and unknown lifecycle responses', () {
+    final service = MonitoredService.fromJson({
+      'id': 'service-1',
+      'status': 'FUTURE_STATUS',
+    });
+
+    expect(service.status, ServerStatus.unknown);
+    expect(service.statusChangedAt, isNull);
+    expect(service.lifecycleReason, 'awaiting_telemetry');
+    expect(service.consecutiveFailureObservations, 0);
+  });
+
+  test('status parser supports every lifecycle status', () {
+    expect(serverStatusFromJson('HEALTHY'), ServerStatus.healthy);
+    expect(serverStatusFromJson('WARNING'), ServerStatus.warning);
+    expect(serverStatusFromJson('CRITICAL'), ServerStatus.critical);
+    expect(serverStatusFromJson('STALE'), ServerStatus.stale);
+    expect(serverStatusFromJson('OFFLINE'), ServerStatus.offline);
+    expect(serverStatusFromJson('UNKNOWN'), ServerStatus.unknown);
   });
 
   test('range step keeps every request below the backend point cap', () {

@@ -112,6 +112,27 @@ def service_metadata(write_request):
     return discovered
 
 
+def service_health_observations(write_request):
+    """Return explicit application scrape health grouped by validated service name."""
+
+    observations = {}
+    for series in write_request.timeseries:
+        labels = {label.name: label.value for label in series.labels}
+        name = (
+            labels.get("service_name")
+            or labels.get("container_label_monitoring_service_name")
+            or ""
+        ).strip()
+        if not SERVICE_NAME.fullmatch(name) or labels.get("__name__") != "up":
+            continue
+        if not series.samples:
+            continue
+        healthy = bool(series.samples[-1].value > 0)
+        previous = observations.get(name)
+        observations[name] = healthy if previous is None else previous and healthy
+    return observations
+
+
 def overwrite_identity(write_request, *, organization_id, server_id, service_ids=None):
     """Remove edge-controlled identity and apply credential-derived labels."""
 

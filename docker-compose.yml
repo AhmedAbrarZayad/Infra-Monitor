@@ -1,0 +1,175 @@
+services:
+  backend:
+    build: 
+      context: ./backend
+    ports:
+      - 7000:8000
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      ML_SERVICE_URL: http://ml_service:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      vminsert:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  ml_service:
+    build: 
+      context: ./model
+    ports:
+      - 7001:80
+    restart: unless-stopped
+    env_file:
+      - ./model/.env
+    environment:
+      DJANGO_INTERNAL_URL: http://backend:8000
+      DJANGO_CALLBACK_TIMEOUT_SECONDS: 10
+      ML_ARTIFACT_DIR: /code/artifacts
+    volumes:
+      - ml_artifacts:/code/artifacts
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:80/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  celery_worker:
+    build:
+      context: ./backend
+    command: celery -A infra_monitor worker --loglevel=info
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      ML_SERVICE_URL: http://ml_service:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      vmselect:
+        condition: service_healthy
+      ml_service:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  celery_beat:
+    build:
+      context: ./backend
+    command: celery -A infra_monitor beat --loglevel=info --schedule=/tmp/celerybeat-schedule
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  
+  postgres:
+    image: postgres:18
+    container_name: infra-monitor-database
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+
+  vmstorage:
+    image: victoriametrics/vmstorage:v1.150.0-cluster
+    restart: unless-stopped
+    command:
+      - -storageDataPath=/storage
+      - -retentionPeriod=12
+    volumes:
+      - victoriametrics-data:/storage
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8482/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  vminsert:
+    image: victoriametrics/vminsert:v1.150.0-cluster
+    restart: unless-stopped
+    command:
+      - -storageNode=vmstorage:8400
+      - -enableMultitenancyViaHeaders=false
+    depends_on:
+      vmstorage:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8480/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  vmselect:
+    image: victoriametrics/vmselect:v1.150.0-cluster
+    restart: unless-stopped
+    command:
+      - -storageNode=vmstorage:8401
+      - -enableMultitenancyViaHeaders=false
+    depends_on:
+      vmstorage:
+        condition: service_healthy
+    ports:
+      - "8481:8481"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8481/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+  
+
+
+  
+
+
+
+volumes:
+  postgres-data: 
+  victoriametrics-data:
+  ml_artifacts:

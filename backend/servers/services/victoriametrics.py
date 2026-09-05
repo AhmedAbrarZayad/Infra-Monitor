@@ -2,14 +2,14 @@ import json
 import math
 import re
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone as datetime_timezone
+from datetime import datetime, timedelta
+from datetime import timezone as datetime_timezone
 
 import httpx
 from django.conf import settings
 from django.utils import timezone
 
 from accounts.models import VictoriaMetricsTenant
-
 
 METRIC_NAME = re.compile(r"^[a-zA-Z_:][a-zA-Z0-9_:]*$")
 
@@ -41,10 +41,12 @@ METRIC_DEFINITIONS = {
     "disk_r": MetricDefinition(
         "bytes_per_second",
         "sum(rate(node_disk_read_bytes_total{{{filters},device!~\"^(loop|ram|fd).*\"}}[5m]))",
+        "sum(rate(container_fs_reads_bytes_total{{{filters},device!=\"\"}}[5m]))",
     ),
     "disk_w": MetricDefinition(
         "bytes_per_second",
         "sum(rate(node_disk_written_bytes_total{{{filters},device!~\"^(loop|ram|fd).*\"}}[5m]))",
+        "sum(rate(container_fs_writes_bytes_total{{{filters},device!=\"\"}}[5m]))",
     ),
     "disk_u": MetricDefinition(
         "percent",
@@ -53,10 +55,12 @@ METRIC_DEFINITIONS = {
     "eth1_fi": MetricDefinition(
         "bytes_per_second",
         "sum(rate(node_network_receive_bytes_total{{{filters},device!~\"^(lo|veth.*|docker.*)$\"}}[5m]))",
+        "sum(rate(container_network_receive_bytes_total{{{filters},interface!=\"lo\"}}[5m]))",
     ),
     "eth1_fo": MetricDefinition(
         "bytes_per_second",
         "sum(rate(node_network_transmit_bytes_total{{{filters},device!~\"^(lo|veth.*|docker.*)$\"}}[5m]))",
+        "sum(rate(container_network_transmit_bytes_total{{{filters},interface!=\"lo\"}}[5m]))",
     ),
     "tcp_timeouts": MetricDefinition(
         "timeouts_per_second",

@@ -8,3 +8,4 @@ from .reset_password_view import ResetPasswordView
 from .me_view import MeView
 from .enrollment_token_view import EnrollmentTokenView
 from .monitoring_lifecycle_view import EnrollmentDetailView, RotateServerCredentialView, ServerMonitoringView
+from .preferences_view import PreferencesView

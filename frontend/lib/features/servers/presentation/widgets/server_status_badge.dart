@@ -11,6 +11,7 @@ class ServerStatusBadge extends StatelessWidget {
     ServerStatus.critical => const Color(0xFFFF4057),
     ServerStatus.warning => const Color(0xFFFFB51F),
     ServerStatus.healthy => const Color(0xFF35D17C),
+    ServerStatus.stale => const Color(0xFFFFB51F),
     ServerStatus.offline => const Color(0xFF8993A4),
     ServerStatus.unknown => const Color(0xFF3BB8FF),
   };

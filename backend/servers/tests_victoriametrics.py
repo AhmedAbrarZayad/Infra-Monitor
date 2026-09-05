@@ -75,6 +75,26 @@ class VictoriaMetricsQueryAdapterTests(TestCase):
         self.assertTrue(result["available"])
         self.assertEqual(result["points"], [])
 
+    def test_isolation_forest_metrics_have_container_scoped_service_expressions(self):
+        adapter = VictoriaMetricsQueryAdapter(client=FakeClient(None))
+        expected_sources = {
+            "cpu_r": "container_cpu_usage_seconds_total",
+            "mem_u": "container_memory_working_set_bytes",
+            "disk_r": "container_fs_reads_bytes_total",
+            "disk_w": "container_fs_writes_bytes_total",
+            "eth1_fi": "container_network_receive_bytes_total",
+            "eth1_fo": "container_network_transmit_bytes_total",
+        }
+        for code, source in expected_sources.items():
+            expression, _ = adapter.expression(
+                server=self.server,
+                service=self.service,
+                code=code,
+            )
+            self.assertIn(source, expression)
+            self.assertIn(f'service_id="{self.service.service_id}"', expression)
+            self.assertNotIn("node_", expression)
+
     def test_unknown_metric_is_exact_and_invalid_name_is_rejected(self):
         adapter = VictoriaMetricsQueryAdapter(client=FakeClient(None))
         expression, unit = adapter.expression(server=self.server, code="http_requests_total")

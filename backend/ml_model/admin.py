@@ -1,3 +1,1 @@
-from django.contrib import admin
-
-# Register your models here.
+# Register ML application models here when an admin view is needed.

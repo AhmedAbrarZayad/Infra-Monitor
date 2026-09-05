@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     "servers",
     "alert",
     "ml_model",
-    "installer"
+    "installer",
+    "dashboard",
 ]
 
 
@@ -164,11 +165,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
     "DEFAULT_THROTTLE_RATES": {
         "organization_search": "60/minute",
         "membership_request": "10/hour",
@@ -225,7 +224,9 @@ MONITORING_INSTALL_URL = os.getenv(
 )
 MONITORING_PUBLIC_BASE_URL = os.getenv("MONITORING_PUBLIC_BASE_URL", "")
 MONITORING_SERVER_URL = os.getenv("MONITORING_SERVER_URL", MONITORING_PUBLIC_BASE_URL)
-MONITORING_CREDENTIAL_OVERLAP_MINUTES = int(os.getenv("MONITORING_CREDENTIAL_OVERLAP_MINUTES", "15"))
+MONITORING_CREDENTIAL_OVERLAP_MINUTES = int(
+    os.getenv("MONITORING_CREDENTIAL_OVERLAP_MINUTES", "15")
+)
 MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES = int(
     os.getenv("MONITORING_REMOTE_WRITE_MAX_COMPRESSED_BYTES", str(10 * 1024 * 1024))
 )
@@ -243,6 +244,32 @@ VICTORIAMETRICS_SELECT_URL = os.getenv("VICTORIAMETRICS_SELECT_URL", "http://vms
 VICTORIAMETRICS_QUERY_TIMEOUT_SECONDS = float(
     os.getenv("VICTORIAMETRICS_QUERY_TIMEOUT_SECONDS", "10")
 )
+
+ML_SERVICE_URL = os.getenv("ML_SERVICE_URL", "http://ml_service:80")
+ML_SERVICE_TOKEN = os.getenv("ML_SERVICE_TOKEN", "")
+ML_REQUEST_TIMEOUT_SECONDS = float(os.getenv("ML_REQUEST_TIMEOUT_SECONDS", "30"))
+ML_TRAINING_LOOKBACK_HOURS = int(os.getenv("ML_TRAINING_LOOKBACK_HOURS", "24"))
+ML_INFERENCE_WINDOW_SECONDS = int(os.getenv("ML_INFERENCE_WINDOW_SECONDS", "300"))
+ML_METRIC_STEP_SECONDS = int(os.getenv("ML_METRIC_STEP_SECONDS", "60"))
+ML_ORCHESTRATION_INTERVAL_SECONDS = int(os.getenv("ML_ORCHESTRATION_INTERVAL_SECONDS", "300"))
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/1")
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 55
+CELERY_BEAT_SCHEDULE = {
+    "evaluate-service-lifecycle": {
+        "task": "servers.evaluate_service_lifecycle",
+        "schedule": int(os.getenv("SERVICE_LIFECYCLE_INTERVAL_SECONDS", "30")),
+    },
+    "dispatch-service-ml": {
+        "task": "ml_model.dispatch_service_ml",
+        "schedule": ML_ORCHESTRATION_INTERVAL_SECONDS,
+    },
+}
+
+SERVICE_STALE_AFTER_SECONDS = int(os.getenv("SERVICE_STALE_AFTER_SECONDS", "90"))
+SERVICE_OFFLINE_AFTER_SECONDS = int(os.getenv("SERVICE_OFFLINE_AFTER_SECONDS", "300"))
 
 # ─────────────────────────────────────────────────────────────────
 # Frontend URLs

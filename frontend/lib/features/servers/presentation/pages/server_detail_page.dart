@@ -4,10 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/api/operational_api.dart';
 import '../../../../shared/widgets/app_panel.dart';
 import '../../../../shared/widgets/selection_pill.dart';
+import '../../../anomalies/domain/entities/anomaly_detection.dart';
+import '../../../anomalies/presentation/providers/anomaly_providers.dart';
+import '../../../anomalies/presentation/widgets/anomaly_evidence_tile.dart';
 import '../../domain/entities/server.dart';
 import '../providers/servers_providers.dart';
 import '../widgets/metric_history_chart.dart';
 import '../widgets/server_status_badge.dart';
+import '../widgets/service_lifecycle_tile.dart';
 
 const _metricLabels = <String, String>{
   'cpu_r': 'CPU utilization',
@@ -45,6 +49,7 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
     ref.invalidate(serverProvider(widget.serverId));
     ref.invalidate(serverHealthProvider(widget.serverId));
     ref.invalidate(serverServicesProvider(widget.serverId));
+    ref.invalidate(serverAnomaliesProvider(widget.serverId));
     ref.invalidate(
       serverMetricProvider(
         MetricRequest(
@@ -62,6 +67,7 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
     final server = ref.watch(serverProvider(widget.serverId));
     final health = ref.watch(serverHealthProvider(widget.serverId));
     final services = ref.watch(serverServicesProvider(widget.serverId));
+    final anomalies = ref.watch(serverAnomaliesProvider(widget.serverId));
     final series = ref.watch(
       serverMetricProvider(
         MetricRequest(
@@ -124,7 +130,19 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
                           serverServicesProvider(widget.serverId),
                         ),
                       ),
-                      data: (items) => _ServicesPanel(services: items),
+                      data: (items) => _LifecycleServicesPanel(services: items),
+                    ),
+                    const SizedBox(height: 12),
+                    anomalies.when(
+                      loading: () =>
+                          const AppPanel(child: LinearProgressIndicator()),
+                      error: (error, _) => _ErrorPanel(
+                        message: 'Anomaly history unavailable: $error',
+                        onRetry: () => ref.invalidate(
+                          serverAnomaliesProvider(widget.serverId),
+                        ),
+                      ),
+                      data: (items) => _AnomalyHistoryPanel(anomalies: items),
                     ),
                   ],
                 ),
@@ -319,9 +337,10 @@ class _HistoryPanel extends StatelessWidget {
   );
 }
 
-class _ServicesPanel extends StatelessWidget {
-  const _ServicesPanel({required this.services});
+class _LifecycleServicesPanel extends StatelessWidget {
+  const _LifecycleServicesPanel({required this.services});
   final List<MonitoredService> services;
+
   @override
   Widget build(BuildContext context) => AppPanel(
     child: Column(
@@ -338,28 +357,47 @@ class _ServicesPanel extends StatelessWidget {
         if (services.isEmpty)
           const Text('No monitored Docker services discovered.')
         else
-          ...services.map(
-            (service) => ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                service.displayName.isEmpty
-                    ? service.name
-                    : service.displayName,
-              ),
-              subtitle: Text(
-                'port ${service.port?.toString() ?? 'unknown'} · reported ${relativeTime(service.lastReportedAt)}',
-              ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(service.status),
-                  Text(
-                    'CPU ${_reading(service.metrics['cpu_r'])} · MEM ${_reading(service.metrics['mem_u'])}',
-                    style: const TextStyle(fontSize: 9),
-                  ),
-                ],
-              ),
+          ...services.map((service) => ServiceLifecycleTile(service: service)),
+      ],
+    ),
+  );
+}
+
+class _AnomalyHistoryPanel extends StatelessWidget {
+  const _AnomalyHistoryPanel({required this.anomalies});
+
+  final List<AnomalyDetection> anomalies;
+
+  @override
+  Widget build(BuildContext context) => AppPanel(
+    padding: EdgeInsets.zero,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+          child: Text(
+            'ANOMALY HISTORY (${anomalies.length})',
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.2,
+            ),
+          ),
+        ),
+        if (anomalies.isEmpty)
+          const Padding(
+            padding: EdgeInsets.fromLTRB(14, 0, 14, 14),
+            child: Text(
+              'No abnormal inference windows have been detected for this server.',
+            ),
+          )
+        else
+          ...anomalies.indexed.map(
+            (entry) => Column(
+              children: [
+                AnomalyEvidenceTile(anomaly: entry.$2),
+                if (entry.$1 != anomalies.length - 1) const Divider(height: 1),
+              ],
             ),
           ),
       ],
@@ -392,6 +430,3 @@ String _unit(String unit) => switch (unit) {
   'timeouts_per_second' => 'timeouts/s',
   _ => unit,
 };
-String _reading(MetricReading? reading) => reading == null
-    ? 'No data'
-    : '${_compact(reading.value)} ${_unit(reading.unit)}';

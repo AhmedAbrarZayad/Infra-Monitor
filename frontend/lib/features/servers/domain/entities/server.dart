@@ -1,4 +1,4 @@
-enum ServerStatus { critical, warning, healthy, offline, unknown }
+enum ServerStatus { critical, warning, healthy, stale, offline, unknown }
 
 ServerStatus serverStatusFromJson(dynamic value) =>
     ServerStatus.values.firstWhere(
@@ -170,6 +170,9 @@ class MonitoredService {
     required this.status,
     required this.port,
     required this.lastReportedAt,
+    required this.statusChangedAt,
+    required this.lifecycleReason,
+    required this.consecutiveFailureObservations,
     required this.alertCount,
     this.metrics = const {},
   });
@@ -177,9 +180,12 @@ class MonitoredService {
   final String serverId;
   final String name;
   final String displayName;
-  final String status;
+  final ServerStatus status;
   final int? port;
   final DateTime? lastReportedAt;
+  final DateTime? statusChangedAt;
+  final String lifecycleReason;
+  final int consecutiveFailureObservations;
   final int alertCount;
   final Map<String, MetricReading?> metrics;
 
@@ -192,9 +198,14 @@ class MonitoredService {
       serverId: json['server_id']?.toString() ?? '',
       name: json['service_name']?.toString() ?? '',
       displayName: json['display_name']?.toString() ?? '',
-      status: json['status']?.toString() ?? 'UNKNOWN',
+      status: serverStatusFromJson(json['status']),
       port: (json['port'] as num?)?.toInt(),
       lastReportedAt: _date(json['last_reported_at']),
+      statusChangedAt: _date(json['status_changed_at']),
+      lifecycleReason:
+          json['lifecycle_reason']?.toString() ?? 'awaiting_telemetry',
+      consecutiveFailureObservations:
+          (json['consecutive_failure_observations'] as num?)?.toInt() ?? 0,
       alertCount: (json['alert_count'] as num?)?.toInt() ?? 0,
       metrics: raw.map(
         (code, value) => MapEntry(code, MetricReading.maybe(value)),

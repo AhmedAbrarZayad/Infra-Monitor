@@ -1,8 +1,10 @@
 import uuid
 
 from django.db import models
+
 from .servers import Servers
-from django.utils import timezone
+
+
 class Service(models.Model):
     service_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     server_id = models.ForeignKey(Servers, on_delete=models.CASCADE, related_name="services")
@@ -11,6 +13,9 @@ class Service(models.Model):
     status = models.CharField(max_length=16, choices=Servers.Status.choices, default=Servers.Status.UNKNOWN, db_index=True)
     port = models.IntegerField(null=True, blank=True)
     last_reported_at = models.DateTimeField(null=True, blank=True, db_index=True)
+    status_changed_at = models.DateTimeField(null=True, blank=True)
+    lifecycle_reason = models.CharField(max_length=64, default="awaiting_telemetry")
+    consecutive_failure_observations = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

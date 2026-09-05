@@ -37,19 +37,23 @@ Every normalized sample/series point provides:
 }
 ```
 
-The mandatory ML feature subset is exactly:
+The mandatory initial Isolation Forest feature subset is exactly:
 
 ```text
-cpu_r, load_1, load_5, mem_u,
-disk_q, disk_r, disk_w, disk_u,
-eth1_fi, eth1_fo, tcp_timeouts
+cpu_r, mem_u, disk_r, disk_w, eth1_fi, eth1_fo
 ```
+
+These codes are governed by feature schema `container_iforest_v1` and must be
+container/service scoped. Host `node_*` values are not valid fallbacks. See
+[Container Isolation Forest Integration](../Container%20Isolation%20Forest%20Integration.md)
+for metric derivations, known collector gaps, dataset rules, and readiness gates.
 
 - Codes are case-sensitive and must not be renamed.
 - Each series carries an explicit stable unit. Unknown units are returned but never guessed or silently converted.
 - `cpu_r`, `mem_u`, and `disk_u` populate percentage cards only for `percent`, `%`, or `percentage` units.
 - Additional application/derived metrics such as latency, error rate, availability, and uptime are allowed.
 - Timestamps are UTC, windows are ordered/non-overlapping, values are finite numbers, and duplicate delivery is idempotent.
+- `load_1`, `load_5`, `disk_q`, `disk_u`, and `tcp_timeouts` are excluded from `container_iforest_v1`; host values must never fill those or any missing service feature.
 
 ## Metrics query adapter
 
@@ -63,11 +67,18 @@ The future VictoriaMetrics adapter must preserve the database adapter behavior:
 
 ## ML handoff
 
+- Deterministic lifecycle rules, not ML, are authoritative for service crashes, restarts, staleness, and offline state. They operate before ML warm-up and without an active model.
+- Isolation Forest detects unusual service-level container behaviour and possible pre-crash degradation; an anomaly alone does not mark a service offline.
+- The FastAPI ML service owns `/api/internal/ml/*`, durable dataset/job/model/detection/correlation metadata, and worker coordination. Redis is dispatch only; model artifacts live in object storage.
+- FastAPI/workers query VictoriaMetrics directly with server-generated bounded queries and trusted tenant mappings. Django does not proxy training data or model artifacts.
 - Readiness begins with the first valid service-health sample and requires 72 hours of usable data.
 - First inference starts only after successful validation and activation; retraining defaults to every seven days while the prior model keeps serving.
 - Each anomaly persists organization, server/service, window, the exact feature-value map, score, confidence, decision, model/version provenance, and detection timestamp.
 - Candidate failure never replaces the active model.
-- Alert/incident correlation uses stable fingerprints and the shared tenant-scoped domain service so retries do not create duplicates.
+- Alert/incident correlation uses stable fingerprints and submits incident candidates to Django's authenticated internal boundary. Django revalidates ownership and calls the shared tenant-scoped domain service; ML never writes Django incident tables.
+
+See [ML Service Architecture](../ML%20Architecture.md) for the runtime topology,
+data ownership, workflow, and failure contract.
 
 ## AI handoff
 
