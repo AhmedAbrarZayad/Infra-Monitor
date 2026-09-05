@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
+import '../../../../core/api/authenticated_client.dart';
 import '../../data/auth_repository.dart';
 import '../../domain/auth_state.dart';
 
@@ -21,6 +23,21 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
     repository: ref.watch(authRepositoryProvider),
     storage: ref.watch(secureStorageProvider),
   );
+});
+
+/// One shared client prevents concurrent 401s from rotating the same refresh
+/// token more than once.
+final authenticatedHttpClientProvider = Provider<http.Client>((ref) {
+  final client = AuthenticatedClient(
+    accessToken: () {
+      final auth = ref.read(authProvider);
+      return auth is AuthAuthenticated ? auth.accessToken : null;
+    },
+    refreshSession: () => ref.read(authProvider.notifier).refreshSession(),
+    clearSession: () => ref.read(authProvider.notifier).clearSession(),
+  );
+  ref.onDispose(client.close);
+  return client;
 });
 
 /// Manages authentication state and token persistence.
@@ -80,8 +97,29 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> clearSession() async {
-      await _clearTokens();
-      state = const AuthUnauthenticated();
+    await _clearTokens();
+    state = const AuthUnauthenticated();
+  }
+
+  /// Rotate the refresh token and update the in-memory session.
+  Future<bool> refreshSession() async {
+    final current = state;
+    if (current is! AuthAuthenticated) return false;
+    try {
+      final tokens = await repository.refreshToken(
+        refreshToken: current.refreshToken,
+      );
+      await _persistTokens(tokens['access']!, tokens['refresh']!);
+      state = AuthAuthenticated(
+        user: current.user,
+        accessToken: tokens['access']!,
+        refreshToken: tokens['refresh']!,
+      );
+      return true;
+    } on ApiException catch (error) {
+      if (error.statusCode == 401) return false;
+      rethrow;
+    }
   }
 
   /// Register a new user.
@@ -112,10 +150,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   /// Verify email with OTP.
-  Future<void> verifyEmail({
-    required String email,
-    required String otp,
-  }) async {
+  Future<void> verifyEmail({required String email, required String otp}) async {
     state = const AuthLoading();
     try {
       final response = await repository.verifyEmail(email: email, otp: otp);
@@ -142,10 +177,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   /// Login with email and password.
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     state = const AuthLoading();
     try {
       final response = await repository.login(email: email, password: password);
@@ -157,10 +189,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
     } on ApiException catch (e) {
       if (e.body.containsKey('email_not_verified') ||
-          (e.body.values.any((v) =>
-              v is List &&
-              v.any((item) =>
-                  item is Map && item['email_not_verified'] == true)))) {
+          (e.body.values.any(
+            (v) =>
+                v is List &&
+                v.any(
+                  (item) => item is Map && item['email_not_verified'] == true,
+                ),
+          ))) {
         state = AuthEmailVerificationRequired(email: email);
       } else {
         state = AuthError(e.message);

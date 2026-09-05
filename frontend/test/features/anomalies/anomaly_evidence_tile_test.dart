@@ -18,7 +18,7 @@ void main() {
       'model_version': 'model-v1',
       'feature_values': {
         'cpu_r': 82,
-        'mem_u': 43,
+        'mem_u': 43008000,
         'disk_r': 1200,
         'disk_w': 700,
         'eth1_fi': 900,
@@ -44,6 +44,8 @@ void main() {
     expect(find.text('model-v1'), findsOneWidget);
     expect(find.text('ANOMALY SCORE'), findsOneWidget);
     expect(find.text('CPU'), findsOneWidget);
+    expect(find.text('Unavailable'), findsOneWidget);
+    expect(find.textContaining('43008000'), findsNothing);
     expect(find.text('NETWORK OUT'), findsOneWidget);
     expect(find.text('Ask AI'), findsOneWidget);
   });

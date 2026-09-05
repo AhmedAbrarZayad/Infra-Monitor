@@ -95,6 +95,13 @@ class VictoriaMetricsQueryAdapterTests(TestCase):
             self.assertIn(f'service_id="{self.service.service_id}"', expression)
             self.assertNotIn("node_", expression)
 
+        memory_expression, _ = adapter.expression(
+            server=self.server,
+            service=self.service,
+            code="mem_u",
+        )
+        self.assertNotIn("clamp_min", memory_expression)
+
     def test_unknown_metric_is_exact_and_invalid_name_is_rejected(self):
         adapter = VictoriaMetricsQueryAdapter(client=FakeClient(None))
         expression, unit = adapter.expression(server=self.server, code="http_requests_total")

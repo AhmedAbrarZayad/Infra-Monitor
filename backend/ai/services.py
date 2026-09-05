@@ -141,7 +141,7 @@ async def stream_gemini_response(contents):
 
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
     try:
-        stream = client.aio.models.generate_content_stream(
+        stream = await client.aio.models.generate_content_stream(
             model=settings.GEMINI_MODEL,
             contents=contents,
             config=types.GenerateContentConfig(

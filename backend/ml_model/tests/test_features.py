@@ -65,3 +65,18 @@ class ServiceFeatureBuilderTests(SimpleTestCase):
                 start=now,
                 end=now,
             )
+
+    def test_rejects_memory_values_that_are_not_percentages(self):
+        now = datetime(2026, 9, 5, tzinfo=UTC)
+        points = {
+            feature: [{"timestamp": now, "value": 1}]
+            for feature in FEATURE_NAMES
+        }
+        points["mem_u"] = [{"timestamp": now, "value": 43_008_000}]
+
+        with self.assertRaises(InsufficientTelemetryError):
+            ServiceFeatureBuilder(adapter=FakeAdapter(points)).build(
+                service=SimpleNamespace(server_id=object()),
+                start=now,
+                end=now,
+            )

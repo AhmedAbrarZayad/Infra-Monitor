@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -31,4 +32,19 @@ class AnomalyDetailView(APIView):
             organization=organization,
             pk=detection_id,
         )
+        return Response(present_anomaly(anomaly))
+
+
+class AnomalyResolveView(APIView):
+    def post(self, request, organization_id, detection_id):
+        organization, _ = get_organization_membership(request, organization_id)
+        anomaly = get_object_or_404(
+            AnomalyDetection,
+            organization=organization,
+            pk=detection_id,
+        )
+        if anomaly.resolved_at is None:
+            anomaly.resolved_at = timezone.now()
+            anomaly.resolved_by = request.user
+            anomaly.save(update_fields=["resolved_at", "resolved_by"])
         return Response(present_anomaly(anomaly))

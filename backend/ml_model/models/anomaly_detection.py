@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -23,6 +24,14 @@ class AnomalyDetection(models.Model):
     window_started_at = models.DateTimeField()
     window_ended_at = models.DateTimeField()
     detected_at = models.DateTimeField(default=timezone.now)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    resolved_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="resolved_anomalies",
+    )
 
     class Meta:
         ordering = ["-detected_at", "detection_id"]

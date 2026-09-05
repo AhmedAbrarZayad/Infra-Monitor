@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.utils import timezone
 from rest_framework.test import APITestCase
 
@@ -83,14 +85,15 @@ class DashboardApiTests(APITestCase):
             model_version="model-1",
             window_started_at=now,
             window_ended_at=now,
+            detected_at=now - timedelta(minutes=1),
         )
         AnomalyDetection.objects.create(
             organization=organization,
             server_id=server,
             service_id=service,
-            anomaly_score=0.1,
-            confidence_score=0.1,
-            is_anomaly=False,
+            anomaly_score=-0.3,
+            confidence_score=0.3,
+            is_anomaly=True,
             feature_values=values,
             model_version="model-2",
             window_started_at=now,
@@ -117,4 +120,11 @@ class DashboardApiTests(APITestCase):
         detection = response.data["recent_anomalies"][0]
         self.assertEqual(detection["server_name"], "Ubuntu Lab")
         self.assertEqual(detection["service_name"], "Demo Load")
-        self.assertEqual(detection["model_version"], "model-1")
+        self.assertEqual(detection["model_version"], "model-2")
+
+        AnomalyDetection.objects.filter(detection_id=detection["id"]).update(
+            resolved_at=timezone.now(),
+            resolved_by=user,
+        )
+        response = self.client.get(f"/api/organizations/{organization.id}/overview/")
+        self.assertEqual(response.data["recent_anomalies"], [])

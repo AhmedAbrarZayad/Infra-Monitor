@@ -112,3 +112,32 @@ class InternalDetectionTests(APITestCase):
 
         self.client.force_authenticate(outsider)
         self.assertEqual(self.client.get(url).status_code, 404)
+
+    def test_approved_member_can_resolve_anomaly_idempotently(self):
+        detection_id = self.post().data["id"]
+        member = Users.objects.create_user(
+            username="resolver",
+            email="resolver@example.com",
+            password="pass",
+            is_email_verified=True,
+        )
+        OrganizationMembership.objects.create(
+            organization=self.organization,
+            user=member,
+            role="ENGINEER",
+            approved=True,
+        )
+        self.client.force_authenticate(member)
+        url = (
+            f"/api/organizations/{self.organization.pk}/anomalies/"
+            f"{detection_id}/resolve/"
+        )
+
+        first = self.client.post(url)
+        second = self.client.post(url)
+
+        self.assertEqual(first.status_code, 200)
+        self.assertEqual(second.status_code, 200)
+        detection = AnomalyDetection.objects.get(pk=detection_id)
+        self.assertIsNotNone(detection.resolved_at)
+        self.assertEqual(detection.resolved_by, member)

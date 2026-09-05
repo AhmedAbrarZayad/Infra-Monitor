@@ -289,6 +289,7 @@ final assistantRepositoryProvider = Provider<AssistantRepository>((ref) {
       OperationalApi(
         auth.accessToken,
         organization.activeMembership.organization.id,
+        client: ref.watch(authenticatedHttpClientProvider),
       ),
     ),
   );

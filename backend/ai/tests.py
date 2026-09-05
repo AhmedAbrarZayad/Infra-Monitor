@@ -181,9 +181,9 @@ class AssistantTests(TransactionTestCase):
         self.service.refresh_from_db()
         self.assertEqual(self.service.status, Servers.Status.HEALTHY)
 
-    def test_google_sdk_async_iterator_is_streamed_without_awaiting_it(self):
+    def test_google_sdk_stream_coroutine_is_awaited_then_iterated(self):
         class FakeModels:
-            def generate_content_stream(self, **kwargs):
+            async def generate_content_stream(self, **kwargs):
                 async def chunks():
                     yield SimpleNamespace(text="first ")
                     yield SimpleNamespace(text="second")

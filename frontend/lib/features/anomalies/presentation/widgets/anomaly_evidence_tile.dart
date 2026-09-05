@@ -10,9 +10,16 @@ const _warning = Color(0xFFFFB51F);
 const _muted = Color(0xFF8993A4);
 
 class AnomalyEvidenceTile extends ConsumerWidget {
-  const AnomalyEvidenceTile({required this.anomaly, super.key});
+  const AnomalyEvidenceTile({
+    required this.anomaly,
+    this.onResolve,
+    this.resolving = false,
+    super.key,
+  });
 
   final AnomalyDetection anomaly;
+  final Future<void> Function()? onResolve;
+  final bool resolving;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => ExpansionTile(
@@ -50,23 +57,42 @@ class AnomalyEvidenceTile extends ConsumerWidget {
             ..._features.entries.map(
               (entry) => _Detail(
                 entry.value.$1,
-                _feature(anomaly.featureValues[entry.key], entry.value.$2),
+                _feature(
+                  entry.key,
+                  anomaly.featureValues[entry.key],
+                  entry.value.$2,
+                ),
               ),
             ),
           ],
         ),
       ),
       const SizedBox(height: 8),
-      Align(
-        alignment: Alignment.centerRight,
-        child: TextButton.icon(
-          onPressed: () {
-            ref.read(appNavigationProvider.notifier).openAssistant(anomaly.id);
-            if (GoRouterState.of(context).uri.path != '/') context.go('/');
-          },
-          icon: const Icon(Icons.auto_awesome, size: 16),
-          label: const Text('Ask AI'),
-        ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (onResolve != null)
+            TextButton.icon(
+              onPressed: resolving ? null : onResolve,
+              icon: resolving
+                  ? const SizedBox.square(
+                      dimension: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.check_circle_outline, size: 16),
+              label: Text(resolving ? 'Resolving…' : 'Mark resolved'),
+            ),
+          TextButton.icon(
+            onPressed: () {
+              ref
+                  .read(appNavigationProvider.notifier)
+                  .openAssistant(anomaly.id);
+              if (GoRouterState.of(context).uri.path != '/') context.go('/');
+            },
+            icon: const Icon(Icons.auto_awesome, size: 16),
+            label: const Text('Ask AI'),
+          ),
+        ],
       ),
     ],
   );
@@ -98,8 +124,12 @@ class _Detail extends StatelessWidget {
   );
 }
 
-String _feature(double? value, String unit) =>
-    value == null ? 'No data' : '${value.toStringAsFixed(2)} $unit';
+String _feature(String key, double? value, String unit) {
+  if (value == null || (key == 'mem_u' && (value < 0 || value > 100))) {
+    return 'Unavailable';
+  }
+  return '${value.toStringAsFixed(2)} $unit';
+}
 
 String _timestamp(DateTime? value) =>
     value == null ? 'Unknown' : value.toLocal().toIso8601String();

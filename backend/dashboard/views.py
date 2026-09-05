@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.db.models import Count
+from django.db.models import Count, F, OuterRef, Subquery
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,8 +26,22 @@ class OverviewView(APIView):
             servers = servers.filter(environment__iexact=environment)
         incidents = Incident.objects.filter(organization=organization).exclude(status="RESOLVED")
         alerts = Alert.objects.filter(organization=organization).order_by("-triggered_at")[:10]
+        latest_service_detection = (
+            AnomalyDetection.objects.filter(
+                organization=organization,
+                service_id=OuterRef("service_id"),
+            )
+            .order_by("-detected_at", "-detection_id")
+            .values("detection_id")[:1]
+        )
         recent_anomalies = (
-            AnomalyDetection.objects.filter(organization=organization, is_anomaly=True)
+            AnomalyDetection.objects.filter(organization=organization)
+            .annotate(latest_detection_id=Subquery(latest_service_detection))
+            .filter(
+                detection_id=F("latest_detection_id"),
+                is_anomaly=True,
+                resolved_at__isnull=True,
+            )
             .select_related("server_id", "service_id")
             .order_by("-detected_at")[:5]
         )

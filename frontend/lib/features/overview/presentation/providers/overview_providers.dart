@@ -38,6 +38,7 @@ final overviewDashboardProvider = FutureProvider.autoDispose<OverviewDashboard>(
     final x = await OperationalApi(
       a.accessToken,
       o.activeMembership.organization.id,
+      client: ref.watch(authenticatedHttpClientProvider),
     ).getMap('overview/');
     final fleet = x['fleet'] as Map<String, dynamic>? ?? {};
     final health = (x['platform_health'] as List? ?? []).map((e) {
@@ -95,3 +96,17 @@ final overviewDashboardProvider = FutureProvider.autoDispose<OverviewDashboard>(
     );
   },
 );
+
+Future<void> resolveAnomaly(WidgetRef ref, String detectionId) async {
+  final auth = ref.read(authProvider);
+  final organization = ref.read(organizationContextProvider);
+  if (auth is! AuthAuthenticated || organization is! OrganizationReady) {
+    throw StateError('No active organization');
+  }
+  await OperationalApi(
+    auth.accessToken,
+    organization.activeMembership.organization.id,
+    client: ref.read(authenticatedHttpClientProvider),
+  ).post('anomalies/$detectionId/resolve/');
+  ref.invalidate(overviewDashboardProvider);
+}

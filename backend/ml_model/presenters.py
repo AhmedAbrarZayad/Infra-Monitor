@@ -13,4 +13,6 @@ def present_anomaly(anomaly):
         "window_started_at": anomaly.window_started_at,
         "window_ended_at": anomaly.window_ended_at,
         "detected_at": anomaly.detected_at,
+        "resolved_at": anomaly.resolved_at,
+        "resolved_by": anomaly.resolved_by_id,
     }

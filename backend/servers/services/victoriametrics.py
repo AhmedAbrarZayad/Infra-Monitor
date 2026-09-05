@@ -32,7 +32,7 @@ METRIC_DEFINITIONS = {
     "mem_u": MetricDefinition(
         "percent",
         "(1 - (max(node_memory_MemAvailable_bytes{{{filters}}}) / max(node_memory_MemTotal_bytes{{{filters}}}))) * 100",
-        "(sum(container_memory_working_set_bytes{{{filters}}}) / clamp_min(sum(container_spec_memory_limit_bytes{{{filters}}}), 1)) * 100",
+        "(sum(container_memory_working_set_bytes{{{filters}}}) / sum(container_spec_memory_limit_bytes{{{filters}}})) * 100",
     ),
     "disk_q": MetricDefinition(
         "seconds_per_second",

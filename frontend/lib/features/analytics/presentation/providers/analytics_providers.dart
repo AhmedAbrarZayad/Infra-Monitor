@@ -20,6 +20,7 @@ final analyticsProvider = FutureProvider.autoDispose<AnalyticsDashboard>((
   final x = await OperationalApi(
     a.accessToken,
     o.activeMembership.organization.id,
+    client: ref.watch(authenticatedHttpClientProvider),
   ).getMap('analytics/');
   final m = x['metrics'] as Map<String, dynamic>? ?? {};
   final series = x['series'] as Map<String, dynamic>? ?? {};

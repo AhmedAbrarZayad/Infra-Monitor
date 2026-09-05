@@ -19,6 +19,7 @@ final anomaliesApiProvider = Provider.autoDispose<AnomaliesApi?>((ref) {
   return AnomaliesApi(
     auth.accessToken,
     organization.activeMembership.organization.id,
+    client: ref.watch(authenticatedHttpClientProvider),
   );
 });
 

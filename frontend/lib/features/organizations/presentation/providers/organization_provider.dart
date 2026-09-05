@@ -14,7 +14,10 @@ const activeOrganizationStorageKey = 'active_organization_id';
 final organizationRepositoryProvider = Provider<OrganizationRepository?>((ref) {
   final auth = ref.watch(authProvider);
   if (auth is! AuthAuthenticated) return null;
-  return OrganizationRepository(auth.accessToken);
+  return OrganizationRepository(
+    auth.accessToken,
+    client: ref.watch(authenticatedHttpClientProvider),
+  );
 });
 
 final organizationContextProvider =
@@ -56,6 +59,8 @@ class OrganizationContextNotifier extends StateNotifier<OrganizationContextState
       final context = await api.getContext();
       await _applyContext(context);
     } on ApiException catch (error) {
+      // The authenticated client already attempted refresh and only leaves a
+      // 401 when the refreshed credential is still unauthorized.
       if (error.statusCode == 401) {
         await ref.read(authProvider.notifier).clearSession();
       } else {

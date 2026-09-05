@@ -40,6 +40,7 @@ class ApiException implements Exception {
 
 /// Repository for all auth-related API calls.
 class AuthRepository {
+  static const requestTimeout = Duration(seconds: 15);
   final http.Client _client;
   final String _baseUrl;
 
@@ -187,7 +188,7 @@ class AuthRepository {
       Uri.parse('$_baseUrl/token/refresh/'),
       headers: _headers(),
       body: jsonEncode({'refresh': refreshToken}),
-    );
+    ).timeout(requestTimeout);
     _checkResponse(response);
     final data = _decodeResponse(response);
     return {
@@ -201,7 +202,7 @@ class AuthRepository {
     final response = await _client.get(
       Uri.parse('$_baseUrl/me/'),
       headers: _headers(accessToken: accessToken),
-    );
+    ).timeout(requestTimeout);
     _checkResponse(response);
     return UserModel.fromJson(_decodeResponse(response));
   }

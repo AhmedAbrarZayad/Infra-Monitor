@@ -18,6 +18,7 @@ final monitoringApiProvider = Provider.autoDispose<MonitoringApi?>((ref) {
   return MonitoringApi(
     auth.accessToken,
     organization.activeMembership.organization.id,
+    client: ref.watch(authenticatedHttpClientProvider),
   );
 });
 
@@ -31,6 +32,7 @@ final monitoringRefreshIntervalProvider = FutureProvider.autoDispose<Duration>((
   final data = await OperationalApi(
     auth.accessToken,
     organization.activeMembership.organization.id,
+    client: ref.watch(authenticatedHttpClientProvider),
   ).getApiMap('auth/me/preferences/');
   final seconds = ((data['refresh_interval_seconds'] as num?)?.toInt() ?? 10)
       .clamp(5, 3600);
