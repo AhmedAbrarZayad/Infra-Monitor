@@ -15,6 +15,8 @@ from ..services import TokenService
 
 def _install_command(*, install_url, server_url, token):
     """Build a copy/paste command that also survives WSL NAT address changes."""
+    install_url = install_url.rstrip("/")
+    server_url = server_url.rstrip("/")
     server = urlsplit(server_url)
     installer = urlsplit(install_url)
     port = server.port or (443 if server.scheme == "https" else 80)

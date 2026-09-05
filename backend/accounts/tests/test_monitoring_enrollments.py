@@ -3,6 +3,20 @@ from rest_framework.test import APIClient
 
 from accounts.models import EnrollmentToken, Organization, OrganizationMembership, Users
 from accounts.services import TokenService
+from accounts.views.enrollment_token_view import _install_command
+
+
+class InstallCommandTests(TestCase):
+    def test_trailing_slashes_do_not_create_double_slash_paths(self):
+        command = _install_command(
+            install_url="http://192.168.0.107:7000/api/monitoring/install.sh/",
+            server_url="http://192.168.0.107:7000/",
+            token="enroll_test",
+        )
+
+        self.assertNotIn(":7000//api/", command)
+        self.assertIn('_im_server="http://${_im_gateway}:7000"', command)
+        self.assertIn('sudo sh "$_im_installer"', command)
 
 
 @override_settings(MONITORING_INSTALL_URL="https://example.test/install")

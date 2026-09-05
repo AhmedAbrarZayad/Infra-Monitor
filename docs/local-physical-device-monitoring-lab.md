@@ -145,6 +145,53 @@ requests coming from Windows or the physical phone. Therefore, use
 `http://backend:8000` for the FastAPI-to-Django callback and
 `http://<WINDOWS_LAN_IP>:7000` from physical devices.
 
+### Refresh addresses at the start of every lab session
+
+The Windows LAN address and phone address can change after reconnecting to
+Wi-Fi. The WSL virtual-adapter address can also change and must **not** be saved
+as the public monitoring address. Before starting Compose, display the current
+Windows Wi-Fi address:
+
+```powershell
+$infraLanIp = (Get-NetIPAddress -InterfaceAlias "WiFi" -AddressFamily IPv4 |
+  Where-Object AddressState -eq "Preferred" |
+  Select-Object -First 1 -ExpandProperty IPAddress)
+$infraLanIp
+```
+
+Use that value—not a `172.x` WSL/Docker address—in `backend/.env`:
+
+```dotenv
+MONITORING_INSTALL_URL=http://<WINDOWS_LAN_IP>:7000/api/monitoring/install.sh
+MONITORING_PUBLIC_BASE_URL=http://<WINDOWS_LAN_IP>:7000
+MONITORING_SERVER_URL=http://<WINDOWS_LAN_IP>:7000
+```
+
+Use the same Windows LAN address in `frontend/.env`:
+
+```dotenv
+API_BASE_URL=http://<WINDOWS_LAN_IP>:7000/api
+```
+
+If any backend monitoring URL changes while Compose is already running,
+restart Django so it reloads `backend/.env`:
+
+```powershell
+docker compose restart backend
+Invoke-RestMethod "http://${infraLanIp}:7000/api/health/live/"
+```
+
+Re-run the Flutter application after changing `frontend/.env`, because that
+file is bundled into the app. Also update the narrow firewall rule whenever the
+phone's Wi-Fi address changes.
+
+These values are intentionally reachable fallbacks for generated commands.
+When that command runs inside WSL2, it detects the live Windows gateway using
+`ip route show default` and replaces the fallback host before downloading the
+installer or consuming the enrollment token. Ordinary remote Linux machines
+cannot use WSL gateway detection and therefore require a stable DNS name or a
+reachable configured address.
+
 On Windows PowerShell versions where the static `GetBytes` method is
 unavailable, generate a token with:
 
@@ -352,6 +399,8 @@ docker network inspect monitor-ml-net >/dev/null 2>&1 || docker network create m
 
 docker run -d \
   --name demo-metrics \
+  --network monitor-ml-net \
+  --memory 512m \
   --restart unless-stopped \
   --label monitoring.enabled=true \
   --label monitoring.service_name=demo-metrics \
@@ -362,11 +411,21 @@ docker run -d \
 docker run -d \
   --name demo-load \
   --network monitor-ml-net \
+  --memory 512m \
   --restart unless-stopped \
   --label monitoring.enabled=true \
   --label monitoring.service_name=demo-load \
   alpine sleep infinity
 ```
+
+Keep the explicit memory limits on both containers. The service-level ML
+feature set calculates memory utilization from
+`container_memory_working_set_bytes / container_spec_memory_limit_bytes`; an
+unlimited container may not expose a usable denominator. Both containers also
+join `monitor-ml-net` so cAdvisor consistently exposes their non-loopback
+network counters. The feature builder requires CPU, memory, disk read/write,
+and network receive/transmit at the same timestamp and intentionally rejects an
+incomplete row instead of filling missing measurements with zero.
 
 ## 10. Optional metric showcases
 
@@ -543,7 +602,14 @@ Find the `demo-load` service UUID:
 docker compose exec backend python manage.py shell -c "from servers.models import Service; [print(s.service_id, s.display_name) for s in Service.objects.filter(service_name='demo-load')]"
 ```
 
-Wait up to ten minutes while watching the first-time flow:
+After creating the containers, leave them running quietly for at least ten
+minutes, then continue watching until the next five-minute dispatcher run. The
+metric queries use five-minute rates and ML evaluates only completed
+five-minute UTC buckets, so the first one or two dispatcher runs may correctly
+report `insufficient_inference_data` while the initial complete row is being
+built.
+
+Watch the first-time flow:
 
 ```powershell
 docker compose logs -f ml_service celery_worker

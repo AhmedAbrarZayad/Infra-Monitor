@@ -18,10 +18,6 @@ class AppBottomNavigation extends StatelessWidget {
       label: 'Incidents',
     ),
     NavigationDestination(icon: Icon(Icons.auto_awesome), label: 'AI'),
-    NavigationDestination(
-      icon: Icon(Icons.bar_chart_rounded),
-      label: 'Analytics',
-    ),
     NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More'),
   ];
 

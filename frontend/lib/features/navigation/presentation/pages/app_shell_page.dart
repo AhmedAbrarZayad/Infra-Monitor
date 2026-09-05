@@ -30,7 +30,6 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
     'Servers',
     'Incidents',
     'AI',
-    'Analytics',
     'More',
   ];
   static const _pages = <Widget>[
