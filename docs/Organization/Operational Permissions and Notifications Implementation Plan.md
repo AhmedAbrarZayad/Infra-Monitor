@@ -449,8 +449,8 @@ data and authenticated resource lookup.
 Implement server-driven scope plus client-side affordance checks:
 
 - Owner sees all operational screens, service Admin assignment, enrollment,
-  credentials, Team Management, audit, delivery history, and notification
-  policy.
+  credentials, Team Management, audit, basic notification status, and
+  notification policy.
 - Admin sees assigned services and their work, Engineer assignment controls,
   member approval/removal, scoped history, and personal preferences.
 - Engineer sees assigned work, related read-only context, permitted workflow
@@ -469,8 +469,18 @@ Owner/Admin pages, while the API remains the final enforcement point.
 - notification inbox and unread badge;
 - per-user notification settings;
 - Owner escalation-policy screen;
-- scoped notification-delivery history; and
+- basic notification delivery/acknowledgement status on the relevant detail
+  screen; and
 - safe notification deep-link handling.
+
+UI completeness rule: if any implemented user-facing capability in this plan
+has no existing Flutter screen or control, add the smallest usable UI for it.
+Do not consider an API-only implementation complete when an Owner, Admin, or
+Engineer must interact with or inspect that capability. This includes device
+registration state when troubleshooting is necessary, the inbox, notification
+preferences, acknowledgement, basic delivery status, Owner fallback/escalation
+policy, and unavailable deep-link feedback. Follow the existing design system
+and role/capability guards; do not add a production-scale operations dashboard.
 
 ## 10. Escalation and maintenance tasks
 
@@ -564,6 +574,46 @@ log in carefully so device-token ownership transfer is exercised.
 
 ## 12. Delivery phases
 
+### 12.1 Developer and AI handoff context
+
+This plan is intended to be executable by another developer or coding agent.
+Before changing code, inspect the current backend and Flutter implementation,
+existing migrations, tests, API conventions, authorization helpers, Celery
+configuration, and organization-context state. Treat the repository as the
+source of truth when a class, field, route, or filename differs from this plan;
+adapt the implementation without weakening tenant isolation or role checks.
+
+Assume Phases 1 and 2 provide service-scoped authorization and Owner -> Admin
+-> Engineer assignment. Phases 3 through 5 build notification behavior on top
+of that foundation. Django and organization memberships remain the identity
+and authorization authority. Firebase Authentication is not required. FCM is
+only a delivery channel: every notification must remain available through the
+durable Django-backed inbox even when FCM is disabled or unavailable.
+
+Implementation rules for Phases 3 through 5:
+
+- preserve existing user changes and follow repository conventions;
+- create additive, reversible migrations and do not rewrite old migrations;
+- keep all queries organization-scoped and recheck access at send and open
+  time;
+- enqueue Celery work only after the database transaction commits;
+- make event creation, delivery, and escalation idempotent with database
+  constraints, not only application checks;
+- never place secrets, raw device tokens, evidence, or sensitive incident data
+  in logs or FCM payloads;
+- mock Firebase in automated tests; real FCM is only for a controlled manual
+  test;
+- keep the Phase 5 scope minimal; and
+- add the smallest role-appropriate Flutter UI whenever required functionality
+  has no existing UI. API completion alone is not sufficient for user-facing
+  behavior.
+
+Before starting each phase, run the relevant existing test suites and record
+the baseline. After implementation, run focused backend tests, Flutter tests,
+formatters/static analysis, and any repository-required checks. If a test
+cannot run because credentials or external infrastructure are unavailable,
+document that limitation and verify the local/fake-transport path instead.
+
 ### Phase 1: Authorization foundation
 
 - Add service-to-Admin assignments and central scoped-query helpers.
@@ -588,34 +638,166 @@ notifications and survives refresh/relogin.
 
 ### Phase 3: Durable notification core
 
-- Add device, event, inbox, delivery, preference, and policy models.
-- Add device and inbox APIs.
-- Implement transactional event creation, routing, deduplication, and Celery
-  tasks with a fake transport.
+Goal: build and verify the complete notification workflow without depending on
+Firebase.
+
+Backend implementation:
+
+1. Create the notifications app, or extend the existing one, with
+   `DeviceRegistration`, `NotificationEvent`, `UserNotification`,
+   `NotificationDelivery`, structured user preferences, and the organization
+   escalation policy described in Section 4. Use migrations and database
+   uniqueness constraints for deduplication.
+2. Add serializers/services for device registration, inbox listing, unread
+   count, mark-read/mark-all-read, preferences, policy, and the minimal delivery
+   status required by the UI. Raw FCM tokens must never be returned by an API.
+3. Implement the authenticated endpoints in Sections 6.3 and 6.4 with
+   organization and recipient scoping. If a separate delivery-history endpoint
+   is retained internally, do not build the deferred full history UI; expose
+   only the basic status needed by the relevant detail screen.
+4. Produce `NotificationEvent` inside the same transaction as each supported
+   operational change. Schedule dispatch with `transaction.on_commit`.
+5. Implement recipient routing for assigned service Admins and assigned
+   Engineers, preference/severity filtering, actor suppression, and durable
+   `UserNotification` creation. Owner fallback and timeout escalation may be
+   completed in Phase 5, but routing must provide a clean extension point.
+6. Add Celery dispatch/delivery tasks and a fake transport selected when FCM is
+   disabled. The fake transport must create deterministic delivery outcomes so
+   tests can verify `PENDING`, `SENT`, `FAILED`, and `SKIPPED` behavior.
+7. Revalidate membership, role, service scope, assignment, and resource access
+   immediately before delivery. A permission change must prevent a pending
+   unauthorized send.
+
+Flutter implementation:
+
+1. Add the notification inbox, unread badge, read/unread actions, and personal
+   preference controls using the existing app architecture and design system.
+2. Add an Owner-only minimal notification-policy form if no policy UI exists.
+3. Add loading, empty, failure, and unauthorized states. Hide controls the
+   current role cannot use, while keeping backend authorization authoritative.
+4. If any Phase 3 API represents behavior a user must view or change and no UI
+   exists, add the smallest usable role-aware screen or control for it.
+
+Tests:
+
+- model validation, migration compatibility, uniqueness, and tenant isolation;
+- endpoint authorization and recipient-only inbox access;
+- transaction rollback produces no dispatched notification;
+- repeated event production creates one logical event/recipient;
+- permission changes before task execution prevent delivery;
+- preferences, severity filtering, and FCM-disabled/fake-transport behavior;
+  and
+- Flutter inbox, unread count, preferences, policy permissions, and UI states.
 
 Exit criterion: all events create correct durable recipients and delivery
-records with FCM disabled.
+records with FCM disabled, and users can access the inbox and required settings
+through role-appropriate Flutter UI.
 
 ### Phase 4: FCM and Flutter messaging
 
-- Configure the Firebase project and platform apps.
-- Integrate Flutter token lifecycle and message handlers.
-- Integrate Firebase Admin SDK in the Celery worker.
-- Add invalid/stale-token handling and safe deep links.
+Goal: replace the fake push transport with FCM while keeping the durable inbox
+and authorization behavior unchanged.
+
+Backend implementation:
+
+1. Add and pin the Firebase Admin SDK, environment settings, feature flag,
+   credential documentation, timeouts, and bounded retry settings. Initialize
+   Firebase lazily in the transport layer.
+2. Implement one-device-at-a-time sends with minimal allowlisted payload data.
+   Persist the provider message ID and sanitized outcome; never log the raw
+   token or credentials.
+3. Classify provider responses into sent, retryable failure, permanent failure,
+   and invalid registration. Use bounded exponential backoff and preserve
+   Celery idempotency.
+4. Deactivate invalid/unregistered tokens immediately. Keep periodic age-based
+   pruning optional until Phase 5 and do not let push failure remove the inbox
+   notification.
+
+Flutter implementation:
+
+1. Configure Firebase only for the supported demo platforms and initialize it
+   before the application starts.
+2. After Django login, request notification permission contextually, obtain the
+   installation/token, register it through the authenticated API, listen for
+   refresh, and deactivate it on logout when possible.
+3. Handle foreground messages, background/terminated notification taps, and
+   unread-count refresh. Fetch the referenced resource from Django before
+   displaying its details.
+4. Add safe deep-link routing with allowlisted event/resource types,
+   organization selection, and a generic unavailable message for deleted or
+   unauthorized targets.
+5. Add any missing user-facing permission prompt, notification settings entry,
+   inbox entry point, status indicator, or unavailable-state UI needed to make
+   this flow demonstrable end to end.
+
+Tests and verification:
+
+- backend transport tests with mocked Firebase success, transient failure,
+  permanent failure, invalid token, and retry exhaustion;
+- token ownership transfer, refresh, logout, and cross-user isolation tests;
+- Flutter foreground/background routing and unauthorized/deleted-target tests;
+- confirm FCM-disabled mode still works entirely through the durable inbox; and
+- manually test seeded Owner, Admin, and Engineer accounts on registered demo
+  devices/emulators without using real FCM in CI.
 
 Exit criterion: seeded Admin and Engineer accounts receive the correct push on
-their registered devices, while unauthorized accounts receive nothing.
+their registered devices, unauthorized accounts receive nothing, and every
+push remains represented in the durable inbox and basic status UI.
 
-### Phase 5: Escalation, observability, and hardening
+### Phase 5: Essential reliability
 
-- Add Owner fallback and acknowledgement-timeout escalation.
-- Add delivery-history UI and operational metrics.
-- Add stale-token pruning, retry tuning, dashboards, and runbooks.
-- Perform concurrency, outage, permission-change, and cross-tenant tests.
+Keep this phase intentionally small for the varsity-project scope. It includes
+only the reliability behavior needed to demonstrate that notifications are
+reasonably safe and useful:
 
-Exit criterion: FCM or Redis outages do not lose the durable inbox event,
-duplicate worker execution does not duplicate logical notifications, and
-permission revocation stops pending delivery.
+- **Owner fallback:** when an incident or anomaly has no eligible assigned
+  responder, notify the organization Owner.
+- **One-step acknowledgement timeout:** if the original responder does not
+  acknowledge a notification within the configured time, send one
+  deduplicated reminder or escalate it once to the Owner. Do not implement
+  multi-level escalation chains.
+- **Basic delivery status:** expose only `SENT`, `FAILED`, and `ACKNOWLEDGED` on
+  the related incident/anomaly or notification detail. A separate operational
+  metrics dashboard and a full delivery-history screen are deferred.
+- **Stale-token cleanup:** when FCM reports that a device token is invalid,
+  deactivate it so later notifications do not repeatedly fail. Periodic,
+  production-scale token-maintenance jobs may be deferred.
+- **Focused safety tests:** verify tenant isolation, role permissions,
+  permission changes before delivery, and that duplicate or concurrent
+  escalation processing creates only one logical escalation.
+
+Implementation steps:
+
+1. Define exactly which incident/anomaly states require acknowledgement and
+   what existing action counts as acknowledgement. Reuse an existing
+   acknowledgement field/action where available; otherwise add the smallest
+   timestamp, actor field, authenticated endpoint, and role-appropriate Flutter
+   button/status needed to support it.
+2. Store an acknowledgement deadline when an eligible notification is created.
+   Add one periodic Celery task that finds expired, unacknowledged work and
+   creates one Owner escalation using a stable database-backed deduplication
+   key. Do not build multi-level escalation chains.
+3. When no eligible assigned responder/service Admin exists at initial routing,
+   create the Owner fallback notification. Clearly record the recipient reason
+   as `ESCALATED_OWNER` or the equivalent repository convention.
+4. Map detailed internal delivery states to the three user-facing values:
+   `SENT`, `FAILED`, and `ACKNOWLEDGED`. Show this on the relevant notification,
+   incident, or anomaly detail screen. Add the UI if it does not already exist.
+5. On an FCM invalid/unregistered response, deactivate the device registration
+   and exclude it from later sends. A simple optional scheduled cleanup based
+   on `last_seen_at` is acceptable, but a complex pruning system is not needed.
+6. Add focused tests for cross-tenant access, role permissions, revocation
+   before delivery, Owner fallback, timeout behavior, and concurrent duplicate
+   escalation. Use transaction/concurrency tests supported by the repository's
+   test database.
+
+Dashboards, detailed operational metrics, advanced retry tuning, formal outage
+testing, and extensive runbooks are outside the current project scope and may
+be added later if the system is prepared for production use.
+
+Exit criterion: Owner fallback and the single acknowledgement escalation work,
+users can see the basic delivery state, invalid FCM tokens are deactivated, and
+the focused authorization and duplicate-escalation tests pass.
 
 ## 13. Suggested repository work map
 
@@ -642,7 +824,7 @@ Flutter areas:
 - organization context/capability providers;
 - server/service Admin assignment UI;
 - incident/anomaly Engineer assignment and workflow controls;
-- notification inbox, preferences and delivery history; and
+- notification inbox, preferences, and basic delivery status; and
 - role-aware navigation and route guards.
 
 ## 14. Rollout and compatibility
