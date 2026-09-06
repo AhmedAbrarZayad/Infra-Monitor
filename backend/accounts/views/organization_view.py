@@ -159,7 +159,9 @@ class MemberListView(GenericAPIView):
 
     def get(self, request, organization_id):
         organization = get_object_or_404(Organization, pk=organization_id)
-        approved_membership_or_404(organization, request.user)
+        membership = approved_membership_or_404(organization, request.user)
+        if membership.role not in {"OWNER", "ADMIN"}:
+            return Response({"detail": "Owner or admin access is required."}, status=403)
         queryset = OrganizationMembership.objects.filter(
             organization=organization, approved=True
         ).select_related("organization", "user")

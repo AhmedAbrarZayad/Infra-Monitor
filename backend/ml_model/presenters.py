@@ -1,3 +1,6 @@
+from accounts.serializers import present_user
+
+
 def present_anomaly(anomaly):
     return {
         "id": anomaly.detection_id,
@@ -15,4 +18,7 @@ def present_anomaly(anomaly):
         "detected_at": anomaly.detected_at,
         "resolved_at": anomaly.resolved_at,
         "resolved_by": anomaly.resolved_by_id,
+        "assigned_to": present_user(anomaly.assigned_to),
+        "assigned_by": present_user(anomaly.assigned_by),
+        "assigned_at": anomaly.assigned_at,
     }

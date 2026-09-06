@@ -6,6 +6,8 @@ from .operational import (
     ServiceDetailView,
     ServiceHealthView,
     ServiceListView,
+    ServiceAdminAssignmentView,
+    ServiceAdminAssignmentHistoryView,
     ServiceMetricRangeView,
 )
 
@@ -17,5 +19,7 @@ __all__ = [
     "ServiceDetailView",
     "ServiceHealthView",
     "ServiceListView",
+    "ServiceAdminAssignmentView",
+    "ServiceAdminAssignmentHistoryView",
     "ServiceMetricRangeView",
 ]

@@ -25,16 +25,22 @@ MonitoredService service({
   },
 );
 
-Future<void> pumpTile(WidgetTester tester, MonitoredService value) =>
-    tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SingleChildScrollView(
-            child: ServiceLifecycleTile(service: value),
-          ),
+Future<void> pumpTile(
+  WidgetTester tester,
+  MonitoredService value, {
+  bool canManageAdmins = false,
+}) => tester.pumpWidget(
+  MaterialApp(
+    home: Scaffold(
+      body: SingleChildScrollView(
+        child: ServiceLifecycleTile(
+          service: value,
+          canManageAdmins: canManageAdmins,
         ),
       ),
-    );
+    ),
+  ),
+);
 
 void main() {
   test('maps lifecycle reasons to safe user-facing messages', () {
@@ -91,5 +97,14 @@ void main() {
     expect(find.text('12.5 %'), findsOneWidget);
     expect(find.text('256.0 bytes'), findsOneWidget);
     expect(find.textContaining('1 of 2'), findsOneWidget);
+  });
+
+  testWidgets('shows service Admin control only when capability is supplied', (
+    tester,
+  ) async {
+    await pumpTile(tester, service(), canManageAdmins: true);
+    await tester.tap(find.text('Payments API'));
+    await tester.pumpAndSettle();
+    expect(find.text('Manage admins'), findsOneWidget);
   });
 }

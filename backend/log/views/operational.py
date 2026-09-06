@@ -4,14 +4,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from common.api import apply_time_range, get_organization_membership, paginated_response
-from log.models import LogEntry
+from common.authorization import logs_visible_to
 from log.presenters import present_log
 
 
 class LogListView(APIView):
     def get(self, request, organization_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        queryset = LogEntry.objects.filter(organization=organization)
+        _, membership = get_organization_membership(request, organization_id)
+        queryset = logs_visible_to(membership)
         search = request.query_params.get("q")
         if search:
             queryset = queryset.filter(Q(message__icontains=search) | Q(source__icontains=search))
@@ -30,6 +30,6 @@ class LogListView(APIView):
 
 class LogDetailView(APIView):
     def get(self, request, organization_id, log_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        entry = get_object_or_404(LogEntry, organization=organization, pk=log_id)
+        _, membership = get_organization_membership(request, organization_id)
+        entry = get_object_or_404(logs_visible_to(membership), pk=log_id)
         return Response(present_log(entry))

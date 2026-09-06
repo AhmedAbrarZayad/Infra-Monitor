@@ -1,3 +1,5 @@
+import '../../../organizations/data/organization_models.dart';
+
 class AnomalyDetection {
   const AnomalyDetection({
     required this.id,
@@ -13,6 +15,9 @@ class AnomalyDetection {
     required this.windowStartedAt,
     required this.windowEndedAt,
     required this.detectedAt,
+    this.assignedTo,
+    this.assignedBy,
+    this.assignedAt,
   });
 
   final String id;
@@ -28,6 +33,9 @@ class AnomalyDetection {
   final DateTime? windowStartedAt;
   final DateTime? windowEndedAt;
   final DateTime? detectedAt;
+  final MembershipUser? assignedTo;
+  final MembershipUser? assignedBy;
+  final DateTime? assignedAt;
 
   factory AnomalyDetection.fromJson(Map<String, dynamic> json) {
     final rawFeatures = json['feature_values'] as Map? ?? const {};
@@ -51,6 +59,9 @@ class AnomalyDetection {
       windowStartedAt: _date(json['window_started_at']),
       windowEndedAt: _date(json['window_ended_at']),
       detectedAt: _date(json['detected_at']),
+      assignedTo: _user(json['assigned_to']),
+      assignedBy: _user(json['assigned_by']),
+      assignedAt: _date(json['assigned_at']),
     );
   }
 
@@ -66,6 +77,12 @@ class AnomalyDetection {
       ? serverId
       : 'Unknown server';
 }
+
+MembershipUser? _user(dynamic value) => value is Map<String, dynamic>
+    ? MembershipUser.fromJson(value)
+    : value is Map
+    ? MembershipUser.fromJson(value.cast<String, dynamic>())
+    : null;
 
 DateTime? _date(dynamic value) =>
     value == null ? null : DateTime.tryParse(value.toString())?.toLocal();

@@ -7,6 +7,9 @@ import '../../../../shared/widgets/selection_pill.dart';
 import '../../../anomalies/domain/entities/anomaly_detection.dart';
 import '../../../anomalies/presentation/providers/anomaly_providers.dart';
 import '../../../anomalies/presentation/widgets/anomaly_evidence_tile.dart';
+import '../../../organizations/domain/organization_context_state.dart';
+import '../../../organizations/presentation/providers/organization_provider.dart';
+import '../../../overview/presentation/providers/overview_providers.dart';
 import '../../domain/entities/server.dart';
 import '../providers/servers_providers.dart';
 import '../widgets/metric_history_chart.dart';
@@ -44,39 +47,77 @@ class ServerDetailPage extends ConsumerStatefulWidget {
 class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
   String metric = 'cpu_r';
   String range = '1h';
+  String? _resolvingId;
 
   Future<void> _refresh() async {
+    final organization = ref.read(organizationContextProvider);
+    final canViewHostMetrics =
+        organization is OrganizationReady &&
+        organization.activeMembership.capabilities.canViewHostMetrics;
     ref.invalidate(serverProvider(widget.serverId));
-    ref.invalidate(serverHealthProvider(widget.serverId));
     ref.invalidate(serverServicesProvider(widget.serverId));
     ref.invalidate(serverAnomaliesProvider(widget.serverId));
-    ref.invalidate(
-      serverMetricProvider(
-        MetricRequest(
-          serverId: widget.serverId,
-          metric: metric,
-          range: _ranges[range]!,
+    if (canViewHostMetrics) {
+      ref.invalidate(serverHealthProvider(widget.serverId));
+      ref.invalidate(
+        serverMetricProvider(
+          MetricRequest(
+            serverId: widget.serverId,
+            metric: metric,
+            range: _ranges[range]!,
+          ),
         ),
-      ),
-    );
-    await ref.read(serverHealthProvider(widget.serverId).future);
+      );
+      await ref.read(serverHealthProvider(widget.serverId).future);
+    } else {
+      await ref.read(serverProvider(widget.serverId).future);
+    }
+  }
+
+  Future<void> _resolve(AnomalyDetection anomaly) async {
+    setState(() => _resolvingId = anomaly.id);
+    try {
+      await resolveAnomaly(ref, anomaly.id);
+      ref.invalidate(serverAnomaliesProvider(widget.serverId));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${anomaly.displayService} marked resolved.')),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Unable to resolve the anomaly.')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _resolvingId = null);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final server = ref.watch(serverProvider(widget.serverId));
-    final health = ref.watch(serverHealthProvider(widget.serverId));
+    final organization = ref.watch(organizationContextProvider);
+    final canViewHostMetrics =
+        organization is OrganizationReady &&
+        organization.activeMembership.capabilities.canViewHostMetrics;
+    final health = canViewHostMetrics
+        ? ref.watch(serverHealthProvider(widget.serverId))
+        : null;
     final services = ref.watch(serverServicesProvider(widget.serverId));
     final anomalies = ref.watch(serverAnomaliesProvider(widget.serverId));
-    final series = ref.watch(
-      serverMetricProvider(
-        MetricRequest(
-          serverId: widget.serverId,
-          metric: metric,
-          range: _ranges[range]!,
-        ),
-      ),
-    );
+    final series = canViewHostMetrics
+        ? ref.watch(
+            serverMetricProvider(
+              MetricRequest(
+                serverId: widget.serverId,
+                metric: metric,
+                range: _ranges[range]!,
+              ),
+            ),
+          )
+        : null;
     return Scaffold(
       appBar: AppBar(
         title: Text(server.asData?.value.name ?? 'Server details'),
@@ -99,27 +140,29 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
                 data: (summary) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _Header(summary: summary, health: health.asData?.value),
-                    const SizedBox(height: 12),
-                    health.when(
-                      loading: () =>
-                          const AppPanel(child: LinearProgressIndicator()),
-                      error: (error, _) => _ErrorPanel(
-                        message: 'Health unavailable: $error',
-                        onRetry: () => ref.invalidate(
-                          serverHealthProvider(widget.serverId),
+                    _Header(summary: summary, health: health?.asData?.value),
+                    if (canViewHostMetrics) ...[
+                      const SizedBox(height: 12),
+                      health!.when(
+                        loading: () =>
+                            const AppPanel(child: LinearProgressIndicator()),
+                        error: (error, _) => _ErrorPanel(
+                          message: 'Health unavailable: $error',
+                          onRetry: () => ref.invalidate(
+                            serverHealthProvider(widget.serverId),
+                          ),
                         ),
+                        data: (value) => _HealthGrid(health: value),
                       ),
-                      data: (value) => _HealthGrid(health: value),
-                    ),
-                    const SizedBox(height: 12),
-                    _HistoryPanel(
-                      metric: metric,
-                      range: range,
-                      series: series,
-                      onMetric: (value) => setState(() => metric = value),
-                      onRange: (value) => setState(() => range = value),
-                    ),
+                      const SizedBox(height: 12),
+                      _HistoryPanel(
+                        metric: metric,
+                        range: range,
+                        series: series!,
+                        onMetric: (value) => setState(() => metric = value),
+                        onRange: (value) => setState(() => range = value),
+                      ),
+                    ],
                     const SizedBox(height: 12),
                     services.when(
                       loading: () =>
@@ -130,7 +173,15 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
                           serverServicesProvider(widget.serverId),
                         ),
                       ),
-                      data: (items) => _LifecycleServicesPanel(services: items),
+                      data: (items) => _LifecycleServicesPanel(
+                        services: items,
+                        canManageAdmins:
+                            organization is OrganizationReady &&
+                            organization
+                                .activeMembership
+                                .capabilities
+                                .canManageServiceAdmins,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     anomalies.when(
@@ -142,7 +193,17 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
                           serverAnomaliesProvider(widget.serverId),
                         ),
                       ),
-                      data: (items) => _AnomalyHistoryPanel(anomalies: items),
+                      data: (items) => _AnomalyHistoryPanel(
+                        anomalies: items,
+                        resolvingId: _resolvingId,
+                        onResolve: _resolve,
+                        canAssign:
+                            organization is OrganizationReady &&
+                            organization
+                                .activeMembership
+                                .capabilities
+                                .canAssignWork,
+                      ),
                     ),
                   ],
                 ),
@@ -338,8 +399,12 @@ class _HistoryPanel extends StatelessWidget {
 }
 
 class _LifecycleServicesPanel extends StatelessWidget {
-  const _LifecycleServicesPanel({required this.services});
+  const _LifecycleServicesPanel({
+    required this.services,
+    required this.canManageAdmins,
+  });
   final List<MonitoredService> services;
+  final bool canManageAdmins;
 
   @override
   Widget build(BuildContext context) => AppPanel(
@@ -357,16 +422,29 @@ class _LifecycleServicesPanel extends StatelessWidget {
         if (services.isEmpty)
           const Text('No monitored Docker services discovered.')
         else
-          ...services.map((service) => ServiceLifecycleTile(service: service)),
+          ...services.map(
+            (service) => ServiceLifecycleTile(
+              service: service,
+              canManageAdmins: canManageAdmins,
+            ),
+          ),
       ],
     ),
   );
 }
 
 class _AnomalyHistoryPanel extends StatelessWidget {
-  const _AnomalyHistoryPanel({required this.anomalies});
+  const _AnomalyHistoryPanel({
+    required this.anomalies,
+    required this.resolvingId,
+    required this.onResolve,
+    required this.canAssign,
+  });
 
   final List<AnomalyDetection> anomalies;
+  final String? resolvingId;
+  final Future<void> Function(AnomalyDetection) onResolve;
+  final bool canAssign;
 
   @override
   Widget build(BuildContext context) => AppPanel(
@@ -395,7 +473,12 @@ class _AnomalyHistoryPanel extends StatelessWidget {
           ...anomalies.indexed.map(
             (entry) => Column(
               children: [
-                AnomalyEvidenceTile(anomaly: entry.$2),
+                AnomalyEvidenceTile(
+                  anomaly: entry.$2,
+                  canAssign: canAssign,
+                  resolving: resolvingId == entry.$2.id,
+                  onResolve: () => onResolve(entry.$2),
+                ),
                 if (entry.$1 != anomalies.length - 1) const Divider(height: 1),
               ],
             ),

@@ -49,10 +49,7 @@ class EnrollmentTokenView(GenericAPIView):
         membership = get_object_or_404(
             OrganizationMembership, organization=organization, user=request.user, approved=True
         )
-        if membership.role not in {
-            OrganizationMembership.RoleEnum.OWNER,
-            OrganizationMembership.RoleEnum.ADMIN,
-        }:
+        if membership.role != OrganizationMembership.RoleEnum.OWNER:
             raise PermissionDenied("You do not have permission to manage monitoring.")
         return organization
 

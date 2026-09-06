@@ -5,20 +5,41 @@ from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.models import OrganizationMembership
 from accounts.serializers import present_user
-from alert.models import Alert
 from alert.presenters import present_alert
 from common.api import get_organization_membership, paginated_response
+from common.assignment_presenters import present_assignment_event
+from common.assignments import (
+    UNSET,
+    assignment_action,
+    assignment_conflict,
+    user_id_value,
+)
+from common.authorization import (
+    alerts_visible_to,
+    anomalies_visible_to,
+    approved_engineers,
+    can_manage_work,
+    can_operate_work,
+    incidents_visible_to,
+    logs_visible_to,
+)
 from incident.models import Incident, IncidentUpdate
 from incident.presenters import present_incident
-from log.models import LogEntry
 from log.presenters import present_log
-from ml_model.models import AnomalyDetection
 from ml_model.presenters import present_anomaly
 
 
-def add_update(incident, user, action, old="", new="", comment=""):
+def add_update(
+    incident,
+    user,
+    action,
+    old="",
+    new="",
+    comment="",
+    previous_subject=None,
+    new_subject=None,
+):
     IncidentUpdate.objects.create(
         incident_id=incident,
         user_id=user,
@@ -26,13 +47,17 @@ def add_update(incident, user, action, old="", new="", comment=""):
         old_status=old,
         new_status=new,
         comment=comment,
+        previous_subject=previous_subject,
+        new_subject=new_subject,
     )
 
 
 class IncidentListView(APIView):
     def get(self, request, organization_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        queryset = Incident.objects.filter(organization=organization).select_related("assigned_to")
+        _, membership = get_organization_membership(request, organization_id)
+        queryset = incidents_visible_to(membership).select_related(
+            "assigned_to", "server_id", "service"
+        )
         search = request.query_params.get("q")
         if search:
             queryset = queryset.filter(
@@ -49,20 +74,21 @@ class IncidentListView(APIView):
 
 class IncidentDetailView(APIView):
     def get(self, request, organization_id, incident_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        incident = get_object_or_404(Incident, organization=organization, pk=incident_id)
+        _, membership = get_organization_membership(request, organization_id)
+        incident = get_object_or_404(incidents_visible_to(membership), pk=incident_id)
         return Response(present_incident(incident))
 
 
 class IncidentAcknowledgeView(APIView):
     def post(self, request, organization_id, incident_id):
-        organization, _ = get_organization_membership(request, organization_id)
+        _, membership = get_organization_membership(request, organization_id)
         with transaction.atomic():
             incident = get_object_or_404(
-                Incident.objects.select_for_update(),
-                organization=organization,
+                incidents_visible_to(membership, Incident.objects.select_for_update()),
                 pk=incident_id,
             )
+            if not can_operate_work(membership, incident):
+                return Response({"detail": "You do not have permission to acknowledge this incident."}, status=403)
             if not incident.acknowledged_at:
                 old_status = incident.status
                 incident.acknowledged_at = timezone.now()
@@ -74,14 +100,16 @@ class IncidentAcknowledgeView(APIView):
 
 class IncidentBulkAcknowledgeView(APIView):
     def post(self, request, organization_id):
-        organization, _ = get_organization_membership(request, organization_id)
+        _, membership = get_organization_membership(request, organization_id)
         incident_ids = request.data.get("incident_ids")
         if not isinstance(incident_ids, list) or not incident_ids:
             return Response({"incident_ids": ["Provide a non-empty list."]}, status=400)
         acknowledged = []
         with transaction.atomic():
-            incidents = Incident.objects.select_for_update().filter(
-                organization=organization, incident_id__in=incident_ids
+            incidents = incidents_visible_to(
+                membership, Incident.objects.select_for_update()
+            ).filter(
+                incident_id__in=incident_ids
             )
             for incident in incidents:
                 if not incident.acknowledged_at:
@@ -107,8 +135,6 @@ class IncidentBulkAcknowledgeView(APIView):
 
 
 class IncidentAssignView(APIView):
-    self_assign = False
-
     def post(self, request, organization_id, incident_id):
         return self._change(request, organization_id, incident_id)
 
@@ -116,36 +142,57 @@ class IncidentAssignView(APIView):
         return self._change(request, organization_id, incident_id)
 
     def _change(self, request, organization_id, incident_id):
-        roles = None if self.self_assign else {"OWNER", "ADMIN"}
-        organization, _ = get_organization_membership(request, organization_id, roles)
-        target = request.user if self.self_assign else None
-        if not self.self_assign and request.data.get("user_id") is not None:
-            target_membership = get_object_or_404(
-                OrganizationMembership,
-                organization=organization,
-                user_id=request.data["user_id"],
-                approved=True,
-            )
-            target = target_membership.user
+        organization, membership = get_organization_membership(request, organization_id)
+        target_id = user_id_value(request.data, "user_id")
+        expected_id = user_id_value(
+            request.data, "expected_user_id", optional=True
+        )
         with transaction.atomic():
             incident = get_object_or_404(
-                Incident.objects.select_for_update(),
-                organization=organization,
+                incidents_visible_to(membership, Incident.objects.select_for_update()),
                 pk=incident_id,
             )
+            if not can_manage_work(membership, incident):
+                return Response({"detail": "You do not have permission to assign this incident."}, status=403)
+            if expected_id is not UNSET and expected_id != incident.assigned_to_id:
+                return assignment_conflict(incident.assigned_to)
+            target = None
+            if target_id is not None:
+                target_membership = get_object_or_404(
+                    approved_engineers(organization),
+                    user_id=target_id,
+                )
+                target = target_membership.user
+            if target_id == incident.assigned_to_id:
+                return Response(present_incident(incident))
+            previous = incident.assigned_to
+            action = assignment_action(incident.assigned_to_id, target_id)
             incident.assigned_to = target
             incident.save(update_fields=["assigned_to"])
             add_update(
                 incident,
                 request.user,
-                "ASSIGNED",
-                comment="" if target is None else str(target.id),
+                action,
+                previous_subject=previous,
+                new_subject=target,
             )
         return Response(present_incident(incident))
 
 
-class IncidentSelfAssignView(IncidentAssignView):
-    self_assign = True
+class IncidentAssignmentHistoryView(APIView):
+    def get(self, request, organization_id, incident_id):
+        _, membership = get_organization_membership(request, organization_id)
+        incident = get_object_or_404(incidents_visible_to(membership), pk=incident_id)
+        queryset = incident.incidentupdate_set.filter(
+            action__in=["ASSIGNED", "REASSIGNED", "UNASSIGNED"]
+        ).select_related("user_id", "previous_subject", "new_subject")
+        return paginated_response(
+            request,
+            queryset,
+            lambda item: present_assignment_event(
+                item, "INCIDENT", actor=item.user_id
+            ),
+        )
 
 
 class IncidentStatusView(APIView):
@@ -157,18 +204,14 @@ class IncidentStatusView(APIView):
     }
 
     def patch(self, request, organization_id, incident_id):
-        organization, membership = get_organization_membership(request, organization_id)
+        _, membership = get_organization_membership(request, organization_id)
         target = str(request.data.get("status", "")).upper()
         with transaction.atomic():
             incident = get_object_or_404(
-                Incident.objects.select_for_update(),
-                organization=organization,
+                incidents_visible_to(membership, Incident.objects.select_for_update()),
                 pk=incident_id,
             )
-            if (
-                membership.role not in {"OWNER", "ADMIN"}
-                and incident.assigned_to_id != request.user.id
-            ):
+            if not can_operate_work(membership, incident):
                 return Response(
                     {"detail": "Only the assignee, owner, or admin may change status."},
                     status=403,
@@ -204,8 +247,8 @@ class IncidentStatusView(APIView):
 
 class IncidentUpdatesView(APIView):
     def get(self, request, organization_id, incident_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        incident = get_object_or_404(Incident, organization=organization, pk=incident_id)
+        _, membership = get_organization_membership(request, organization_id)
+        incident = get_object_or_404(incidents_visible_to(membership), pk=incident_id)
 
         def present_update(update):
             return {
@@ -227,9 +270,9 @@ class IncidentUpdatesView(APIView):
 
 class IncidentFeedbackView(APIView):
     def post(self, request, organization_id, incident_id):
-        organization, membership = get_organization_membership(request, organization_id)
-        incident = get_object_or_404(Incident, organization=organization, pk=incident_id)
-        if membership.role not in {"OWNER", "ADMIN"} and incident.assigned_to_id != request.user.id:
+        _, membership = get_organization_membership(request, organization_id)
+        incident = get_object_or_404(incidents_visible_to(membership), pk=incident_id)
+        if not can_operate_work(membership, incident):
             return Response(
                 {"detail": "Only the assignee, owner, or admin may add feedback."},
                 status=403,
@@ -255,31 +298,25 @@ class IncidentFeedbackView(APIView):
 
 class IncidentAlertsView(APIView):
     def get(self, request, organization_id, incident_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        incident = get_object_or_404(Incident, organization=organization, pk=incident_id)
-        alerts = Alert.objects.filter(
-            incidentalert__incident_id=incident, organization=organization
-        )
+        _, membership = get_organization_membership(request, organization_id)
+        incident = get_object_or_404(incidents_visible_to(membership), pk=incident_id)
+        alerts = alerts_visible_to(membership).filter(incidentalert__incident_id=incident)
         return paginated_response(request, alerts, present_alert)
 
 
 class IncidentEvidenceView(APIView):
     def get(self, request, organization_id, incident_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        incident = get_object_or_404(Incident, organization=organization, pk=incident_id)
-        alerts = Alert.objects.filter(
-            incidentalert__incident_id=incident, organization=organization
-        )
+        _, membership = get_organization_membership(request, organization_id)
+        incident = get_object_or_404(incidents_visible_to(membership), pk=incident_id)
+        alerts = alerts_visible_to(membership).filter(incidentalert__incident_id=incident)
         logs = (
-            LogEntry.objects.filter(organization=organization, server_id=incident.server_id)[:100]
-            if incident.server_id
+            logs_visible_to(membership).filter(service_id=incident.service_id)[:100]
+            if incident.service_id
             else []
         )
         anomalies = (
-            AnomalyDetection.objects.filter(
-                organization=organization, server_id=incident.server_id
-            )[:100]
-            if incident.server_id
+            anomalies_visible_to(membership).filter(service_id=incident.service_id)[:100]
+            if incident.service_id
             else []
         )
         return Response(

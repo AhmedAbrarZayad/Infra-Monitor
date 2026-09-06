@@ -87,6 +87,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           '/organization/pending',
         };
         if (isPublic || gates.contains(path)) return '/';
+        if (path == '/servers/add' &&
+            !organization.activeMembership.capabilities.canEnrollServers) {
+          return '/';
+        }
       }
       return null;
     },

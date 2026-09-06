@@ -35,7 +35,7 @@ class _ServersPageState extends ConsumerState<ServersPage> {
     final organization = ref.watch(organizationContextProvider);
     final canAddServer =
         organization is OrganizationReady &&
-        const {'OWNER', 'ADMIN'}.contains(organization.activeMembership.role);
+        organization.activeMembership.capabilities.canEnrollServers;
     return AsyncValueView(
       value: servers,
       data: (allServers) {

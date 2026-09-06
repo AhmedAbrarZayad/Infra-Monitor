@@ -24,10 +24,7 @@ def organization_membership(request, organization_id, administrative=False):
         user=request.user,
         approved=True,
     )
-    if administrative and member.role not in {
-        OrganizationMembership.RoleEnum.OWNER,
-        OrganizationMembership.RoleEnum.ADMIN,
-    }:
+    if administrative and member.role != OrganizationMembership.RoleEnum.OWNER:
         raise PermissionDenied("You do not have permission to manage monitoring.")
     return organization, member
 
@@ -111,7 +108,7 @@ class ServerMonitoringView(APIView):
         return get_object_or_404(Servers, organization=organization, server_id=server_id)
 
     def get(self, request, organization_id, server_id):
-        organization, _ = organization_membership(request, organization_id)
+        organization, _ = organization_membership(request, organization_id, administrative=True)
         server = self.get_server(organization, server_id)
         try:
             connection = server.monitoring_connection

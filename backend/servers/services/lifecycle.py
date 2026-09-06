@@ -37,6 +37,7 @@ def _open_failure(service, now):
         incident_code=_incident_code(service),
         defaults={
             "server_id": service.server_id,
+            "service": service,
             "title": f"Service offline: {service.display_name}",
             "description": "A monitored service stopped reporting while its collector remained available.",
             "category": "SERVICE_OFFLINE",
@@ -44,6 +45,9 @@ def _open_failure(service, now):
             "detected_at": now,
         },
     )
+    if not created and incident.service_id is None:
+        incident.service = service
+        incident.save(update_fields=["service"])
     if not created and incident.status == Incident.Status.RESOLVED:
         old_status = incident.status
         incident.status = Incident.Status.NEW

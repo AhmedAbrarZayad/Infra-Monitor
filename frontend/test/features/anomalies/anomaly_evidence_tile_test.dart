@@ -47,6 +47,24 @@ void main() {
     expect(find.text('Unavailable'), findsOneWidget);
     expect(find.textContaining('43008000'), findsNothing);
     expect(find.text('NETWORK OUT'), findsOneWidget);
+    expect(find.text('View assignment'), findsOneWidget);
     expect(find.text('Ask AI'), findsOneWidget);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(
+            body: AnomalyEvidenceTile(
+              key: const ValueKey('editable-anomaly'),
+              anomaly: anomaly,
+              canAssign: true,
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('demo-load'));
+    await tester.pumpAndSettle();
+    expect(find.text('Manage assignment'), findsOneWidget);
   });
 }

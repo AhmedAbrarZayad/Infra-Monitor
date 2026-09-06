@@ -71,10 +71,12 @@ class MonitoringLifecycleApiTests(TestCase):
             self.assertEqual(response.status_code, 409)
             self.assertEqual(response.data["code"], "enrollment_not_cancellable")
 
-    def test_monitoring_get_allows_engineer_and_unconfigured_server(self):
+    def test_monitoring_get_is_owner_only_and_handles_unconfigured_server(self):
         self.client.force_authenticate(self.engineer)
         response = self.client.get(f"/api/organizations/{self.org.id}/servers/{self.server.server_id}/monitoring/")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
+        self.client.force_authenticate(self.owner)
+        response = self.client.get(f"/api/organizations/{self.org.id}/servers/{self.server.server_id}/monitoring/")
         self.assertTrue(response.data["configured"])
         bare = Servers.objects.create(organization=self.org, name="Bare", host_name="bare", environment="dev")
         response = self.client.get(f"/api/organizations/{self.org.id}/servers/{bare.server_id}/monitoring/")

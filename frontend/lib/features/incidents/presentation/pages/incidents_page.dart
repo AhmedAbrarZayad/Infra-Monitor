@@ -7,6 +7,10 @@ import '../../../../shared/widgets/section_title.dart';
 import '../../../../shared/widgets/selection_pill.dart';
 import '../../domain/entities/incident.dart';
 import '../providers/incidents_providers.dart';
+import '../../../assignments/domain/assignment_models.dart';
+import '../../../assignments/presentation/widgets/assignment_sheet.dart';
+import '../../../organizations/domain/organization_context_state.dart';
+import '../../../organizations/presentation/providers/organization_provider.dart';
 
 class IncidentsPage extends ConsumerStatefulWidget {
   const IncidentsPage({super.key});
@@ -91,7 +95,26 @@ class _IncidentsPageState extends ConsumerState<IncidentsPage> {
                           Expanded(
                             child: AppButton(
                               label: 'Acknowledge all critical',
-                              onPressed: visible.any((item) => item.severity == 'CRITICAL' && item.status == 'NEW') ? () => ref.read(incidentActionsProvider).acknowledgeCritical(visible.where((item) => item.severity == 'CRITICAL' && item.status == 'NEW').map((item) => item.apiId!).toList()) : null,
+                              onPressed:
+                                  visible.any(
+                                    (item) =>
+                                        item.severity == 'CRITICAL' &&
+                                        item.status == 'NEW',
+                                  )
+                                  ? () => ref
+                                        .read(incidentActionsProvider)
+                                        .acknowledgeCritical(
+                                          visible
+                                              .where(
+                                                (item) =>
+                                                    item.severity ==
+                                                        'CRITICAL' &&
+                                                    item.status == 'NEW',
+                                              )
+                                              .map((item) => item.apiId!)
+                                              .toList(),
+                                        )
+                                  : null,
                             ),
                           ),
                         ],
@@ -104,7 +127,11 @@ class _IncidentsPageState extends ConsumerState<IncidentsPage> {
                       ),
                       const SizedBox(height: 10),
                       if (visible.isEmpty)
-                        const AppPanel(child: Text('No incidents found for this organization.')),
+                        const AppPanel(
+                          child: Text(
+                            'No incidents found for this organization.',
+                          ),
+                        ),
                       ...visible.map(
                         (item) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
@@ -163,10 +190,31 @@ class _IncidentCard extends ConsumerWidget {
           item.title,
           style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
         ),
-        if (item.owner == 'unassigned' && item.status != 'RESOLVED') ...[
-          const SizedBox(height: 10),
-          AppButton(label: 'Assign to me', variant: AppButtonVariant.secondary, onPressed: item.apiId == null ? null : () => ref.read(incidentActionsProvider).assignToMe(item.apiId!)),
-        ],
+        const SizedBox(height: 10),
+        Builder(
+          builder: (context) {
+            final organization = ref.watch(organizationContextProvider);
+            final editable =
+                organization is OrganizationReady &&
+                organization.activeMembership.capabilities.canAssignWork;
+            return AppButton(
+              label: editable
+                  ? (item.assignedTo == null
+                        ? 'Assign Engineer'
+                        : 'Reassign Engineer')
+                  : 'View assignment',
+              variant: AppButtonVariant.secondary,
+              onPressed: item.apiId == null
+                  ? null
+                  : () => showWorkAssignmentSheet(
+                      context: context,
+                      resource: AssignmentResource.incident,
+                      resourceId: item.apiId!,
+                      currentAssignee: item.assignedTo,
+                    ),
+            );
+          },
+        ),
         const SizedBox(height: 8),
         Text(
           '▰ ${item.server}  ·  ${item.service}  ·  ${item.environment}',

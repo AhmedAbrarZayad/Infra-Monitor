@@ -4,12 +4,12 @@ from incident.views import (
     IncidentAcknowledgeView,
     IncidentAlertsView,
     IncidentAssignView,
+    IncidentAssignmentHistoryView,
     IncidentBulkAcknowledgeView,
     IncidentDetailView,
     IncidentEvidenceView,
     IncidentFeedbackView,
     IncidentListView,
-    IncidentSelfAssignView,
     IncidentStatusView,
     IncidentUpdatesView,
 )
@@ -32,9 +32,9 @@ urlpatterns = [
         "incidents/<uuid:incident_id>/assignment/", IncidentAssignView.as_view(), name="assignment"
     ),
     path(
-        "incidents/<uuid:incident_id>/assign-to-me/",
-        IncidentSelfAssignView.as_view(),
-        name="self-assign",
+        "incidents/<uuid:incident_id>/assignment-history/",
+        IncidentAssignmentHistoryView.as_view(),
+        name="assignment-history",
     ),
     path("incidents/<uuid:incident_id>/status/", IncidentStatusView.as_view(), name="status"),
     path("incidents/<uuid:incident_id>/updates/", IncidentUpdatesView.as_view(), name="updates"),

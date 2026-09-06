@@ -6,6 +6,8 @@ import '../../../anomalies/presentation/widgets/anomaly_evidence_tile.dart';
 import '../providers/overview_providers.dart';
 import 'dashboard_panel.dart';
 import 'section_header.dart';
+import '../../../organizations/domain/organization_context_state.dart';
+import '../../../organizations/presentation/providers/organization_provider.dart';
 
 class AttentionSection extends ConsumerStatefulWidget {
   const AttentionSection({required this.anomalies, super.key});
@@ -43,6 +45,10 @@ class _AttentionSectionState extends ConsumerState<AttentionSection> {
 
   @override
   Widget build(BuildContext context) {
+    final organization = ref.watch(organizationContextProvider);
+    final canAssign =
+        organization is OrganizationReady &&
+        organization.activeMembership.capabilities.canAssignWork;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -60,6 +66,7 @@ class _AttentionSectionState extends ConsumerState<AttentionSection> {
                   children: [
                     AnomalyEvidenceTile(
                       anomaly: entry.$2,
+                      canAssign: canAssign,
                       resolving: _resolvingId == entry.$2.id,
                       onResolve: () => _resolve(entry.$2),
                     ),

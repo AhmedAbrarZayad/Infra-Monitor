@@ -5,12 +5,16 @@ from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from alert.models import Alert
 from alert.presenters import present_alert
 from common.api import get_organization_membership
+from common.authorization import (
+    alerts_visible_to,
+    anomalies_visible_to,
+    incidents_visible_to,
+    servers_visible_to,
+)
 from incident.models import Incident
 from incident.presenters import present_incident
-from ml_model.models import AnomalyDetection
 from ml_model.presenters import present_anomaly
 from servers.models import Servers
 from servers.presenters import metric_history
@@ -19,23 +23,22 @@ from servers.services import InvalidMetricError
 
 class OverviewView(APIView):
     def get(self, request, organization_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        servers = Servers.objects.filter(organization=organization)
+        organization, membership = get_organization_membership(request, organization_id)
+        servers = servers_visible_to(membership)
         environment = request.query_params.get("environment")
         if environment:
             servers = servers.filter(environment__iexact=environment)
-        incidents = Incident.objects.filter(organization=organization).exclude(status="RESOLVED")
-        alerts = Alert.objects.filter(organization=organization).order_by("-triggered_at")[:10]
+        incidents = incidents_visible_to(membership).exclude(status="RESOLVED")
+        alerts = alerts_visible_to(membership).order_by("-triggered_at")[:10]
         latest_service_detection = (
-            AnomalyDetection.objects.filter(
-                organization=organization,
+            anomalies_visible_to(membership).filter(
                 service_id=OuterRef("service_id"),
             )
             .order_by("-detected_at", "-detection_id")
             .values("detection_id")[:1]
         )
         recent_anomalies = (
-            AnomalyDetection.objects.filter(organization=organization)
+            anomalies_visible_to(membership)
             .annotate(latest_detection_id=Subquery(latest_service_detection))
             .filter(
                 detection_id=F("latest_detection_id"),

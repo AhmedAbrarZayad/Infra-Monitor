@@ -103,6 +103,7 @@ class InternalDetectionTests(APITestCase):
             role="ENGINEER",
             approved=True,
         )
+        AnomalyDetection.objects.update(assigned_to=member)
         url = f"/api/organizations/{self.organization.pk}/anomalies/"
 
         self.client.force_authenticate(member)
@@ -127,6 +128,7 @@ class InternalDetectionTests(APITestCase):
             role="ENGINEER",
             approved=True,
         )
+        AnomalyDetection.objects.filter(pk=detection_id).update(assigned_to=member)
         self.client.force_authenticate(member)
         url = (
             f"/api/organizations/{self.organization.pk}/anomalies/"

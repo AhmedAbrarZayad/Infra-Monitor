@@ -81,7 +81,7 @@ class _AddServerPageState extends ConsumerState<AddServerPage> {
     final organization = ref.watch(organizationContextProvider);
     final allowed =
         organization is OrganizationReady &&
-        const {'OWNER', 'ADMIN'}.contains(organization.activeMembership.role);
+        organization.activeMembership.capabilities.canEnrollServers;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -98,7 +98,7 @@ class _AddServerPageState extends ConsumerState<AddServerPage> {
                         const Icon(Icons.lock_outline, size: 36),
                         const SizedBox(height: 12),
                         const Text(
-                          'Owner or admin access is required to add a server.',
+                          'Owner access is required to add a server.',
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),

@@ -15,6 +15,8 @@ from ai.services import (
     gemini_contents,
     stream_gemini_response,
 )
+from accounts.models import OrganizationMembership
+from common.authorization import anomalies_visible_to
 
 
 logger = logging.getLogger(__name__)
@@ -31,6 +33,13 @@ def authenticate_ticket(token, organization_id, conversation_id):
 
 @database_sync_to_async
 def load_conversation(conversation_id, organization_id, user_id):
+    membership = OrganizationMembership.objects.filter(
+        organization_id=organization_id,
+        user_id=user_id,
+        approved=True,
+    ).first()
+    if membership is None:
+        return None
     return (
         AssistantConversation.objects.select_related(
             "anomaly__service_id", "anomaly__server_id"
@@ -40,6 +49,7 @@ def load_conversation(conversation_id, organization_id, user_id):
             organization_id=organization_id,
             user_id_id=user_id,
             anomaly__is_anomaly=True,
+            anomaly__in=anomalies_visible_to(membership),
         )
         .first()
     )

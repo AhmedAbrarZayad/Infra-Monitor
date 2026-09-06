@@ -39,6 +39,13 @@ final organizationMembersProvider =
   return repository.getMembers(organizationId);
 });
 
+final pendingOrganizationMembershipsProvider =
+    FutureProvider.family<List<OrganizationMembership>, String>((ref, organizationId) async {
+  final repository = ref.watch(organizationRepositoryProvider);
+  if (repository == null) return const [];
+  return repository.getPendingMemberships(organizationId);
+});
+
 class OrganizationContextNotifier extends StateNotifier<OrganizationContextState> {
   final Ref ref;
   final OrganizationRepository? repository;
@@ -113,6 +120,72 @@ class OrganizationContextNotifier extends StateNotifier<OrganizationContextState
     if (membership == null) return;
     await storage.write(key: activeOrganizationStorageKey, value: organizationId);
     state = OrganizationReady(current.context, membership);
+  }
+
+  Future<String?> approveMembership({
+    required String organizationId,
+    required String membershipId,
+  }) async {
+    final api = repository;
+    if (api == null) return 'Your session is no longer available.';
+    try {
+      await api.approveMembership(
+        organizationId: organizationId,
+        membershipId: membershipId,
+      );
+      ref.invalidate(organizationMembersProvider(organizationId));
+      ref.invalidate(pendingOrganizationMembershipsProvider(organizationId));
+      await load();
+      return null;
+    } on ApiException catch (error) {
+      return error.message;
+    } catch (_) {
+      return 'Unable to approve the request. Please try again.';
+    }
+  }
+
+  Future<String?> rejectMembership({
+    required String organizationId,
+    required String membershipId,
+  }) async {
+    final api = repository;
+    if (api == null) return 'Your session is no longer available.';
+    try {
+      await api.rejectMembership(
+        organizationId: organizationId,
+        membershipId: membershipId,
+      );
+      ref.invalidate(pendingOrganizationMembershipsProvider(organizationId));
+      await load();
+      return null;
+    } on ApiException catch (error) {
+      return error.message;
+    } catch (_) {
+      return 'Unable to reject the request. Please try again.';
+    }
+  }
+
+  Future<String?> changeMemberRole({
+    required String organizationId,
+    required int userId,
+    required String role,
+  }) async {
+    final api = repository;
+    if (api == null) return 'Your session is no longer available.';
+    try {
+      await api.changeMemberRole(
+        organizationId: organizationId,
+        userId: userId,
+        role: role,
+      );
+      ref.invalidate(organizationMembersProvider(organizationId));
+      await load();
+      return null;
+    } on ApiException catch (error) {
+      return error.message;
+    } catch (_) {
+      return 'Unable to update the member role. Please try again.';
+    }
   }
 
   Future<void> _applyContext(OrganizationContext context) async {

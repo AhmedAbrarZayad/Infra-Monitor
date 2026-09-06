@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../data/app_bar_titles.dart';
 import '../../../../shared/components/appbar/app_bar.dart';
 import '../../../ai_assistant/presentation/pages/ai_assistant_page.dart';
-import '../../../analytics/presentation/pages/analytics_page.dart';
 import '../../../incidents/presentation/pages/incidents_page.dart';
 import '../../../incidents/presentation/providers/incidents_providers.dart';
 import '../../../more/presentation/pages/more_page.dart';
@@ -25,19 +25,12 @@ class AppShellPage extends ConsumerStatefulWidget {
 }
 
 class _AppShellPageState extends ConsumerState<AppShellPage> {
-  static const _titles = [
-    'Overview',
-    'Servers',
-    'Incidents',
-    'AI',
-    'More',
-  ];
+  static const _titles = APP_BAR_TITLES;
   static const _pages = <Widget>[
     OverviewPage(),
     ServersPage(),
     IncidentsPage(),
     AiAssistantPage(),
-    AnalyticsPage(),
     MorePage(),
   ];
 
@@ -78,8 +71,7 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
               error: (_, _) => 'incidents unavailable',
             ),
       3 => 'advisory · grounded in telemetry',
-      4 => 'operational summary',
-      5 => 'account · preferences · audit',
+      4 => 'account · preferences · audit',
       _ => null,
     };
     return Scaffold(

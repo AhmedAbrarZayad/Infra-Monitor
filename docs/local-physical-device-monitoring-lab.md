@@ -25,6 +25,11 @@ Multipass and VirtualBox are not required.
 docker version
 docker compose version
 flutter doctor -v
+$infraAdb = Join-Path $env:LOCALAPPDATA "Android\Sdk\platform-tools\adb.exe"
+if (-not (Test-Path -LiteralPath $infraAdb)) {
+  throw "ADB is missing. Install Android SDK Platform-Tools from Android Studio > SDK Manager > SDK Tools."
+}
+& $infraAdb version
 wsl --list --verbose
 ```
 
@@ -59,18 +64,23 @@ ipconfig
 ```
 
 Use the IPv4 address of the active Wi-Fi/Ethernet adapter, not WSL, Docker, VPN,
-or loopback. Find the phone address in Android Wi-Fi details. Both should share
-a trusted, non-guest subnet such as `192.168.0.x`.
+or loopback. The phone address is needed only for optional Wi-Fi testing. Find
+it in Android Wi-Fi details and confirm both devices share a trusted, non-guest
+subnet such as `192.168.0.x`.
 
 ```text
 Windows LAN IP: 192.168.0.107
 Phone IP:       192.168.0.108
 ```
 
-Only these two LAN addresses are configured manually. The generated enrollment
-command detects the current Windows gateway inside WSL every time it runs.
+ADB reverse needs neither address for Flutter. The generated enrollment command
+detects the current Windows gateway inside WSL every time it runs.
 
 ## 3. Configure narrow firewall rules
+
+USB/ADB phone testing does not require a phone firewall rule. The WSL rule is
+still used by Alloy and the installer. Create the exact phone rule only when
+testing the Flutter application over Wi-Fi.
 
 Open Administrator PowerShell:
 
@@ -85,14 +95,19 @@ Get-NetConnectionProfile
 Set-NetConnectionProfile -InterfaceAlias "WiFi" -NetworkCategory Private
 ```
 
-Remove stale duplicate lab rules, then create an exact phone rule and a WSL NAT
-range rule. The latter avoids replacing the rule whenever WSL changes address:
+Remove stale duplicate lab rules, then create the WSL NAT range rule. It avoids
+replacing the rule whenever WSL changes address:
 
 ```powershell
 Get-NetFirewallRule -DisplayName "Infra Monitor Phone 7000" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
 Get-NetFirewallRule -DisplayName "Infra Monitor WSL 7000" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
-New-NetFirewallRule -DisplayName "Infra Monitor Phone 7000" -Direction Inbound -Protocol TCP -LocalPort 7000 -RemoteAddress 192.168.0.108 -InterfaceAlias "WiFi" -Action Allow -Profile Any
 New-NetFirewallRule -DisplayName "Infra Monitor WSL 7000" -Direction Inbound -Protocol TCP -LocalPort 7000 -RemoteAddress 172.16.0.0/12 -Action Allow -Profile Any
+```
+
+For optional Wi-Fi phone testing, add one rule using the phone's current IP:
+
+```powershell
+New-NetFirewallRule -DisplayName "Infra Monitor Phone 7000" -Direction Inbound -Protocol TCP -LocalPort 7000 -RemoteAddress 192.168.0.108 -InterfaceAlias "WiFi" -Action Allow -Profile Any
 ```
 
 The WSL rule permits only TCP port 7000 from the private address block WSL2 uses
@@ -143,14 +158,15 @@ http://backend:8000/api/internal/ml/detections/
 Port `8000` is Django's container port. The published port `7000` is only for
 requests coming from Windows or the physical phone. Therefore, use
 `http://backend:8000` for the FastAPI-to-Django callback and
-`http://<WINDOWS_LAN_IP>:7000` from physical devices.
+`http://<WINDOWS_LAN_IP>:7000` from remote Linux hosts or optional Wi-Fi tests.
 
 ### Refresh addresses at the start of every lab session
 
-The Windows LAN address and phone address can change after reconnecting to
-Wi-Fi. The WSL virtual-adapter address can also change and must **not** be saved
-as the public monitoring address. Before starting Compose, display the current
-Windows Wi-Fi address:
+The Windows LAN address can change after reconnecting to Wi-Fi; the phone
+address can also change when using optional Wi-Fi testing. The WSL
+virtual-adapter address can change and must **not** be saved as the public
+monitoring address. Before starting Compose, display the current Windows Wi-Fi
+address:
 
 ```powershell
 $infraLanIp = (Get-NetIPAddress -InterfaceAlias "WiFi" -AddressFamily IPv4 |
@@ -167,7 +183,14 @@ MONITORING_PUBLIC_BASE_URL=http://<WINDOWS_LAN_IP>:7000
 MONITORING_SERVER_URL=http://<WINDOWS_LAN_IP>:7000
 ```
 
-Use the same Windows LAN address in `frontend/.env`:
+For the recommended USB/ADB workflow, `frontend/.env` does not use either LAN
+address:
+
+```dotenv
+API_BASE_URL=http://127.0.0.1:7000/api
+```
+
+Use the Windows LAN address only for optional Wi-Fi phone testing:
 
 ```dotenv
 API_BASE_URL=http://<WINDOWS_LAN_IP>:7000/api
@@ -182,8 +205,8 @@ Invoke-RestMethod "http://${infraLanIp}:7000/api/health/live/"
 ```
 
 Re-run the Flutter application after changing `frontend/.env`, because that
-file is bundled into the app. Also update the narrow firewall rule whenever the
-phone's Wi-Fi address changes.
+file is bundled into the app. For Wi-Fi testing, also update the narrow firewall
+rule whenever the phone's address changes. USB/ADB testing needs neither update.
 
 These values are intentionally reachable fallbacks for generated commands.
 When that command runs inside WSL2, it detects the live Windows gateway using
@@ -227,9 +250,15 @@ DB_HOST=localhost
 DB_PORT=5433
 DB_CONN_MAX_AGE=60
 
+SEED_OWNER_USERNAME=owner
+SEED_OWNER_EMAIL=owner@example.com
+SEED_OWNER_PASSWORD=replace-with-a-local-owner-password
+SEED_ADMIN_USERNAME=admin
+SEED_ADMIN_EMAIL=admin@example.com
+SEED_ADMIN_PASSWORD=replace-with-a-local-admin-password
 SEED_ENGINEER_USERNAME=engineer
 SEED_ENGINEER_EMAIL=engineer@example.com
-SEED_ENGINEER_PASSWORD=replace-with-a-local-test-password
+SEED_ENGINEER_PASSWORD=replace-with-a-local-engineer-password
 
 JWT_ACCESS_TOKEN_LIFETIME_MINUTES=30
 JWT_REFRESH_TOKEN_LIFETIME_DAYS=7
@@ -256,13 +285,14 @@ GMAIL_CLIENT_SECRET=
 GMAIL_REFRESH_TOKEN=
 ```
 
-Gmail is unnecessary for the seeded verified account. Compose overrides the
+Gmail is unnecessary for the seeded verified accounts. Compose overrides the
 host database address with `postgres:5432` inside Django.
 
-The physical phone uses `http://192.168.0.107:7000/api` in Flutter. The monitoring
-URLs are safe fallbacks for ordinary Linux hosts. On WSL, the generated command
-automatically replaces their host with the current Windows gateway, and the
-backend returns an Alloy configuration using that same verified address.
+The physical phone uses `http://127.0.0.1:7000/api` with ADB reverse, or the
+Windows LAN address for optional Wi-Fi testing. The monitoring URLs remain safe
+fallbacks for ordinary Linux hosts. On WSL, the generated command automatically
+replaces their host with the current Windows gateway, and the backend returns
+an Alloy configuration using that same verified address.
 
 ## 5. Start the platform
 
@@ -273,13 +303,13 @@ docker compose ps
 Invoke-RestMethod http://127.0.0.1:7000/api/health/live/
 Invoke-RestMethod http://127.0.0.1:7001/health
 Invoke-RestMethod http://192.168.0.107:7000/api/health/live/
-docker compose exec backend python manage.py seed_dummy_engineer
+docker compose exec backend python manage.py seed_test_users
 ```
 
 The backend container runs `python manage.py migrate` before starting Django.
 Do not run a second manual migration while it is starting; concurrent migrations
 can briefly expose a partially migrated schema. Wait for the local health check
-to succeed before running `seed_dummy_engineer`. If startup takes longer, inspect
+to succeed before running `seed_test_users`. If startup takes longer, inspect
 `docker compose logs --tail 200 backend` and retry the health check.
 
 Confirm `backend`, `ml_service`, `celery_worker`, `celery_beat`, `redis`,
@@ -326,6 +356,106 @@ dedicated Alloy user the required Docker and containerd access automatically.
 
 ## 7. Run Flutter on the phone
 
+### Recommended: USB with ADB reverse
+
+This route is private to the authorized USB-debugging connection. It avoids
+DHCP address changes, Windows phone firewall rules, guest-network isolation,
+and router client-isolation settings.
+
+Connect the unlocked phone by USB, accept its debugging prompt, and run:
+
+```powershell
+$infraAdb = Join-Path $env:LOCALAPPDATA "Android\Sdk\platform-tools\adb.exe"
+if (-not (Test-Path -LiteralPath $infraAdb)) {
+  throw "ADB is missing. Install Android SDK Platform-Tools from Android Studio > SDK Manager > SDK Tools."
+}
+& $infraAdb version
+& $infraAdb devices
+```
+
+The Python virtual environment does not install or expose ADB. The commands
+above call the Android SDK executable directly, so no permanent `PATH` change is
+required. In Android, enable **Developer options > USB debugging** and use a USB
+cable that supports data. `adb devices` must show the device with state
+`device`; if it says `unauthorized`, unlock the phone and accept the debugging
+prompt. If it says `offline`, unlock and reconnect the phone, then restart ADB:
+
+```powershell
+& $infraAdb kill-server
+& $infraAdb start-server
+& $infraAdb devices
+```
+
+Do not continue until the state is `device`. Then create and verify the reverse
+port-forwarding rule:
+
+```powershell
+& $infraAdb reverse tcp:7000 tcp:7000
+& $infraAdb reverse --list
+```
+
+Set `frontend/.env`:
+
+```dotenv
+API_BASE_URL=http://127.0.0.1:7000/api
+GOOGLE_WEB_CLIENT_ID=
+GOOGLE_ANDROID_CLIENT_ID=
+```
+
+Here `127.0.0.1:7000` normally refers to the phone, but ADB forwards that port
+over USB to port `7000` on Windows. HTTP and WebSocket traffic on port `7000`
+both use the same forwarding rule. This file is bundled into the app; put no
+secrets in it.
+
+```powershell
+Set-Location frontend
+flutter clean
+flutter pub get
+flutter devices
+flutter run -d YOUR_DEVICE_ID
+```
+
+ADB reverse rules may disappear after disconnecting or restarting the phone.
+If the app later reports that it cannot reach the backend, reconnect USB and
+run the following again:
+
+```powershell
+& $infraAdb reverse tcp:7000 tcp:7000
+& $infraAdb reverse --list
+```
+
+Remove the rule when finished with:
+
+```powershell
+& $infraAdb reverse --remove tcp:7000
+```
+
+### Alternative: Android emulator
+
+The Android emulator can reach the Windows loopback interface through
+`10.0.2.2`. It does not test a physical phone, but it also avoids LAN firewall
+and router configuration:
+
+```dotenv
+API_BASE_URL=http://10.0.2.2:7000/api
+```
+
+Stop and rerun Flutter after selecting this value.
+
+### Optional: test over Wi-Fi
+
+Use Wi-Fi only when the test specifically needs wireless connectivity. Confirm
+the phone browser can open this endpoint before starting Flutter:
+
+```text
+http://<WINDOWS_LAN_IP>:7000/api/health/live/
+```
+
+If the browser cannot open it, do not debug Django or Flutter yet. Confirm the
+phone IP, disable its VPN temporarily, leave guest Wi-Fi, and disable router
+AP/client isolation. Then configure the exact phone firewall rule from section
+3 and continue below.
+
 Set `frontend/.env`:
 
 ```dotenv
@@ -344,12 +474,30 @@ flutter devices
 flutter run -d YOUR_DEVICE_ID
 ```
 
-Sign in using the seeded email/password. Create an organization through
+If the browser endpoint works but the installed app does not, check the build
+variant. `flutter run` uses the debug manifest, which permits local HTTP. A
+release APK also needs the following in
+`android/app/src/main/AndroidManifest.xml` while the lab uses plain HTTP:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+<application android:usesCleartextTraffic="true" ...>
+```
+
+Prefer HTTPS instead of cleartext HTTP for any deployment outside this isolated
+local lab.
+
+Sign in as `owner@example.com` first. The default local password is
+`Owner123!` unless overridden by `SEED_OWNER_PASSWORD`. Create an organization
+through
 onboarding or **More → Create organization**.
+
+Then sign in with the Admin and Engineer accounts, request membership in that
+organization, and use the Owner account to approve them and promote the Admin.
 
 ## 8. Enroll Ubuntu from Flutter
 
-Organization owners/admins can enroll servers:
+Organization Owners can enroll servers:
 
 1. Open **Servers** and tap **Add server**.
 2. Enter `WSL Ubuntu Lab` and choose **Development**.
@@ -711,10 +859,10 @@ and normal inference results are not shown there.**
 5. Move to another tab, return to AI, select the same anomaly, and confirm the
    saved conversation reloads.
 
-Flutter derives `ws://<WINDOWS_LAN_IP>:7000/ws/...` from the same
-`API_BASE_URL` used for HTTP. Do not add a second phone port or hard-code a WSL
-address. The existing Windows Firewall rule for TCP 7000 carries both HTTP and
-WebSocket traffic.
+Flutter derives its `ws://...:7000/ws/...` URL from the same `API_BASE_URL` used
+for HTTP. Do not add a second phone port or hard-code a WSL address. ADB reverse
+carries both protocols over USB; the optional Wi-Fi firewall rule carries both
+protocols over the LAN.
 
 ### Verify that a crash remains a separate lifecycle incident
 
@@ -743,6 +891,8 @@ On Windows:
 
 ```powershell
 Set-Location "C:\Users\ahmed\OneDrive\Documents\Projects\AI Incident Report and Infrastructure monitoring\Infra-Monitor"
+$infraAdb = Join-Path $env:LOCALAPPDATA "Android\Sdk\platform-tools\adb.exe"
+if (Test-Path -LiteralPath $infraAdb) { & $infraAdb reverse --remove tcp:7000 }
 docker compose stop
 wsl --shutdown
 ```
@@ -829,12 +979,21 @@ script never deletes general VirtualBox VM folders.
 
 ## 15. Troubleshooting
 
-- Phone failure: confirm exact phone IP/rule, same non-guest subnet, no VPN, and
-  no router client isolation.
+- USB phone failure: resolve `$infraAdb` as shown in section 7, run
+  `& $infraAdb devices`, and confirm the device is `device`, not
+  `unauthorized`; accept the phone prompt, then recreate and list the forwarding
+  rule with `& $infraAdb reverse tcp:7000 tcp:7000` and
+  `& $infraAdb reverse --list`.
+- Wi-Fi phone failure: first open the liveness URL in the phone browser. If it
+  fails there, confirm the exact phone IP/rule, same non-guest subnet, no VPN,
+  and no router AP/client isolation. If it works in the browser but not Flutter,
+  fully rebuild the app and check Android Internet/cleartext permissions.
 - WSL failure: confirm the generated command contains `ip route show default`;
   create a fresh enrollment and run it unchanged. The WSL NAT firewall rule does
   not need an exact address update.
-- Flutter failure: confirm `frontend/.env` includes `/api`, then rebuild.
+- Flutter failure: confirm `frontend/.env` includes `/api` and matches the
+  selected transport: `127.0.0.1` for ADB reverse or the Windows LAN IP for
+  Wi-Fi. Stop and rerun Flutter after changing the bundled file.
 - Enrollment failure: use a fresh token. The installer checks the dynamically
   detected gateway before consuming it and prints a bounded error instead of
   hanging.
@@ -856,8 +1015,10 @@ script never deletes general VirtualBox VM folders.
 - Normal-only inference: confirm the artifact was trained during the quiet
   baseline, then repeat the combined controlled load through another complete
   five-minute bucket. A statistical test is not guaranteed to be anomalous.
-- Phone does not update: pull to refresh, check the polling preference, and
-  confirm the phone can still reach the Windows LAN address on port 7000.
+- Phone does not update: pull to refresh and check the polling preference. For
+  USB, confirm the ADB reverse rule still exists with
+  `& $infraAdb reverse --list`. For Wi-Fi, confirm the phone
+  can still reach the Windows LAN address on port 7000.
 - Gemini not configured: set `GEMINI_API_KEY` in `backend/.env`, then run
   `docker compose up -d --build backend`; never put the key in Flutter.
 - Gemini model/key error: inspect `docker compose logs --tail 200 backend`,

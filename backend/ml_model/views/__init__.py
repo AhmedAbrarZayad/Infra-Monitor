@@ -1,4 +1,17 @@
 from .internal import InternalDetectionView
-from .operational import AnomalyDetailView, AnomalyListView, AnomalyResolveView
+from .operational import (
+    AnomalyAssignView,
+    AnomalyAssignmentHistoryView,
+    AnomalyDetailView,
+    AnomalyListView,
+    AnomalyResolveView,
+)
 
-__all__ = ["AnomalyDetailView", "AnomalyListView", "AnomalyResolveView", "InternalDetectionView"]
+__all__ = [
+    "AnomalyAssignView",
+    "AnomalyAssignmentHistoryView",
+    "AnomalyDetailView",
+    "AnomalyListView",
+    "AnomalyResolveView",
+    "InternalDetectionView",
+]

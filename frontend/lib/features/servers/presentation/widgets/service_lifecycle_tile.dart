@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../../../../core/api/operational_api.dart';
 import '../../domain/entities/server.dart';
 import 'server_status_badge.dart';
+import '../../../assignments/presentation/widgets/assignment_sheet.dart';
 
 class ServiceLifecycleTile extends StatelessWidget {
-  const ServiceLifecycleTile({required this.service, super.key});
+  const ServiceLifecycleTile({
+    required this.service,
+    this.canManageAdmins = false,
+    super.key,
+  });
 
   final MonitoredService service;
+  final bool canManageAdmins;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +78,21 @@ class ServiceLifecycleTile extends StatelessWidget {
             ],
           ),
         ),
+        if (canManageAdmins) ...[
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: () => showServiceAdminAssignmentSheet(
+                context: context,
+                serviceId: service.id,
+                serverId: service.serverId,
+              ),
+              icon: const Icon(Icons.admin_panel_settings_outlined),
+              label: const Text('Manage admins'),
+            ),
+          ),
+        ],
       ],
     );
   }

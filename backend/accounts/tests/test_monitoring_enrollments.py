@@ -76,10 +76,10 @@ class MonitoringEnrollmentApiTests(TestCase):
         self.assertIn("${_im_gateway}", response.data["install_command"])
         self.assertNotIn("||", response.data["install_command"])
 
-    def test_admin_can_create_but_engineer_cannot(self):
+    def test_only_owner_can_create_enrollments(self):
         self.client.force_authenticate(self.admin)
         self.assertEqual(
-            self.client.post(self.url, {"server_name": "A", "environment": "dev"}).status_code, 201
+            self.client.post(self.url, {"server_name": "A", "environment": "dev"}).status_code, 403
         )
         self.client.force_authenticate(self.engineer)
         self.assertEqual(

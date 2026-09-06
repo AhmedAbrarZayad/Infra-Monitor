@@ -4,14 +4,19 @@ class Organization {
   final String summary;
   final String? logoUrl;
 
-  const Organization({required this.id, required this.name, required this.summary, this.logoUrl});
+  const Organization({
+    required this.id,
+    required this.name,
+    required this.summary,
+    this.logoUrl,
+  });
 
   factory Organization.fromJson(Map<String, dynamic> json) => Organization(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        summary: json['summary'] as String,
-        logoUrl: json['logo_url'] as String?,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    summary: json['summary'] as String,
+    logoUrl: json['logo_url'] as String?,
+  );
 }
 
 class MembershipUser {
@@ -30,12 +35,12 @@ class MembershipUser {
   });
 
   factory MembershipUser.fromJson(Map<String, dynamic> json) => MembershipUser(
-        id: json['id'] as int,
-        username: json['username'] as String,
-        email: json['email'] as String,
-        firstName: json['first_name'] as String? ?? '',
-        lastName: json['last_name'] as String? ?? '',
-      );
+    id: json['id'] as int,
+    username: json['username'] as String,
+    email: json['email'] as String,
+    firstName: json['first_name'] as String? ?? '',
+    lastName: json['last_name'] as String? ?? '',
+  );
 
   String get displayName {
     final name = '$firstName $lastName'.trim();
@@ -62,9 +67,12 @@ class OrganizationMembership {
     required this.updatedAt,
   });
 
-  factory OrganizationMembership.fromJson(Map<String, dynamic> json) => OrganizationMembership(
+  factory OrganizationMembership.fromJson(Map<String, dynamic> json) =>
+      OrganizationMembership(
         id: json['id'] as String,
-        organization: Organization.fromJson(json['organization'] as Map<String, dynamic>),
+        organization: Organization.fromJson(
+          json['organization'] as Map<String, dynamic>,
+        ),
         user: MembershipUser.fromJson(json['user'] as Map<String, dynamic>),
         role: json['role'] as String,
         approved: json['approved'] as bool,
@@ -73,11 +81,54 @@ class OrganizationMembership {
       );
 
   String get displayRole => switch (role) {
-        'OWNER' => 'Super admin',
-        'ADMIN' => 'Admin',
-        'ENGINEER' => 'Engineer',
-        final value => value,
-      };
+    'OWNER' => 'Super admin',
+    'ADMIN' => 'Admin',
+    'ENGINEER' => 'Engineer',
+    final value => value,
+  };
+
+  OperationalCapabilities get capabilities =>
+      OperationalCapabilities.forRole(role);
+}
+
+class OperationalCapabilities {
+  const OperationalCapabilities({
+    required this.canManageServiceAdmins,
+    required this.canAssignWork,
+    required this.canEnrollServers,
+    required this.canViewHostMetrics,
+    required this.canListMembers,
+  });
+
+  final bool canManageServiceAdmins;
+  final bool canAssignWork;
+  final bool canEnrollServers;
+  final bool canViewHostMetrics;
+  final bool canListMembers;
+
+  factory OperationalCapabilities.forRole(String role) => switch (role) {
+    'OWNER' => const OperationalCapabilities(
+      canManageServiceAdmins: true,
+      canAssignWork: true,
+      canEnrollServers: true,
+      canViewHostMetrics: true,
+      canListMembers: true,
+    ),
+    'ADMIN' => const OperationalCapabilities(
+      canManageServiceAdmins: false,
+      canAssignWork: true,
+      canEnrollServers: false,
+      canViewHostMetrics: false,
+      canListMembers: true,
+    ),
+    _ => const OperationalCapabilities(
+      canManageServiceAdmins: false,
+      canAssignWork: false,
+      canEnrollServers: false,
+      canViewHostMetrics: false,
+      canListMembers: false,
+    ),
+  };
 }
 
 class OrganizationContext {
@@ -93,15 +144,23 @@ class OrganizationContext {
     required this.recommendedOrganizationId,
   });
 
-  factory OrganizationContext.fromJson(Map<String, dynamic> json) => OrganizationContext(
+  factory OrganizationContext.fromJson(Map<String, dynamic> json) =>
+      OrganizationContext(
         memberships: (json['memberships'] as List<dynamic>)
-            .map((item) => OrganizationMembership.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) =>
+                  OrganizationMembership.fromJson(item as Map<String, dynamic>),
+            )
             .toList(),
         pendingMemberships: (json['pending_memberships'] as List<dynamic>)
-            .map((item) => OrganizationMembership.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) =>
+                  OrganizationMembership.fromJson(item as Map<String, dynamic>),
+            )
             .toList(),
         canCreateOrganization: json['can_create_organization'] as bool,
-        recommendedOrganizationId: json['recommended_organization_id'] as String?,
+        recommendedOrganizationId:
+            json['recommended_organization_id'] as String?,
       );
 }
 
@@ -110,9 +169,14 @@ class PaginatedOrganizations {
   final String? next;
   final List<Organization> results;
 
-  const PaginatedOrganizations({required this.count, required this.next, required this.results});
+  const PaginatedOrganizations({
+    required this.count,
+    required this.next,
+    required this.results,
+  });
 
-  factory PaginatedOrganizations.fromJson(Map<String, dynamic> json) => PaginatedOrganizations(
+  factory PaginatedOrganizations.fromJson(Map<String, dynamic> json) =>
+      PaginatedOrganizations(
         count: json['count'] as int,
         next: json['next'] as String?,
         results: (json['results'] as List<dynamic>)

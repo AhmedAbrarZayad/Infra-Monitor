@@ -72,6 +72,7 @@ class ServiceLifecycleTests(TestCase):
         self.assertFalse(second[2])
         self.assertEqual(Alert.objects.count(), 1)
         self.assertEqual(Incident.objects.count(), 1)
+        self.assertEqual(Incident.objects.get().service, self.service)
 
     def test_recovery_resolves_failure(self):
         Service.objects.filter(pk=self.service.pk).update(

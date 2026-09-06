@@ -1,3 +1,5 @@
+import '../../../organizations/data/organization_models.dart';
+
 class Incident {
   const Incident({
     this.apiId,
@@ -12,6 +14,8 @@ class Incident {
     required this.owner,
     required this.aiConfidence,
     required this.acknowledgement,
+    this.assignedTo,
+    this.serviceId,
   });
   final String? apiId;
   final String id,
@@ -25,4 +29,6 @@ class Incident {
       owner,
       aiConfidence,
       acknowledgement;
+  final MembershipUser? assignedTo;
+  final String? serviceId;
 }

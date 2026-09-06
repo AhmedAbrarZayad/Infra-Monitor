@@ -8,12 +8,13 @@ from rest_framework.views import APIView
 from alert.models import Alert
 from alert.presenters import present_alert
 from common.api import apply_time_range, get_organization_membership, paginated_response
+from common.authorization import alerts_visible_to, can_manage_service
 
 
 class AlertListView(APIView):
     def get(self, request, organization_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        queryset = Alert.objects.filter(organization=organization)
+        _, membership = get_organization_membership(request, organization_id)
+        queryset = alerts_visible_to(membership)
         for key in ["state", "severity", "server_id", "service_id"]:
             value = request.query_params.get(key)
             if value:
@@ -31,8 +32,8 @@ class AlertListView(APIView):
 
 class AlertDetailView(APIView):
     def get(self, request, organization_id, alert_id):
-        organization, _ = get_organization_membership(request, organization_id)
-        alert = get_object_or_404(Alert, organization=organization, pk=alert_id)
+        _, membership = get_organization_membership(request, organization_id)
+        alert = get_object_or_404(alerts_visible_to(membership), pk=alert_id)
         return Response(present_alert(alert))
 
 
@@ -40,12 +41,20 @@ class AlertActionView(APIView):
     resolve = False
 
     def post(self, request, organization_id, alert_id):
-        roles = {"OWNER", "ADMIN"} if self.resolve else None
-        organization, _ = get_organization_membership(request, organization_id, roles)
+        _, membership = get_organization_membership(request, organization_id)
         with transaction.atomic():
             alert = get_object_or_404(
-                Alert.objects.select_for_update(), organization=organization, pk=alert_id
+                alerts_visible_to(membership, Alert.objects.select_for_update()), pk=alert_id
             )
+            can_manage = membership.role == "OWNER" or (
+                membership.role == "ADMIN"
+                and alert.service_id
+                and can_manage_service(membership, alert.service_id)
+            )
+            if not can_manage:
+                return Response(
+                    {"detail": "Engineers have read-only access to alerts."}, status=403
+                )
             if self.resolve:
                 if alert.state == Alert.State.RESOLVED:
                     return Response(present_alert(alert))

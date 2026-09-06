@@ -83,6 +83,8 @@ class OrganizationService:
         old_role = membership.role
         membership.role = role
         membership.save(update_fields=["role", "updated_at"])
+        if old_role == "ADMIN" and role != "ADMIN":
+            OrganizationService._remove_service_assignments(membership, actor)
         logger.info(
             "membership_role_changed actor_user_id=%s target_user_id=%s old_role=%s new_role=%s",
             actor.pk, membership.user_id, old_role, role,
@@ -101,6 +103,8 @@ class OrganizationService:
         if reviewer.role == "ADMIN" and membership.role != "ENGINEER":
             raise PermissionError("Admins may remove engineers only.")
         target_id = membership.user_id
+        if membership.role == "ADMIN":
+            OrganizationService._remove_service_assignments(membership, actor)
         membership.delete()
         logger.info("membership_removed actor_user_id=%s target_user_id=%s", actor.pk, target_id)
 
@@ -139,3 +143,26 @@ class OrganizationService:
             )
         except OrganizationMembership.DoesNotExist as exc:
             raise PermissionError("Owner access is required.") from exc
+
+    @staticmethod
+    def _remove_service_assignments(membership, actor):
+        from servers.models import (
+            ServiceAdminAssignment,
+            ServiceAdminAssignmentEvent,
+        )
+
+        assignments = list(
+            ServiceAdminAssignment.objects.filter(membership=membership)
+        )
+        ServiceAdminAssignmentEvent.objects.bulk_create(
+            [
+                ServiceAdminAssignmentEvent(
+                    service_id=assignment.service_id,
+                    action=ServiceAdminAssignmentEvent.Action.UNASSIGNED,
+                    actor=actor,
+                    previous_subject_id=membership.user_id,
+                )
+                for assignment in assignments
+            ]
+        )
+        ServiceAdminAssignment.objects.filter(pk__in=[item.pk for item in assignments]).delete()

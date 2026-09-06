@@ -6,7 +6,7 @@ import 'package:http/testing.dart';
 
 import 'package:frontend/features/organizations/data/organization_repository.dart';
 
-Map<String, dynamic> membershipJson({bool approved = true}) => {
+Map<String, dynamic> membershipJson({bool approved = true, String? role}) => {
   'id': '10000000-0000-0000-0000-000000000001',
   'organization': {
     'id': '20000000-0000-0000-0000-000000000001',
@@ -21,7 +21,7 @@ Map<String, dynamic> membershipJson({bool approved = true}) => {
     'first_name': 'Alex',
     'last_name': 'Perera',
   },
-  'role': approved ? 'OWNER' : 'ENGINEER',
+  'role': role ?? (approved ? 'OWNER' : 'ENGINEER'),
   'approved': approved,
   'created_at': '2026-01-01T00:00:00Z',
   'updated_at': '2026-01-01T00:00:00Z',
@@ -85,5 +85,83 @@ void main() {
     );
     final result = await repository.join('org-id');
     expect(result.approved, false);
+  });
+
+  test('loads pending memberships for owner review', () async {
+    final repository = OrganizationRepository(
+      'token',
+      baseUrl: 'http://test/api/organizations',
+      client: MockClient((request) async {
+        expect(request.method, 'GET');
+        expect(request.url.path, '/api/organizations/org-id/memberships/');
+        expect(request.url.queryParameters['approved'], 'false');
+        return http.Response(jsonEncode({
+          'count': 1,
+          'next': null,
+          'previous': null,
+          'results': [membershipJson(approved: false)],
+        }), 200);
+      }),
+    );
+    final result = await repository.getPendingMemberships('org-id');
+    expect(result.single.approved, false);
+  });
+
+  test('approves a pending membership', () async {
+    final repository = OrganizationRepository(
+      'token',
+      baseUrl: 'http://test/api/organizations',
+      client: MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(
+          request.url.path,
+          '/api/organizations/org-id/memberships/member-id/approve/',
+        );
+        return http.Response(jsonEncode(membershipJson(role: 'ADMIN')), 200);
+      }),
+    );
+    final result = await repository.approveMembership(
+      organizationId: 'org-id',
+      membershipId: 'member-id',
+    );
+    expect(result.approved, true);
+  });
+
+  test('rejects a pending membership', () async {
+    final repository = OrganizationRepository(
+      'token',
+      baseUrl: 'http://test/api/organizations',
+      client: MockClient((request) async {
+        expect(request.method, 'DELETE');
+        expect(
+          request.url.path,
+          '/api/organizations/org-id/memberships/member-id/reject/',
+        );
+        return http.Response('', 204);
+      }),
+    );
+    await repository.rejectMembership(
+      organizationId: 'org-id',
+      membershipId: 'member-id',
+    );
+  });
+
+  test('changes an approved member role', () async {
+    final repository = OrganizationRepository(
+      'token',
+      baseUrl: 'http://test/api/organizations',
+      client: MockClient((request) async {
+        expect(request.method, 'PATCH');
+        expect(request.url.path, '/api/organizations/org-id/members/7/role/');
+        expect(jsonDecode(request.body), {'role': 'ADMIN'});
+        return http.Response(jsonEncode(membershipJson(role: 'ADMIN')), 200);
+      }),
+    );
+    final result = await repository.changeMemberRole(
+      organizationId: 'org-id',
+      userId: 7,
+      role: 'ADMIN',
+    );
+    expect(result.role, 'ADMIN');
   });
 }

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/api/operational_api.dart';
 import '../../domain/entities/anomaly_detection.dart';
 import '../../../navigation/presentation/providers/app_navigation_provider.dart';
+import '../../../assignments/domain/assignment_models.dart';
+import '../../../assignments/presentation/widgets/assignment_sheet.dart';
 
 const _warning = Color(0xFFFFB51F);
 const _muted = Color(0xFF8993A4);
@@ -14,88 +16,107 @@ class AnomalyEvidenceTile extends ConsumerWidget {
     required this.anomaly,
     this.onResolve,
     this.resolving = false,
+    this.canAssign = false,
     super.key,
   });
 
   final AnomalyDetection anomaly;
   final Future<void> Function()? onResolve;
   final bool resolving;
+  final bool canAssign;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => ExpansionTile(
-    tilePadding: const EdgeInsets.symmetric(horizontal: 14),
-    childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-    leading: const Icon(Icons.warning_amber_rounded, color: _warning),
-    title: Text(
-      anomaly.displayService,
-      style: const TextStyle(fontWeight: FontWeight.w700),
-    ),
-    subtitle: Text(
-      '${anomaly.displayServer}\nUnusual service behaviour; crash not confirmed.',
-      style: const TextStyle(color: _muted, fontSize: 11),
-    ),
-    trailing: Text(
-      '${(anomaly.confidenceScore * 100).clamp(0, 100).round()}%',
-      style: const TextStyle(
-        color: _warning,
-        fontWeight: FontWeight.w700,
-        fontFamily: 'monospace',
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ExpansionTile(
+      tilePadding: const EdgeInsets.symmetric(horizontal: 14),
+      childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      leading: const Icon(Icons.warning_amber_rounded, color: _warning),
+      title: Text(
+        anomaly.displayService,
+        style: const TextStyle(fontWeight: FontWeight.w700),
       ),
-    ),
-    children: [
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Wrap(
-          spacing: 20,
-          runSpacing: 12,
-          children: [
-            _Detail('DETECTED', relativeTime(anomaly.detectedAt)),
-            _Detail('WINDOW START', _timestamp(anomaly.windowStartedAt)),
-            _Detail('WINDOW END', _timestamp(anomaly.windowEndedAt)),
-            _Detail('ANOMALY SCORE', anomaly.anomalyScore.toStringAsFixed(4)),
-            _Detail('MODEL', anomaly.modelVersion),
-            ..._features.entries.map(
-              (entry) => _Detail(
-                entry.value.$1,
-                _feature(
-                  entry.key,
-                  anomaly.featureValues[entry.key],
-                  entry.value.$2,
+      subtitle: Text(
+        '${anomaly.displayServer}\nUnusual service behaviour; crash not confirmed.',
+        style: const TextStyle(color: _muted, fontSize: 11),
+      ),
+      trailing: Text(
+        '${(anomaly.confidenceScore * 100).clamp(0, 100).round()}%',
+        style: const TextStyle(
+          color: _warning,
+          fontWeight: FontWeight.w700,
+          fontFamily: 'monospace',
+        ),
+      ),
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Wrap(
+            spacing: 20,
+            runSpacing: 12,
+            children: [
+              _Detail('DETECTED', relativeTime(anomaly.detectedAt)),
+              _Detail('WINDOW START', _timestamp(anomaly.windowStartedAt)),
+              _Detail('WINDOW END', _timestamp(anomaly.windowEndedAt)),
+              _Detail('ANOMALY SCORE', anomaly.anomalyScore.toStringAsFixed(4)),
+              _Detail('MODEL', anomaly.modelVersion),
+              _Detail(
+                'ENGINEER',
+                anomaly.assignedTo?.displayName ?? 'Unassigned',
+              ),
+              ..._features.entries.map(
+                (entry) => _Detail(
+                  entry.value.$1,
+                  _feature(
+                    entry.key,
+                    anomaly.featureValues[entry.key],
+                    entry.value.$2,
+                  ),
                 ),
               ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton.icon(
+              onPressed: () => showWorkAssignmentSheet(
+                context: context,
+                resource: AssignmentResource.anomaly,
+                resourceId: anomaly.id,
+                currentAssignee: anomaly.assignedTo,
+                serverId: anomaly.serverId,
+              ),
+              icon: const Icon(Icons.assignment_ind_outlined, size: 16),
+              label: Text(canAssign ? 'Manage assignment' : 'View assignment'),
+            ),
+            if (onResolve != null)
+              TextButton.icon(
+                onPressed: resolving ? null : onResolve,
+                icon: resolving
+                    ? const SizedBox.square(
+                        dimension: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.check_circle_outline, size: 16),
+                label: Text(resolving ? 'Resolving…' : 'Mark resolved'),
+              ),
+            TextButton.icon(
+              onPressed: () {
+                ref
+                    .read(appNavigationProvider.notifier)
+                    .openAssistant(anomaly.id);
+                if (GoRouterState.of(context).uri.path != '/') context.go('/');
+              },
+              icon: const Icon(Icons.auto_awesome, size: 16),
+              label: const Text('Ask AI'),
             ),
           ],
         ),
-      ),
-      const SizedBox(height: 8),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          if (onResolve != null)
-            TextButton.icon(
-              onPressed: resolving ? null : onResolve,
-              icon: resolving
-                  ? const SizedBox.square(
-                      dimension: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.check_circle_outline, size: 16),
-              label: Text(resolving ? 'Resolving…' : 'Mark resolved'),
-            ),
-          TextButton.icon(
-            onPressed: () {
-              ref
-                  .read(appNavigationProvider.notifier)
-                  .openAssistant(anomaly.id);
-              if (GoRouterState.of(context).uri.path != '/') context.go('/');
-            },
-            icon: const Icon(Icons.auto_awesome, size: 16),
-            label: const Text('Ask AI'),
-          ),
-        ],
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
 const _features = <String, (String, String)>{

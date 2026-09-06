@@ -59,6 +59,7 @@ class AssistantTests(TransactionTestCase):
             model_version="model-1",
             window_started_at=end - timedelta(minutes=5),
             window_ended_at=end,
+            assigned_to=self.user,
         )
         self.client = APIClient()
         self.client.force_authenticate(self.user)

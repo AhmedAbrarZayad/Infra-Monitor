@@ -23,8 +23,27 @@ def metric_history(server, code, service=None, limit=30):
     return [point["value"] for point in result["points"][-limit:]]
 
 
-def present_server(server):
+def present_server(server, membership=None):
     active_states = ["ACTIVE", "ACKNOWLEDGED"]
+    restricted = membership is not None and membership.role != "OWNER"
+    if restricted:
+        from common.authorization import alerts_visible_to, services_visible_to
+
+        alert_count = alerts_visible_to(membership).filter(
+            server_id=server, state__in=active_states
+        ).count()
+        service_count = services_visible_to(membership).filter(server_id=server).count()
+        metrics = {}
+        cpu_history = []
+    else:
+        alert_count = Alert.objects.filter(
+            organization=server.organization,
+            server_id=server,
+            state__in=active_states,
+        ).count()
+        service_count = server.services.count()
+        metrics = {code: metric_value(server, code) for code in ["cpu_r", "mem_u", "disk_u"]}
+        cpu_history = metric_history(server, "cpu_r")
     return {
         "id": server.server_id,
         "name": server.name,
@@ -34,18 +53,26 @@ def present_server(server):
         "status": server.status,
         "last_seen_at": server.last_seen_at,
         "registered_at": server.registered_at,
-        "alert_count": Alert.objects.filter(
-            organization=server.organization,
-            server_id=server,
-            state__in=active_states,
-        ).count(),
-        "metrics": {code: metric_value(server, code) for code in ["cpu_r", "mem_u", "disk_u"]},
-        "service_count": server.services.count(),
-        "cpu_history": metric_history(server, "cpu_r"),
+        "alert_count": alert_count,
+        "metrics": metrics,
+        "service_count": service_count,
+        "cpu_history": cpu_history,
     }
 
 
-def present_service(service):
+def present_service(service, membership=None):
+    if membership is None or membership.role == "OWNER":
+        alerts = Alert.objects.filter(
+            organization=service.server_id.organization,
+            service_id=service,
+            state__in=["ACTIVE", "ACKNOWLEDGED"],
+        )
+    else:
+        from common.authorization import alerts_visible_to
+
+        alerts = alerts_visible_to(membership).filter(
+            service_id=service, state__in=["ACTIVE", "ACKNOWLEDGED"]
+        )
     return {
         "id": service.service_id,
         "server_id": service.server_id_id,
@@ -57,9 +84,5 @@ def present_service(service):
         "consecutive_failure_observations": service.consecutive_failure_observations,
         "port": service.port,
         "last_reported_at": service.last_reported_at,
-        "alert_count": Alert.objects.filter(
-            organization=service.server_id.organization,
-            service_id=service,
-            state__in=["ACTIVE", "ACKNOWLEDGED"],
-        ).count(),
+        "alert_count": alerts.count(),
     }

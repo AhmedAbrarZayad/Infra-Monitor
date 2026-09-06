@@ -1,1 +1,2 @@
 from .anomaly_detection import AnomalyDetection as AnomalyDetection
+from .anomaly_assignment_event import AnomalyAssignmentEvent as AnomalyAssignmentEvent

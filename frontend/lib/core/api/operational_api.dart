@@ -69,6 +69,30 @@ class OperationalApi {
             ),
           )
           as Map<String, dynamic>;
+  Future<Map<String, dynamic>> patch(
+    String path,
+    Map<String, dynamic> body,
+  ) async =>
+      _decode(
+            await _client.patch(
+              _uri(path),
+              headers: _headers,
+              body: jsonEncode(body),
+            ),
+          )
+          as Map<String, dynamic>;
+  Future<Map<String, dynamic>> put(
+    String path,
+    Map<String, dynamic> body,
+  ) async =>
+      _decode(
+            await _client.put(
+              _uri(path),
+              headers: _headers,
+              body: jsonEncode(body),
+            ),
+          )
+          as Map<String, dynamic>;
 }
 
 double? metricPercent(dynamic metric) {

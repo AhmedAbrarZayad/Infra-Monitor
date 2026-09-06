@@ -78,4 +78,50 @@ class OrganizationRepository {
         .map((item) => OrganizationMembership.fromJson(item as Map<String, dynamic>))
         .toList();
   }
+
+  Future<List<OrganizationMembership>> getPendingMemberships(String organizationId) async {
+    final response = await _client.get(
+      Uri.parse('$_baseUrl/$organizationId/memberships/?approved=false&limit=100'),
+      headers: _headers,
+    );
+    final body = _accept(response);
+    return (body['results'] as List<dynamic>)
+        .map((item) => OrganizationMembership.fromJson(item as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<OrganizationMembership> approveMembership({
+    required String organizationId,
+    required String membershipId,
+  }) async {
+    final response = await _client.post(
+      Uri.parse('$_baseUrl/$organizationId/memberships/$membershipId/approve/'),
+      headers: _headers,
+    );
+    return OrganizationMembership.fromJson(_accept(response));
+  }
+
+  Future<void> rejectMembership({
+    required String organizationId,
+    required String membershipId,
+  }) async {
+    final response = await _client.delete(
+      Uri.parse('$_baseUrl/$organizationId/memberships/$membershipId/reject/'),
+      headers: _headers,
+    );
+    if (response.statusCode >= 400) throw ApiException(response.statusCode, _decode(response));
+  }
+
+  Future<OrganizationMembership> changeMemberRole({
+    required String organizationId,
+    required int userId,
+    required String role,
+  }) async {
+    final response = await _client.patch(
+      Uri.parse('$_baseUrl/$organizationId/members/$userId/role/'),
+      headers: _headers,
+      body: jsonEncode({'role': role}),
+    );
+    return OrganizationMembership.fromJson(_accept(response));
+  }
 }
