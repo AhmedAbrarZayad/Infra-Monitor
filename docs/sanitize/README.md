@@ -184,4 +184,16 @@ CICIDS2017 is network-flow data rather than HTTP access-log data, so preprocessi
 
 The sanitize tests cover vector length and numeric types plus representative SQL injection, XSS, traversal, bot, suspicious-extension, clean-request, and threat-signal cases. Integration coverage for middleware capture, Celery scheduling, ML failures, Gemini response validation, and API authorization should be maintained as the feature evolves.
 
+The repository also includes a Docker smoke test for the implemented pipeline.
+After creating `model/.env` from `model/.env.example` and setting the same
+`ML_SERVICE_TOKEN` in both environment files, run from the repository root:
+
+```powershell
+./scripts/sanitize-e2e.ps1
+```
+
+It verifies migration consistency and Django checks, then trains a temporary
+model and exercises database ingestion, ML classification, and suggestion
+generation inside the Compose network.
+
 For component relationships and deployment topology, see [architecture.md](architecture.md).

@@ -60,6 +60,20 @@ ruff check .
 ruff format --check .
 ```
 
+To run the Request Shield migration and Docker smoke test, first create
+`model/.env` from `model/.env.example` with the same `ML_SERVICE_TOKEN` used by
+`backend/.env`, then run:
+
+```powershell
+./scripts/sanitize-e2e.ps1
+```
+
+The script starts the database, Redis, ML service, and backend, verifies that
+Django migrations are current, runs Django system checks, trains a small
+temporary request classifier, and exercises ingestion, classification, and
+threat-suggestion generation. Use `./scripts/sanitize-e2e.ps1 -NoBuild` when
+the images are already current.
+
 To format backend Python code:
 
 ```powershell

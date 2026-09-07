@@ -152,7 +152,7 @@ The backend, worker, and beat processes share Django configuration and the datab
 | External batch validation fails                  | Request rejected; no batch is stored            | Correct the agent payload and resend                 |
 | ML service unavailable or invalid                | Classification returns 0; rows remain pending   | A later Celery cycle tries them again                |
 | No request-shield model artifact                 | ML endpoint returns 404; rows remain pending    | Preprocess data and train a model                    |
-| Gemini key absent                                | Escalation is skipped                           | Configure`GEMINI_API_KEY` if required              |
+| Gemini key absent                                | Escalation is skipped                           | Configure `GEMINI_API_KEY` if required             |
 | Gemini output invalid                            | No rows are updated                             | Inspect provider response/logs; rows remain eligible |
 | Suggestion already PENDING                       | No duplicate is created                         | Resolve the existing suggestion                      |
 
