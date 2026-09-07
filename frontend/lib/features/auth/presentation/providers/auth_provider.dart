@@ -210,9 +210,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final currentState = state;
     if (currentState is AuthAuthenticated) {
       try {
+        final installationId = await storage.read(key: 'fcm_installation_id');
         await repository.logout(
           accessToken: currentState.accessToken,
           refreshToken: currentState.refreshToken,
+          installationId: installationId,
         );
       } catch (_) {
         // Even if server-side logout fails, clear local tokens

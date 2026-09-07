@@ -28,6 +28,7 @@ from incident.models import Incident, IncidentUpdate
 from incident.presenters import present_incident
 from log.presenters import present_log
 from ml_model.presenters import present_anomaly
+from notifications.services import notify_assignment
 
 
 def add_update(
@@ -40,7 +41,7 @@ def add_update(
     previous_subject=None,
     new_subject=None,
 ):
-    IncidentUpdate.objects.create(
+    return IncidentUpdate.objects.create(
         incident_id=incident,
         user_id=user,
         action=action,
@@ -169,13 +170,15 @@ class IncidentAssignView(APIView):
             action = assignment_action(incident.assigned_to_id, target_id)
             incident.assigned_to = target
             incident.save(update_fields=["assigned_to"])
-            add_update(
+            update = add_update(
                 incident,
                 request.user,
                 action,
                 previous_subject=previous,
                 new_subject=target,
             )
+            if target:
+                notify_assignment(incident, "INCIDENT", update.update_id)
         return Response(present_incident(incident))
 
 

@@ -16,6 +16,9 @@ db.sqlite3
 db.sqlite3-journal
 *.log
 
+# Firebase Admin credentials are server secrets and must never be committed.
+firebase-service-account*.json
+
 # Virtual environments
 venv/
 .venv/

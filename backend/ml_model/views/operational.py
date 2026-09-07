@@ -20,6 +20,7 @@ from common.authorization import (
 )
 from ml_model.models import AnomalyAssignmentEvent, AnomalyDetection
 from ml_model.presenters import present_anomaly
+from notifications.services import notify_assignment
 
 
 class AnomalyListView(APIView):
@@ -104,13 +105,15 @@ class AnomalyAssignView(APIView):
             anomaly.assigned_by = request.user if target else None
             anomaly.assigned_at = timezone.now() if target else None
             anomaly.save(update_fields=["assigned_to", "assigned_by", "assigned_at"])
-            AnomalyAssignmentEvent.objects.create(
+            assignment_event = AnomalyAssignmentEvent.objects.create(
                 anomaly=anomaly,
                 action=action,
                 actor=request.user,
                 previous_subject=previous,
                 new_subject=target,
             )
+            if target:
+                notify_assignment(anomaly, "ANOMALY", assignment_event.pk)
         return Response(present_anomaly(anomaly))
 
 

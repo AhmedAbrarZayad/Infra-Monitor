@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
+from notifications.models import DeviceRegistration
+
 logger = logging.getLogger(__name__)
 
 
@@ -34,6 +36,11 @@ class LogoutView(APIView):
         try:
             token = RefreshToken(refresh_token)
             token.blacklist()
+            installation_id = request.data.get("installation_id")
+            if installation_id:
+                DeviceRegistration.objects.filter(
+                    user=request.user, installation_id=installation_id
+                ).update(active=False)
         except TokenError:
             return Response(
                 {"detail": "Invalid or expired refresh token."},
