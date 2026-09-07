@@ -1,0 +1,99 @@
+// ─────────────────────────────────────────────────────────────────
+// Grafana Alloy — Request Shield access-log ingestion
+// ─────────────────────────────────────────────────────────────────
+//
+// This configuration snippet extends the Alloy agent (already installed on
+// monitored servers) to tail HTTP access logs, parse them into structured
+// entries, batch them, and forward to the Infra-Monitor Request Shield
+// ingestion API.
+//
+// Add this to the existing Alloy config or include it as a separate file
+// in the Alloy config directory.
+//
+// Supports: nginx (combined format), Apache (combined format)
+//
+// Configuration variables (set via environment or Alloy CLI):
+//   INFRA_MONITOR_URL     — e.g. https://monitor.example
+//   SERVER_CREDENTIAL     — monitoring credential token
+//   SERVER_ID             — UUID of this server in Infra-Monitor
+//   ACCESS_LOG_PATH       — path to the access log file (default: /var/log/nginx/access.log)
+// ─────────────────────────────────────────────────────────────────
+
+// ── Tail the access log file ───────────────────────────────────────
+
+local.file_match "access_logs" {
+  path_targets = [
+    {
+      __path__ = coalesce(env("ACCESS_LOG_PATH"), "/var/log/nginx/access.log"),
+      job       = "request_shield",
+      server_id = env("SERVER_ID"),
+    },
+  ]
+}
+
+loki.source.file "access_log_source" {
+  targets    = local.file_match.access_logs.targets
+  forward_to = [loki.process.parse_access_log.receiver]
+}
+
+// ── Parse combined log format ──────────────────────────────────────
+// nginx combined: $remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $request_time
+// Apache combined: %h %l %u %t "%r" %>s %b "%{Referer}i" "%{User-Agent}i"
+
+loki.process "parse_access_log" {
+  // Stage 1: Parse the combined log format with regex
+  stage.regex {
+    expression = `^(?P<source_ip>\S+) \S+ \S+ \[(?P<timestamp>[^\]]+)\] "(?P<method>\S+) (?P<path>\S+) (?P<protocol>\S+)" (?P<status_code>\d+) (?P<body_bytes>\d+|-) "(?P<referer>[^"]*)" "(?P<user_agent>[^"]*)"(?:\s+(?P<response_time_s>[\d.]+))?`
+  }
+
+  // Stage 2: Map parsed fields to labels
+  stage.labels {
+    values = {
+      source_ip     = "",
+      method        = "",
+      path          = "",
+      protocol      = "",
+      status_code   = "",
+      referer       = "",
+      user_agent    = "",
+      response_time = "",
+    }
+  }
+
+  // Stage 3: Convert timestamp
+  stage.timestamp {
+    source = "timestamp"
+    format = "02/Jan/2006:15:04:05 -0700"
+  }
+
+  forward_to = [loki.write.request_shield.receiver]
+}
+
+// ── Forward to Infra-Monitor ───────────────────────────────────────
+// NOTE: Grafana Alloy's loki.write sends Loki-format log entries.
+// For the Request Shield integration, we use a custom HTTP endpoint
+// that accepts our batch JSON format. In production, you'd use a
+// custom component or a sidecar script. This is a reference config.
+//
+// Alternative approach: Use otelcol.receiver.loki + otelcol.exporter.otlphttp
+// to forward structured logs to a custom HTTP endpoint.
+
+loki.write "request_shield" {
+  endpoint {
+    url = concat(env("INFRA_MONITOR_URL"), "/api/internal/request-logs/")
+
+    headers = {
+      "Authorization" = concat("Token ", env("SERVER_CREDENTIAL")),
+      "Content-Type"  = "application/json",
+    }
+
+    // Batch settings
+    batchwait  = "10s"
+    batchsize  = 102400  // 100KB
+
+    // Retry on failure
+    min_backoff = "1s"
+    max_backoff = "30s"
+    max_retries = 5
+  }
+}

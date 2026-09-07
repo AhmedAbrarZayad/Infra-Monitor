@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "ml_model",
     "installer",
     "dashboard",
+    "sanitize",
 ]
 
 
@@ -81,6 +82,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "sanitize.middleware.RequestShieldMiddleware",
 ]
 
 ROOT_URLCONF = "infra_monitor.urls"
@@ -276,6 +278,18 @@ CELERY_BEAT_SCHEDULE = {
         "task": "ml_model.dispatch_service_ml",
         "schedule": ML_ORCHESTRATION_INTERVAL_SECONDS,
     },
+    "classify-request-batch": {
+        "task": "sanitize.classify_request_batch",
+        "schedule": int(os.getenv("REQUEST_SHIELD_CLASSIFY_INTERVAL_SECONDS", "30")),
+    },
+    "escalate-gray-requests": {
+        "task": "sanitize.escalate_gray_requests",
+        "schedule": int(os.getenv("REQUEST_SHIELD_ESCALATION_INTERVAL_SECONDS", "120")),
+    },
+    "generate-threat-suggestions": {
+        "task": "sanitize.generate_threat_suggestions",
+        "schedule": int(os.getenv("REQUEST_SHIELD_SUGGESTION_INTERVAL_SECONDS", "60")),
+    },
 }
 
 SERVICE_STALE_AFTER_SECONDS = int(os.getenv("SERVICE_STALE_AFTER_SECONDS", "90"))
@@ -286,3 +300,21 @@ SERVICE_OFFLINE_AFTER_SECONDS = int(os.getenv("SERVICE_OFFLINE_AFTER_SECONDS", "
 # ─────────────────────────────────────────────────────────────────
 
 FRONTEND_WEB_URL = os.getenv("FRONTEND_WEB_URL", "http://localhost:3000")
+
+# ─────────────────────────────────────────────────────────────────
+# Request Shield (sanitize)
+# ─────────────────────────────────────────────────────────────────
+
+REQUEST_SHIELD_CLASSIFY_BATCH_SIZE = int(
+    os.getenv("REQUEST_SHIELD_CLASSIFY_BATCH_SIZE", "100")
+)
+REQUEST_SHIELD_CLASSIFY_INTERVAL_SECONDS = int(
+    os.getenv("REQUEST_SHIELD_CLASSIFY_INTERVAL_SECONDS", "30")
+)
+REQUEST_SHIELD_ESCALATION_INTERVAL_SECONDS = int(
+    os.getenv("REQUEST_SHIELD_ESCALATION_INTERVAL_SECONDS", "120")
+)
+REQUEST_SHIELD_SUGGESTION_INTERVAL_SECONDS = int(
+    os.getenv("REQUEST_SHIELD_SUGGESTION_INTERVAL_SECONDS", "60")
+)
+

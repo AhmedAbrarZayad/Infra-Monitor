@@ -26,3 +26,7 @@ env/
 .vscode/
 *.swp
 *.swo
+
+# Request Shield dataset & model artifacts
+sanitize/dataset/raw/*.csv
+sanitize/dataset/processed/*.npz

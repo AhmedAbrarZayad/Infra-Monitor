@@ -8,4 +8,5 @@ urlpatterns = [
     path("", include("log.urls")),
     path("", include("incident.urls")),
     path("", include("ml_model.urls")),
+    path("", include("sanitize.urls")),
 ]

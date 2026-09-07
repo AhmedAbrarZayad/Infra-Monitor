@@ -13,5 +13,6 @@ urlpatterns = [
     path("api/", include("infra_monitor.health_urls")),
     path("api/internal/logs/", include("log.internal_urls")),
     path("api/internal/ml/", include("ml_model.internal_urls")),
+    path("api/internal/request-logs/", include("sanitize.internal_urls")),
     path("api/metrics/write", MetricsWriteView.as_view(), name="metrics-write"),
 ]
