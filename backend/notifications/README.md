@@ -4,20 +4,18 @@ The Android client configuration lives at
 `frontend/android/app/google-services.json`. That file is not a server
 credential.
 
-For local Docker development, download a Firebase service-account key to
-`backend/firebase-service-account.json` (this path is ignored by Git), then add
-the following values to `backend/.env`:
+For server deployments, Base64-encode the Firebase service-account JSON and
+store it in the server's secret environment configuration:
 
 ```env
 FCM_ENABLED=true
 FIREBASE_PROJECT_ID=inframonitor-7c5be
-GOOGLE_APPLICATION_CREDENTIALS=/app/firebase-service-account.json
+FIREBASE_SERVICE_ACCOUNT_BASE64=<base64-encoded-service-account-json>
 FCM_HTTP_TIMEOUT_SECONDS=10
 ```
 
-The existing `./backend:/app` bind mount makes that credential available to
-the backend and Celery worker. In production, mount the credential separately
-as a read-only secret instead of placing it in the application directory.
+Do not commit the original JSON or the encoded value. Application Default
+Credentials remain supported when the Base64 variable is omitted.
 
 Run migrations and restart both backend processes after configuration:
 

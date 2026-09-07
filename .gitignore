@@ -1,0 +1,2 @@
+# Firebase Admin private keys must stay out of source control.
+*-firebase-adminsdk-*.json

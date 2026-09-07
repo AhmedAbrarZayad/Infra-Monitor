@@ -1,3 +1,6 @@
+import base64
+import binascii
+import json
 import logging
 
 from celery import shared_task
@@ -14,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 def _firebase_app():
     import firebase_admin
+    from firebase_admin import credentials
 
     try:
         return firebase_admin.get_app()
@@ -21,7 +25,17 @@ def _firebase_app():
         options = {"httpTimeout": settings.FCM_HTTP_TIMEOUT_SECONDS}
         if settings.FIREBASE_PROJECT_ID:
             options["projectId"] = settings.FIREBASE_PROJECT_ID
-        return firebase_admin.initialize_app(options=options)
+        credential = None
+        encoded = settings.FIREBASE_SERVICE_ACCOUNT_BASE64.strip()
+        if encoded:
+            try:
+                account = json.loads(base64.b64decode(encoded, validate=True))
+            except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise ValueError("FIREBASE_SERVICE_ACCOUNT_BASE64 is invalid") from exc
+            if not isinstance(account, dict) or account.get("type") != "service_account":
+                raise ValueError("FIREBASE_SERVICE_ACCOUNT_BASE64 is not a service account")
+            credential = credentials.Certificate(account)
+        return firebase_admin.initialize_app(credential=credential, options=options)
 
 
 def _still_authorized(notification):
