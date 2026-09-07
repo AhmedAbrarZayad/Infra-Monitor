@@ -14,6 +14,7 @@ import '../../../organizations/presentation/providers/organization_provider.dart
 import '../../../servers/presentation/pages/servers_page.dart';
 import '../../../servers/presentation/providers/servers_providers.dart';
 import '../../../servers/domain/entities/server.dart';
+import '../../../request_shield/presentation/pages/request_shield_page.dart';
 import '../widgets/app_bottom_navigation.dart';
 import '../providers/app_navigation_provider.dart';
 
@@ -31,6 +32,7 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
     ServersPage(),
     IncidentsPage(),
     AiAssistantPage(),
+    RequestShieldPage(),
     MorePage(),
   ];
 
@@ -71,7 +73,8 @@ class _AppShellPageState extends ConsumerState<AppShellPage> {
               error: (_, _) => 'incidents unavailable',
             ),
       3 => 'advisory · grounded in telemetry',
-      4 => 'account · preferences · audit',
+      4 => 'ai-powered threat monitoring',
+      5 => 'account · preferences · audit',
       _ => null,
     };
     return Scaffold(

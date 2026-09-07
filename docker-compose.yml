@@ -11,6 +11,10 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       ML_SERVICE_URL: http://ml_service:80
+      REQUEST_SHIELD_CLASSIFY_BATCH_SIZE: "100"
+      REQUEST_SHIELD_CLASSIFY_INTERVAL_SECONDS: "30"
+      REQUEST_SHIELD_ESCALATION_INTERVAL_SECONDS: "120"
+      REQUEST_SHIELD_SUGGESTION_INTERVAL_SECONDS: "60"
     depends_on:
       postgres:
         condition: service_healthy
@@ -55,6 +59,10 @@ services:
       CELERY_BROKER_URL: redis://redis:6379/0
       CELERY_RESULT_BACKEND: redis://redis:6379/1
       ML_SERVICE_URL: http://ml_service:80
+      REQUEST_SHIELD_CLASSIFY_BATCH_SIZE: "100"
+      REQUEST_SHIELD_CLASSIFY_INTERVAL_SECONDS: "30"
+      REQUEST_SHIELD_ESCALATION_INTERVAL_SECONDS: "120"
+      REQUEST_SHIELD_SUGGESTION_INTERVAL_SECONDS: "60"
     depends_on:
       postgres:
         condition: service_healthy
