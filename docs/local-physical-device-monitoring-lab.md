@@ -136,6 +136,10 @@ GEMINI_API_KEY=replace-with-your-google-ai-studio-api-key
 GEMINI_MODEL=gemini-3.7-flash
 GEMINI_REQUEST_TIMEOUT_SECONDS=60
 ASSISTANT_WS_TICKET_TTL_SECONDS=60
+FCM_ENABLED=true
+FIREBASE_PROJECT_ID=inframonitor-7c5be
+FIREBASE_SERVICE_ACCOUNT_BASE64=replace-with-base64-service-account-json
+FCM_HTTP_TIMEOUT_SECONDS=10
 
 # model/.env
 ML_SERVICE_TOKEN=replace-with-the-same-long-random-shared-secret
@@ -146,6 +150,15 @@ ML_ARTIFACT_DIR=/code/artifacts
 
 Use plain URLs in `.env` files. Do not paste Markdown link syntax such as
 `[http://backend:8000](http://backend:8000)`.
+
+FCM requires the Android Firebase configuration at
+`frontend/android/app/google-services.json` and a Firebase service-account JSON
+for the same project. Base64-encode the service-account file outside the
+repository, place only the encoded value in the ignored `backend/.env`, and do
+not commit, print, screenshot, or paste either form into chat or logs. The
+Android configuration is not a server credential; the service-account JSON is.
+If FCM is not being tested, keep `FCM_ENABLED=false` and omit the service-account
+value. Django will still run normally.
 
 `backend` is the service name in `docker-compose.yml`. Docker Compose provides
 internal DNS, so the `ml_service` container resolves `backend` to the Django
@@ -441,6 +454,12 @@ API_BASE_URL=http://10.0.2.2:7000/api
 ```
 
 Stop and rerun Flutter after selecting this value.
+
+After Flutter opens, sign in with the intended test user. Accept the Android
+notification permission prompt, then open **More -> Preferences** and enable
+notifications. Permission, device registration, and the application preference
+are separate requirements: all three must be active for a real push test. Keep
+the user signed in while completing sections 8 through 12.
 
 ### Optional: test over Wi-Fi
 
@@ -877,7 +896,139 @@ marks the service offline and creates the critical lifecycle incident shown in
 **Incidents**. The earlier ML warning never creates an incident or changes the
 service lifecycle.
 
-## 12. End-of-session secure cleanup
+## 12. Test Firebase Cloud Messaging on the physical phone
+
+This section verifies the application-owned path, not merely a Firebase Console
+test:
+
+```text
+domain event -> authorized recipient -> SentNotification -> Celery -> FCM
+             -> Android -> organization/resource navigation
+```
+
+Use a physical Android phone or an emulator image with Google Play Services.
+The physical phone is preferred because it also verifies OS permission,
+background delivery, and terminated-app behavior on the intended device.
+
+### Verify configuration without exposing secrets
+
+On Windows, confirm the running backend and worker received FCM configuration.
+The following reports only whether values exist; it does not print the service
+account:
+
+```powershell
+docker compose exec backend python manage.py shell -c "from django.conf import settings as s; print({'enabled': s.FCM_ENABLED, 'project': s.FIREBASE_PROJECT_ID, 'credential_configured': bool(s.FIREBASE_SERVICE_ACCOUNT_BASE64)})"
+docker compose exec celery_worker python manage.py shell -c "from django.conf import settings as s; print({'enabled': s.FCM_ENABLED, 'project': s.FIREBASE_PROJECT_ID, 'credential_configured': bool(s.FIREBASE_SERVICE_ACCOUNT_BASE64)})"
+```
+
+Both processes must show `enabled: True`, the expected project, and
+`credential_configured: True`. If an environment value changed, recreate both
+processes before continuing:
+
+```powershell
+docker compose up -d --build --force-recreate backend celery_worker
+docker compose logs --tail 100 backend celery_worker
+```
+
+### Verify device registration and preference
+
+After login and permission approval, wait several seconds. Confirm that Django
+has an active registration without reading or displaying the raw FCM token:
+
+```powershell
+docker compose exec backend python manage.py shell -c "from notifications.models import DeviceRegistration as D; [print(x.user.email, x.installation_id, x.active, x.last_seen_at) for x in D.objects.select_related('user').order_by('-last_seen_at')[:10]]"
+docker compose exec backend python manage.py shell -c "from accounts.models import UserPreference as P; [print(x.user.email, x.notifications_enabled) for x in P.objects.select_related('user').filter(notifications_enabled=True)]"
+```
+
+The logged-in user must appear with an active device and an enabled preference.
+Do not query or print `DeviceRegistration.token`. If no device appears, fully
+stop and rerun Flutter, log in again, approve Android notifications, and inspect
+the backend request logs for:
+
+```text
+PUT /api/auth/me/devices/<installation-id>/
+```
+
+### Verify delivery from the existing lab events
+
+Section 11 creates an anomaly when statistical inference marks the controlled
+window anomalous and later creates a service-offline incident. Those are real
+FCM producers:
+
+- a newly stored anomalous detection queues `ANOMALY_CREATED`;
+- a newly created service-offline incident queues `INCIDENT_CREATED`;
+- assigning an anomaly or incident queues an assignment notification for the
+  assignee.
+
+The recipient is an approved administrator assigned to the affected service.
+If the service has no assigned administrator, approved organization owners are
+the fallback recipients. Confirm the phone user satisfies one of those rules
+before generating the event.
+
+If notifications were enabled before section 11, inspect the delivery records:
+
+```powershell
+docker compose exec backend python manage.py shell -c "from notifications.models import SentNotification as N; [print(x.event_type, x.user.email, x.state, x.provider_error, x.created_at) for x in N.objects.select_related('user').order_by('-created_at')[:20]]"
+docker compose logs --since 30m celery_worker
+```
+
+Expected outcomes:
+
+- `SENT`: Firebase accepted at least one device message.
+- `PENDING`: the Celery task has not completed; inspect worker/broker health.
+- `SKIPPED` with `no_device`: the recipient has no active registration.
+- `SKIPPED` with `fcm_disabled`: the worker loaded disabled configuration.
+- `SKIPPED` with `authorization_revoked`: access changed before delivery.
+- `FAILED` with `no_successful_delivery`: Firebase accepted no device send.
+
+`SENT` proves provider acceptance, not that Android displayed the notification.
+Confirm the device behavior separately.
+
+If the section 11 event existed before notifications were enabled, do not edit
+the database or call the delivery task manually. Generate a new supported event:
+
+1. From the app, assign an existing incident or anomaly to the phone user; or
+2. Use a new test service so its first confirmed offline transition creates a
+   new incident; or
+3. Produce a new anomaly window with a different deduplication identity.
+
+Repeated processing of the same event is intentionally deduplicated and should
+not create another notification.
+
+### Verify foreground, background, and terminated behavior
+
+Test three states with distinct newly generated events:
+
+1. **Foreground:** keep Infra Monitor open. A snackbar should appear. Tap
+   **OPEN** and confirm the correct resource opens.
+2. **Background:** leave the app signed in, return to the Android home screen,
+   and generate another event. Tap the system notification.
+3. **Terminated:** dismiss Infra Monitor from recent apps, generate another
+   event, and tap the notification to launch it.
+
+For incident messages, the app must select the correct organization and open the
+incident. For anomaly messages, it must select the correct organization and open
+the anomaly/AI context. If the user no longer has access, the app must not expose
+the resource and should show that the notification is unavailable.
+
+The FCM payload must contain only routing identifiers and safe display text. Do
+not add incident evidence, request data, credentials, raw device tokens, or
+sensitive diagnostics to provider payloads or logs.
+
+### Verify logout deactivation
+
+Use **Sign out** in Flutter rather than clearing application storage. Then verify
+the installation became inactive:
+
+```powershell
+docker compose exec backend python manage.py shell -c "from notifications.models import DeviceRegistration as D; [print(x.user.email, x.installation_id, x.active, x.last_seen_at) for x in D.objects.select_related('user').order_by('-last_seen_at')[:10]]"
+```
+
+Log back in to continue using the app. Registration should reactivate the same
+installation and refresh its `last_seen_at`. Do not generate a real event solely
+to test a logged-out device if it would also notify other organization owners.
+
+## 13. End-of-session secure cleanup
 
 Log out of Flutter. Inside Ubuntu:
 
@@ -934,7 +1085,7 @@ git status --short -- backend/.env model/.env frontend/.env
 git check-ignore backend/.env model/.env frontend/.env
 ```
 
-## 13. Permanently remove lab data
+## 14. Permanently remove lab data
 
 Retain database/metrics volumes:
 
@@ -952,7 +1103,7 @@ docker compose down --volumes
 Do not run `wsl --unregister Ubuntu`; it permanently erases everything in that
 distribution and is not a normal cleanup step.
 
-## 14. Uninstall Multipass and reclaim its space
+## 15. Uninstall Multipass and reclaim its space
 
 The repository includes a guarded Administrator script. Preview first:
 
@@ -977,7 +1128,7 @@ If VirtualBox was installed solely for this lab and contains no other VMs:
 VirtualBox removal is explicit because it could affect unrelated VMs. The
 script never deletes general VirtualBox VM folders.
 
-## 15. Troubleshooting
+## 16. Troubleshooting
 
 - USB phone failure: resolve `$infraAdb` as shown in section 7, run
   `& $infraAdb devices`, and confirm the device is `device`, not
@@ -1019,6 +1170,25 @@ script never deletes general VirtualBox VM folders.
   USB, confirm the ADB reverse rule still exists with
   `& $infraAdb reverse --list`. For Wi-Fi, confirm the phone
   can still reach the Windows LAN address on port 7000.
+- No FCM device registration: use a physical Android device or an emulator with
+  Google Play Services, confirm the app's package matches
+  `google-services.json`, approve Android notification permission, then log out
+  and back in. Inspect backend requests for the authenticated device `PUT`
+  without printing the token.
+- Notification record is absent: enable notifications under **More ->
+  Preferences** before creating a new event, and confirm the phone user is an
+  authorized service administrator, organization-owner fallback, or explicit
+  assignee. Existing domain events are deduplicated and are not queued again.
+- Notification remains pending: confirm Redis and `celery_worker` are running,
+  then inspect worker logs. Starting Django alone cannot deliver FCM messages.
+- FCM is skipped or failed: inspect the bounded `state` and `provider_error` in
+  `SentNotification`; confirm backend and worker both loaded `FCM_ENABLED=true`,
+  the same Firebase project, and a configured service account. Never print the
+  credential or device token while diagnosing it.
+- FCM says sent but nothing appears: confirm Android notifications are enabled
+  for Infra Monitor at OS level, disable battery restrictions for the lab if
+  necessary, keep network access available, and generate a distinct event.
+  Provider `SENT` means Firebase accepted delivery, not that Android displayed it.
 - Gemini not configured: set `GEMINI_API_KEY` in `backend/.env`, then run
   `docker compose up -d --build backend`; never put the key in Flutter.
 - Gemini model/key error: inspect `docker compose logs --tail 200 backend`,
