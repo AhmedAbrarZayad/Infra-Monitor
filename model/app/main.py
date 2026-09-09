@@ -40,6 +40,24 @@ def health():
     return {"status": "ok", "artifact_storage": "ok"}
 
 
+@app.get("/ready")
+def ready():
+    """Report whether the Request Shield inference artifact can be loaded."""
+    try:
+        _, metadata = _load_request_shield_model()
+    except ModelNotFoundError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Request Shield model is not installed.",
+        ) from exc
+    except (ValueError, OSError) as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Request Shield model is invalid or incompatible.",
+        ) from exc
+    return {"status": "ready", "model_version": metadata["model_version"]}
+
+
 @app.post("/train", dependencies=[Depends(require_ml_token)])
 def train(request: TrainRequest):
     model = train_model(matrix(request.rows), contamination=request.contamination)

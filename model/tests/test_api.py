@@ -69,6 +69,35 @@ def test_health_and_authorization(monkeypatch, tmp_path):
     assert response.status_code == 401
 
 
+def test_ready_requires_valid_request_shield_artifact(monkeypatch, tmp_path):
+    monkeypatch.setattr(main_module, "artifacts", ArtifactStore(tmp_path))
+    monkeypatch.setattr(main_module, "_request_shield_model", None)
+    monkeypatch.setattr(main_module, "_request_shield_metadata", None)
+    client = TestClient(main_module.app)
+
+    response = client.get("/ready")
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "Request Shield model is not installed."
+
+
+def test_ready_returns_loaded_model_version(monkeypatch):
+    monkeypatch.setattr(
+        main_module,
+        "_load_request_shield_model",
+        lambda: (object(), {"model_version": "request-shield-v1"}),
+    )
+    client = TestClient(main_module.app)
+
+    response = client.get("/ready")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "status": "ready",
+        "model_version": "request-shield-v1",
+    }
+
+
 def test_train_persists_and_infer_posts_detection(monkeypatch, tmp_path):
     service_id = uuid4()
     monkeypatch.setattr(main_module, "artifacts", ArtifactStore(tmp_path))

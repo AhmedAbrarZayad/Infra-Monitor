@@ -124,9 +124,18 @@ class RequestLog(models.Model):
     class Meta:
         ordering = ["-timestamp"]
         indexes = [
-            models.Index(fields=["organization", "zone", "-timestamp"]),
-            models.Index(fields=["organization", "source_ip", "-timestamp"]),
-            models.Index(fields=["organization", "source", "-timestamp"]),
+            models.Index(
+                fields=["organization", "zone", "-timestamp"],
+                name="sanitize_re_organiz_6a4c84_idx",
+            ),
+            models.Index(
+                fields=["organization", "source_ip", "-timestamp"],
+                name="sanitize_re_organiz_8c9003_idx",
+            ),
+            models.Index(
+                fields=["organization", "source", "-timestamp"],
+                name="sanitize_re_organiz_0d783e_idx",
+            ),
         ]
 
     def __str__(self):

@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("accounts", "0014_monitoring_tenant_and_installer_stage"),
-        ("servers", "0008_serviceadminassignment"),
+        ("servers", "0008_serviceadminassignmentevent"),
     ]
 
     operations = [

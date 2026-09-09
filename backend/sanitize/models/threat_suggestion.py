@@ -89,8 +89,14 @@ class ThreatSuggestion(models.Model):
     class Meta:
         ordering = ["-created_at"]
         indexes = [
-            models.Index(fields=["organization", "status", "-created_at"]),
-            models.Index(fields=["organization", "ip_address", "-created_at"]),
+            models.Index(
+                fields=["organization", "status", "-created_at"],
+                name="sanitize_th_organiz_13d72a_idx",
+            ),
+            models.Index(
+                fields=["organization", "ip_address", "-created_at"],
+                name="sanitize_th_organiz_93fc14_idx",
+            ),
         ]
 
     def __str__(self):
