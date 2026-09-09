@@ -22,6 +22,7 @@ class AppNavigationNotifier extends StateNotifier<AppNavigationState> {
   void select(int index) => state = state.copyWith(index: index);
   void openAssistant(String anomalyId) =>
       state = AppNavigationState(index: 3, assistantAnomalyId: anomalyId);
+  void openIncident(String _) => state = const AppNavigationState(index: 2);
   void clearAssistantSelection() => state = state.copyWith(clearAnomaly: true);
 }
 

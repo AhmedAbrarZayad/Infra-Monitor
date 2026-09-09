@@ -32,7 +32,10 @@ class ApiException implements Exception {
   /// Check if this is an email-not-verified error.
   bool get isEmailNotVerified =>
       body['email_not_verified'] == true ||
-      (body is List && (body as dynamic).any((e) => e is Map && e['email_not_verified'] == true));
+      (body is List &&
+          (body as dynamic).any(
+            (e) => e is Map && e['email_not_verified'] == true,
+          ));
 
   @override
   String toString() => 'ApiException($statusCode): $message';
@@ -44,16 +47,12 @@ class AuthRepository {
   final http.Client _client;
   final String _baseUrl;
 
-  AuthRepository({
-    http.Client? client,
-    String? baseUrl,
-  })  : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ?? '${EnvConfig.apiBaseUrl}/auth';
+  AuthRepository({http.Client? client, String? baseUrl})
+    : _client = client ?? http.Client(),
+      _baseUrl = baseUrl ?? '${EnvConfig.apiBaseUrl}/auth';
 
   Map<String, String> _headers({String? accessToken}) {
-    final headers = <String, String>{
-      'Content-Type': 'application/json',
-    };
+    final headers = <String, String>{'Content-Type': 'application/json'};
     if (accessToken != null) {
       headers['Authorization'] = 'Bearer $accessToken';
     }
@@ -138,11 +137,15 @@ class AuthRepository {
   Future<MessageResponse> logout({
     required String accessToken,
     required String refreshToken,
+    String? installationId,
   }) async {
     final response = await _client.post(
       Uri.parse('$_baseUrl/logout/'),
       headers: _headers(accessToken: accessToken),
-      body: jsonEncode({'refresh': refreshToken}),
+      body: jsonEncode({
+        'refresh': refreshToken,
+        if (installationId != null) ...{'installation_id': installationId},
+      }),
     );
     _checkResponse(response);
     return MessageResponse.fromJson(_decodeResponse(response));
@@ -184,11 +187,13 @@ class AuthRepository {
   Future<Map<String, String>> refreshToken({
     required String refreshToken,
   }) async {
-    final response = await _client.post(
-      Uri.parse('$_baseUrl/token/refresh/'),
-      headers: _headers(),
-      body: jsonEncode({'refresh': refreshToken}),
-    ).timeout(requestTimeout);
+    final response = await _client
+        .post(
+          Uri.parse('$_baseUrl/token/refresh/'),
+          headers: _headers(),
+          body: jsonEncode({'refresh': refreshToken}),
+        )
+        .timeout(requestTimeout);
     _checkResponse(response);
     final data = _decodeResponse(response);
     return {
@@ -199,10 +204,12 @@ class AuthRepository {
 
   /// GET /api/auth/me/
   Future<UserModel> getMe({required String accessToken}) async {
-    final response = await _client.get(
-      Uri.parse('$_baseUrl/me/'),
-      headers: _headers(accessToken: accessToken),
-    ).timeout(requestTimeout);
+    final response = await _client
+        .get(
+          Uri.parse('$_baseUrl/me/'),
+          headers: _headers(accessToken: accessToken),
+        )
+        .timeout(requestTimeout);
     _checkResponse(response);
     return UserModel.fromJson(_decodeResponse(response));
   }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "643424009467",
+    "project_id": "inframonitor-7c5be",
+    "storage_bucket": "inframonitor-7c5be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643424009467:android:8a0a9a9ca4dc95d33a845e",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCujiXMFcw7EUcm8FAoihP3L48QBmcI0uw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

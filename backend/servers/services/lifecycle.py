@@ -7,6 +7,7 @@ from django.utils import timezone
 from alert.models import Alert
 from incident.models import Incident, IncidentAlert, IncidentUpdate
 from servers.models import MonitoringConnection, Servers, Service
+from notifications.services import notify_incident_created
 
 
 def _fingerprint(service):
@@ -62,6 +63,8 @@ def _open_failure(service, now):
             new_status=incident.status,
         )
     IncidentAlert.objects.get_or_create(incident_id=incident, alert_id=alert)
+    if created:
+        notify_incident_created(incident)
 
 
 def _resolve_failure(service, now):

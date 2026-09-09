@@ -12,6 +12,7 @@ from ml_model.models import AnomalyDetection
 from ml_model.presenters import present_anomaly
 from ml_model.serializers import InternalDetectionSerializer
 from servers.models import Servers, Service
+from notifications.services import notify_anomaly_created
 
 
 class InternalDetectionView(APIView):
@@ -68,6 +69,8 @@ class InternalDetectionView(APIView):
                 model_version=data["model_version"],
                 defaults=defaults,
             )
+            if created and detection.is_anomaly:
+                notify_anomaly_created(detection)
 
         return Response(
             present_anomaly(detection),
