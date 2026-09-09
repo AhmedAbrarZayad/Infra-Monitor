@@ -1,7 +1,5 @@
 import json
 import os
-from datetime import UTC, datetime
-from uuid import uuid4
 
 import httpx
 import joblib
@@ -9,7 +7,7 @@ from fastapi import Depends, FastAPI, HTTPException, status
 
 from app.artifacts import ArtifactStore, ModelNotFoundError
 from app.pipeline.infer import infer_window
-from app.pipeline.request_classifier import classify_requests, train_request_classifier
+from app.pipeline.request_classifier import classify_requests
 from app.pipeline.request_schemas import ClassifyRequest, ClassifyResponse, ZONE_LABELS
 from app.pipeline.train import train_model
 from app.schemas import FEATURE_NAMES, InferRequest, TrainRequest
@@ -121,7 +119,7 @@ _request_shield_metadata = None
 
 
 def _load_request_shield_model():
-    """Load the request shield model from the artifact store (lazy singleton)."""
+    """Load the immutable Request Shield artifact used for inference."""
     global _request_shield_model, _request_shield_metadata
     if _request_shield_model is not None:
         return _request_shield_model, _request_shield_metadata
@@ -130,19 +128,30 @@ def _load_request_shield_model():
     metadata_path = model_dir / "metadata.json"
     if not model_path.is_file():
         raise ModelNotFoundError("request_shield")
+    if not metadata_path.is_file():
+        raise ValueError("Request Shield metadata is missing.")
     _request_shield_model = joblib.load(model_path)
-    if metadata_path.is_file():
-        _request_shield_metadata = json.loads(
-            metadata_path.read_text(encoding="utf-8")
-        )
-    else:
-        _request_shield_metadata = {"model_version": "unknown"}
+    _request_shield_metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if tuple(_request_shield_metadata.get("feature_names", ())) != tuple(FEATURE_NAMES):
+        raise ValueError("Stored model uses an incompatible feature schema.")
+    if not _request_shield_metadata.get("model_version"):
+        raise ValueError("Request Shield model version is missing.")
     return _request_shield_model, _request_shield_metadata
 
 
 @app.post("/classify-requests", dependencies=[Depends(require_ml_token)])
 def classify_request_batch(request: ClassifyRequest):
     """Classify a batch of HTTP request feature vectors into threat zones."""
+    if request.feature_names != list(FEATURE_NAMES):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="feature_names do not match the installed model schema.",
+        )
+    if any(len(vector) != len(FEATURE_NAMES) for vector in request.vectors):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Every feature vector must match the installed model schema.",
+        )
     try:
         model, metadata = _load_request_shield_model()
     except ModelNotFoundError as exc:
@@ -150,7 +159,7 @@ def classify_request_batch(request: ClassifyRequest):
             status_code=status.HTTP_404_NOT_FOUND,
             detail={
                 "code": "request_shield_model_not_found",
-                "message": "No trained request shield model found. Run /train-request-classifier first.",
+                "message": "No Request Shield inference artifact is installed.",
             },
         ) from exc
     except (ValueError, OSError) as exc:
@@ -164,61 +173,3 @@ def classify_request_batch(request: ClassifyRequest):
         classifications=results,
         model_version=metadata.get("model_version", "unknown"),
     )
-
-
-class TrainRequestClassifierRequest(ClassifyRequest):
-    """Training request — vectors + labels."""
-    labels: list[int]  # 0=GREEN, 1=GRAY, 2=RED
-    n_estimators: int = 200
-    max_depth: int = 20
-
-
-@app.post("/train-request-classifier", dependencies=[Depends(require_ml_token)])
-def train_request_classifier_endpoint(request: TrainRequestClassifierRequest):
-    """Train the request shield classifier from labeled feature vectors."""
-    global _request_shield_model, _request_shield_metadata
-
-    if len(request.vectors) != len(request.labels):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="vectors and labels must have the same length.",
-        )
-    if len(request.vectors) < 10:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="At least 10 training samples are required.",
-        )
-
-    model = train_request_classifier(
-        request.vectors,
-        request.labels,
-        n_estimators=request.n_estimators,
-        max_depth=request.max_depth,
-    )
-
-    # Save artifact
-    model_dir = artifacts.root / "request_shield"
-    model_dir.mkdir(parents=True, exist_ok=True)
-    model_version = uuid4().hex
-    metadata = {
-        "model_version": model_version,
-        "feature_names": request.feature_names,
-        "trained_at": datetime.now(UTC).isoformat(),
-        "n_estimators": request.n_estimators,
-        "max_depth": request.max_depth,
-        "training_samples": len(request.vectors),
-    }
-    joblib.dump(model, model_dir / "model.joblib")
-    (model_dir / "metadata.json").write_text(
-        json.dumps(metadata, indent=2), encoding="utf-8"
-    )
-
-    # Clear cached model so next classify loads the new one
-    _request_shield_model = None
-    _request_shield_metadata = None
-
-    return {
-        "status": "trained",
-        "model_version": model_version,
-        "training_samples": len(request.vectors),
-    }

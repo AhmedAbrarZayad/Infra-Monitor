@@ -1,14 +1,16 @@
 # Infra Monitor ML Service
 
-This FastAPI service trains one Isolation Forest per monitored service and runs
-inference for completed metric windows. Django supplies service-level feature
-rows and stores the resulting detections.
+This FastAPI service loads approved model artifacts and runs inference for
+completed metric windows and Request Shield access logs. Training is an offline
+release operation and is not exposed by the production Request Shield API.
 
 ## Endpoints
 
 - `GET /health`
+- `GET /ready` (fails until the Request Shield artifact is valid)
 - `POST /train` (shared Bearer token required)
 - `POST /infer` (shared Bearer token required)
+- `POST /classify-requests` (shared Bearer token required)
 
 The fixed feature order is `cpu_r`, `mem_u`, `disk_r`, `disk_w`, `eth1_fi`, and
 `eth1_fo`. Models are stored under `ML_ARTIFACT_DIR/<service_id>/`.

@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 
 from accounts.models import Organization
-from sanitize.features import FEATURE_NAMES, extract_features
+from sanitize.features import extract_features
 from sanitize.models import RequestLog, ShieldConfig, ThreatSuggestion
 from sanitize.services import classify_pending_batch, generate_threat_suggestions, ingest_request_logs
 
@@ -26,22 +26,11 @@ class Command(BaseCommand):
         )
 
         try:
-            vectors = [
-                extract_features(method="GET", path="/api/users", status_code=200, user_agent="Chrome/120"),
-                extract_features(method="GET", path="/api/status", status_code=200, user_agent="Firefox/120"),
-                extract_features(method="POST", path="/api/login", status_code=200, user_agent="Safari/17"),
-                extract_features(method="GET", path="/api/health", status_code=200, user_agent="Edge/120"),
-                extract_features(method="GET", path="/scan", user_agent="nmap/7.9"),
-                extract_features(method="GET", path="/admin", user_agent="sqlmap/1.5"),
-                extract_features(method="GET", path="/search", query_string="q=../../etc/passwd", user_agent="Nikto/2.1"),
-                extract_features(method="GET", path="/probe", query_string="cmd=; cat /etc/passwd", user_agent="scanner"),
-                extract_features(method="GET", path="/search", query_string="q=1' OR 1=1--", user_agent="sqlmap/1.5"),
-                extract_features(method="GET", path="/page", query_string="q=<script>alert(1)</script>", user_agent="curl/8"),
-                extract_features(method="POST", path="/upload/.env", status_code=500, user_agent="python-requests"),
-                extract_features(method="GET", path="/../../etc/passwd", status_code=404, user_agent="masscan"),
-            ]
-            labels = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2]
-            self._train_model(ml_url, token, vectors, labels)
+            readiness = httpx.get(f"{ml_url}/ready", timeout=10)
+            if readiness.is_error:
+                raise CommandError(
+                    "Request Shield artifact is not ready; install the approved model before the E2E test."
+                )
 
             now = timezone.now()
             entries = [
@@ -93,19 +82,5 @@ class Command(BaseCommand):
         finally:
             organization.delete()
 
-    @staticmethod
-    def _train_model(ml_url, token, vectors, labels):
-        response = httpx.post(
-            f"{ml_url}/train-request-classifier",
-            json={
-                "feature_names": FEATURE_NAMES,
-                "vectors": vectors,
-                "labels": labels,
-                "n_estimators": 20,
-                "max_depth": 6,
-            },
-            headers={"Authorization": f"Bearer {token}"},
-            timeout=120,
-        )
-        if response.is_error:
-            raise CommandError(f"ML training failed ({response.status_code}): {response.text}")
+
+

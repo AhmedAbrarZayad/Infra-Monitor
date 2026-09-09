@@ -1,14 +1,14 @@
-"""Train the Request Shield classifier from preprocessed CICIDS2017 data.
+"""Build an offline Request Shield inference artifact from preprocessed data.
 
-Loads the processed .npz file and sends it to the FastAPI ML service's
-/train-request-classifier endpoint.
+The production ML service only loads the resulting joblib artifact; it never
+trains or accepts training data over HTTP.
 
 Usage:
     python -m sanitize.dataset.train
 
 Prerequisites:
     1. Run `python -m sanitize.dataset.preprocess` first
-    2. The FastAPI ML service must be running
+    2. Install the model service's Python dependencies
 """
 
 from __future__ import annotations
@@ -19,20 +19,20 @@ import os
 import sys
 from pathlib import Path
 
-import httpx
+import joblib
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
 
 logger = logging.getLogger(__name__)
 
 
 def train_from_processed(
     data_path: str | Path,
-    ml_service_url: str = "",
-    ml_service_token: str = "",
+    output_dir: str | Path = "",
     n_estimators: int = 200,
     max_depth: int = 20,
 ):
-    """Load processed data and send to the ML service for training."""
+    """Load processed data and write the model and metadata bundle."""
     data_path = Path(data_path)
     if not data_path.is_file():
         logger.error(
@@ -55,47 +55,33 @@ def train_from_processed(
         (y == 2).sum(),
     )
 
-    if not ml_service_url:
-        ml_service_url = os.getenv("ML_SERVICE_URL", "http://localhost:7001")
-    if not ml_service_token:
-        ml_service_token = os.getenv("ML_SERVICE_TOKEN", "")
-
-    ml_service_url = ml_service_url.rstrip("/")
-
-    payload = {
+    output_dir = Path(
+        output_dir or os.getenv(
+            "REQUEST_SHIELD_ARTIFACT_DIR", "model/artifacts/request_shield"
+        )
+    )
+    output_dir.mkdir(parents=True, exist_ok=True)
+    model = RandomForestClassifier(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        class_weight="balanced",
+        random_state=42,
+        n_jobs=-1,
+    )
+    model.fit(X.astype(np.float64), y.astype(np.int32))
+    metadata = {
+        "model_version": os.getenv("REQUEST_SHIELD_MODEL_VERSION", "offline-baseline"),
         "feature_names": feature_names,
-        "vectors": X.tolist(),
-        "labels": y.tolist(),
+        "artifact_format_version": 1,
+        "training_samples": int(len(X)),
         "n_estimators": n_estimators,
         "max_depth": max_depth,
     }
-
-    logger.info(
-        "Sending %d training samples to %s/train-request-classifier ...",
-        len(X),
-        ml_service_url,
+    joblib.dump(model, output_dir / "model.joblib")
+    (output_dir / "metadata.json").write_text(
+        json.dumps(metadata, indent=2), encoding="utf-8"
     )
-
-    try:
-        response = httpx.post(
-            f"{ml_service_url}/train-request-classifier",
-            json=payload,
-            headers={"Authorization": f"Bearer {ml_service_token}"},
-            timeout=300,  # Training can take a while
-        )
-        response.raise_for_status()
-        result = response.json()
-        logger.info("Training complete: %s", json.dumps(result, indent=2))
-    except httpx.HTTPStatusError as exc:
-        logger.error(
-            "ML service returned %d: %s",
-            exc.response.status_code,
-            exc.response.text,
-        )
-        sys.exit(1)
-    except httpx.HTTPError as exc:
-        logger.error("Failed to connect to ML service: %s", exc)
-        sys.exit(1)
+    logger.info("Wrote Request Shield artifact to %s", output_dir)
 
 
 def __main__():

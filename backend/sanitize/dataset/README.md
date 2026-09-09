@@ -80,14 +80,15 @@ This will:
 5. Balance the dataset (undersample majority class)
 6. Output `sanitize/dataset/processed/training_data.npz`
 
-## Training
+## Offline artifact build
 
-After preprocessing, train the model:
+After preprocessing, build the model artifact outside the production service:
 
 ```bash
 cd backend
 python -m sanitize.dataset.train
 ```
 
-This sends the processed data to the FastAPI ML service's
-`/train-request-classifier` endpoint.
+This writes `model.joblib` and `metadata.json` to
+`REQUEST_SHIELD_ARTIFACT_DIR` (or `model/artifacts/request_shield`). Copy the
+approved bundle into the ML service artifact store before starting production.

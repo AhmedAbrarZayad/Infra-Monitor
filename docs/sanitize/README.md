@@ -166,8 +166,8 @@ The bootstrap workflow uses CICIDS2017:
 1. Extract CSV files into `backend/sanitize/dataset/raw/`.
 2. Run `python -m sanitize.dataset.preprocess` from `backend/`.
 3. The preprocessor maps network-flow records to the same 26-feature format, maps labels to zones, replaces invalid values, and undersamples majority classes.
-4. Run `python -m sanitize.dataset.train` to POST the `.npz` data to `/train-request-classifier`.
-5. The ML service stores `model.joblib` and `metadata.json` and reloads the new model on the next classification request.
+4. Run `python -m sanitize.dataset.train` to build an offline `joblib` artifact.
+5. Copy the approved `model.joblib` and `metadata.json` bundle into the ML artifact store before deployment. Production only loads the bundle and performs inference.
 
 CICIDS2017 is network-flow data rather than HTTP access-log data, so preprocessing synthesizes HTTP-like features from ports, packet counts, flags, rates, and packet sizes. Production model quality should be validated with administrator-labeled HTTP traffic.
 
@@ -177,7 +177,7 @@ CICIDS2017 is network-flow data rather than HTTP access-log data, so preprocessi
 - Authorization headers, cookies, and CSRF tokens are excluded from platform digests.
 - External ingestion is bound to the authenticated server and organization.
 - Organization APIs scope lookups by organization.
-- ML and training endpoints require the shared bearer token.
+- ML inference endpoints require the shared bearer token; production does not expose Request Shield training.
 - Classification failures leave rows pending rather than failing ingestion.
 
 ## Verification
