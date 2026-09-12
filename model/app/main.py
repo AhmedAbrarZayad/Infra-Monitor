@@ -8,10 +8,11 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from app.artifacts import ArtifactStore, ModelNotFoundError
 from app.pipeline.infer import infer_window
 from app.pipeline.request_classifier import classify_requests
-from app.pipeline.request_schemas import (
-    REQUEST_FEATURE_NAMES,
-    ClassifyRequest,
-    ClassifyResponse,
+from app.pipeline.request_schemas import ClassifyRequest, ClassifyResponse
+from app.pipeline.request_shield import (
+    REQUEST_SHIELD_FEATURE_NAMES,
+    validate_artifact,
+    validate_vectors,
 )
 from app.pipeline.train import train_model
 from app.schemas import FEATURE_NAMES, InferRequest, TrainRequest
@@ -154,28 +155,25 @@ def _load_request_shield_model():
         raise ValueError("Request Shield metadata is missing.")
     _request_shield_model = joblib.load(model_path)
     _request_shield_metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-    if tuple(_request_shield_metadata.get("feature_names", ())) != tuple(
-        REQUEST_FEATURE_NAMES
-    ):
-        raise ValueError("Stored model uses an incompatible feature schema.")
-    if not _request_shield_metadata.get("model_version"):
-        raise ValueError("Request Shield model version is missing.")
+    validate_artifact(_request_shield_model, _request_shield_metadata)
     return _request_shield_model, _request_shield_metadata
 
 
 @app.post("/classify-requests", dependencies=[Depends(require_ml_token)])
 def classify_request_batch(request: ClassifyRequest):
     """Classify a batch of HTTP request feature vectors into threat zones."""
-    if request.feature_names != REQUEST_FEATURE_NAMES:
+    if request.feature_names != list(REQUEST_SHIELD_FEATURE_NAMES):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="feature_names do not match the installed model schema.",
         )
-    if any(len(vector) != len(REQUEST_FEATURE_NAMES) for vector in request.vectors):
+    try:
+        validate_vectors(request.vectors)
+    except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Every feature vector must match the installed model schema.",
-        )
+            detail=str(exc),
+        ) from exc
     try:
         model, metadata = _load_request_shield_model()
     except ModelNotFoundError as exc:

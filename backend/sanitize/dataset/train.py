@@ -23,6 +23,8 @@ import joblib
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
+from sanitize.features import FEATURE_NAMES
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,6 +48,15 @@ def train_from_processed(
     X = data["X"]
     y = data["y"]
     feature_names = list(data["feature_names"])
+
+    if tuple(feature_names) != tuple(FEATURE_NAMES):
+        raise ValueError("Processed data uses an incompatible Request Shield feature schema.")
+    if len(X) == 0 or len(X) != len(y):
+        raise ValueError("Processed data must contain matching non-empty vectors and labels.")
+    if not np.isfinite(X).all():
+        raise ValueError("Processed data contains non-finite feature values.")
+    if set(int(label) for label in y) != {0, 1, 2}:
+        raise ValueError("Processed data must contain GREEN, GRAY, and RED labels.")
 
     logger.info("Loaded training data: X=%s, y=%s", X.shape, y.shape)
     logger.info(
