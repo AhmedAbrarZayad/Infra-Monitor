@@ -106,6 +106,24 @@ def test_request_shield_readiness_rejects_incompatible_artifact(monkeypatch, tmp
     assert client.get("/ready").status_code == 503
 
 
+def test_request_shield_classification_reports_missing_artifact_as_unavailable(
+    monkeypatch, tmp_path
+):
+    client, headers = configure_client(monkeypatch, tmp_path)
+
+    response = client.post(
+        "/classify-requests",
+        json={
+            "feature_names": list(REQUEST_SHIELD_FEATURE_NAMES),
+            "vectors": request_vectors(1),
+        },
+        headers=headers,
+    )
+
+    assert response.status_code == 503
+    assert response.json()["detail"]["code"] == "request_shield_model_not_found"
+
+
 def test_request_shield_training_route_is_removed(monkeypatch, tmp_path):
     install_artifact(tmp_path)
     client, headers = configure_client(monkeypatch, tmp_path)

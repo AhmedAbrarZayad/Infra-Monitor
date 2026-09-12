@@ -1,3 +1,5 @@
+ito
+
 # Request Shield Model: Build and Installation Runbook
 
 See also the [Request Shield model integration plan](request-shield-model-integration-plan.md)
@@ -44,7 +46,7 @@ scikit-learn, NumPy, and joblib versions as the running ML service.
 
 Download `MachineLearningCSV.zip` from the official CICIDS2017 dataset page:
 
-<https://www.unb.ca/cic/datasets/ids-2017.html>
+[https://www.unb.ca/cic/datasets/ids-2017.html](https://www.unb.ca/cic/datasets/ids-2017.html)
 
 Verify the source and any published checksum before using it. Extract the CSV
 files into:

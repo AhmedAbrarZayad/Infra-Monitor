@@ -178,7 +178,7 @@ def classify_request_batch(request: ClassifyRequest):
         model, metadata = _load_request_shield_model()
     except ModelNotFoundError as exc:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail={
                 "code": "request_shield_model_not_found",
                 "message": "No Request Shield inference artifact is installed.",
