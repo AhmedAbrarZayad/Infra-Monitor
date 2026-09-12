@@ -5,10 +5,9 @@ All helpers expect an approved membership returned by
 these querysets so hidden objects consistently return 404.
 """
 
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 
 from accounts.models import OrganizationMembership
-
 
 OWNER = OrganizationMembership.RoleEnum.OWNER
 ADMIN = OrganizationMembership.RoleEnum.ADMIN
@@ -52,11 +51,11 @@ def incidents_visible_to(membership, queryset=None):
         return queryset.filter(
             service__isnull=False,
             service__admin_assignments__membership=membership,
-        ).distinct()
+        )
     return queryset.filter(
         service__isnull=False,
         assigned_to=membership.user,
-    ).distinct()
+    )
 
 
 def anomalies_visible_to(membership, queryset=None):
@@ -70,11 +69,11 @@ def anomalies_visible_to(membership, queryset=None):
         return queryset.filter(
             service_id__isnull=False,
             service_id__admin_assignments__membership=membership,
-        ).distinct()
+        )
     return queryset.filter(
         service_id__isnull=False,
         assigned_to=membership.user,
-    ).distinct()
+    )
 
 
 def alerts_visible_to(membership, queryset=None):
@@ -88,13 +87,22 @@ def alerts_visible_to(membership, queryset=None):
         return queryset.filter(
             service_id__isnull=False,
             service_id__admin_assignments__membership=membership,
-        ).distinct()
-    return queryset.filter(
-        service_id__isnull=False,
-    ).filter(
-        Q(incidentalert__incident_id__assigned_to=membership.user)
-        | Q(detection_id__assigned_to=membership.user)
-    ).distinct()
+        )
+
+    from incident.models import IncidentAlert
+    from ml_model.models import AnomalyDetection
+
+    assigned_incident = IncidentAlert.objects.filter(
+        alert_id_id=OuterRef("pk"),
+        incident_id__assigned_to=membership.user,
+    )
+    assigned_detection = AnomalyDetection.objects.filter(
+        pk=OuterRef("detection_id_id"),
+        assigned_to=membership.user,
+    )
+    return queryset.filter(service_id__isnull=False).filter(
+        Q(Exists(assigned_incident)) | Q(Exists(assigned_detection))
+    )
 
 
 def logs_visible_to(membership, queryset=None):
@@ -111,9 +119,10 @@ def logs_visible_to(membership, queryset=None):
 def can_manage_service(membership, service):
     if membership.role == OWNER:
         return True
-    return membership.role == ADMIN and service.admin_assignments.filter(
-        membership=membership
-    ).exists()
+    return (
+        membership.role == ADMIN
+        and service.admin_assignments.filter(membership=membership).exists()
+    )
 
 
 def can_manage_work(membership, work_item):

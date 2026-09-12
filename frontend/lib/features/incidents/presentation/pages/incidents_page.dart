@@ -164,26 +164,47 @@ class _IncidentCard extends ConsumerWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            _tag(item.severity, color),
-            const SizedBox(width: 7),
-            _tag(
-              item.status,
-              item.status == 'NEW'
-                  ? const Color(0xFFFF4057)
-                  : const Color(0xFF4A9AFF),
-            ),
-            const Spacer(),
-            Text(
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final tags = Wrap(
+              spacing: 7,
+              runSpacing: 7,
+              children: [
+                _tag(item.severity, color),
+                _tag(
+                  item.status,
+                  item.status == 'NEW'
+                      ? const Color(0xFFFF4057)
+                      : const Color(0xFF4A9AFF),
+                ),
+              ],
+            );
+            final id = Text(
               item.id,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.end,
               style: const TextStyle(
                 color: Color(0xFF8C95A5),
                 fontSize: 10,
                 fontFamily: 'monospace',
               ),
-            ),
-          ],
+            );
+
+            if (constraints.maxWidth < 340) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [tags, const SizedBox(height: 7), id],
+              );
+            }
+            return Row(
+              children: [
+                tags,
+                const SizedBox(width: 7),
+                Expanded(child: id),
+              ],
+            );
+          },
         ),
         const SizedBox(height: 10),
         Text(

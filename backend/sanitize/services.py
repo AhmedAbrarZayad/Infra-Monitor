@@ -31,7 +31,6 @@ def ingest_request_logs(*, organization, server, entries, source="EXTERNAL"):
     Feature extraction is done eagerly so the classification task only needs
     to send the pre-computed vectors to the ML service.
     """
-    now = timezone.now()
     logs = []
     for entry in entries:
         features = extract_features(
@@ -83,21 +82,16 @@ def classify_pending_batch(organization_id, batch_size=100):
 
     Returns the number of logs classified.
     """
-    pending = (
-        RequestLog.objects.filter(
-            organization_id=organization_id,
-            zone=RequestLog.Zone.UNCLASSIFIED,
-            feature_vector__isnull=False,
-        )
-        .order_by("timestamp")[:batch_size]
-    )
+    pending = RequestLog.objects.filter(
+        organization_id=organization_id,
+        zone=RequestLog.Zone.UNCLASSIFIED,
+        feature_vector__isnull=False,
+    ).order_by("timestamp")[:batch_size]
     pending = list(pending)
     if not pending:
         return 0
 
     vectors = [log.feature_vector for log in pending]
-    log_ids = [str(log.id) for log in pending]
-
     ml_url = getattr(settings, "ML_SERVICE_URL", "http://ml_service:80").rstrip("/")
     ml_token = getattr(settings, "ML_SERVICE_TOKEN", "")
     timeout = getattr(settings, "ML_REQUEST_TIMEOUT_SECONDS", 30)
@@ -176,18 +170,18 @@ async def escalate_gray_to_gemini(organization_id, batch_size=20):
     if not getattr(settings, "GEMINI_API_KEY", ""):
         return 0
 
-    config = ShieldConfig.objects.filter(organization_id=organization_id).first()
+    config = await ShieldConfig.objects.filter(organization_id=organization_id).afirst()
     if config and not config.gemini_escalation:
         return 0
 
-    gray_logs = list(
-        RequestLog.objects.filter(
+    gray_logs = [
+        log
+        async for log in RequestLog.objects.filter(
             organization_id=organization_id,
             zone=RequestLog.Zone.GRAY,
             classified_by=RequestLog.Classifier.ML_MODEL,
-        )
-        .order_by("timestamp")[:batch_size]
-    )
+        ).order_by("timestamp")[:batch_size]
+    ]
     if not gray_logs:
         return 0
 
@@ -222,7 +216,7 @@ async def escalate_gray_to_gemini(organization_id, batch_size=20):
         return 0
 
     now = timezone.now()
-    updated = 0
+    updated_logs = []
     for verdict in verdicts:
         idx = verdict.get("index")
         zone = verdict.get("zone", "").upper()
@@ -232,14 +226,14 @@ async def escalate_gray_to_gemini(organization_id, batch_size=20):
         log.zone = zone
         log.classified_at = now
         log.classified_by = RequestLog.Classifier.GEMINI
-        updated += 1
+        updated_logs.append(log)
 
-    if updated:
-        RequestLog.objects.bulk_update(
-            gray_logs[:updated],
+    if updated_logs:
+        await RequestLog.objects.abulk_update(
+            updated_logs,
             fields=["zone", "classified_at", "classified_by"],
         )
-    return updated
+    return len(updated_logs)
 
 
 # ── Threat suggestion generation ────────────────────────────────────

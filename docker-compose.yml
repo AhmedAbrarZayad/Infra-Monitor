@@ -173,10 +173,6 @@ services:
   
 
 
-  
-
-
-
 volumes:
   postgres-data: 
   victoriametrics-data:

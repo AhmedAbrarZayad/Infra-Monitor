@@ -8,7 +8,11 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from app.artifacts import ArtifactStore, ModelNotFoundError
 from app.pipeline.infer import infer_window
 from app.pipeline.request_classifier import classify_requests
-from app.pipeline.request_schemas import ClassifyRequest, ClassifyResponse, ZONE_LABELS
+from app.pipeline.request_schemas import (
+    REQUEST_FEATURE_NAMES,
+    ClassifyRequest,
+    ClassifyResponse,
+)
 from app.pipeline.train import train_model
 from app.schemas import FEATURE_NAMES, InferRequest, TrainRequest
 from app.security import require_ml_token
@@ -150,7 +154,9 @@ def _load_request_shield_model():
         raise ValueError("Request Shield metadata is missing.")
     _request_shield_model = joblib.load(model_path)
     _request_shield_metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-    if tuple(_request_shield_metadata.get("feature_names", ())) != tuple(FEATURE_NAMES):
+    if tuple(_request_shield_metadata.get("feature_names", ())) != tuple(
+        REQUEST_FEATURE_NAMES
+    ):
         raise ValueError("Stored model uses an incompatible feature schema.")
     if not _request_shield_metadata.get("model_version"):
         raise ValueError("Request Shield model version is missing.")
@@ -160,12 +166,12 @@ def _load_request_shield_model():
 @app.post("/classify-requests", dependencies=[Depends(require_ml_token)])
 def classify_request_batch(request: ClassifyRequest):
     """Classify a batch of HTTP request feature vectors into threat zones."""
-    if request.feature_names != list(FEATURE_NAMES):
+    if request.feature_names != REQUEST_FEATURE_NAMES:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="feature_names do not match the installed model schema.",
         )
-    if any(len(vector) != len(FEATURE_NAMES) for vector in request.vectors):
+    if any(len(vector) != len(REQUEST_FEATURE_NAMES) for vector in request.vectors):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Every feature vector must match the installed model schema.",

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import '../../../../core/api/operational_api.dart';
 import '../../../auth/domain/auth_state.dart';
@@ -13,6 +14,19 @@ import '../../domain/entities/shield_entities.dart';
 // ── Helpers ──────────────────────────────────────────────────────
 
 OperationalApi _api(Ref ref) {
+  final a = ref.watch(authProvider);
+  final o = ref.watch(organizationContextProvider);
+  if (a is! AuthAuthenticated || o is! OrganizationReady) {
+    throw StateError('No active organization');
+  }
+  return OperationalApi(
+    a.accessToken,
+    o.activeMembership.organization.id,
+    client: ref.watch(authenticatedHttpClientProvider),
+  );
+}
+
+OperationalApi _widgetApi(WidgetRef ref) {
   final a = ref.watch(authProvider);
   final o = ref.watch(organizationContextProvider);
   if (a is! AuthAuthenticated || o is! OrganizationReady) {
@@ -106,7 +120,7 @@ Future<void> resolveSuggestion(
   required String action,
   String notes = '',
 }) async {
-  final api = _api(ref);
+  final api = _widgetApi(ref);
   await api.post('request-shield/suggestions/$suggestionId/action/', {
     'action': action,
     'notes': notes,
@@ -120,7 +134,7 @@ Future<void> setRequestVerdict(
   required String logId,
   required String verdict,
 }) async {
-  final api = _api(ref);
+  final api = _widgetApi(ref);
   await api.post('request-shield/requests/$logId/verdict/', {
     'verdict': verdict,
   });
@@ -131,7 +145,7 @@ Future<void> updateShieldConfig(
   WidgetRef ref,
   Map<String, dynamic> updates,
 ) async {
-  final api = _api(ref);
+  final api = _widgetApi(ref);
   await api.patch('request-shield/config/', updates);
   ref.invalidate(shieldConfigProvider);
   ref.invalidate(shieldAnalyticsProvider);

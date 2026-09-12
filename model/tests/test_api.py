@@ -3,6 +3,7 @@ from uuid import uuid4
 
 import app.main as main_module
 from app.artifacts import ArtifactStore
+from app.pipeline.request_schemas import REQUEST_FEATURE_NAMES
 from app.schemas import FEATURE_NAMES
 from fastapi.testclient import TestClient
 
@@ -160,3 +161,30 @@ def test_django_callback_failure_fails_inference(monkeypatch, tmp_path):
     monkeypatch.setattr(main_module.httpx, "post", callback_failure)
     response = client.post("/infer", json=infer_payload(service_id), headers=headers)
     assert response.status_code == 502
+
+
+def test_request_classification_uses_request_feature_schema(monkeypatch):
+    monkeypatch.setenv("ML_SERVICE_TOKEN", "secret")
+    monkeypatch.setattr(
+        main_module,
+        "_load_request_shield_model",
+        lambda: (object(), {"model_version": "request-shield-v1"}),
+    )
+    monkeypatch.setattr(
+        main_module,
+        "classify_requests",
+        lambda model, vectors: [{"zone": "GREEN", "confidence": 0.9}],
+    )
+    client = TestClient(main_module.app)
+
+    response = client.post(
+        "/classify-requests",
+        json={
+            "feature_names": REQUEST_FEATURE_NAMES,
+            "vectors": [[0.0] * len(REQUEST_FEATURE_NAMES)],
+        },
+        headers={"Authorization": "Bearer secret"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["classifications"][0]["zone"] == "GREEN"
