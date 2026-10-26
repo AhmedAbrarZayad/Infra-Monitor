@@ -20,6 +20,7 @@ from sanitize.features import FEATURE_NAMES, extract_features, extract_threat_si
 from sanitize.models import RequestLog, ShieldConfig, ThreatSuggestion
 
 logger = logging.getLogger(__name__)
+_request_shield_model_missing_logged = False
 
 
 # ── Ingestion ───────────────────────────────────────────────────────
@@ -96,6 +97,8 @@ def classify_pending_batch(organization_id, batch_size=100):
     ml_token = getattr(settings, "ML_SERVICE_TOKEN", "")
     timeout = getattr(settings, "ML_REQUEST_TIMEOUT_SECONDS", 30)
 
+    global _request_shield_model_missing_logged
+
     try:
         response = httpx.post(
             f"{ml_url}/classify-requests",
@@ -108,6 +111,21 @@ def classify_pending_batch(organization_id, batch_size=100):
         )
         response.raise_for_status()
         results = response.json()
+    except httpx.HTTPStatusError as error:
+        if error.response.status_code == 404:
+            if not _request_shield_model_missing_logged:
+                logger.error(
+                    "Request Shield model is not installed in the ML service; "
+                    "follow docs/sanitize/request-shield-model-runbook.md"
+                )
+                _request_shield_model_missing_logged = True
+        else:
+            logger.exception(
+                "ML service classification failed for org=%s batch=%d",
+                organization_id,
+                len(pending),
+            )
+        return 0
     except (httpx.HTTPError, ValueError, KeyError):
         logger.exception(
             "ML service classification failed for org=%s batch=%d",
@@ -116,6 +134,7 @@ def classify_pending_batch(organization_id, batch_size=100):
         )
         return 0
 
+    _request_shield_model_missing_logged = False
     now = timezone.now()
     classifications = results.get("classifications", [])
     classified = 0
@@ -310,28 +329,30 @@ def generate_threat_suggestions(organization_id):
 # ── Analytics helpers ───────────────────────────────────────────────
 
 
-def zone_distribution(organization_id, hours=24):
+def zone_distribution(organization_id, hours=24, source=None):
     """Return zone counts for the given time window."""
     since = timezone.now() - timedelta(hours=hours)
-    return dict(
-        RequestLog.objects.filter(
-            organization_id=organization_id,
-            timestamp__gte=since,
-        )
-        .values_list("zone")
-        .annotate(count=Count("id"))
+    logs = RequestLog.objects.filter(
+        organization_id=organization_id,
+        timestamp__gte=since,
     )
+    if source:
+        logs = logs.filter(source=source.upper())
+    return dict(logs.values_list("zone").annotate(count=Count("id")))
 
 
-def top_offending_ips(organization_id, hours=24, limit=10):
+def top_offending_ips(organization_id, hours=24, limit=10, source=None):
     """Return IPs with the most RED+GRAY requests."""
     since = timezone.now() - timedelta(hours=hours)
+    logs = RequestLog.objects.filter(
+        organization_id=organization_id,
+        zone__in=[RequestLog.Zone.RED, RequestLog.Zone.GRAY],
+        timestamp__gte=since,
+    )
+    if source:
+        logs = logs.filter(source=source.upper())
     return list(
-        RequestLog.objects.filter(
-            organization_id=organization_id,
-            zone__in=[RequestLog.Zone.RED, RequestLog.Zone.GRAY],
-            timestamp__gte=since,
-        )
+        logs
         .values("source_ip")
         .annotate(
             red_count=Count("id", filter=models_Q(zone=RequestLog.Zone.RED)),
@@ -349,16 +370,19 @@ def models_Q(**kwargs):
     return Q(**kwargs)
 
 
-def zone_trend(organization_id, hours=24, bucket_minutes=60):
+def zone_trend(organization_id, hours=24, bucket_minutes=60, source=None):
     """Return zone counts bucketed by time for charting."""
     from django.db.models.functions import TruncHour
 
     since = timezone.now() - timedelta(hours=hours)
+    logs = RequestLog.objects.filter(
+        organization_id=organization_id,
+        timestamp__gte=since,
+    )
+    if source:
+        logs = logs.filter(source=source.upper())
     return list(
-        RequestLog.objects.filter(
-            organization_id=organization_id,
-            timestamp__gte=since,
-        )
+        logs
         .annotate(bucket=TruncHour("timestamp"))
         .values("bucket", "zone")
         .annotate(count=Count("id"))

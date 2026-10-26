@@ -77,9 +77,14 @@ final shieldAnalyticsProvider =
 // ── Request Logs ─────────────────────────────────────────────────
 
 final shieldRequestLogsProvider =
-    FutureProvider.autoDispose.family<List<RequestLogEntry>, Map<String, String>>(
-  (ref, filters) async {
+    FutureProvider.autoDispose<List<RequestLogEntry>>(
+  (ref) async {
     final api = _api(ref);
+    final source = ref.watch(shieldSourceFilterProvider);
+    final zone = ref.watch(shieldZoneFilterProvider);
+    final filters = <String, String>{};
+    if (source != null) filters['source'] = source;
+    if (zone != null) filters['zone'] = zone;
     final results =
         await api.getResults('request-shield/requests/', query: filters);
     return results
@@ -155,3 +160,4 @@ Future<void> updateShieldConfig(
 
 final shieldTabProvider = StateProvider<int>((ref) => 0);
 final shieldSourceFilterProvider = StateProvider<String?>((ref) => null);
+final shieldZoneFilterProvider = StateProvider<String?>((ref) => null);
