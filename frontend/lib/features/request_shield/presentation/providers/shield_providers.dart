@@ -8,7 +8,6 @@ import '../../../auth/domain/auth_state.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../organizations/domain/organization_context_state.dart';
 import '../../../organizations/presentation/providers/organization_provider.dart';
-import '../../../servers/presentation/providers/servers_providers.dart';
 import '../../domain/entities/shield_entities.dart';
 
 // ── Helpers ──────────────────────────────────────────────────────
@@ -41,98 +40,81 @@ OperationalApi _widgetApi(WidgetRef ref) {
 
 // ── Analytics ────────────────────────────────────────────────────
 
-final shieldAnalyticsProvider =
-    FutureProvider.autoDispose.family<ShieldAnalytics, String?>(
-  (ref, source) async {
-    final api = _api(ref);
-    final query = <String, String>{'hours': '24'};
-    if (source != null) query['source'] = source;
-    final json = await api.getMap('request-shield/analytics/', query: query);
+final shieldAnalyticsProvider = FutureProvider.autoDispose
+    .family<ShieldAnalytics, String?>((ref, source) async {
+      final api = _api(ref);
+      final query = <String, String>{'hours': '24'};
+      if (source != null) query['source'] = source;
+      final json = await api.getMap('request-shield/analytics/', query: query);
 
-    final dist = (json['zone_distribution'] as Map<String, dynamic>? ?? {})
-        .map((k, v) => MapEntry(k, (v as num).toInt()));
-    final topIps = (json['top_offending_ips'] as List? ?? [])
-        .map((e) => OffendingIp.fromJson(e as Map<String, dynamic>))
-        .toList();
-    final trend = (json['zone_trend'] as List? ?? [])
-        .map((e) => ZoneTrendEntry.fromJson(e as Map<String, dynamic>))
-        .toList();
+      final dist = (json['zone_distribution'] as Map<String, dynamic>? ?? {})
+          .map((k, v) => MapEntry(k, (v as num).toInt()));
+      final topIps = (json['top_offending_ips'] as List? ?? [])
+          .map((e) => OffendingIp.fromJson(e as Map<String, dynamic>))
+          .toList();
+      final trend = (json['zone_trend'] as List? ?? [])
+          .map((e) => ZoneTrendEntry.fromJson(e as Map<String, dynamic>))
+          .toList();
 
-    // Auto-refresh every 30s
-    final timer = Timer(const Duration(seconds: 30), ref.invalidateSelf);
-    ref.onDispose(timer.cancel);
+      // Auto-refresh every 30s
+      final timer = Timer(const Duration(seconds: 30), ref.invalidateSelf);
+      ref.onDispose(timer.cancel);
 
-    return ShieldAnalytics(
-      zoneDistribution: dist,
-      topOffendingIps: topIps,
-      zoneTrend: trend,
-      totalRequests: json['total_requests'] ?? 0,
-      pendingSuggestions: json['pending_suggestions'] ?? 0,
-      shieldEnabled: json['shield_enabled'] ?? false,
-      hours: json['hours'] ?? 24,
-    );
-  },
-);
+      return ShieldAnalytics(
+        zoneDistribution: dist,
+        topOffendingIps: topIps,
+        zoneTrend: trend,
+        totalRequests: json['total_requests'] ?? 0,
+        pendingSuggestions: json['pending_suggestions'] ?? 0,
+        shieldEnabled: json['shield_enabled'] ?? false,
+        hours: json['hours'] ?? 24,
+      );
+    });
 
 // ── Request Logs ─────────────────────────────────────────────────
 
 final shieldRequestLogsProvider =
-    FutureProvider.autoDispose<List<RequestLogEntry>>(
-  (ref) async {
-    final api = _api(ref);
-    final source = ref.watch(shieldSourceFilterProvider);
-    final zone = ref.watch(shieldZoneFilterProvider);
-    final filters = <String, String>{};
-    if (source != null) filters['source'] = source;
-    if (zone != null) filters['zone'] = zone;
-    final results =
-        await api.getResults('request-shield/requests/', query: filters);
-    return results
-        .map((e) => RequestLogEntry.fromJson(e as Map<String, dynamic>))
-        .toList();
-  },
-);
+    FutureProvider.autoDispose<List<RequestLogEntry>>((ref) async {
+      final api = _api(ref);
+      final source = ref.watch(shieldSourceFilterProvider);
+      final zone = ref.watch(shieldZoneFilterProvider);
+      final filters = <String, String>{};
+      if (source != null) filters['source'] = source;
+      if (zone != null) filters['zone'] = zone;
+      final results = await api.getResults(
+        'request-shield/requests/',
+        query: filters,
+      );
+      return results
+          .map((e) => RequestLogEntry.fromJson(e as Map<String, dynamic>))
+          .toList();
+    });
 
 // ── Threat Suggestions ───────────────────────────────────────────
 
 final shieldSuggestionsProvider =
-    FutureProvider.autoDispose<List<ThreatSuggestion>>(
-  (ref) async {
-    final api = _api(ref);
-    final results = await api.getResults('request-shield/suggestions/',
-        query: {'status': 'PENDING'});
-    return results
-        .map((e) => ThreatSuggestion.fromJson(e as Map<String, dynamic>))
-        .toList();
-  },
-);
+    FutureProvider.autoDispose<List<ThreatSuggestion>>((ref) async {
+      final api = _api(ref);
+      final results = await api.getResults(
+        'request-shield/suggestions/',
+        query: {'status': 'PENDING'},
+      );
+      return results
+          .map((e) => ThreatSuggestion.fromJson(e as Map<String, dynamic>))
+          .toList();
+    });
 
 // ── Shield Config ────────────────────────────────────────────────
 
-final shieldConfigProvider = FutureProvider.autoDispose<ShieldConfig>(
-  (ref) async {
-    final api = _api(ref);
-    final json = await api.getMap('request-shield/config/');
-    return ShieldConfig.fromJson(json);
-  },
-);
+final shieldConfigProvider = FutureProvider.autoDispose<ShieldConfig>((
+  ref,
+) async {
+  final api = _api(ref);
+  final json = await api.getMap('request-shield/config/');
+  return ShieldConfig.fromJson(json);
+});
 
 // ── Actions ──────────────────────────────────────────────────────
-
-Future<void> resolveSuggestion(
-  WidgetRef ref, {
-  required String suggestionId,
-  required String action,
-  String notes = '',
-}) async {
-  final api = _widgetApi(ref);
-  await api.post('request-shield/suggestions/$suggestionId/action/', {
-    'action': action,
-    'notes': notes,
-  });
-  ref.invalidate(shieldSuggestionsProvider);
-  ref.invalidate(shieldAnalyticsProvider);
-}
 
 Future<void> setRequestVerdict(
   WidgetRef ref, {

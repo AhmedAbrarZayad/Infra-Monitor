@@ -337,6 +337,83 @@ docker compose logs --tail 200 vmstorage vminsert vmselect
 docker compose logs --tail 200 ml_service celery_worker celery_beat redis
 ```
 
+### Request Shield external demonstration
+
+The Request Shield has two request sources:
+
+- `PLATFORM`: requests arriving at Infra-Monitor itself and captured by Django
+  middleware.
+- `EXTERNAL`: access-log entries received from a registered monitored server.
+
+The external demonstration does not require Nginx on the monitored server. It
+simulates the access-log batch that an Alloy agent sends to the external
+ingestion endpoint. Run it from the repository root after `/ready` returns
+`200`:
+
+```powershell
+.\scripts\test-request-shield-external.ps1
+```
+
+The script automatically:
+
+1. Finds the only organization if there is one.
+2. Finds the only registered server in that organization if there is one.
+3. Rotates a fresh server monitoring credential for the test.
+4. Enables Request Shield with low demonstration thresholds.
+5. Sends one normal-looking and one scanner-like external access-log entry.
+6. Confirms that the ingestion response accepts two entries.
+7. Classifies the pending entries with the installed Request Shield model.
+8. Prints each result with `source`, zone, confidence, classifier, and threat
+   signals.
+9. Generates any qualifying threat suggestions.
+
+Expected output includes:
+
+```text
+Ingestion status: 201
+Ingestion response: {"accepted":2,...}
+Classified in this run: 2
+External log: ... zone=...
+Threat suggestions created: ...
+Request Shield external test passed.
+```
+
+If more than one organization or server exists, pass the IDs explicitly:
+
+```powershell
+.\scripts\test-request-shield-external.ps1 `
+  -OrganizationId "ORGANIZATION-UUID" `
+  -ServerId "SERVER-UUID"
+```
+
+Discover the IDs without exposing credentials:
+
+```powershell
+docker compose exec -T backend python manage.py shell -c "from accounts.models import Organization; from servers.models import Servers; print('ORGANIZATIONS'); [print(o.id, o.name) for o in Organization.objects.order_by('name')]; print('SERVERS'); [print(s.server_id, s.organization_id, s.name, s.host_name, s.status) for s in Servers.objects.order_by('name')]"
+```
+
+The raw monitoring credential is intentionally not recoverable from the
+database. Therefore, the demonstration rotates the selected server credential
+and uses the fresh value internally. Any Alloy agent or installed collector
+using the old credential must be given a newly generated credential after this
+test. The script does not print the credential.
+
+Before running the demonstration, verify the model artifact:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:7001/health
+Invoke-RestMethod http://127.0.0.1:7001/ready
+```
+
+The second command must return `status=ready`. If it reports that the Request
+Shield model is not installed, follow
+[`request-shield-model-runbook.md`](request-shield-model-runbook.md) first.
+
+This script tests the application-level external ingestion and classification
+path. It does not yet test Alloy parsing. After this passes, the Alloy
+configuration can be tested by forwarding a real access-log file to the same
+endpoint.
+
 ## 6. Verify Ubuntu WSL2
 
 ```powershell
