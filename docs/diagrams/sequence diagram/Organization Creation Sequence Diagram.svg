@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="898" viewBox="0 0 1800 898">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="black"/></marker><style>text{font-family:DejaVu Sans,Arial,sans-serif;fill:black}.title{font-size:26px;font-weight:bold}.participant{font-size:15px;font-weight:bold}.event,.state{font-size:14px}</style></defs>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" text-anchor="middle"><tspan x="900" y="38">Organization Creation</tspan></text>
+<rect x="72" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="200" y="92">User</tspan><tspan x="200" y="110">(Actor)</tspan></text>
+<line x1="200" y1="134" x2="200" y2="874" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="432" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="560" y="101">App</tspan></text>
+<line x1="560" y1="134" x2="560" y2="874" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="792" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="920" y="101">Organization</tspan></text>
+<line x1="920" y1="134" x2="920" y2="874" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1152" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="1280" y="101">OrganizationMembership</tspan></text>
+<line x1="1280" y1="134" x2="1280" y2="874" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1512" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="1640" y="101">Database</tspan></text>
+<line x1="1640" y1="134" x2="1640" y2="874" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="193" y="185.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="193" y="773.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="913" y="269.517" width="14" height="202.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1273" y="521.517" width="14" height="202.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1633" y="353.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1633" y="605.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="470" y="178" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="205">Entering details</tspan></text>
+<rect x="470" y="262" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="289">Creating organization</tspan></text>
+<rect x="470" y="514" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="541">Creating owner</tspan></text>
+<rect x="470" y="766" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="793">Opening organization</tspan></text>
+<line x1="207" y1="200" x2="470" y2="200" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="218.25" y="174" width="240.5" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="188">organization name and summary</tspan></text>
+<line x1="650" y1="284" x2="913" y2="284" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="709.547" y="258" width="143.906" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="781.5" y="272">create organization</tspan></text>
+<line x1="927" y1="368" x2="1633" y2="368" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1213.88" y="342" width="132.25" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1280" y="356">save organization</tspan></text>
+<line x1="1633" y1="452" x2="927" y2="452" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1203.6" y="426" width="152.797" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1280" y="440">organization created</tspan></text>
+<line x1="650" y1="536" x2="1273" y2="536" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="865.164" y="510" width="192.672" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="961.5" y="524">create owner membership</tspan></text>
+<line x1="1287" y1="620" x2="1633" y2="620" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1369.49" y="594" width="181.016" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1460" y="608">save owner membership</tspan></text>
+<line x1="1633" y1="704" x2="1287" y2="704" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1383.07" y="678" width="153.859" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1460" y="692">membership created</tspan></text>
+<line x1="470" y1="788" x2="207" y2="788" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="247.164" y="762" width="182.672" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="776">show active organization</tspan></text>
+<circle cx="28" cy="200" r="10" fill="black"/>
+<line x1="38" y1="200" x2="193" y2="200" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<text class="event" text-anchor="middle"><tspan x="112" y="186">system ready</tspan></text>
+</svg>

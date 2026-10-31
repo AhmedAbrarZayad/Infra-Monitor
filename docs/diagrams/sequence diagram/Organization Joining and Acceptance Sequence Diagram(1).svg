@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2160" height="1234" viewBox="0 0 2160 1234">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="black"/></marker><style>text{font-family:DejaVu Sans,Arial,sans-serif;fill:black}.title{font-size:26px;font-weight:bold}.participant{font-size:15px;font-weight:bold}.event,.state{font-size:14px}</style></defs>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" text-anchor="middle"><tspan x="1080" y="38">Organization Joining and Acceptance</tspan></text>
+<rect x="72" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="200" y="92">User</tspan><tspan x="200" y="110">(Requester)</tspan></text>
+<line x1="200" y1="134" x2="200" y2="1210" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="432" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="560" y="101">App</tspan></text>
+<line x1="560" y1="134" x2="560" y2="1210" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="792" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="920" y="101">Organization</tspan></text>
+<line x1="920" y1="134" x2="920" y2="1210" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1152" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="1280" y="101">OrganizationMembership</tspan></text>
+<line x1="1280" y1="134" x2="1280" y2="1210" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1512" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="1640" y="92">User</tspan><tspan x="1640" y="110">(Admin)</tspan></text>
+<line x1="1640" y1="134" x2="1640" y2="1210" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1872" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="2000" y="101">Database</tspan></text>
+<line x1="2000" y1="134" x2="2000" y2="1210" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="193" y="185.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="193" y="689.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="193" y="1109.52" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="269.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="773.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="913" y="269.517" width="14" height="202.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1273" y="521.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1273" y="857.517" width="14" height="202.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1633" y="773.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1993" y="353.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1993" y="605.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1993" y="941.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="470" y="178" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="205">Searching</tspan></text>
+<rect x="470" y="514" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="541">Requesting to join</tspan></text>
+<rect x="470" y="682" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="709">Waiting</tspan></text>
+<rect x="470" y="850" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="877">Reviewing</tspan></text>
+<rect x="470" y="1102" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="1129">Opening organization</tspan></text>
+<line x1="207" y1="200" x2="470" y2="200" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="265.508" y="174" width="145.984" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="188">search organization</tspan></text>
+<line x1="567" y1="284" x2="913" y2="284" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="676.969" y="258" width="126.062" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="740" y="272">find organization</tspan></text>
+<line x1="927" y1="368" x2="1993" y2="368" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1391.4" y="342" width="137.203" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1460" y="356">read public details</tspan></text>
+<line x1="1993" y1="452" x2="927" y2="452" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1377.29" y="426" width="165.422" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1460" y="440">matching organization</tspan></text>
+<line x1="650" y1="536" x2="1273" y2="536" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="825.047" y="510" width="272.906" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="961.5" y="524">create pending engineer membership</tspan></text>
+<line x1="1287" y1="620" x2="1993" y2="620" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1542.66" y="594" width="194.688" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1640" y="608">save pending membership</tspan></text>
+<line x1="470" y1="704" x2="207" y2="704" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="256.891" y="678" width="163.219" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="692">show request pending</tspan></text>
+<line x1="1633" y1="788" x2="567" y2="788" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="997.758" y="762" width="204.484" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1100" y="776">review membership request</tspan></text>
+<line x1="650" y1="872" x2="1273" y2="872" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="882.602" y="846" width="157.797" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="961.5" y="860">approve membership</tspan></text>
+<line x1="1287" y1="956" x2="1993" y2="956" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1573.42" y="930" width="133.156" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1640" y="944">set approved true</tspan></text>
+<line x1="1993" y1="1040" x2="1287" y2="1040" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1556.66" y="1014" width="166.688" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1640" y="1028">membership approved</tspan></text>
+<line x1="470" y1="1124" x2="207" y2="1124" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="244.844" y="1098" width="187.312" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="1112">show organization access</tspan></text>
+<circle cx="28" cy="200" r="10" fill="black"/>
+<line x1="38" y1="200" x2="193" y2="200" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<text class="event" text-anchor="middle"><tspan x="112" y="186">system ready</tspan></text>
+</svg>
