@@ -44,6 +44,7 @@ dependencies:
   flutter_dotenv: ^6.0.1
   firebase_core: ^4.4.0
   firebase_messaging: ^16.6.0
+  flutter_markdown_plus: ^1.0.12
 
 dev_dependencies:
   flutter_test:
@@ -78,4 +79,3 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
-
