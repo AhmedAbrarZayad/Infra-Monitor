@@ -4,13 +4,19 @@ Covers feature extraction, ingestion, classification flow, threat suggestion
 generation, and the API views.
 """
 
-from datetime import timedelta
-from unittest.mock import MagicMock, patch
-
-from django.test import TestCase, override_settings
+from django.core.cache import cache
+from django.http import HttpResponse
+from django.test import RequestFactory, TestCase
 from django.utils import timezone
 
+from accounts.models import Organization
 from sanitize.features import FEATURE_NAMES, extract_features, extract_threat_signals
+from sanitize.middleware import (
+    RequestShieldMiddleware,
+    _platform_self_monitor_cache_key,
+)
+from sanitize.models import RequestLog, ShieldConfig
+from sanitize.services import top_offending_ips, zone_distribution, zone_trend
 
 
 class FeatureExtractionTest(TestCase):
@@ -168,3 +174,122 @@ class ThreatSignalExtractionTest(TestCase):
         self.assertIn("path_traversal", signals)
         self.assertIn("suspicious_extension", signals)
         self.assertIn("known_scanner_or_bot", signals)
+
+
+class PlatformSelfMonitoringMiddlewareTest(TestCase):
+    def setUp(self):
+        self.organization = Organization.objects.create(
+            name="Shield middleware test",
+            summary="Middleware tests",
+        )
+        self.cache_key = _platform_self_monitor_cache_key(self.organization.id)
+        cache.delete(self.cache_key)
+        self.path = (
+            f"/api/organizations/{self.organization.id}/overview/"
+        )
+        self.middleware = RequestShieldMiddleware(lambda request: HttpResponse())
+
+    def tearDown(self):
+        cache.delete(self.cache_key)
+
+    def test_logging_is_disabled_when_config_is_absent(self):
+        self.middleware(RequestFactory().get(self.path))
+
+        self.assertFalse(
+            RequestLog.objects.filter(organization=self.organization).exists()
+        )
+
+    def test_logging_is_disabled_when_self_monitoring_is_off(self):
+        ShieldConfig.objects.create(
+            organization=self.organization,
+            platform_self_monitor=False,
+        )
+
+        self.middleware(RequestFactory().get(self.path))
+
+        self.assertFalse(
+            RequestLog.objects.filter(organization=self.organization).exists()
+        )
+
+    def test_request_shield_endpoints_are_not_self_logged(self):
+        ShieldConfig.objects.create(
+            organization=self.organization,
+            platform_self_monitor=True,
+        )
+        path = (
+            f"/api/organizations/{self.organization.id}/request-shield/requests/"
+        )
+
+        self.middleware(RequestFactory().get(path))
+
+        self.assertFalse(
+            RequestLog.objects.filter(organization=self.organization).exists()
+        )
+
+    def test_logging_is_enabled_when_self_monitoring_is_on(self):
+        ShieldConfig.objects.create(
+            organization=self.organization,
+            platform_self_monitor=True,
+        )
+
+        self.middleware(RequestFactory().get(self.path, REMOTE_ADDR="192.0.2.1"))
+
+        self.assertEqual(
+            RequestLog.objects.filter(
+                organization=self.organization,
+                source=RequestLog.Source.PLATFORM,
+            ).count(),
+            1,
+        )
+
+
+class SourceFilteredAnalyticsTest(TestCase):
+    def setUp(self):
+        self.organization = Organization.objects.create(
+            name="Shield analytics test",
+            summary="Analytics tests",
+        )
+        self._create_log(
+            source=RequestLog.Source.EXTERNAL,
+            zone=RequestLog.Zone.RED,
+            source_ip="192.0.2.10",
+        )
+        self._create_log(
+            source=RequestLog.Source.PLATFORM,
+            zone=RequestLog.Zone.GRAY,
+            source_ip="192.0.2.20",
+        )
+
+    def _create_log(self, *, source, zone, source_ip):
+        return RequestLog.objects.create(
+            organization=self.organization,
+            timestamp=timezone.now(),
+            source_ip=source_ip,
+            method="GET",
+            path="/",
+            source=source,
+            zone=zone,
+        )
+
+    def test_analytics_helpers_filter_by_source(self):
+        organization_id = self.organization.id
+
+        self.assertEqual(
+            zone_distribution(organization_id, source="external"),
+            {RequestLog.Zone.RED: 1},
+        )
+        self.assertEqual(
+            top_offending_ips(organization_id, source="external"),
+            [
+                {
+                    "source_ip": "192.0.2.10",
+                    "red_count": 1,
+                    "gray_count": 0,
+                    "total": 1,
+                }
+            ],
+        )
+        trend = zone_trend(organization_id, source="external")
+        self.assertEqual(len(trend), 1)
+        self.assertEqual(trend[0]["zone"], RequestLog.Zone.RED)
+        self.assertEqual(trend[0]["count"], 1)

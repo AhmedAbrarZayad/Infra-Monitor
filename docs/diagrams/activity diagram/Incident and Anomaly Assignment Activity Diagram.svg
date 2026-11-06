@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1760" viewBox="0 0 1280 1760">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="black"/></marker></defs>
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="DejaVu Sans,Arial,sans-serif" fill="black">
+<text x="640.0" text-anchor="middle" font-size="25"><tspan x="640.0" y="42">Incident and Anomaly Assignment</tspan></text>
+<path d="M 600 130 L 600 190" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="0" data-target="1"/>
+<path d="M 600 270 L 600 340" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="1" data-target="2"/>
+<path d="M 600 420 L 600 510" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="2" data-target="3"/>
+<path d="M 460 580 L 240 580 L 240 740" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="3" data-target="4"/>
+<path d="M 240 820 L 240 920" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="4" data-target="5"/>
+<path d="M 740 580 L 770 580 L 770 710 L 960 710 L 960 740" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="3" data-target="6"/>
+<path d="M 960 820 L 960 910" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="6" data-target="7"/>
+<path d="M 820 980 L 240 980 L 240 1150" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="7" data-target="8"/>
+<path d="M 240 1230 L 240 1310" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="8" data-target="9"/>
+<path d="M 960 1050 L 960 1150" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="7" data-target="10"/>
+<path d="M 960 1230 L 960 1310" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="10" data-target="11"/>
+<path d="M 960 1390 L 960 1480" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="11" data-target="12"/>
+<path d="M 960 1560 L 960 1630" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="12" data-target="13"/>
+<path d="M 100 1350 L 70 1350 L 70 840 L 790 840 L 790 780 L 820 780" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)" data-source="9" data-target="6"/>
+<circle cx="600" cy="110" r="20" fill="black"/>
+<rect x="460" y="190" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="600" text-anchor="middle" font-size="16"><tspan x="600" y="236">Open incident or anomaly</tspan></text>
+<rect x="460" y="340" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="600" text-anchor="middle" font-size="16"><tspan x="600" y="386">Load approved engineers</tspan></text>
+<polygon points="600,510 740,580 600,650 460,580" fill="white" stroke="black" stroke-width="2"/>
+<text x="600" text-anchor="middle" font-size="16"><tspan x="600" y="575.5">User may assign</tspan><tspan x="600" y="596.5">this work?</tspan></text>
+<rect x="100" y="740" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="240" text-anchor="middle" font-size="16"><tspan x="240" y="786">Show access denied</tspan></text>
+<circle cx="240" cy="940" r="20" fill="white" stroke="black" stroke-width="2"/><circle cx="240" cy="940" r="11" fill="black"/>
+<rect x="820" y="740" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="960" text-anchor="middle" font-size="16"><tspan x="960" y="786">Choose engineer</tspan></text>
+<polygon points="960,910 1100,980 960,1050 820,980" fill="white" stroke="black" stroke-width="2"/>
+<text x="960" text-anchor="middle" font-size="16"><tspan x="960" y="975.5">Engineer</tspan><tspan x="960" y="996.5">approved?</tspan></text>
+<rect x="100" y="1150" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="240" text-anchor="middle" font-size="16"><tspan x="240" y="1196">Show invalid choice</tspan></text>
+<rect x="100" y="1310" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="240" text-anchor="middle" font-size="16"><tspan x="240" y="1356">Choose another engineer</tspan></text>
+<rect x="820" y="1150" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="960" text-anchor="middle" font-size="16"><tspan x="960" y="1196">Assign incident or anomaly</tspan></text>
+<rect x="820" y="1310" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="960" text-anchor="middle" font-size="16"><tspan x="960" y="1356">Record assignment history</tspan></text>
+<rect x="820" y="1480" width="280" height="80" rx="14" fill="white" stroke="black" stroke-width="2"/>
+<text x="960" text-anchor="middle" font-size="16"><tspan x="960" y="1526">Notify engineer</tspan></text>
+<circle cx="960" cy="1650" r="20" fill="white" stroke="black" stroke-width="2"/><circle cx="960" cy="1650" r="11" fill="black"/>
+<rect x="400" y="553" width="44" height="25" fill="white"/>
+<text x="422" text-anchor="middle" font-size="16"><tspan x="422" y="571">No</tspan></text>
+<rect x="756" y="553" width="44" height="25" fill="white"/>
+<text x="778" text-anchor="middle" font-size="16"><tspan x="778" y="571">Yes</tspan></text>
+<rect x="760" y="953" width="44" height="25" fill="white"/>
+<text x="782" text-anchor="middle" font-size="16"><tspan x="782" y="971">No</tspan></text>
+<rect x="970" y="1070" width="44" height="25" fill="white"/>
+<text x="992" text-anchor="middle" font-size="16"><tspan x="992" y="1088">Yes</tspan></text>
+</g></svg>

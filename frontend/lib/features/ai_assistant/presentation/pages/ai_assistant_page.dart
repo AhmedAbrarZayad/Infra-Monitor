@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../shared/widgets/app_panel.dart';
@@ -296,13 +297,26 @@ class _MessageBubble extends StatelessWidget {
             color: user ? const Color(0xFF315A94) : const Color(0xFF483161),
           ),
         ),
-        child: SelectableText(
-          message.text,
-          style: TextStyle(
-            color: message.streaming && message.text == 'Thinking…'
-                ? _muted
-                : null,
-            height: 1.4,
+        child: MarkdownBody(
+          data: message.text,
+          selectable: true,
+          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+            p: TextStyle(
+              color: message.streaming && message.text == 'Thinking…'
+                  ? _muted
+                  : null,
+              height: 1.4,
+            ),
+            code: const TextStyle(
+              color: Color(0xFFE7D8FF),
+              backgroundColor: Color(0xFF120E18),
+              fontFamily: 'monospace',
+            ),
+            codeblockDecoration: BoxDecoration(
+              color: const Color(0xFF120E18),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0xFF483161)),
+            ),
           ),
         ),
       ),

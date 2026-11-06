@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2880" height="1402" viewBox="0 0 2880 1402">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="black"/></marker><style>text{font-family:DejaVu Sans,Arial,sans-serif;fill:black}.title{font-size:26px;font-weight:bold}.participant{font-size:15px;font-weight:bold}.event,.state{font-size:14px}</style></defs>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" text-anchor="middle"><tspan x="1440" y="38">Shield Feature</tspan></text>
+<rect x="72" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="200" y="92">User</tspan><tspan x="200" y="110">(Owner/Admin)</tspan></text>
+<line x1="200" y1="134" x2="200" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="432" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="560" y="101">App</tspan></text>
+<line x1="560" y1="134" x2="560" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="792" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="920" y="101">Organization</tspan></text>
+<line x1="920" y1="134" x2="920" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1152" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="1280" y="101">ShieldConfig</tspan></text>
+<line x1="1280" y1="134" x2="1280" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1512" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="1640" y="101">RequestLog</tspan></text>
+<line x1="1640" y1="134" x2="1640" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="1872" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="2000" y="101">ThreatSuggestion</tspan></text>
+<line x1="2000" y1="134" x2="2000" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="2232" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="2360" y="92">User</tspan><tspan x="2360" y="110">(Actor)</tspan></text>
+<line x1="2360" y1="134" x2="2360" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="2592" y="68" width="256" height="66" fill="white" stroke="black" stroke-width="2"/>
+<text class="participant" text-anchor="middle"><tspan x="2720" y="101">Database</tspan></text>
+<line x1="2720" y1="134" x2="2720" y2="1378" stroke="black" stroke-width="1.5" stroke-dasharray="7,6"/>
+<rect x="193" y="185.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="193" y="605.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="193" y="1277.52" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="269.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="689.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="773.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="1025.52" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="553" y="1277.52" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="913" y="269.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1273" y="353.517" width="14" height="202.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1273" y="773.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1633" y="1025.52" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="1993" y="1109.52" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="2353" y="941.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="2713" y="437.517" width="14" height="118.759" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="2713" y="857.517" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="2713" y="1193.52" width="14" height="34.7586" fill="white" stroke="black" stroke-width="2" data-activation="true"/>
+<rect x="470" y="178" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="205">Reading settings</tspan></text>
+<rect x="470" y="598" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="625">Editing settings</tspan></text>
+<rect x="470" y="934" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="961">Watching traffic</tspan></text>
+<rect x="470" y="1186" width="180" height="44" rx="13" fill="white" stroke="black" stroke-width="2"/>
+<text class="state" text-anchor="middle"><tspan x="560" y="1213">Showing result</tspan></text>
+<line x1="207" y1="200" x2="470" y2="200" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="263.938" y="174" width="149.125" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="188">open shield settings</tspan></text>
+<line x1="567" y1="284" x2="913" y2="284" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="645.156" y="258" width="189.688" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="740" y="272">load organization settings</tspan></text>
+<line x1="927" y1="368" x2="1273" y2="368" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1008.63" y="342" width="182.734" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1100" y="356">read shield configuration</tspan></text>
+<line x1="1287" y1="452" x2="2713" y2="452" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1942.2" y="426" width="115.594" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="2000" y="440">load thresholds</tspan></text>
+<line x1="2713" y1="536" x2="1287" y2="536" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1920.26" y="510" width="159.484" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="2000" y="524">thresholds and status</tspan></text>
+<line x1="470" y1="620" x2="207" y2="620" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="263.312" y="594" width="150.375" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="338.5" y="608">show shield settings</tspan></text>
+<line x1="207" y1="704" x2="553" y2="704" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="256.477" y="678" width="247.047" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="380" y="692">enable shield and save thresholds</tspan></text>
+<line x1="567" y1="788" x2="1273" y2="788" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="842.68" y="762" width="154.641" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="920" y="776">update configuration</tspan></text>
+<line x1="1287" y1="872" x2="2713" y2="872" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1930.96" y="846" width="138.078" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="2000" y="860">save configuration</tspan></text>
+<line x1="2353" y1="956" x2="650" y2="956" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1451.84" y="930" width="99.3281" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1501.5" y="944">send request</tspan></text>
+<line x1="567" y1="1040" x2="1633" y2="1040" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1041.37" y="1014" width="117.266" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1100" y="1028">classify request</tspan></text>
+<line x1="1647" y1="1124" x2="1993" y2="1124" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="1677.58" y="1098" width="284.844" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="1820" y="1112">create suggestion for red or gray traffic</tspan></text>
+<line x1="2007" y1="1208" x2="2713" y2="1208" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="2299.05" y="1182" width="121.891" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="2360" y="1196">save suggestion</tspan></text>
+<line x1="553" y1="1292" x2="207" y2="1292" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="251.094" y="1266" width="257.812" height="18" fill="white"/>
+<text class="event" text-anchor="middle"><tspan x="380" y="1280">show request result and suggestion</tspan></text>
+<circle cx="28" cy="200" r="10" fill="black"/>
+<line x1="38" y1="200" x2="193" y2="200" stroke="black" stroke-width="1.7" marker-end="url(#arrow)"/>
+<text class="event" text-anchor="middle"><tspan x="112" y="186">system ready</tspan></text>
+</svg>

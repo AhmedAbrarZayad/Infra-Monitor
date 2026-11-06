@@ -29,9 +29,7 @@ class RequestShieldPage extends ConsumerWidget {
     final source = ref.watch(shieldSourceFilterProvider);
     final analytics = ref.watch(shieldAnalyticsProvider(source));
     final suggestions = ref.watch(shieldSuggestionsProvider);
-    final logs = ref.watch(shieldRequestLogsProvider(
-      source != null ? {'source': source} : {},
-    ));
+    final logs = ref.watch(shieldRequestLogsProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -163,12 +161,10 @@ class RequestShieldPage extends ConsumerWidget {
 
 // ── Zone filter chips ────────────────────────────────────────────
 
-final _zoneFilterProvider = StateProvider<String?>((ref) => null);
-
 class _ZoneFilterChips extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(_zoneFilterProvider);
+    final selected = ref.watch(shieldZoneFilterProvider);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -197,13 +193,7 @@ class _ZoneFilterChips extends ConsumerWidget {
       padding: const EdgeInsets.only(right: 6),
       child: GestureDetector(
         onTap: () {
-          ref.read(_zoneFilterProvider.notifier).state = zone;
-          // Rebuild logs with new zone filter
-          final source = ref.read(shieldSourceFilterProvider);
-          final filters = <String, String>{};
-          if (source != null) filters['source'] = source;
-          if (zone != null) filters['zone'] = zone;
-          ref.invalidate(shieldRequestLogsProvider);
+          ref.read(shieldZoneFilterProvider.notifier).state = zone;
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
