@@ -853,6 +853,18 @@ five-minute UTC buckets, so the first one or two dispatcher runs may correctly
 report `insufficient_inference_data` while the initial complete row is being
 built.
 
+Training waits for at least `ML_TRAINING_MIN_ROWS` complete one-minute rows
+(default `10`) and refuses a baseline whose rows are all identical, because
+Isolation Forest cannot learn from constant data and would then score every
+window as normal. Until both conditions hold, runs report
+`insufficient_training_data`. A completely idle `alpine sleep infinity`
+container can stay constant indefinitely; give it light, varying background
+activity during the baseline:
+
+```bash
+docker exec -d demo-load sh -c 'while true; do dd if=/dev/urandom of=/dev/null bs=64k count=$((RANDOM%40+1)) 2>/dev/null; sleep $((RANDOM%5+1)); done'
+```
+
 Watch the first-time flow:
 
 ```powershell
@@ -1233,8 +1245,13 @@ script never deletes general VirtualBox VM folders.
 - Missing ML features: confirm the target is a discovered container service and
   all six service-level series exist. Host metrics and partial rows are rejected.
 - Missing artifact: inspect `celery_worker` and `ml_service` logs, verify at
-  least two complete one-minute feature rows exist, then enqueue the service
-  task again.
+  least `ML_TRAINING_MIN_ROWS` (default 10) complete one-minute feature rows
+  exist and that they are not all identical, then enqueue the service task
+  again.
+- Every detection is `False` with score exactly `0.0`: the artifact was trained
+  on identical rows. Delete `/code/artifacts/SERVICE_UUID` in `ml_service` so the
+  next run retrains, but only when the 24-hour lookback contains no load
+  windows; otherwise use a fresh service name.
 - Unauthorized ML calls: ensure `ML_SERVICE_TOKEN` is identical in
   `backend/.env` and `model/.env`, then recreate `backend`, `celery_worker`, and
   `ml_service` so they reload it.
