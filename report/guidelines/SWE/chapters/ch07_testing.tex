@@ -1,0 +1,91 @@
+\chapter{Testing and Quality Assurance}\label{ch:test}
+
+\section{Requirements/Specifications-Based System Level Test (Detailed with Test Results)}
+\guide{First list the requirements (ID, statement, Must/Want), then give one test-case table per module, with ACTUAL results and Pass/Fail status. Copy the module table block for each module.}
+
+\begin{table}[htbp]
+\centering
+\caption{Requirements/specifications-based requirement list}\label{tab:reqlist}
+\begin{tabularx}{\textwidth}{@{}l X l l@{}}
+\toprule
+\textbf{Requirement ID} & \textbf{Requirement Statement} & \textbf{Must/Want} & \textbf{Comment}\\
+\midrule
+R-Up-01 & User can't upload image with invalid extension & Must & N/A\\
+R-Up-02 & Show error message if user uploads image with invalid extension & Want & N/A\\
+R-Gen-01 & User can't generate caption without uploading image & Must & N/A\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ----- module block: copy & edit for each module ---------------
+\begin{table}[htbp]
+\centering
+\caption{System level test cases -- module: \todo{Upload}}\label{tab:tc_upload}
+\small
+\begin{tabularx}{\textwidth}{@{}l X l l@{}}
+\toprule
+\textbf{Project Name} & \ProjectTitle & \textbf{Module Name} & \todo{Upload}\\
+\textbf{Created By} & \todo{Name} & \textbf{Reviewed By} & \todo{Name}\\
+\textbf{Date of Creation} & \todo{dd-mm-yy} & \textbf{Date of Review} & \todo{dd-mm-yy}\\
+\bottomrule
+\end{tabularx}
+
+\vspace{4pt}
+\setlength{\tabcolsep}{3pt}\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X l@{}}
+\toprule
+\textbf{TC ID} & \textbf{Scenario} & \textbf{Steps} & \textbf{Test Data} & \textbf{Expected} & \textbf{Actual} & \textbf{Status}\\
+\midrule
+TC-UP-01 & Upload with invalid extension & 1.\ Open UI 2.\ Choose file 3.\ Upload & new.pdf & Return to initial state & Returned to initial state & Passed\\
+TC-UP-02 & \todo{...} & \todo{...} & \todo{...} & \todo{...} & \todo{...} & \todo{...}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Traceability of Test Cases to Use Cases}
+\guide{Traceability matrix: test cases vs.\ requirements / use cases. Every requirement must be covered by at least one test case.}
+\begin{table}[htbp]
+\centering
+\caption{Traceability matrix}\label{tab:trace}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Test Case} & \textbf{R-Up-01} & \textbf{R-Up-02} & \textbf{R-Gen-01} & \textbf{UC-01} & \textbf{UC-02}\\
+\hline
+TC-UP-01  & \cmark & & & \cmark & \\ \hline
+TC-UP-02  & & \cmark & & \cmark & \\ \hline
+TC-GEN-01 & & & \cmark & & \cmark\\ \hline
+\end{tabular}
+\end{table}
+
+\section{Techniques Used for Test Generation}
+\guide{Black-box (equivalence partitioning, boundary value analysis, decision table, state transition), white-box (statement/branch/path coverage), experience-based, and AI-assisted/ automated generation. Say where each was applied.}
+\todo{Describe test generation techniques.}
+
+\section{Unit Testing, Integration Testing}
+\guide{Tools (pytest, JUnit, Jest\ldots), number of tests, coverage report, results, and a screenshot of the test run.}
+\todo{Report unit and integration testing.}
+
+\section{System Testing (UAT, PT, VT)}
+\guide{\textbf{UAT}: users, tasks, feedback/SUS score. \textbf{Performance Testing}: tool (JMeter, Locust), response time, throughput. \textbf{Volume Testing}: behaviour with large data. Present results in tables/graphs.}
+\todo{Report UAT, performance and volume tests.}
+
+\section{Security Testing (VAPT)}
+\guide{Vulnerability assessment and penetration test findings (OWASP Top 10: SQL injection, XSS, broken authentication\ldots). Tools: OWASP ZAP, Burp Suite, Nmap. Report findings, severity, and fixes.}
+\begin{table}[htbp]
+\centering
+\caption{VAPT findings}\label{tab:vapt}
+\begin{tabularx}{\textwidth}{@{}l X l X@{}}
+\toprule
+\textbf{ID} & \textbf{Vulnerability} & \textbf{Severity} & \textbf{Fix / Status}\\
+\midrule
+V-01 & \todo{...} & \todo{High/Med/Low} & \todo{...}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{AI-specific Testing}
+\guide{Model evaluation (accuracy, precision, recall, F1, BLEU/ROUGE\ldots), confusion matrix, robustness/adversarial inputs, bias \& fairness checks, hallucination checks for LLMs, drift monitoring, explainability checks, edge cases.}
+\todo{Report AI-specific testing.}
+
+\section{Assessment of the Goodness of the Test Suite}
+\guide{Coverage (statement/branch/requirement), effectiveness (defects found, mutation score), and limitations of your test suite.}
+\todo{Assess the test suite.}

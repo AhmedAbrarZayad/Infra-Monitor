@@ -1,0 +1,54 @@
+\chapter{Architecture}\label{ch:arch}
+
+\section{Architectural Model/Style Used}
+\guide{Name the style (Layered, MVC, Client--Server, Microservices, Event-driven, Pipe-and-filter\ldots).}
+\todo{Describe the architectural style.}
+\subsection{Rationale for Choosing the Architectural Model/Style}
+\guide{Explain why the style fits your quality attributes (scalability, maintainability, performance, security) and why alternatives were not chosen.}
+\todo{Justify the architectural style.}
+
+\section{Architectural Design (High-Level Design)}
+\guide{Overall architecture diagram: layers, components, external systems and their interactions, with a short description of every component.}
+\figplaceholder{architecture_diagram.png}{High-level system architecture}{fig:arch}
+
+\section{Technology, Software, and Hardware Used}
+\guide{Detailed tech-stack table WITH justification for each choice.}
+\begin{table}[htbp]
+\centering
+\caption{Technology stack and justification}\label{tab:stack}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Layer} & \textbf{Technology} & \textbf{Justification}\\
+\midrule
+Frontend & \todo{React / Flutter\ldots} & \todo{...}\\
+Backend & \todo{Django / Node.js\ldots} & \todo{...}\\
+Database & \todo{PostgreSQL\ldots} & \todo{...}\\
+AI/ML & \todo{PyTorch / TensorFlow\ldots} & \todo{...}\\
+Hosting & \todo{AWS / Render\ldots} & \todo{...}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{AI-integration Architecture}
+\guide{Show how the AI model is integrated: data pipeline, training pipeline, model registry/storage, inference service (REST/gRPC/embedded), API calls to external LLMs, monitoring, and fallback behaviour.}
+\figplaceholder{ai_architecture.png}{AI-integration architecture}{fig:aiarch}
+
+\section{CI/CD Pipeline}
+\guide{Describe your CI/CD tools (GitHub Actions, GitLab CI, Jenkins\ldots) and pipeline stages: lint $\rightarrow$ build $\rightarrow$ unit test $\rightarrow$ integration test $\rightarrow$ security scan $\rightarrow$ package $\rightarrow$ deploy. Include a pipeline diagram and a snippet of the workflow file.}
+\begin{lstlisting}[language=bash,caption={Example GitHub Actions workflow (\texttt{.github/workflows/ci.yml})},label={lst:ci}]
+name: CI
+on: [push, pull_request]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt
+      - run: pytest --cov=app
+\end{lstlisting}
+
+\section{Git Management (Version Controlling)}
+\guide{Branching strategy (e.g.\ Git Flow / trunk-based), branch naming, commit message convention, pull-request and code-review rules, protected branches, tagging/releases, and a screenshot of the commit graph/contribution statistics. Give the repository URL.}
+\todo{Describe the Git workflow.}

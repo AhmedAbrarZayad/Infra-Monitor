@@ -1,0 +1,73 @@
+\chapter{Design}\label{ch:design}
+
+\section{High-Level Design (HLD) [Component Level Design]}
+\guide{Major components, their responsibilities and interfaces; design patterns used (Factory, Observer, Singleton, Strategy, Repository\ldots) with the reason and a small UML snippet for each.}
+\figplaceholder{component_diagram.png}{Component diagram}{fig:component}
+
+\section{Low-Level Design (LLD)}
+\guide{Detailed design of individual modules: algorithms, data structures, pseudocode, state diagrams.}
+\begin{algorithm}[htbp]
+\caption{Example: input validation algorithm}\label{alg:example}
+\begin{algorithmic}[1]
+\Require uploaded file $f$
+\Ensure \textsc{Valid} or \textsc{Invalid}
+\If{extension$(f) \notin \{\text{jpg, png}\}$}
+  \State \Return \textsc{Invalid}
+\EndIf
+\State \Return \textsc{Valid}
+\end{algorithmic}
+\end{algorithm}
+
+\section{Database Schema (ER Diagram \& Schema)}
+\guide{ER diagram, table structures (with data types), primary/foreign keys, relationships, indexes and normalisation (show up to 3NF/BCNF).}
+\figplaceholder{er_diagram.png}{Entity--Relationship diagram}{fig:er}
+\begin{table}[htbp]
+\centering
+\caption{Schema of table \texttt{users}}\label{tab:schema_users}
+\begin{tabularx}{\textwidth}{@{}l l l X@{}}
+\toprule
+\textbf{Column} & \textbf{Type} & \textbf{Key} & \textbf{Description}\\
+\midrule
+id & INT & PK & Unique user id\\
+email & VARCHAR(100) & UNIQUE & Login e-mail\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{GUI (Graphical User Interface) Design}
+\guide{Wireframes (Figma, Balsamiq), mockups and final screens with explanations of navigation and usability decisions.}
+\figplaceholder{gui_wireframe.png}{Wireframe of the main screen}{fig:gui}
+
+\section{API Documentation}
+\guide{List ALL APIs: endpoint, method, parameters, request/response examples, status codes, authentication. Export from Swagger/OpenAPI or Postman if possible.}
+\begin{table}[htbp]
+\centering
+\caption{API summary}\label{tab:api}
+\begin{tabularx}{\textwidth}{@{}l l X X@{}}
+\toprule
+\textbf{Method} & \textbf{Endpoint} & \textbf{Description} & \textbf{Auth}\\
+\midrule
+POST & \texttt{/api/v1/login} & User login & No\\
+GET  & \texttt{/api/v1/items} & List items & Bearer token\\
+\bottomrule
+\end{tabularx}
+\end{table}
+\begin{lstlisting}[language=Python,caption={Sample request/response (JSON)},label={lst:api}]
+POST /api/v1/login
+{ "email": "user@example.com", "password": "********" }
+
+200 OK
+{ "token": "eyJhbGciOi...", "expires_in": 3600 }
+\end{lstlisting}
+
+\section{AI Model Design \& Integration}
+\guide{Model choice and justification, dataset (source, size, split, pre-processing), architecture/hyper-parameters, training setup, evaluation metrics and results, how the model is exposed to the application (API/embedded), prompt design for LLMs, and handling of failures/uncertainty.}
+\todo{Describe the AI model design.}
+
+\section{Test Plan}
+\subsection{Test Strategy and Approaches}
+\guide{Levels of testing (unit, integration, system, acceptance), test types (functional, performance, security, AI-specific), tools, environments, entry/exit criteria, roles and schedule.}
+\todo{Describe the test strategy.}
+\subsection{Test Case Design/Preparation (High-Level or Sample Test Cases)}
+\guide{Give sample/high-level test cases here. Full detailed cases go to \Cref{ch:test} and Appendix~B.}
+\todo{Provide sample test cases.}
