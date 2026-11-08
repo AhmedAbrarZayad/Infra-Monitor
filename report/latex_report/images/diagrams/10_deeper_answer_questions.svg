@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2125" height="434" viewBox="0 0 2125 434">
+<rect width="100%" height="100%" fill="#fff"/>
+<defs><marker id="arr" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,1 L11,6 L0,11 Z" fill="#000"/></marker></defs>
+<text x="1062.5" y="34" font-family="DejaVu Sans, Verdana, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#000">Deeper Level – Answer Incident Questions</text>
+<g transform="translate(20,70)">
+<path d="M140.0,62.0 L175.0,62.0 L175.0,90.0 L422.6,90.0 L422.6,68.0 L457.6,68.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M457.6,44.0 L140.0,44.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M647.5,68.0 L682.5,68.0 L682.5,175.0 L931.1,175.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1157.5,146.0 L1192.5,146.0 L1192.5,101.0 L1454.1,101.0 L1454.1,68.0 L1492.9,68.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1655.4,68.0 L1694.1,68.0 L1694.1,90.0 L1909.8,90.0 L1909.8,62.0 L1944.8,62.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1944.8,44.0 L1655.4,44.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1489.1,193.0 L1192.5,193.0 L1192.5,185.0 L1157.5,185.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1157.5,165.0 L1214.5,165.0 L1214.5,147.0 L1454.1,147.0 L1454.1,177.0 L1489.1,177.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1489.1,301.0 L1192.5,301.0 L1192.5,204.0 L1157.5,204.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1492.9,44.0 L1334.3,44.0 L794.3,44.0 L647.5,44.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<rect x="20" y="25" width="120" height="56" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="80" y="58.6">User</tspan></text>
+<rect x="1944.8" y="25" width="120" height="56" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="2004.8" y="58.6">Gemini</tspan></text>
+<rect x="457.58" y="20" width="189.92" height="72" rx="12" ry="12" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="552.54" y="51.2">Receive question</tspan><tspan x="552.54" y="72.0">and check access</tspan></text>
+<rect x="931.14" y="126" width="226.39999999999998" height="98" rx="12" ry="12" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1044.34" y="170.2">Gather incident</tspan><tspan x="1044.34" y="191.0">evidence and history</tspan></text>
+<rect x="1492.86" y="20" width="162.56" height="72" rx="12" ry="12" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1574.1399999999999" y="51.2">Prepare and</tspan><tspan x="1574.1399999999999" y="72.0">stream answer</tspan></text>
+<rect x="1489.1399999999999" y="162" width="170" height="46" fill="#fff" stroke="none"/>
+<line x1="1489.1399999999999" y1="162" x2="1659.1399999999999" y2="162" stroke="#000" stroke-width="1.8"/>
+<line x1="1489.1399999999999" y1="208" x2="1659.1399999999999" y2="208" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1574.1399999999999" y="190.6">Message store</tspan></text>
+<rect x="1489.1399999999999" y="278" width="170" height="46" fill="#fff" stroke="none"/>
+<line x1="1489.1399999999999" y1="278" x2="1659.1399999999999" y2="278" stroke="#000" stroke-width="1.8"/>
+<line x1="1489.1399999999999" y1="324" x2="1659.1399999999999" y2="324" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1574.1399999999999" y="306.6">Incident store</tspan></text>
+<rect x="210" y="78" width="177.57999999999998" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="298.78999999999996" y="94.0">question and incident</tspan></text>
+<rect x="269.85" y="32" width="57.879999999999995" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="298.79" y="48.0">answer</tspan></text>
+<rect x="717.5" y="163" width="153.64" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="794.3199999999999" y="179.0">authorized request</tspan></text>
+<rect x="1249.54" y="89" width="169.6" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1334.34" y="105.0">evidence and history</tspan></text>
+<rect x="1729.1399999999999" y="78" width="145.66" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1801.9699999999998" y="94.0">incident question</tspan></text>
+<rect x="1729.1399999999999" y="32" width="145.66" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1801.9699999999998" y="48.0">advisory response</tspan></text>
+<rect x="1249.54" y="181" width="169.6" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1334.34" y="197.0">conversation history</tspan></text>
+<rect x="1249.54" y="135" width="169.6" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1334.34" y="151.0">conversation history</tspan></text>
+<rect x="1265.5" y="289" width="137.68" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1334.34" y="305.0">incident details</tspan></text>
+<rect x="1015.4" y="32" width="57.879999999999995" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1044.34" y="48.0">answer</tspan></text>
+</g></svg>

@@ -1,0 +1,51 @@
+\chapter{Complete Test Cases (Detailed Tables)}
+
+All system-level test cases from Chapter~7 are reproduced here in their full
+form for reference.  Additional edge-case tests are included below.
+
+\small\setlength{\tabcolsep}{3pt}
+\begin{longtable}{|l|p{2.4cm}|p{3cm}|p{1.6cm}|p{2cm}|p{2cm}|p{1.3cm}|}
+\caption{Complete test case table (all modules)}\label{tab:fulltc}\\
+\hline
+\textbf{ID} & \textbf{Scenario} & \textbf{Steps} & \textbf{Data} & \textbf{Expected} & \textbf{Actual} & \textbf{Status}\\ \hline
+\endfirsthead
+\hline \textbf{ID} & \textbf{Scenario} & \textbf{Steps} & \textbf{Data} & \textbf{Expected} & \textbf{Actual} & \textbf{Status}\\ \hline
+\endhead
+TC-AUTH-01 & Register valid & POST /register & valid email+pwd & 201 & 201 & Pass \\ \hline
+TC-AUTH-02 & Register duplicate & POST /register same email & dup email & 400 & 400 & Pass \\ \hline
+TC-AUTH-03 & Login no verify & POST /login unverified & unverified acct & 403 & 403 & Pass \\ \hline
+TC-AUTH-04 & Login correct & POST /login correct & valid creds & 200+JWT & 200 & Pass \\ \hline
+TC-AUTH-05 & Login wrong pwd & POST /login bad pwd & wrong pwd & 401 & 401 & Pass \\ \hline
+TC-AUTH-06 & Token refresh & POST /token/refresh/ & valid refresh & 200+access & 200 & Pass \\ \hline
+TC-AUTH-07 & Logout blacklist & Logout then refresh & blacklisted & 401 on refresh & 401 & Pass \\ \hline
+TC-AUTH-08 & Password reset & forgot $\to$ OTP $\to$ reset & valid OTP & 200 & 200 & Pass \\ \hline
+TC-ORG-01 & Create org & POST /organizations/ & name, summary & 201+OWNER & 201 & Pass \\ \hline
+TC-ORG-02 & Join org & POST /organizations/<id>/members/ & valid org & 201+pending & 201 & Pass \\ \hline
+TC-ORG-03 & Approve member & PATCH membership & Owner JWT & 200+approved & 200 & Pass \\ \hline
+TC-ORG-04 & Non-owner approve & PATCH by engineer & Eng JWT & 403 & 403 & Pass \\ \hline
+TC-ORG-05 & Dup membership & Join same org twice & same user & 400 & 400 & Pass \\ \hline
+TC-SRV-01 & Create server & POST /servers/ & name, hostname & 201 & 201 & Pass \\ \hline
+TC-SRV-02 & Dup hostname & Create server twice same hostname & same hostname & 400 & 400 & Pass \\ \hline
+TC-SRV-03 & Enroll host & POST /monitoring/enroll/ & valid token & 200 & 200 & Pass \\ \hline
+TC-SRV-04 & Metric write & POST /api/metrics/write & protobuf payload & 204 & 204 & Pass \\ \hline
+TC-SRV-05 & Query metrics & GET /metrics/?metric=cpu & valid metric & 200+data & 200 & Pass \\ \hline
+TC-AI-01 & Create conversation & POST /assistant/conversations/ & anomaly\_id & 201 & 201 & Pass \\ \hline
+TC-AI-02 & Get WS ticket & POST /assistant/ws-ticket/ & conv\_id & 201+ticket & 201 & Pass \\ \hline
+TC-AI-03 & Expired ticket & WS connect expired ticket & expired & WS closed & WS closed & Pass \\ \hline
+TC-AI-04 & Ticket reuse & WS connect twice same ticket & reused & 2nd refused & Refused & Pass \\ \hline
+TC-AI-05 & Gemini unconfigured & Connect WS; no API key & no key & error frame & error frame & Pass \\ \hline
+TC-AI-06 & Prompt injection & Send malicious prompt & injection text & advisory only & advisory & Pass \\ \hline
+TC-SH-01 & Ingest log batch & POST /request-logs/ingest/ & 10 log lines & 201 & 201 & Pass \\ \hline
+TC-SH-02 & Classify RED batch & Trigger classify task & SQL injection path & zone=RED & RED & Pass \\ \hline
+TC-SH-03 & Analytics endpoint & GET /analytics/?hours=24 & Admin JWT & 200+zones & 200 & Pass \\ \hline
+TC-SH-04 & Admin verdict & POST /logs/<id>/verdict/ & confirmed\_threat & 200 & 200 & Pass \\ \hline
+TC-SH-05 & Threat suggestion & IP exceeds threshold & high RED count & suggestion created & Created & Pass \\ \hline
+TC-SH-06 & Accept suggestion & POST /action/ accept & Admin JWT & 200+ACCEPTED & 200 & Pass \\ \hline
+TC-SH-07 & Dismiss suggestion & POST /action/ dismiss & Admin JWT & 200+DISMISSED & 200 & Pass \\ \hline
+TC-SH-08 & Shield config update & PATCH /config/ enabled=false & Admin JWT & 200+disabled & 200 & Pass \\ \hline
+TC-SH-09 & Oversized batch & POST classify 501 vectors & 501 items & 400 & 400 & Pass \\ \hline
+TC-INC-01 & Create incident & POST /incidents/ & title, server, severity & 201 & 201 & Pass \\ \hline
+TC-INC-02 & Assign to engineer & PATCH incident assigned\_to & Engineer UUID & 200 & 200 & Pass \\ \hline
+TC-INC-03 & Assign non-engineer & PATCH assigned\_to admin & Admin UUID & 400 validation & 400 & Pass \\ \hline
+\end{longtable}
+

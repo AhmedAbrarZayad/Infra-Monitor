@@ -1,0 +1,308 @@
+\chapter{Project Management Plan}\label{ch:pm}
+
+\section{Project Organisation}
+
+The Infra Monitor project team consists of four members drawn from the
+CSE-356 cohort at CUET.  The team operates under a flat hierarchy with a
+rotating \textit{Scrum Master} role.  Communication channels include
+daily async stand-ups via WhatsApp, bi-weekly sprint review meetings, and
+GitHub Issues for task tracking.
+
+\begin{table}[htbp]
+\centering
+\caption{Team roles and responsibilities}\label{tab:roles}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Member} & \textbf{Primary Role} & \textbf{Responsibilities}\\
+\midrule
+Team Member 1 & Scrum Master / Backend Lead &
+  Django API design, authentication module, organisation management,
+  Celery task scheduling, Docker Compose orchestration\\
+Team Member 2 & ML Engineer / DevOps &
+  Isolation Forest model, Random Forest Request Shield, FastAPI ML service,
+  VictoriaMetrics integration, monitoring pipeline\\
+Team Member 3 & Frontend Lead / UI Designer &
+  Flutter application, all screen designs, navigation, state management,
+  WebSocket chatbot UI, screenshots\\
+Team Member 4 & QA / Documentation &
+  Test case design, security (VAPT), report writing, diagrams,
+  API documentation, incident and alert modules\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Individual Contribution to the Project}
+
+\begin{table}[htbp]
+\centering
+\caption{Individual contribution matrix}\label{tab:contrib}
+\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Member} &
+\makecell{\textbf{Req.}\\\textbf{Spec.}} &
+\textbf{Planning} & \textbf{Design} &
+\makecell{\textbf{Model}\\\textbf{Build}} &
+\makecell{\textbf{User}\\\textbf{Interface}} &
+\textbf{Testing} & \textbf{Deployment} & \textbf{Docs}\\
+\hline
+Team Member 1 & \cmark & \cmark & \cmark & & & & \cmark & \\ \hline
+Team Member 2 & \cmark & & \cmark & \cmark & & \cmark & \cmark & \\ \hline
+Team Member 3 & & & \cmark & & \cmark & \cmark & & \cmark \\ \hline
+Team Member 4 & \cmark & & & & & \cmark & & \cmark \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Process Model Used}
+
+The team adopted \textbf{Agile/Scrum} with 2-week sprints over 7 sprints
+(14~weeks total). Each sprint produced a working increment of the system,
+enabling continuous integration of feedback.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  box/.style={rectangle, draw=cuetblue, fill=cuetblue!10, rounded corners,
+              minimum width=2.8cm, minimum height=0.9cm, font=\small, align=center},
+  arrow/.style={-Stealth, thick, color=cuetblue}
+]
+  \node[box] (plan)   at (0,0)    {Sprint\\ Planning};
+  \node[box] (daily)  at (3.2,0)  {Daily\\ Stand-up};
+  \node[box] (dev)    at (6.4,0)  {Development\\ \& Testing};
+  \node[box] (review) at (9.6,0)  {Sprint\\ Review};
+  \node[box] (retro)  at (12.8,0) {Retrospective};
+  \draw[arrow] (plan) -- (daily);
+  \draw[arrow] (daily) -- (dev);
+  \draw[arrow] (dev) -- (review);
+  \draw[arrow] (review) -- (retro);
+  \draw[arrow] (retro.south) .. controls +(0,-1) and +(0,-1) .. (plan.south);
+\end{tikzpicture}
+\caption{Scrum sprint cycle used for Infra Monitor development}\label{fig:scrum}
+\end{figure}
+
+Sprint breakdown:
+\begin{itemize}
+  \item \textbf{Sprint 1--2:} Requirements, architecture design, database schema,
+        Django project scaffold, Docker Compose base stack.
+  \item \textbf{Sprint 3--4:} Authentication module, organisation CRUD, server enrolment,
+        VictoriaMetrics integration, Flutter skeleton.
+  \item \textbf{Sprint 5:} Anomaly detection ML service, alert and incident modules.
+  \item \textbf{Sprint 6:} Gemini chatbot (WebSocket), Request Shield classifier,
+        sanitize middleware.
+  \item \textbf{Sprint 7:} UAT, security hardening, documentation, final integration testing.
+\end{itemize}
+
+\subsection{Rationale for Choosing Lifecycle Model}
+
+Scrum was selected over Waterfall because:
+\begin{itemize}
+  \item Requirements evolved as the ML models were trained and the API shape
+        became clear---a fixed-plan model would have required costly rework.
+  \item The team had prior experience with GitHub-flow branching, which pairs
+        naturally with Scrum's iterative delivery.
+  \item Short sprints allowed the instructor to review working software at each
+        sprint review rather than waiting for a final demo \cite{pressman2019}.
+  \item Waterfall was rejected because it defers integration risk to the end;
+        Spiral was considered but its overhead (risk-driven prototyping) was
+        disproportionate for a 14-week academic project \cite{sommerville2016}.
+\end{itemize}
+
+\section{Risk Analysis}
+
+\begin{table}[htbp]
+\centering
+\caption{Risk analysis}\label{tab:risk}
+\begin{tabularx}{\textwidth}{@{}l X c c X@{}}
+\toprule
+\textbf{ID} & \textbf{Risk} & \textbf{Prob.} & \textbf{Impact} & \textbf{Mitigation}\\
+\midrule
+R1 & Team member unavailable due to illness/exam clash &
+  Med & High & Cross-training; shared Git branches; daily async updates\\
+R2 & Insufficient labeled data for Request Shield classifier &
+  High & High & Use CICIDS2017 public dataset; augment with admin-labeled
+  production logs; balanced class weights\\
+R3 & VictoriaMetrics cluster instability on dev hardware &
+  Med & Med & Health-check in Docker Compose; fallback to single-node
+  VictoriaMetrics if cluster fails\\
+R4 & Gemini API rate-limiting or quota exhaustion &
+  Low & High & Ticket-based rate throttle (\texttt{ai/throttles.py});
+  graceful ``gemini\_not\_configured'' error response\\
+R5 & Flutter WebSocket disconnect during chatbot session &
+  Med & Med & Auto-reconnect logic in Flutter client; server-side
+  ticket expiry 60s\\
+R6 & PostgreSQL migration conflict during team merge &
+  Med & Med & Squash migrations before merging to \texttt{main};
+  CI migration check (\texttt{makemigrations --check})\\
+R7 & Django security vulnerability in dependency &
+  Low & High & Pin versions in \texttt{requirements.txt};
+  \texttt{pip-audit} in CI pipeline\\
+R8 & Scope creep beyond academic timeline &
+  Med & Med & Product backlog prioritised by MoSCoW; defer stretch
+  features to Future Enhancements\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Constraints to Project Implementation}
+
+\begin{itemize}
+  \item \textbf{Schedule:} 14-week semester; hard deadline at week 14.
+  \item \textbf{Budget:} Zero allocated budget; all infrastructure runs locally
+        via Docker Compose or on personal hardware.
+  \item \textbf{Gemini API:} Free tier has a 15~RPM limit, restricting chatbot
+        load during demonstrations.
+  \item \textbf{Data:} The CICIDS2017 dataset is publicly available but labelled
+        for a different threat taxonomy; feature engineering was required to map
+        it to the 26-feature Request Shield schema.
+  \item \textbf{Skill:} Flutter was new to two team members; a learning spike of
+        one week was allocated in Sprint~1.
+  \item \textbf{Hardware:} Development and testing on personal laptops
+        (8--16~GB RAM); no dedicated GPU for ML training (CPU-only scikit-learn).
+\end{itemize}
+
+\section{Tools/Languages Requirements}
+
+\subsection{Hardware Requirements}
+
+\begin{table}[htbp]
+\centering
+\caption{Hardware requirements}\label{tab:hw}
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+\textbf{Component} & \textbf{Development} & \textbf{Deployment (minimum)}\\
+\midrule
+CPU    & Intel/AMD quad-core & 2 vCPUs\\
+RAM    & 16~GB (8~GB minimum) & 4~GB\\
+Storage & 50~GB SSD & 20~GB SSD\\
+Network & 100~Mbps & 10~Mbps (broadband)\\
+OS & Windows 11 / Ubuntu 22.04 & Ubuntu 22.04 LTS\\
+Docker & Docker Desktop 4.x & Docker Engine 24+\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Software Requirements}
+
+\begin{table}[htbp]
+\centering
+\caption{Software stack with versions}\label{tab:sw}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Category} & \textbf{Tool / Library} & \textbf{Version / Notes}\\
+\midrule
+Language (backend)  & Python & 3.12 (inferred from Django 6 requirement)\\
+Web framework       & Django & 6.0.6 (\texttt{requirements.txt})\\
+REST layer          & Django REST Framework & latest (\texttt{requirements.txt})\\
+JWT auth            & djangorestframework-simplejwt & latest\\
+Async gateway       & Daphne + Django Channels & latest (\texttt{requirements.txt})\\
+Task queue          & Celery + Redis & celery[redis] (\texttt{requirements.txt})\\
+Database            & PostgreSQL & 18 (\texttt{docker-compose.yml})\\
+Time-series DB      & VictoriaMetrics cluster & v1.150.0 (\texttt{docker-compose.yml})\\
+Metrics agent       & Grafana Alloy & latest (generated installer script)\\
+ML (anomaly)        & scikit-learn (IsolationForest) & latest\\
+ML (classifier)     & scikit-learn (RandomForest) & latest\\
+ML service framework & FastAPI & latest (\texttt{model/app/main.py})\\
+LLM API             & Google Gemini (google-genai) & latest (\texttt{requirements.txt})\\
+Push notifications  & Firebase Admin SDK & 7.5.0 (\texttt{requirements.txt})\\
+Frontend language   & Dart + Flutter & latest stable\\
+Linter/formatter    & Ruff & latest (\texttt{pyproject.toml})\\
+Containerisation    & Docker + Docker Compose & 24+\\
+Version control     & Git + GitHub & --\\
+IDE                 & VS Code / Android Studio & --\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Project Timeline and Schedule}
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{ganttchart}[hgrid, vgrid={*{1}{draw=none},dotted}, x unit=0.55cm,
+  y unit title=0.65cm, y unit chart=0.65cm,
+  title label font=\small, bar label font=\small,
+  bar/.append style={fill=cuetblue!70},
+  milestone/.append style={fill=cuetgold}]{1}{14}
+\gantttitle{Week}{14}\\
+\gantttitlelist{1,...,14}{1}\\
+\ganttbar{Requirements \& Architecture}{1}{2}\\
+\ganttbar{Database Design \& Scaffold}{2}{3}\\
+\ganttbar{Auth \& Org Module}{3}{5}\\
+\ganttbar{Server Enrolment \& VictoriaMetrics}{4}{6}\\
+\ganttbar{Anomaly Detection (ML Service)}{5}{7}\\
+\ganttbar{Alert \& Incident Module}{6}{8}\\
+\ganttbar{Flutter UI Development}{4}{10}\\
+\ganttbar{Gemini Chatbot (WebSocket)}{8}{10}\\
+\ganttbar{Request Shield Classifier}{9}{11}\\
+\ganttbar{Integration Testing \& UAT}{11}{12}\\
+\ganttbar{Security (VAPT) Testing}{12}{13}\\
+\ganttbar{Documentation \& Report}{12}{14}\\
+\ganttmilestone{Sprint Reviews (every 2 weeks)}{2}\\
+\ganttmilestone{}{4}\\
+\ganttmilestone{}{6}\\
+\ganttmilestone{}{8}\\
+\ganttmilestone{}{10}\\
+\ganttmilestone{}{12}\\
+\ganttmilestone{Final Submission}{14}
+\end{ganttchart}}
+\caption{Project timeline (Gantt chart) over 14 weeks}\label{fig:gantt}
+\end{figure}
+
+\section{Estimated Budget}
+
+\begin{table}[htbp]
+\centering
+\caption{Estimated project budget}\label{tab:budget}
+\begin{tabularx}{\textwidth}{@{}X l r r@{}}
+\toprule
+\textbf{Item} & \textbf{Unit} & \textbf{Qty} & \textbf{Cost (BDT)}\\
+\midrule
+Google Gemini API (free tier) & month & 6 & 0\\
+VictoriaMetrics (self-hosted) & -- & -- & 0\\
+PostgreSQL, Redis (open source) & -- & -- & 0\\
+Docker Desktop (personal licence) & month & 6 & 0\\
+Local server electricity (100W $\times$ 24h $\times$ 42 days) & kWh & 100.8 & \assumed{1,100~BDT at 11~BDT/kWh}\\
+GitHub (free tier) & month & 6 & 0\\
+Domain name (not yet registered) & year & 0 & 0\\
+Human effort (4 members $\times$ 10h/week $\times$ 14 weeks) & hours & 560 & \assumed{0 (academic work)}\\
+\midrule
+\multicolumn{3}{@{}l}{\textbf{Total out-of-pocket}} & \textbf{\assumed{$\approx$1,100~BDT}}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Technological, Societal, \& Environmental Impact of the Project}
+
+\textbf{Positive impacts:}
+\begin{itemize}
+  \item \textit{Technological:} Demonstrates how open-source components
+        (VictoriaMetrics, Grafana Alloy, Django, Flutter) can replace
+        proprietary SaaS monitoring at near-zero cost.  The Request Shield
+        contributes a reusable ML-based WAF component to the community.
+  \item \textit{Societal:} Small organisations, NGOs, and academic institutions
+        in Bangladesh that cannot afford Datadog or New Relic can adopt Infra
+        Monitor to protect their infrastructure from outages and intrusions.
+  \item \textit{Economic:} Reducing MTTD from hours to minutes directly reduces
+        revenue loss during outages and analyst toil.
+  \item \textit{Security:} The Request Shield and VAPT-tested API reduce attack
+        surface for adopters, improving the security posture of the broader
+        ecosystem.
+\end{itemize}
+
+\textbf{Negative / risk considerations:}
+\begin{itemize}
+  \item \textit{Environmental:} Running the full Docker Compose stack (8
+        containers) on-premise consumes approximately 100--150~W continuously,
+        increasing the adopter's carbon footprint; cloud deployment would
+        improve utilisation via shared infrastructure.
+  \item \textit{Privacy:} The system ingests server access logs that may
+        contain IP addresses of real users; organisations must ensure GDPR-
+        or local data-protection compliance when deploying.
+  \item \textit{AI bias:} The CICIDS2017 dataset reflects 2017 attack patterns;
+        novel attack vectors unseen during training may be misclassified as
+        GREEN, creating false confidence.
+  \item \textit{Dependence:} Teams relying on the Gemini API for diagnostics
+        would lose that capability during outages or quota exhaustion; fallback
+        documentation must be maintained.
+\end{itemize}
+

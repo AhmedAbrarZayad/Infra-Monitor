@@ -1,0 +1,152 @@
+\chapter{Sustainability Plan \& Ethical Considerations}\label{ch:sustain}
+
+\section{Scalability}
+
+\textbf{Current bottlenecks and mitigations:}
+
+\begin{table}[htbp]
+\centering
+\caption{Scalability analysis}\label{tab:scalability}
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+\textbf{Component} & \textbf{Potential Bottleneck} & \textbf{Mitigation Strategy}\\
+\midrule
+Django backend &
+  Single-process Daphne struggles under high WebSocket concurrency &
+  Run multiple Daphne workers behind Nginx; deploy behind Kubernetes
+  HorizontalPodAutoscaler in future\\
+PostgreSQL &
+  Write throughput for RequestLog ingestion at high volume &
+  Partition \texttt{RequestLog} by timestamp; migrate to PostgreSQL
+  read replicas for analytics queries\\
+VictoriaMetrics &
+  Storage node disk exhaustion as more servers are enrolled &
+  Cluster architecture (vmstorage+vminsert+vmselect) already supports
+  horizontal storage scaling; add vmstorage nodes\\
+Celery &
+  Task queue depth grows if classify interval is too short &
+  Add more Celery workers; tune
+  \texttt{REQUEST\_SHIELD\_CLASSIFY\_BATCH\_SIZE}\\
+ML microservice &
+  CPU-bound inference under large request volumes &
+  Deploy multiple ML service replicas; introduce model caching (joblib
+  loaded once at startup, already implemented)\\
+Redis &
+  Memory exhaustion as Celery results accumulate &
+  Set \texttt{CELERY\_RESULT\_EXPIRES} TTL; migrate to Redis Cluster\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Horizontal scaling path:} The stateless nature of the Django backend
+and ML microservice allows horizontal scaling via container orchestration
+(Kubernetes Deployment with replicas).  VictoriaMetrics cluster already
+supports horizontal storage scaling.  A future Kubernetes manifest is
+planned for the production deployment.
+
+\section{Flexibility / Customization}
+
+\begin{itemize}
+  \item \textbf{Environment-driven configuration:} All tuneable parameters
+        (batch size, intervals, Gemini model name, JWT TTLs, VictoriaMetrics
+        retention period) are exposed as environment variables in
+        \texttt{docker-compose.yml} and loaded via Django settings, requiring
+        no code changes to adjust.
+  \item \textbf{Modular Django apps:} Each domain (alerts, incidents,
+        anomaly detection, Request Shield) is a separate Django app with its
+        own models, URLs, and service layer.  New monitoring domains can be
+        added without modifying existing apps.
+  \item \textbf{Pluggable ML models:} The ML microservice exposes a stable
+        \texttt{/train/} and \texttt{/classify/} API; the underlying model
+        can be swapped from scikit-learn to XGBoost, LightGBM, or a neural
+        network without changing the Django integration code.
+  \item \textbf{Feature schema versioning:}
+        \texttt{REQUEST\_SHIELD\_ARTIFACT\_FORMAT\_VERSION} ensures
+        backward-incompatible feature schema changes are caught at load time.
+  \item \textbf{Multi-tenancy:} VictoriaMetrics tenant isolation
+        (\texttt{VictoriaMetricsTenant} model) allows each organisation's
+        metrics to be physically separated, enabling future per-org retention
+        policies or data export.
+  \item \textbf{Firebase / notification flexibility:} The
+        \texttt{notifications} app abstracts device token registration;
+        switching from Firebase to another push provider requires only
+        changes to the notification dispatch function.
+\end{itemize}
+
+\section{Maintainability and Future Enhancements}
+
+\textbf{Maintenance plan:}
+\begin{itemize}
+  \item \textbf{Dependency updates:} Monthly review of \texttt{pip-audit}
+        and \texttt{flutter pub outdated} output; apply security patches
+        within 48 hours.
+  \item \textbf{Model retraining:} When admin-labeled production request logs
+        exceed 10\% of original CICIDS2017 training set, trigger a retraining
+        run via the admin API.
+  \item \textbf{Database migrations:} All schema changes via Django
+        \texttt{makemigrations}; \texttt{makemigrations --check} run in CI.
+  \item \textbf{Documentation:} \texttt{docs/} folder maintained with
+        architecture decisions; API changes documented in CHANGELOG.
+\end{itemize}
+
+\textbf{Planned future enhancements:}
+
+\begin{enumerate}
+  \item \textbf{Kubernetes deployment manifests} -- Helm chart for one-command
+        cloud deployment to GKE, EKS, or AKS.
+  \item \textbf{Grafana Alloy federation} -- Support multiple Alloy agents
+        per server for high-availability metric collection.
+  \item \textbf{Log-based anomaly detection} -- Extend the ML pipeline to
+        apply anomaly detection to operational log streams, not just metric
+        windows.
+  \item \textbf{Automated rate limiting} -- Integrate Django REST Framework
+        throttling for login endpoints to mitigate brute-force attacks (V-07).
+  \item \textbf{Runbook integration} -- Allow organisation admins to upload
+        service-specific runbooks that are injected into the Gemini system
+        prompt, improving diagnostic relevance.
+  \item \textbf{SSO / SAML integration} -- Enterprise single sign-on support
+        for organisations with existing identity providers.
+  \item \textbf{Mobile push for critical alerts} -- FCM push notifications
+        for CRITICAL/HIGH severity alerts, not just incident assignments.
+  \item \textbf{UI test automation} -- Flutter integration tests covering
+        the registration, dashboard, and chatbot flows.
+\end{enumerate}
+
+\section{Ethical Considerations}
+
+\begin{itemize}
+  \item \textbf{Data minimisation:} The Request Shield captures HTTP access
+        logs including IP addresses, paths, and user agents.  Organisations
+        deploying the platform should inform their users of this data
+        collection in their privacy policy, in accordance with GDPR and the
+        applicable Bangladeshi data protection framework.
+
+  \item \textbf{AI transparency:} The Gemini chatbot's advisory nature is
+        disclosed in the UI; responses are framed as suggestions requiring
+        human validation.  The system prompt explicitly prohibits the model
+        from claiming authority it does not have.
+
+  \item \textbf{Bias and fairness:} The CICIDS2017 dataset reflects 2017
+        traffic patterns from a specific lab environment.  The classifier
+        may exhibit bias against traffic patterns that were novel in 2017
+        but are now common (e.g., HTTP/2, modern browser fingerprints).
+        Administrators are advised to review GRAY-zone classification results
+        regularly and supplement training data with organisation-specific
+        labeled logs.
+
+  \item \textbf{Human oversight:} The Request Shield does \textit{not}
+        automatically block IP addresses.  The ThreatSuggestion workflow
+        requires explicit admin acceptance before any action is taken,
+        preserving human oversight for all security decisions.
+
+  \item \textbf{Environmental responsibility:} The team considered energy
+        usage of continuous background ML inference (Celery tasks every
+        30--120 seconds).  Interval settings can be tuned to reduce CPU
+        usage on constrained hardware.
+
+  \item \textbf{Responsible disclosure:} Any security vulnerabilities
+        discovered in the platform should be reported via the GitHub security
+        advisory mechanism before public disclosure, following coordinated
+        vulnerability disclosure principles.
+\end{itemize}
+

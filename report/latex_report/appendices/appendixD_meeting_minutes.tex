@@ -1,0 +1,49 @@
+\chapter{Meeting Minutes / Progress Logs}
+
+\textit{Note: Formal meeting minutes were not recorded during the sprint cycle.
+The following progress log is reconstructed from the Git commit history
+and WhatsApp group messages.  All entries marked \assumed{ASSUMED} are
+reconstructed and should be confirmed with actual records before submission.}
+
+\begin{table}[htbp]
+\centering
+\caption{Sprint progress log (reconstructed from Git history)}\label{tab:meetings}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Week} & \textbf{Sprint} & \textbf{Activities / Decisions}\\
+\midrule
+1--2  & Sprint 1 &
+  \assumed{Team kickoff; requirements analysis; architecture decision (Layered+Microservice);
+  agreed on Django+Flutter+VictoriaMetrics stack; created GitHub repository;
+  initial Docker Compose skeleton committed.}\\
+3--4  & Sprint 2 &
+  \assumed{Database schema design; Django project scaffold; PostgreSQL container
+  connected; initial accounts app with registration and OTP flow implemented;
+  JWT integration complete.}\\
+5--6  & Sprint 3 &
+  \assumed{Organisation management API (CRUD, RBAC); server registration module;
+  Grafana Alloy installer generation; VictoriaMetrics cluster integrated;
+  Flutter skeleton UI with navigation started.}\\
+7--8  & Sprint 4 &
+  \assumed{Alert and incident modules complete; Celery worker integrated;
+  anomaly detection ML service (FastAPI) skeleton; IsolationForest training
+  pipeline; Flutter alert and incident screens.}\\
+9--10 & Sprint 5 &
+  \assumed{Gemini chatbot (WebSocket, ticket auth); AI advisory conversation
+  UI in Flutter; Request Shield Random Forest classifier; sanitize middleware;
+  batch classification Celery task.}\\
+11--12 & Sprint 6 &
+  \assumed{Full end-to-end integration testing; sanitize-e2e.ps1 script;
+  VAPT security review; Flutter Request Shield screens (analytics, logs,
+  suggestions); Firebase push notifications.}\\
+13--14 & Sprint 7 &
+  \assumed{UAT with 3 users; bug fixes from UAT feedback; report writing;
+  diagram finalisation; LaTeX report compilation; submission preparation.}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textit{Recommendation: Attach actual WhatsApp screenshots or formal meeting
+minutes to this appendix before submission.  Replace \assumed{ASSUMED} entries
+with real records.}
+

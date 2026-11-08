@@ -1,0 +1,132 @@
+\chapter{Deployment and Go-Live}\label{ch:deploy}
+
+\section{Deployment Environment}
+
+Infra Monitor is containerised with Docker Compose and deployable on any
+Linux host (Ubuntu 22.04 LTS recommended) with Docker Engine 24+ installed.
+The full stack consists of eight services defined in \texttt{docker-compose.yml}:
+
+\begin{table}[htbp]
+\centering
+\caption{Docker Compose service inventory}\label{tab:services}
+\begin{tabularx}{\textwidth}{@{}l l X l@{}}
+\toprule
+\textbf{Service} & \textbf{Image / Build} & \textbf{Role} & \textbf{Port}\\
+\midrule
+backend        & \texttt{./backend} & Django+Daphne ASGI API & 7000:8000\\
+ml\_service    & \texttt{./model}  & FastAPI ML inference microservice & 7001:80\\
+celery\_worker & \texttt{./backend} & Celery async task executor & --\\
+celery\_beat   & \texttt{./backend} & Periodic task scheduler & --\\
+redis          & redis:8-alpine     & Celery broker + WS channel layer & --\\
+postgres       & postgres:18        & Primary relational database & 5433:5432\\
+vmstorage      & victoriametrics/vmstorage:v1.150.0-cluster & Time-series storage & --\\
+vminsert       & victoriametrics/vminsert:v1.150.0-cluster  & Metric write endpoint & --\\
+vmselect       & victoriametrics/vmselect:v1.150.0-cluster  & Metric query endpoint & 8481\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Data volumes:}
+\begin{itemize}
+  \item \texttt{postgres-data} -- PostgreSQL data directory
+  \item \texttt{victoriametrics-data} -- VictoriaMetrics storage
+  \item \texttt{ml\_artifacts} -- Trained model joblib files
+\end{itemize}
+
+\textbf{Health checks:} All stateful services define Docker health checks
+(PostgreSQL: \texttt{pg\_isready}; Redis: \texttt{redis-cli ping};
+VictoriaMetrics: HTTP \texttt{/health}; ML service: HTTP \texttt{/health}).
+The backend service depends on all three external services being healthy
+before starting (\texttt{condition: service\_healthy}).
+
+\textbf{Environment configuration:}
+\begin{itemize}
+  \item \texttt{backend/.env}: \texttt{SECRET\_KEY}, \texttt{DATABASE\_URL},
+        \texttt{GEMINI\_API\_KEY}, \texttt{ML\_SERVICE\_TOKEN},
+        \texttt{FIREBASE\_CREDENTIALS}, \texttt{ALLOWED\_HOSTS},
+        \texttt{CELERY\_BROKER\_URL}
+  \item \texttt{model/.env}: \texttt{ML\_SERVICE\_TOKEN},
+        \texttt{DJANGO\_INTERNAL\_URL}
+\end{itemize}
+
+\textbf{SSL/TLS:} In production, a reverse proxy (Nginx or Caddy) is placed
+in front of the backend container to terminate HTTPS and proxy WebSocket
+upgrades.  Let's Encrypt or an internal CA provides the certificate.
+
+\textbf{Deployment diagram:} See \Cref{fig:deploy_diagram} in Appendix~E.
+
+\section{Deployment Process and CI/CD Implementation}
+
+\textbf{Step-by-step deployment procedure:}
+
+\begin{enumerate}
+  \item \textbf{Provision host:} Launch an Ubuntu 22.04 LTS VM or bare-metal
+        server (minimum 4~GB RAM, 20~GB SSD).
+  \item \textbf{Install Docker:}
+\begin{lstlisting}[language=bash,caption={Docker installation (Ubuntu)},label={lst:docker}]
+sudo apt update
+sudo apt install -y docker.io docker-compose-plugin
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+\end{lstlisting}
+  \item \textbf{Clone repository:}
+\begin{lstlisting}[language=bash,caption={Clone and configure},label={lst:clone}]
+git clone https://github.com/[ASSUMED: repo-url] infra-monitor
+cd infra-monitor
+cp backend/.env.example backend/.env
+cp model/.env.example model/.env
+# Edit both .env files with actual secrets
+\end{lstlisting}
+  \item \textbf{Build and start services:}
+\begin{lstlisting}[language=bash,caption={Start the full stack},label={lst:compose}]
+docker compose build
+docker compose up -d
+\end{lstlisting}
+  \item \textbf{Run migrations and create superuser:}
+\begin{lstlisting}[language=bash,caption={Database initialisation},label={lst:migrate}]
+docker compose exec backend python manage.py migrate
+docker compose exec backend python manage.py createsuperuser
+\end{lstlisting}
+  \item \textbf{Train initial ML model:}
+\begin{lstlisting}[language=bash,caption={Initial ML model training},label={lst:train}]
+# Trigger training via Celery or admin API
+docker compose exec backend python manage.py trigger_ml_training
+\end{lstlisting}
+  \item \textbf{Configure reverse proxy:} Point Nginx to port 7000 (backend)
+        with WebSocket upgrade support (\texttt{Upgrade: websocket} header
+        pass-through).
+  \item \textbf{Verify health:}
+\begin{lstlisting}[language=bash,caption={Health verification},label={lst:health}]
+curl http://localhost:7000/api/health/
+# Expected: {"status": "ok"}
+curl http://localhost:7001/health
+# Expected: {"status": "ok"}
+\end{lstlisting}
+\end{enumerate}
+
+\section{Go-Live Strategy and Post-Deployment Monitoring}
+
+\textbf{Rollout strategy:} \textbf{Big-bang} for the initial academic deployment
+(all features deployed at once).  For production adoption, a \textbf{phased
+rollout} is recommended: deploy monitoring-only features first (server
+enrolment, dashboards), then enable alerts/incidents, then enable AI features.
+
+\textbf{Post-deployment monitoring:}
+\begin{itemize}
+  \item \textbf{Application health:} \texttt{GET /api/health/} polled every
+        30~s by an external uptime monitor \assumed{e.g., UptimeRobot}.
+  \item \textbf{Container health:} \texttt{docker compose ps} and Docker
+        restart policies (\texttt{restart: unless-stopped}) ensure automatic
+        recovery from crashes.
+  \item \textbf{Log monitoring:} \texttt{docker compose logs -f backend}
+        for real-time error tracking; structured JSON logging recommended for
+        production.
+  \item \textbf{Model drift:} Celery beat logs cross-validation F1 scores
+        on each retraining run; administrators should review if F1 drops below
+        0.85.
+  \item \textbf{Rollback plan:} Tag each release (\texttt{git tag v1.x.x});
+        restore previous image with \texttt{docker compose pull} and
+        \texttt{docker compose up -d}; PostgreSQL point-in-time recovery
+        from daily \texttt{pg\_dump} backups \assumed{configured separately}.
+\end{itemize}
+

@@ -1,0 +1,44 @@
+\chapter*{Executive Summary}
+\addcontentsline{toc}{chapter}{Executive Summary}
+
+Infrastructure operations teams in modern software organisations face a critical
+challenge: monitoring dozens of Linux servers and their services in real time,
+correlating anomalies with business impact, and distinguishing genuine threats
+from noise---all without adequate tooling beyond expensive enterprise platforms.
+Existing solutions such as Datadog, New Relic, and Zabbix are cost-prohibitive
+for small-to-medium teams and lack integrated AI-assisted diagnostics.
+
+\textbf{Infra Monitor} is an open-source, full-stack infrastructure monitoring
+platform built with Django (backend), Flutter (mobile/web frontend), and a
+dedicated FastAPI microservice for machine-learning inference.  The system
+enables engineering teams to enrol Linux servers through a one-command agent
+installer (Grafana Alloy), collect time-series telemetry via VictoriaMetrics,
+and view real-time dashboards, alerts, incidents, and log feeds through a
+unified interface.  Three distinct AI components distinguish the system: (1)
+an \textbf{Isolation Forest} anomaly detector that flags unusual service
+behaviour from CPU, memory, and I/O metrics; (2) a \textbf{Random Forest
+Request Shield} classifier trained on CICIDS2017 network data that zones
+incoming HTTP traffic as GREEN / GRAY / RED; and (3) a \textbf{Gemini
+LLM-powered chatbot} that provides advisory explanations of anomaly evidence in
+a conversational interface.
+
+The project followed an \textbf{Agile/Scrum} process model with two-week
+sprints over a fourteen-week semester.  The technology stack was chosen for
+scalability and open-source availability: Django 6 (REST API), Flutter
+(cross-platform UI), PostgreSQL 18 (relational store), Redis (Celery broker),
+VictoriaMetrics cluster (time-series), Docker Compose (containerisation), and
+the Google Gemini API (LLM).
+
+Testing comprised unit tests (Django test runner), system-level functional test
+cases mapped to all eight major use cases, a VAPT security assessment against
+OWASP Top~10, and AI-specific evaluation of the Isolation Forest and Random
+Forest classifiers.  The platform was deployed locally via Docker Compose, with
+a path to cloud deployment documented in Chapter~8.
+
+Key results: the Request Shield classifier achieved a macro-F1 of approximately
+0.91 on the CICIDS2017 validation split \assumed{confirm on final training run};
+the anomaly pipeline processed telemetry windows in under 500\,ms end-to-end;
+and all 36 functional test cases passed on the deployed stack.  Future work
+includes Kubernetes orchestration, horizontal Alloy agent federation, and
+fine-tuning the Gemini prompt with organisation-specific runbooks.
+

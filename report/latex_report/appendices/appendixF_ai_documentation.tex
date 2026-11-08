@@ -1,0 +1,106 @@
+\chapter{AI Model Documentation / Training Details}
+
+\section*{F.1 Isolation Forest Anomaly Detector -- Model Card}
+
+\begin{table}[htbp]
+\centering
+\caption{Isolation Forest model card}\label{tab:isoforest_card}
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Field} & \textbf{Value}\\
+\midrule
+\textbf{Model name} & Infra Monitor Anomaly Detector\\
+\textbf{Model type} & sklearn.ensemble.IsolationForest\\
+\textbf{Version scheme} & Stored in \texttt{model/artifacts/} with \texttt{metadata.json} version key\\
+\textbf{Intended use} & Detecting anomalous behaviour in Linux service metric windows\\
+\textbf{Out-of-scope} & Predicting crash time; root-cause analysis; network threat detection\\
+\textbf{Input features} & Per-service rolling window metrics: CPU usage \%, memory usage \%,
+  disk I/O bytes/s, network I/O bytes/s (window size configurable via
+  \texttt{ML\_INFERENCE\_WINDOW\_SECONDS})\\
+\textbf{Training data} & Historical ``normal'' service metric windows from enrolled servers;
+  collected unsupervised (no anomaly labels required)\\
+\textbf{Training algorithm} & IsolationForest; \texttt{random\_state=42};
+  contamination=\tofill{configured value}\\
+\textbf{Evaluation} & Precision, recall on synthetic anomaly windows (held-out);
+  \tofill{Fill results after running eval script}\\
+\textbf{Inference latency} & \assumed{$<$50\,ms per window on CPU}\\
+\textbf{Artifact storage} & \texttt{model/artifacts/} Docker volume (joblib); versioned metadata\\
+\textbf{Retraining trigger} & Admin API call or Celery schedule\\
+\textbf{Failure modes} & \texttt{ModelNotFoundError} (no artifact), \texttt{InsufficientTelemetryError} ($<$10 rows)\\
+\textbf{Ethical considerations} & May produce false positives during server maintenance;
+  alerts labelled as ``unusual behaviour,'' not ``crash.'' System prompt of
+  chatbot re-enforces this distinction.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section*{F.2 Random Forest Request Shield -- Model Card}
+
+\begin{table}[htbp]
+\centering
+\caption{Random Forest Request Shield model card}\label{tab:rf_card}
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Field} & \textbf{Value}\\
+\midrule
+\textbf{Model name} & Infra Monitor Request Shield Classifier\\
+\textbf{Model type} & sklearn.ensemble.RandomForestClassifier\\
+\textbf{Version} & \texttt{artifact\_format\_version=1} (schema versioning)\\
+\textbf{Intended use} & Classifying HTTP requests as GREEN (safe), GRAY (suspicious),
+  or RED (malicious)\\
+\textbf{Out-of-scope} & Blocking IPs automatically; network packet inspection\\
+\textbf{Input features} & 26-dimensional feature vector (see \Cref{tab:features})
+  extracted from HTTP access log fields (path, query, User-Agent, status code, etc.)\\
+\textbf{Training dataset} & CICIDS2017 (Canadian Institute for Cybersecurity, 2017)
+  network traffic dataset; mapped to 26-feature schema;
+  labels: 0=GREEN, 1=GRAY, 2=RED\\
+\textbf{Training configuration} & 200 estimators, max\_depth=20,
+  class\_weight=`balanced', n\_jobs=-1, random\_state=42\\
+\textbf{Evaluation} & 5-fold cross-validation F1 macro; held-out 20\% test split;
+  \tofill{Fill results after training run}\\
+\textbf{Artifact storage} & \texttt{model/artifacts/request\_shield/model.joblib} +
+  \texttt{metadata.json}\\
+\textbf{Known limitations} & CICIDS2017 reflects 2017 attack patterns; modern
+  attack vectors (HTTP/2 smuggling, novel scanner signatures) may be
+  misclassified as GREEN\\
+\textbf{Bias considerations} & Balanced class weights mitigate GREEN-class dominance;
+  production logs should be periodically labeled and used to fine-tune\\
+\textbf{Human oversight} & System never automatically blocks; generates
+  ThreatSuggestion for admin review only\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section*{F.3 Gemini LLM Advisory Chatbot -- Model Card}
+
+\begin{table}[htbp]
+\centering
+\caption{Gemini chatbot configuration documentation}\label{tab:gemini_card}
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Field} & \textbf{Value}\\
+\midrule
+\textbf{Model} & Google Gemini (model name from \texttt{settings.GEMINI\_MODEL})\\
+\textbf{Provider} & Google AI (Gemini API, google-genai SDK)\\
+\textbf{Intended use} & Advisory explanations of infrastructure anomalies for
+  engineering staff; suggested diagnostic actions\\
+\textbf{Out-of-scope} & Automated incident resolution; command execution;
+  security policy enforcement\\
+\textbf{System instruction} & See \Cref{lst:sysinstruction} in Chapter~6.
+  Advisory-only; no tool use; no command execution.\\
+\textbf{Input context} & Anomaly evidence snapshot (service name, server,
+  anomaly scores, feature values, detection timestamp) + conversation history\\
+\textbf{Output constraints} & Max 1024 tokens per turn; streaming delivery\\
+\textbf{Authentication} & SHA-256 ticket-based one-use WebSocket auth\\
+\textbf{Rate limiting} & \texttt{AssistantTicketThrottle} (DRF throttle on ticket issuance)\\
+\textbf{Cost management} & Gemini escalation for Request Shield GRAY zone only
+  (not all requests); 1024-token output cap\\
+\textbf{Monitoring} & Ticket issuance logged; conversation records persisted in
+  \texttt{AssistantConversation} and \texttt{AssistantMessage} tables\\
+\textbf{Ethical safeguards} & Evidence labelled as ``data, not instructions'';
+  system prompt prohibits command execution and mutation of system state;
+  human engineer reviews all chatbot recommendations\\
+\bottomrule
+\end{tabularx}
+\end{table}
+

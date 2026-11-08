@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1777" height="448" viewBox="0 0 1777 448">
+<rect width="100%" height="100%" fill="#fff"/>
+<defs><marker id="arr" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,1 L11,6 L0,11 Z" fill="#000"/></marker></defs>
+<text x="888.5" y="34" font-family="DejaVu Sans, Verdana, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#000">Account Service and Organization Service</text>
+<g transform="translate(20,70)">
+<path d="M140.0,143.0 L412.7,143.0 L412.7,113.0 L477.1,113.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M477.1,82.0 L412.7,82.0 L412.7,97.0 L197.0,97.0 L197.0,127.0 L140.0,127.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M477.1,51.0 L175.0,51.0 L175.0,110.0 L140.0,110.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M627.1,70.0 L728.2,70.0 L728.2,91.0 L999.7,91.0 L999.7,61.0 L1056.7,61.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1056.7,45.0 L627.1,45.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M627.1,94.0 L706.2,94.0 L706.2,139.0 L999.7,139.0 L999.7,166.0 L1062.2,166.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1062.2,185.0 L684.2,185.0 L684.2,119.0 L627.1,119.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M140.0,176.0 L175.0,176.0 L175.0,308.0 L304.8,308.0 L863.9,308.0 L1021.7,308.0 L1021.7,224.0 L1062.2,224.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1062.2,205.0 L999.7,205.0 L999.7,235.0 L863.9,235.0 L304.8,235.0 L197.0,235.0 L197.0,159.0 L140.0,159.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1215.7,211.0 L1261.7,211.0 L1261.7,225.0 L1477.4,225.0 L1477.4,195.0 L1512.4,195.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1512.4,179.0 L1215.7,179.0" fill="none" stroke="#000" stroke-width="1.6" marker-end="url(#arr)"/>
+<rect x="20" y="94" width="120" height="98" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="80" y="148.6">User</tspan></text>
+<rect x="477.09999999999997" y="20" width="150" height="124" rx="12" ry="12" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="552.0999999999999" y="77.2">Account</tspan><tspan x="552.0999999999999" y="98.0">service</tspan></text>
+<rect x="1062.2199999999998" y="146" width="153.44" height="98" rx="12" ry="12" fill="#fff" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1138.9399999999998" y="190.2">Organization</tspan><tspan x="1138.9399999999998" y="211.0">service</tspan></text>
+<rect x="1056.6999999999998" y="30" width="170" height="46" fill="#fff" stroke="none"/>
+<line x1="1056.6999999999998" y1="30" x2="1226.6999999999998" y2="30" stroke="#000" stroke-width="1.8"/>
+<line x1="1056.6999999999998" y1="76" x2="1226.6999999999998" y2="76" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1141.6999999999998" y="58.6">User store</tspan></text>
+<rect x="1512.36" y="164" width="204.16" height="46" fill="#fff" stroke="none"/>
+<line x1="1512.36" y1="164" x2="1716.52" y2="164" stroke="#000" stroke-width="1.8"/>
+<line x1="1512.36" y1="210" x2="1716.52" y2="210" stroke="#000" stroke-width="1.8"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="16" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1614.4399999999998" y="192.6">Organization store</tspan></text>
+<rect x="251.95" y="131" width="105.75999999999999" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="304.83" y="147.0">user details</tspan></text>
+<rect x="232" y="85" width="145.66" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="304.83" y="101.0">verification code</tspan></text>
+<rect x="263.92" y="39" width="81.82" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="304.83000000000004" y="55.0">user info</tspan></text>
+<rect x="823.03" y="79" width="81.82" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="863.9399999999999" y="95.0">user info</tspan></text>
+<rect x="823.03" y="33" width="81.82" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="863.9399999999999" y="49.0">user info</tspan></text>
+<rect x="763.18" y="127" width="201.51999999999998" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="863.9399999999999" y="143.0">user verification status</tspan></text>
+<rect x="811.06" y="173" width="105.75999999999999" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="863.9399999999999" y="189.0">user details</tspan></text>
+<rect x="447.65999999999997" y="278" width="201.51999999999998" height="58.6" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="548.42" y="294.0">organization details /</tspan><tspan x="548.42" y="312.2">member approval status /</tspan><tspan x="548.42" y="330.4">admin status</tspan></text>
+<rect x="475.59" y="214" width="145.66" height="40.4" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="548.42" y="230.0">approval status /</tspan><tspan x="548.42" y="248.2">member data</tspan></text>
+<rect x="1296.6999999999998" y="213" width="145.66" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1369.5299999999997" y="229.0">organization info</tspan></text>
+<rect x="1296.6999999999998" y="167" width="145.66" height="22.2" fill="#fff"/>
+<text font-family="DejaVu Sans, Verdana, sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#000"><tspan x="1369.5299999999997" y="183.0">organization info</tspan></text>
+</g></svg>
