@@ -1,0 +1,4011 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  9 NOV 2026 00:57
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./main.tex
+(main.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@chapter=\count276
+\c@section=\count277
+\c@subsection=\count278
+\c@subsubsection=\count279
+\c@paragraph=\count280
+\c@subparagraph=\count281
+\c@figure=\count282
+\c@table=\count283
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+)
+(preamble.tex
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2026/03/07 v6.0 Page Geometry
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count284
+\Gm@cntv=\count285
+\c@Gm@tempcnt=\count286
+\Gm@bindingoffset=\dimen149
+\Gm@wd@mp=\dimen150
+\Gm@odd@mp=\dimen151
+\Gm@even@mp=\dimen152
+\Gm@layoutwidth=\dimen153
+\Gm@layoutheight=\dimen154
+\Gm@layouthoffset=\dimen155
+\Gm@layoutvoffset=\dimen156
+\Gm@dimlist=\toks20
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count287
+)
+\MT@toks=\toks21
+\MT@tempbox=\box53
+\MT@count=\count288
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1084.
+LaTeX Info: Redefining \leftprotrusion on input line 1085.
+\MT@prot@toks=\toks22
+LaTeX Info: Redefining \rightprotrusion on input line 1104.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen157
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count289
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdf
+tex.def
+File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
+
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip51
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+File: microtype.cfg 2026/03/01 v3.2d microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+Package: colortbl 2026/05/01 v1.0l Color table columns (DPC)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen158
+\ar@mcellbox=\box54
+\extrarowheight=\dimen159
+\NC@list=\toks23
+\extratabsurround=\skip52
+\backup@length=\skip53
+\ar@cellbox=\box55
+)
+\everycr=\toks24
+\minrowclearance=\skip54
+\rownum=\count290
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+)
+\Gin@req@height=\dimen160
+\Gin@req@width=\dimen161
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count291
+\float@exts=\toks25
+\float@box=\box56
+\@float@everytoks=\toks26
+\@floatcapt=\box57
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen162
+\lightrulewidth=\dimen163
+\cmidrulewidth=\dimen164
+\belowrulesep=\dimen165
+\belowbottomsep=\dimen166
+\aboverulesep=\dimen167
+\abovetopsep=\dimen168
+\cmidrulesep=\dimen169
+\cmidrulekern=\dimen170
+\defaultaddspace=\dimen171
+\@cmidla=\count292
+\@cmidlb=\count293
+\@aboverulesep=\dimen172
+\@belowrulesep=\dimen173
+\@thisruleclass=\count294
+\@lastruleclass=\count295
+\@thisrulewidth=\dimen174
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+\TX@col@width=\dimen175
+\TX@old@table=\dimen176
+\TX@old@col=\dimen177
+\TX@target=\dimen178
+\TX@delta=\dimen179
+\TX@cols=\count296
+\TX@ftn=\toks27
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
+\LTleft=\skip55
+\LTright=\skip56
+\LTpre=\skip57
+\LTpost=\skip58
+\LTchunksize=\count297
+\LTcapwidth=\dimen180
+\LT@head=\box58
+\LT@firsthead=\box59
+\LT@foot=\box60
+\LT@lastfoot=\box61
+\LT@gbox=\box62
+\LT@cols=\count298
+\LT@rows=\count299
+\c@LT@tables=\count300
+\c@LT@chunks=\count301
+\LT@p@ftn=\toks28
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip59
+\multirow@cntb=\count302
+\multirow@dima=\skip60
+\bigstrutjot=\dimen181
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/makecell\makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen182
+\c@nlinenum=\count303
+\TeXr@lab=\toks29
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen183
+\captionmargin=\dimen184
+\caption@leftmargin=\dimen185
+\caption@rightmargin=\dimen186
+\caption@width=\dimen187
+\caption@indent=\dimen188
+\caption@parindent=\dimen189
+\caption@hangindent=\dimen190
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count304
+\c@continuedfloat=\count305
+Package caption Info: float package is loaded.
+Package caption Info: longtable package is loaded.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.s
+ty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count306
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count307
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\labelindent=\skip61
+\enit@outerparindent=\dimen191
+\enit@toks=\toks30
+\enit@inbox=\box63
+\enit@count@id=\count308
+\enitdp@description=\count309
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip62
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks31
+\ex@=\dimen192
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen193
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count310
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count311
+\leftroot@=\count312
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count313
+\DOTSCASE@=\count314
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box64
+\strutbox@=\box65
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen194
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count315
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count316
+\dotsspace@=\muskip17
+\c@parentequation=\count317
+\dspbrk@lvl=\count318
+\tag@help=\toks32
+\row@=\count319
+\column@=\count320
+\maxfields@=\count321
+\andhelp@=\toks33
+\eqnshift@=\dimen195
+\alignsep@=\dimen196
+\tagshift@=\dimen197
+\tagwidth@=\dimen198
+\totwidth@=\dimen199
+\lineht@=\dimen256
+\@envbody=\toks34
+\multlinegap=\skip63
+\multlinetaggap=\skip64
+\mathdisplay@stack=\toks35
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\pifont.sty
+Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
+LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
+
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
+
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nom
+etadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
+F (HO)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.st
+y
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common.tex
+\pgfutil@everybye=\toks36
+\pgfutil@tempdima=\dimen257
+\pgfutil@tempdimb=\dimen258
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-latex.def
+\pgfutil@abb=\box66
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
+code.tex
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+))
+Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.code.tex
+Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
+\pgfkeys@pathtoks=\toks37
+\pgfkeys@temptoks=\toks38
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+libraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks39
+))
+\pgf@x=\dimen259
+\pgf@y=\dimen260
+\pgf@xa=\dimen261
+\pgf@ya=\dimen262
+\pgf@xb=\dimen263
+\pgf@yb=\dimen264
+\pgf@xc=\dimen265
+\pgf@yc=\dimen266
+\pgf@xd=\dimen267
+\pgf@yd=\dimen268
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count322
+\c@pgf@countb=\count323
+\c@pgf@countc=\count324
+\c@pgf@countd=\count325
+\t@pgf@toka=\toks40
+\t@pgf@tokb=\toks41
+\t@pgf@tokc=\toks42
+\pgf@sys@id@count=\count326
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
+fg
+File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-pdftex.def
+File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def
+File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfsyssoftpath@smallbuffer@items=\count327
+\pgfsyssoftpath@bigbuffer@items=\count328
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex
+File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
+Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex
+\pgfmath@dimen=\dimen269
+\pgfmath@count=\count329
+\pgfmath@box=\box67
+\pgfmath@toks=\toks43
+\pgfmath@stack@operand=\toks44
+\pgfmath@stack@operation=\toks45
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex
+\c@pgfmathroundto@lastzeros=\count330
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex
+File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@picminx=\dimen270
+\pgf@picmaxx=\dimen271
+\pgf@picminy=\dimen272
+\pgf@picmaxy=\dimen273
+\pgf@pathminx=\dimen274
+\pgf@pathmaxx=\dimen275
+\pgf@pathminy=\dimen276
+\pgf@pathmaxy=\dimen277
+\pgf@xx=\dimen278
+\pgf@xy=\dimen279
+\pgf@yx=\dimen280
+\pgf@yy=\dimen281
+\pgf@zx=\dimen282
+\pgf@zy=\dimen283
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@path@lastx=\dimen284
+\pgf@path@lasty=\dimen285
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex
+File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@shorten@end@additional=\dimen286
+\pgf@shorten@start@additional=\dimen287
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex
+File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfpic=\box68
+\pgf@hbox=\box69
+\pgf@layerbox@main=\box70
+\pgf@picture@serial@count=\count331
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgflinewidth=\dimen288
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex
+File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@pt@x=\dimen289
+\pgf@pt@y=\dimen290
+\pgf@pt@temp=\dimen291
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex
+File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex
+File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex
+File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowsep=\dimen292
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex
+File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@max=\dimen293
+\pgf@sys@shading@range@num=\count332
+\pgf@shadingcount=\count333
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex
+File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex
+File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfexternal@startupbox=\box71
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex
+File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex
+File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex
+File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex
+File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex
+File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodeparttextbox=\box72
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex
+File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty
+Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@nodesepstart=\dimen294
+\pgf@nodesepend=\dimen295
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty
+Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.s
+ty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex
+Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
+\pgffor@iter=\dimen296
+\pgffor@skip=\dimen297
+\pgffor@stack=\toks46
+\pgffor@toks=\toks47
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
+Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@plot@mark@count=\count334
+\pgfplotmarksize=\dimen298
+)
+\tikz@lastx=\dimen299
+\tikz@lasty=\dimen300
+\tikz@lastxsaved=\dimen301
+\tikz@lastysaved=\dimen302
+\tikz@lastmovetox=\dimen303
+\tikz@lastmovetoy=\dimen304
+\tikzleveldistance=\dimen305
+\tikzsiblingdistance=\dimen306
+\tikz@figbox=\box73
+\tikz@figbox@bg=\box74
+\tikz@tempbox=\box75
+\tikz@tempbox@bg=\box76
+\tikztreelevel=\count335
+\tikznumberofchildren=\count336
+\tikznumberofcurrentchild=\count337
+\tikz@fig@count=\count338
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex
+File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfmatrixcurrentrow=\count339
+\pgfmatrixcurrentcolumn=\count340
+\pgf@matrix@numberofcolumns=\count341
+)
+\tikz@expandcount=\count342
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.code.tex
+File: tikzlibraryshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.misc.code.tex
+File: tikzlibraryshapes.misc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.misc.code.tex
+File: pgflibraryshapes.misc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.symbols.code.tex
+File: tikzlibraryshapes.symbols.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.symbols.code.tex
+File: pgflibraryshapes.symbols.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.arrows.code.tex
+File: tikzlibraryshapes.arrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.arrows.code.tex
+File: pgflibraryshapes.arrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.callouts.code.tex
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.callouts.code.tex))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.multipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodepartlowerbox=\box77
+\pgfnodeparttwobox=\box78
+\pgfnodepartthreebox=\box79
+\pgfnodepartfourbox=\box80
+\pgfnodeparttwentybox=\box81
+\pgfnodepartnineteenbox=\box82
+\pgfnodeparteighteenbox=\box83
+\pgfnodepartseventeenbox=\box84
+\pgfnodepartsixteenbox=\box85
+\pgfnodepartfifteenbox=\box86
+\pgfnodepartfourteenbox=\box87
+\pgfnodepartthirteenbox=\box88
+\pgfnodeparttwelvebox=\box89
+\pgfnodepartelevenbox=\box90
+\pgfnodeparttenbox=\box91
+\pgfnodepartninebox=\box92
+\pgfnodeparteightbox=\box93
+\pgfnodepartsevenbox=\box94
+\pgfnodepartsixbox=\box95
+\pgfnodepartfivebox=\box96
+)))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowinset=\dimen307
+\pgfarrowlength=\dimen308
+\pgfarrowwidth=\dimen309
+\pgfarrowlinewidth=\dimen310
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryfit.code.tex
+File: tikzlibraryfit.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgfgantt\pgfgantt.sty
+Package: pgfgantt 2024/06/19 v5.0a Draw Gantt diagrams with TikZ
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.code.tex
+File: pgflibraryarrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\arrowsize=\dimen311
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarybackgrounds.code.tex
+File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@layerbox@background=\box97
+\pgf@layerboxsaved@background=\box98
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypatterns.code.tex
+File: tikzlibrarypatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+arypatterns.code.tex
+File: pgflibrarypatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfcalend
+ar.sty
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfcale
+ndar.code.tex
+File: pgfcalendar.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfcalendarcurrentjulian=\count343
+\pgf@cal@easter@Y=\count344
+\pgf@cal@easter@G=\count345
+\pgf@cal@easter@C=\count346
+\pgf@cal@easter@X=\count347
+\pgf@cal@easter@Z=\count348
+\pgf@cal@easter@D=\count349
+\pgf@cal@easter@E=\count350
+\pgf@cal@easter@N=\count351
+\pgf@cal@easter@M=\count352
+\pgf@cal@easter@julianday=\count353
+))
+\gtt@currentline=\count354
+\gtt@lasttitleline=\count355
+\gtt@currgrid=\count356
+\gtt@chartwidth=\count357
+\gtt@lasttitleslot=\count358
+\gtt@elementid=\count359
+\gtt@today@slot=\count360
+\gtt@startjulian=\count361
+\gtt@endjulian=\count362
+\gtt@chartid=\count363
+\gtt@vrule@slot=\count364
+\gtt@calendar@slots=\count365
+\gtt@calendar@weeknumber=\count366
+\gtt@calendar@startofweek=\count367
+\gtt@left@slot=\count368
+\gtt@right@slot=\count369
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+\lst@mode=\count370
+\lst@gtempboxa=\box99
+\lst@token=\toks48
+\lst@length=\count371
+\lst@currlwidth=\dimen312
+\lst@column=\count372
+\lst@pos=\count373
+\lst@lostspace=\dimen313
+\lst@width=\dimen314
+\lst@newlines=\count374
+\lst@lineno=\count375
+\lst@maxwidth=\dimen315
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty
+File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
+\c@lstnumber=\count376
+\lst@skipnumbers=\count377
+\lst@framebox=\box100
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
+File: listings.cfg 2025/11/14 1.11b listings configuration
+))
+Package: listings 2025/11/14 1.11b (Carsten Heinz)
+==> First Aid for listings.sty no longer applied!
+    Expected:
+        2024/09/23 1.10c (Carsten Heinz)
+    but found:
+        2025/11/14 1.11b (Carsten Heinz)
+    so I'm assuming it got fixed.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/algorithms\algorithm.st
+y
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+ (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks49
+\c@algorithm=\count378
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/algorithmicx\algpseudoc
+ode.sty
+Package: algpseudocode 
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/algorithmicx\algorithmi
+cx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count379
+\c@ALG@rem=\count380
+\c@ALG@nested=\count381
+\ALG@tlm=\skip65
+\ALG@thistlm=\skip66
+\c@ALG@Lnr=\count382
+\c@ALG@blocknr=\count383
+\c@ALG@storecount=\count384
+\c@ALG@tmpcounter=\count385
+\ALG@tmplength=\skip67
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
+Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
+
+\f@nch@headwidth=\skip68
+\f@nch@offset@elh=\skip69
+\f@nch@offset@erh=\skip70
+\f@nch@offset@olh=\skip71
+\f@nch@offset@orh=\skip72
+\f@nch@offset@elf=\skip73
+\f@nch@offset@erf=\skip74
+\f@nch@offset@olf=\skip75
+\f@nch@offset@orf=\skip76
+\f@nch@height=\skip77
+\f@nch@footalignment=\skip78
+\f@nch@widthL=\skip79
+\f@nch@widthC=\skip80
+\f@nch@widthR=\skip81
+\@temptokenb=\toks50
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box101
+\beforetitleunit=\skip82
+\aftertitleunit=\skip83
+\ttl@plus=\dimen316
+\ttl@minus=\dimen317
+\ttl@toksa=\toks51
+\titlewidth=\dimen318
+\titlewidthlast=\dimen319
+\titlewidthfirst=\dimen320
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count386
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen321
+\Hy@linkcounter=\count387
+\Hy@pagecounter=\count388
+ (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count389
+ (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4195.
+Package hyperref Info: Link nesting OFF on input line 4200.
+Package hyperref Info: Hyper index ON on input line 4203.
+Package hyperref Info: Plain pages OFF on input line 4210.
+Package hyperref Info: Backreferencing OFF on input line 4215.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4462.
+\c@Hy@tempcnt=\count390
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4801.
+\XeTeXLinkMargin=\dimen322
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count391
+\Field@Width=\dimen323
+\Fld@charsize=\dimen324
+Package hyperref Info: Hyper figures OFF on input line 6078.
+Package hyperref Info: Link nesting OFF on input line 6083.
+Package hyperref Info: Hyper index ON on input line 6086.
+Package hyperref Info: backreferencing OFF on input line 6093.
+Package hyperref Info: Link coloring OFF on input line 6098.
+Package hyperref Info: Link coloring with OCG OFF on input line 6103.
+Package hyperref Info: PDF/A mode OFF on input line 6108.
+\Hy@abspage=\count392
+\c@Item=\count393
+\c@Hfootnote=\count394
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
+\Fld@listcount=\count395
+\c@bookmark@seq@number=\count396
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+84.
+)
+\Hy@SectionHShift=\skip84
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/cleveref\cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+Package cleveref Info: `hyperref' support loaded on input line 2370.
+LaTeX Info: Redefining \cref on input line 2370.
+LaTeX Info: Redefining \Cref on input line 2370.
+LaTeX Info: Redefining \crefrange on input line 2370.
+LaTeX Info: Redefining \Crefrange on input line 2370.
+LaTeX Info: Redefining \cpageref on input line 2370.
+LaTeX Info: Redefining \Cpageref on input line 2370.
+LaTeX Info: Redefining \cpagerefrange on input line 2370.
+LaTeX Info: Redefining \Cpagerefrange on input line 2370.
+LaTeX Info: Redefining \labelcref on input line 2370.
+LaTeX Info: Redefining \labelcpageref on input line 2370.
+Package cleveref Info: `algorithmicx' support loaded on input line 3120.
+Package cleveref Info: `listings' support loaded on input line 3131.
+Package cleveref Info: include cross-reference names in hyperlinks on input lin
+e 7836.
+Package cleveref Info: include cross-reference names in hyperlinks on input lin
+e 7852.
+)
+==> First Aid for cleveref.sty applied!
+) (config.tex)
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 10
+.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count397
+) (main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-51.0pt
+* \headheight=26.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Info: Redefining \microtypecontext on input line 10.
+Package microtype Info: Applying patch `item' on input line 10.
+Package microtype Info: Applying patch `toc' on input line 10.
+Package microtype Info: Applying patch `eqnum' on input line 10.
+Package microtype Info: Applying patch `footnote' on input line 10.
+Package microtype Info: Applying patch `verbatim' on input line 10.
+LaTeX Info: Redefining \microtypesetup on input line 10.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: No font expansion.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count398
+\scratchdimen=\dimen325
+\scratchbox=\box102
+\nofMPsegments=\count399
+\nofMParguments=\count400
+\everyMPshowfont=\toks52
+\MPscratchCnt=\count401
+\MPscratchDim=\dimen326
+\MPnumerator=\count402
+\makeMPintoPDFobject=\count403
+\everyMPtoPDFconversion=\toks53
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count404
+Package hyperref Info: Link coloring OFF on input line 10.
+ (main.out) (main.out)
+\@outlinefile=\write4
+\openout4 = `main.out'.
+
+ (frontmatter/cover.tex
+<images/cuet_logo.png, id=434, 501.875pt x 501.875pt>
+File: images/cuet_logo.png Graphic file (type png)
+<use images/cuet_logo.png>
+Package pdftex.def Info: images/cuet_logo.png  used on input line 5.
+(pdftex.def)             Requested size: 158.54152pt x 158.54327pt.
+ [1
+
+{C:/Users/ahmed/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/ahme
+d/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./images/cuet_lo
+go.png>]
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.30 \end{titlepage}
+                     [2]) (frontmatter/team.tex
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 7
+.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 7
+.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+7.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+7.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 7.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 7.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 7.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+<images/photos/placeholder.png, id=448, 301.125pt x 381.425pt>
+File: images/photos/placeholder.png Graphic file (type png)
+<use images/photos/placeholder.png>
+Package pdftex.def Info: images/photos/placeholder.png  used on input line 11.
+(pdftex.def)             Requested size: 53.90608pt x 68.28105pt.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+1.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 11.
+File: images/photos/placeholder.png Graphic file (type png)
+<use images/photos/placeholder.png>
+Package pdftex.def Info: images/photos/placeholder.png  used on input line 11.
+(pdftex.def)             Requested size: 53.90608pt x 68.28105pt.
+File: images/photos/placeholder.png Graphic file (type png)
+<use images/photos/placeholder.png>
+Package pdftex.def Info: images/photos/placeholder.png  used on input line 11.
+(pdftex.def)             Requested size: 53.90608pt x 68.28105pt.
+File: images/photos/placeholder.png Graphic file (type png)
+<use images/photos/placeholder.png>
+Package pdftex.def Info: images/photos/placeholder.png  used on input line 11.
+(pdftex.def)             Requested size: 53.90608pt x 68.28105pt.
+
+Overfull \hbox (71.4194pt too wide) in paragraph at lines 7--13
+ [][] 
+ []
+
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 16.
+
+Overfull \hbox (4.72578pt too wide) in paragraph at lines 16--18
+\T1/lmr/bx/n/12 Repository: []$\T1/lmtt/m/n/12 https : / / github . com / [ASSU
+MED : repo-[]url]$[]  \T1/lmr/bx/n/12 Com-mit: [][TO FILL: run:
+ []
+
+) [2
+
+
+ <./images/photos/placeholder.png (PNG copy)>]
+(frontmatter/executive_summary.tex) [3
+
+
+] (frontmatter/acknowledgement.tex)
+[4
+
+
+] (main.toc [5
+
+
+]
+Overfull \hbox (112.25899pt too wide) in paragraph at lines 66--66
+ [][] [][]\T1/lmr/m/n/12 Organisation Mem-ber-ship with RBAC (\T1/lmtt/m/n/12 a
+ccounts/models/organisation_membership.py\T1/lmr/m/n/12 )[] [][]  
+ []
+
+[6]
+Overfull \hbox (78.76804pt too wide) in paragraph at lines 70--70
+ [][] [][]\T1/lmr/m/n/12 Random For-est Clas-si-fier Train-ing (\T1/lmtt/m/n/12
+ model/app/pipeline/request_classifier.py\T1/lmr/m/n/12 )[] [][]  
+ []
+
+[7])
+\tf@toc=\write5
+\openout5 = `main.toc'.
+
+ [8] (main.lof [9
+
+
+]
+Overfull \hbox (15.56514pt too wide) in paragraph at lines 51--51
+ [][] [][]\T1/lmr/m/n/12 Appendix C -- Shield Con-fig-u-ra-tion Screen. Ad-min-
+is-tra-tors can en-able/disable 
+ []
+
+[10])
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+ [11] (main.lot [12
+
+
+])
+\tf@lot=\write7
+\openout7 = `main.lot'.
+
+ [13] (chapters/ch01_introduction.tex
+Chapter 1.
+
+Overfull \hbox (126.8006pt too wide) in paragraph at lines 21--25
+[]\T1/lmr/bx/n/12 Anomaly De-tec-tion with $\OMS/lmsy/m/n/12 ^^U$\T1/lmr/bx/n/1
+2 85% Pre-ci-sion: \T1/lmr/m/n/12 The Iso-la-tion For-est model (\T1/lmtt/m/n/1
+2 model/app/pipeline/train.py\T1/lmr/m/n/12 )
+ []
+
+
+Overfull \hbox (114.48363pt too wide) in paragraph at lines 31--34
+\T1/lmr/m/n/12 min / En-gi-neer ac-cess con-trol across all API end-points (\T1
+/lmtt/m/n/12 accounts/models/organization_membership.py\T1/lmr/m/n/12 ). 
+ []
+
+
+Overfull \hbox (0.41084pt too wide) in paragraph at lines 45--50
+\T1/lmr/m/n/12 Modern soft-ware teams man-age fleets of Linux servers host-ing 
+web ap-pli-ca-tions, databases,
+ []
+
+[1
+
+
+{C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}
+]
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/bx/n/12 Infra Mon-i-tor
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Full-stack APM,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 log man-age-ment,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 dash-boards, ML
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 $15--$31 per
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Free; self-hosted;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 data sovereignty;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 bot for anomaly
+ []
+
+
+Underfull \hbox (badness 2460) in paragraph at lines 92--92
+\T1/lmr/m/n/12 NRQL query lan-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Complex pric-ing;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 100GB/month
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Simple en-rol-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 ment; no data
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 scoped multi-
+ []
+
+
+Underfull \hbox (badness 6141) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Agent-based mon-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 i-tor-ing, SNMP,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 trigger-based
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 No built-in ML
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Time-series col-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 board-ing, alert
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 No multi-tenant
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 iso-la-tion; no
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 built-in anomaly
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Unified single-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 pane-of-glass;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 organisation-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 scoped ten-ancy;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Real-time per-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 anomaly scores,
+ []
+
+
+Underfull \hbox (badness 3623) in paragraph at lines 92--92
+[]|\T1/lmr/m/n/12 Incident work-flow;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 AI-advisory chat-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
+\T1/lmr/m/n/12 con-text; Re-quest
+ []
+
+[2] [3]
+Overfull \hbox (3.2424pt too wide) in paragraph at lines 119--122
+[]\T1/lmr/bx/n/12 Request Shield \T1/lmr/m/n/12 -- Ran-dom For-est HTTP traf-fi
+c clas-si-fier with GREEN/GRAY/RED
+ []
+
+<images/diagrams/architecture_diagram.png, id=852, 537.207pt x 349.90726pt>
+File: images/diagrams/architecture_diagram.png Graphic file (type png)
+<use images/diagrams/architecture_diagram.png>
+Package pdftex.def Info: images/diagrams/architecture_diagram.png  used on inpu
+t line 126.
+(pdftex.def)             Requested size: 416.72963pt x 271.44226pt.
+[4 <./images/diagrams/architecture_diagram.png>] [5])
+(chapters/ch02_project_management.tex [6]
+Chapter 2.
+
+Underfull \hbox (badness 1484) in paragraph at lines 31--31
+\T1/lmr/m/n/12 est Re-quest Shield, FastAPI ML
+ []
+
+[7
+
+]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 8
+5.
+ (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+[8{C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 Cross-training; shared Git
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 Use CI-CIDS2017 pub-lic
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+\T1/lmr/m/n/12 labeled pro-duc-tion logs;
+ []
+
+
+Underfull \hbox (badness 1320) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 VictoriaMetrics clus-ter in-sta-
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 Gemini API rate-limiting or
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 Ticket-based rate throt-tle
+ []
+
+
+Underfull \hbox (badness 3838) in paragraph at lines 143--143
+\T1/lmr/m/n/12 (\T1/lmtt/m/n/12 ai/throttles.py\T1/lmr/m/n/12 ); grace-ful
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+\T1/lmr/m/n/12 ``gem-ini_not_configured'' er-
+ []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 Django se-cu-rity vul-ner-a-bil-ity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+[]|\T1/lmr/m/n/12 Pin ver-sions in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+\T1/lmtt/m/n/12 requirements.txt\T1/lmr/m/n/12 ;
+ []
+
+
+Underfull \hbox (badness 2111) in paragraph at lines 143--143
+\T1/lmr/m/n/12 MoSCoW; de-fer stretch fea-
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 213--213
+[]|\T1/lmr/m/n/12 celery[redis]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--213
+[]|\T1/lmr/m/n/12 v1.150.0
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--213
+[]|\T1/lmr/m/n/12 latest (gen-er-ated in-staller
+ []
+
+[10]
+Missing character: There is no , in font nullfont!
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 271--271
+[]|\T1/lmr/m/n/12 PostgreSQL, Re-dis
+ []
+
+
+Underfull \hbox (badness 1762) in paragraph at lines 271--271
+[]|\T1/lmr/m/n/12 Domain name (not
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 271--271
+[]|\T1/lmr/m/n/12 Human ef-fort
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 271--271
+\T1/lmr/m/n/12 (4 mem-bers $\OMS/lmsy/m/n/12 ^^B$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 271--271
+\T1/lmr/m/n/12 10h/week $\OMS/lmsy/m/n/12 ^^B$ \T1/lmr/m/n/12 14
+ []
+
+[12]
+Overfull \hbox (5.13266pt too wide) in paragraph at lines 278--282
+[]\T1/lmr/m/it/12 Technological: \T1/lmr/m/n/12 Demon-strates how open-source c
+om-po-nents (Vic-to-ri-a-Met-rics, Grafana
+ []
+
+[13]) (chapters/ch03_requirements.tex [14]
+Chapter 3.
+
+Underfull \hbox (badness 1571) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Registers the or-gan-i-sa-tion,
+ []
+
+
+Underfull \hbox (badness 8019) in paragraph at lines 31--31
+\T1/lmr/m/n/12 man-ages mem-ber-ship ap-
+ []
+
+
+Underfull \hbox (badness 1603) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Full vis-i-bil-ity and con-trol
+ []
+
+
+Underfull \hbox (badness 2698) in paragraph at lines 31--31
+\T1/lmr/m/n/12 ci-dents, and se-cu-rity set-
+ []
+
+
+Underfull \hbox (badness 6157) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Oversees alerts, man-ages
+ []
+
+
+Underfull \hbox (badness 1210) in paragraph at lines 31--31
+\T1/lmr/m/n/12 in-ci-dents, re-views Re-quest
+ []
+
+
+Underfull \hbox (badness 3635) in paragraph at lines 31--31
+\T1/lmr/m/n/12 Shield logs, ac-knowl-edges
+ []
+
+
+Underfull \hbox (badness 2326) in paragraph at lines 31--31
+\T1/lmr/m/n/12 in-ves-ti-gates anoma-lies, re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Clear anomaly ex-pla-na-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Evaluates the aca-demic
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Complete doc-u-men-ta-tion;
+ []
+
+
+Underfull \hbox (badness 1062) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/12 Users of the web ap-pli-ca-
+ []
+
+<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=923, 845.0468
+6pt x 597.50786pt>
+File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
+ (type pdf)
+<use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>
+Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
+ms.pdf  used on input line 41.
+(pdftex.def)             Requested size: 430.31812pt x 304.2691pt.
+[15
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 72--72
+\T1/lmr/m/n/12 (\T1/lmtt/m/n/12 accounts/views/\T1/lmr/m/n/12 ). 3. Sys-tem cre
+-ates \T1/lmtt/m/n/12 Users \T1/lmr/m/n/12 record
+ []
+
+
+Underfull \hbox (badness 1097) in paragraph at lines 72--72
+\T1/lmr/m/n/12 (\T1/lmtt/m/n/12 accounts/models/users.py\T1/lmr/m/n/12 ), gen-e
+r-ates a 6-digit OTP, stores
+ []
+
+[16 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>] [17]
+Underfull \hbox (badness 2197) in paragraph at lines 155--155
+\T1/lmr/m/n/12 name, host-name, en-vi-ron-ment. 2. Sys-tem cre-ates \T1/lmtt/m/
+n/12 Servers
+ []
+
+
+Underfull \hbox (badness 8019) in paragraph at lines 155--155
+\T1/lmr/m/n/12 3. Ad-min down-loads the gen-er-ated Al-loy in-staller script
+ []
+
+
+Underfull \hbox (badness 7981) in paragraph at lines 155--155
+\T1/lmr/m/n/12 from \T1/lmtt/m/n/12 GET /api/monitoring/installer/\T1/lmr/m/n/1
+2 . 4. Ad-min runs
+ []
+
+
+Underfull \hbox (badness 4832) in paragraph at lines 155--155
+\T1/lmr/m/n/12 script on the tar-get Linux host; Al-loy agent calls back
+ []
+
+
+Underfull \hbox (badness 3199) in paragraph at lines 155--155
+\T1/lmr/m/n/12 to \T1/lmtt/m/n/12 POST /api/monitoring/enroll/ \T1/lmr/m/n/12 w
+ith the to-ken, reg-is-ter-
+ []
+
+
+Underfull \hbox (badness 2418) in paragraph at lines 155--155
+\T1/lmr/m/n/12 rics to \T1/lmtt/m/n/12 POST /api/metrics/write\T1/lmr/m/n/12 , 
+which prox-ies to Vic-to-ri-
+ []
+
+
+Underfull \hbox (badness 4505) in paragraph at lines 155--155
+\T1/lmr/m/n/12 a-Met-rics vmin-sert. 6. Dash-board reads met-rics via \T1/lmtt/
+m/n/12 GET
+ []
+
+
+Underfull \hbox (badness 5345) in paragraph at lines 155--155
+[]|\T1/lmr/m/n/12 A1. To-ken ex-pired: Ad-min re-gen-er-ates to-ken from \T1/lm
+tt/m/n/12 POST
+ []
+
+[18]
+Overfull \hbox (16.8524pt too wide) in paragraph at lines 181--181
+[]|\T1/lmr/m/n/12 1. Ad-min calls \T1/lmtt/m/n/12 PATCH /api/organizations/<oid
+>/incidents/<iid>/
+ []
+
+
+Underfull \hbox (badness 1515) in paragraph at lines 181--181
+\T1/lmr/m/n/12 En-gi-neer in the or-gan-i-sa-tion (\T1/lmtt/m/n/12 incident/mod
+els/incident.py\T1/lmr/m/n/12 ).
+ []
+
+[19]
+Overfull \hbox (48.71785pt too wide) in paragraph at lines 212--212
+[]|\T1/lmr/m/n/12 1. User calls \T1/lmtt/m/n/12 POST /api/organizations/<oid>/a
+ssistant/conversations/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 212--212
+\T1/lmr/m/n/12 with \T1/lmtt/m/n/12 anomaly_id\T1/lmr/m/n/12 . 2. Sys-tem cre-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 212--212
+\T1/lmr/m/n/12 ates or re-trieves \T1/lmtt/m/n/12 AssistantConversation
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 212--212
+\T1/lmtt/m/n/12 /api/organizations/<oid>/assistant/ws-ticket/ \T1/lmr/m/n/12 to
+ get
+ []
+
+
+Underfull \hbox (badness 1681) in paragraph at lines 212--212
+\T1/lmr/m/n/12 a one-use Web-Socket ticket (SHA-256 hashed, 60s TTL via
+ []
+
+
+Overfull \hbox (46.61758pt too wide) in paragraph at lines 212--212
+\T1/lmr/m/n/12 Web-Socket \T1/lmtt/m/n/12 /ws/organizations/<oid>/assistant/con
+versations/<cid>/\T1/lmr/m/n/12 .
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
+[]|\T1/lmr/m/n/12 1. Al-loy agent sub-mits batches of ac-cess log lines
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
+\T1/lmr/m/n/12 to \T1/lmtt/m/n/12 POST /api/internal/request-logs/ingest/\T1/lm
+r/m/n/12 .
+ []
+
+
+Underfull \hbox (badness 1490) in paragraph at lines 242--242
+\T1/lmr/m/n/12 2. \T1/lmtt/m/n/12 sanitize/middleware.py \T1/lmr/m/n/12 also ca
+p-tures PLATFORM-source
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
+\T1/lmtt/m/n/12 /api/organizations/<oid>/request-shield/analytics/ \T1/lmr/m/n/
+12 and
+ []
+
+[21]
+Underfull \hbox (badness 1748) in paragraph at lines 264--264
+\T1/lmr/m/n/12 tem cre-ates \T1/lmtt/m/n/12 PasswordResetOTP \T1/lmr/m/n/12 and
+ emails it. 3. User calls
+ []
+
+[22]
+<images/diagrams/Account_Login_Activity_Diagram.png, id=965, 1284.8pt x 1104.12
+5pt>
+File: images/diagrams/Account_Login_Activity_Diagram.png Graphic file (type png
+)
+<use images/diagrams/Account_Login_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Account_Login_Activity_Diagram.png  us
+ed on input line 277.
+(pdftex.def)             Requested size: 353.31439pt x 303.62689pt.
+<images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png, id=966, 1284.8p
+t x 1746.525pt>
+File: images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png Graphic fil
+e (type png)
+<use images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Server_Setup_and_Metrics_Activity_Diag
+ram.png  used on input line 283.
+(pdftex.def)             Requested size: 353.31439pt x 480.28253pt.
+ [23 <./images/diagrams/Account_Login_Activity_Diagram.png (PNG copy)>]
+<images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png, id=972, 
+1284.8pt x 1766.6pt>
+File: images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png Grap
+hic file (type png)
+<use images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Incident_and_Anomaly_Assignment_Activi
+ty_Diagram.png  used on input line 289.
+(pdftex.def)             Requested size: 353.31439pt x 485.80302pt.
+
+[24 <./images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png (PNG copy)
+>]
+<images/diagrams/Chatbot_Conversation_Activity_Diagram.png, id=977, 1284.8pt x 
+1746.525pt>
+File: images/diagrams/Chatbot_Conversation_Activity_Diagram.png Graphic file (t
+ype png)
+<use images/diagrams/Chatbot_Conversation_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Chatbot_Conversation_Activity_Diagram.
+png  used on input line 295.
+(pdftex.def)             Requested size: 353.31439pt x 480.28253pt.
+ [25 <./images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png (P
+NG copy)>]
+<images/diagrams/Shield_Feature_Activity_Diagram.png, id=982, 1284.8pt x 1957.3
+125pt>
+File: images/diagrams/Shield_Feature_Activity_Diagram.png Graphic file (type pn
+g)
+<use images/diagrams/Shield_Feature_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Shield_Feature_Activity_Diagram.png  u
+sed on input line 301.
+(pdftex.def)             Requested size: 353.31439pt x 538.24768pt.
+ [26 <./images/diagrams/Chatbot_Conversation_Activity_Diagram.png (PNG copy)>]
+<images/diagrams/Organization_Creation_Activity_Diagram.png, id=987, 1284.8pt x
+ 1555.8125pt>
+File: images/diagrams/Organization_Creation_Activity_Diagram.png Graphic file (
+type png)
+<use images/diagrams/Organization_Creation_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Organization_Creation_Activity_Diagram
+.png  used on input line 307.
+(pdftex.def)             Requested size: 353.31439pt x 427.83789pt.
+ [27 <./images/diagrams/Shield_Feature_Activity_Diagram.png (PNG copy)>]
+<images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.png, id=9
+92, 1284.8pt x 1595.9625pt>
+File: images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.png 
+Graphic file (type png)
+<use images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.png>
+Package pdftex.def Info: images/diagrams/Organization_Joining_and_Acceptance_Ac
+tivity_Diagram.png  used on input line 313.
+(pdftex.def)             Requested size: 353.31439pt x 438.87888pt.
+ [28 <./images/diagrams/Organization_Creation_Activity_Diagram.png (PNG copy)>]
+<images/diagrams/class_diagram.png, id=998, 2248.4pt x 2103.86pt>
+File: images/diagrams/class_diagram.png Graphic file (type png)
+<use images/diagrams/class_diagram.png>
+Package pdftex.def Info: images/diagrams/class_diagram.png  used on input line 
+330.
+(pdftex.def)             Requested size: 443.9066pt x 415.37137pt.
+ [29 <./images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.pn
+g (PNG copy)>]
+<images/diagrams/Account_Creation_Sequence_Diagram__2_.png, id=1004, 1453.43pt 
+x 1090.0725pt>
+File: images/diagrams/Account_Creation_Sequence_Diagram__2_.png Graphic file (t
+ype png)
+<use images/diagrams/Account_Creation_Sequence_Diagram__2_.png>
+Package pdftex.def Info: images/diagrams/Account_Creation_Sequence_Diagram__2_.
+png  used on input line 340.
+(pdftex.def)             Requested size: 416.72963pt x 312.5368pt.
+ [30 <./images/diagrams/class_diagram.png (PNG copy)>]
+<images/diagrams/Account_Login_Sequence_Diagram_1_.png, id=1009, 1445.4pt x 732
+.7375pt>
+File: images/diagrams/Account_Login_Sequence_Diagram_1_.png Graphic file (type 
+png)
+<use images/diagrams/Account_Login_Sequence_Diagram_1_.png>
+Package pdftex.def Info: images/diagrams/Account_Login_Sequence_Diagram_1_.png 
+ used on input line 346.
+(pdftex.def)             Requested size: 416.72963pt x 211.25856pt.
+<images/diagrams/Organization_Creation_Sequence_Diagram.png, id=1010, 1806.75pt
+ x 901.3675pt>
+File: images/diagrams/Organization_Creation_Sequence_Diagram.png Graphic file (
+type png)
+<use images/diagrams/Organization_Creation_Sequence_Diagram.png>
+Package pdftex.def Info: images/diagrams/Organization_Creation_Sequence_Diagram
+.png  used on input line 352.
+(pdftex.def)             Requested size: 416.72963pt x 207.90157pt.
+
+[31 <./images/diagrams/Account_Creation_Sequence_Diagram__2_.png (PNG copy)> <.
+/images/diagrams/Account_Login_Sequence_Diagram_1_.png (PNG copy)>]
+<images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.png, i
+d=1015, 2168.1pt x 1238.6275pt>
+File: images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.p
+ng Graphic file (type png)
+<use images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.pn
+g>
+Package pdftex.def Info: images/diagrams/Organization_Joining_and_Acceptance_Se
+quence_Diagram_1_.png  used on input line 358.
+(pdftex.def)             Requested size: 416.72963pt x 238.06326pt.
+<images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png, id=1016, 289
+0.8pt x 1407.2575pt>
+File: images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png Graphic 
+file (type png)
+<use images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png>
+Package pdftex.def Info: images/diagrams/Server_Setup_and_Metrics_Sequence_Diag
+ram_1_.png  used on input line 364.
+(pdftex.def)             Requested size: 416.72963pt x 202.85536pt.
+ [32 <./images/diagrams/Organization_Creation_Sequence_Diagram.png (PNG copy)> 
+<./images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.png 
+(PNG copy)>]
+<images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png, id=10
+21, 2529.45pt x 1322.9425pt>
+File: images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png G
+raphic file (type png)
+<use images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png>
+Package pdftex.def Info: images/diagrams/Incident_and_Anomaly_Assignment_Sequen
+ce_Diagram_1_.png  used on input line 370.
+(pdftex.def)             Requested size: 416.72963pt x 217.95311pt.
+<images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png, id=1022, 2529.45
+pt x 1238.6275pt>
+File: images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png Graphic file
+ (type png)
+<use images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png>
+Package pdftex.def Info: images/diagrams/Chatbot_Conversation_Sequence_Diagram_
+1_.png  used on input line 376.
+(pdftex.def)             Requested size: 416.72963pt x 204.06232pt.
+[33 <./images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png (PNG co
+py)> <./images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png
+ (PNG copy)>]
+<images/diagrams/Shield_Feature_Sequence_Diagram_1_.png, id=1027, 2890.8pt x 14
+07.2575pt>
+File: images/diagrams/Shield_Feature_Sequence_Diagram_1_.png Graphic file (type
+ png)
+<use images/diagrams/Shield_Feature_Sequence_Diagram_1_.png>
+Package pdftex.def Info: images/diagrams/Shield_Feature_Sequence_Diagram_1_.png
+  used on input line 382.
+(pdftex.def)             Requested size: 416.72963pt x 202.85536pt.
+
+Overfull \hbox (132.54762pt too wide) in paragraph at lines 390--392
+\T1/lmr/m/n/12 Infra Mon-i-tor en-forces a three-tier RBAC model im-ple-mented 
+in \T1/lmtt/m/n/12 accounts/models/organization_membership.py\T1/lmr/m/n/12 : 
+ []
+
+[34 <./images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png (PNG copy)>
+ <./images/diagrams/Shield_Feature_Sequence_Diagram_1_.png (PNG copy)>]
+Overfull \hbox (121.33035pt too wide) in paragraph at lines 414--419
+\T1/lmtt/m/n/12 rest_framework.authentication.JWTAuthentication\T1/lmr/m/n/12 .
+ The \T1/lmtt/m/n/12 common/api.py:get_organization_membership
+ []
+
+
+Overfull \hbox (50.50525pt too wide) in paragraph at lines 423--428
+[]\T1/lmr/bx/n/12 Database con-straints: \T1/lmr/m/n/12 All mod-els use UUID pr
+i-mary keys and Django's \T1/lmtt/m/n/12 UniqueConstraint
+ []
+
+
+Overfull \hbox (58.07954pt too wide) in paragraph at lines 435--438
+\T1/lmr/m/n/12 tion; the back-end prox-ies writes us-ing the or-gan-i-sa-tion's
+ \T1/lmtt/m/n/12 VictoriaMetricsTenant.account_id\T1/lmr/m/n/12 . 
+ []
+
+[35]
+Overfull \hbox (207.0061pt too wide) in paragraph at lines 445--447
+[]\T1/lmr/m/n/12 JWT ac-cess to-kens are short-lived; re-fresh to-kens are blac
+k-listed on lo-gout (\T1/lmtt/m/n/12 rest_framework_simplejwt.token_blacklist\T
+1/lmr/m/n/12 ). 
+ []
+
+
+Overfull \hbox (15.73045pt too wide) in paragraph at lines 447--449
+[]\T1/lmr/m/n/12 WebSocket tick-ets are stored only as SHA-256 hashes (\T1/lmtt
+/m/n/12 ai/services.py:hash_ticket\T1/lmr/m/n/12 );
+ []
+
+
+Overfull \hbox (112.86833pt too wide) in paragraph at lines 449--451
+[]\T1/lmr/m/n/12 Sanitized re-quest log head-ers strip au-then-ti-ca-tion cook-
+ies and to-kens (\T1/lmtt/m/n/12 sanitize/models/request_log.py
+ []
+
+
+Overfull \hbox (51.84048pt too wide) in paragraph at lines 451--454
+[]\T1/lmr/m/n/12 Environment vari-ables con-tain-ing se-crets (\T1/lmtt/m/n/12 
+SECRET_KEY\T1/lmr/m/n/12 , \T1/lmtt/m/n/12 GEMINI_API_KEY\T1/lmr/m/n/12 , \T1/l
+mtt/m/n/12 ML_SERVICE_TOKEN\T1/lmr/m/n/12 )
+ []
+
+
+Underfull \hbox (badness 3895) in paragraph at lines 482--482
+[]|\T1/lmr/m/n/12 Request Shield Ran-dom For-est shall
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--482
+[]|\T1/lmr/m/n/12 Request Shield fea-ture schema
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--482
+\T1/lmr/m/n/12 changes shall be ver-sioned
+ []
+
+) (chapters/ch04_architecture.tex [36]
+Chapter 4.
+
+Overfull \hbox (59.1733pt too wide) in paragraph at lines 18--22
+\T1/lmr/m/n/12 tract-ing do-main logic into \T1/lmtt/m/n/12 services/ \T1/lmr/m
+/n/12 mod-ules (e.g., \T1/lmtt/m/n/12 ai/services.py\T1/lmr/m/n/12 , \T1/lmtt/m
+/n/12 sanitize/services.py\T1/lmr/m/n/12 )
+ []
+
+File: images/diagrams/architecture_diagram.png Graphic file (type png)
+<use images/diagrams/architecture_diagram.png>
+Package pdftex.def Info: images/diagrams/architecture_diagram.png  used on inpu
+t line 40.
+(pdftex.def)             Requested size: 430.31812pt x 280.29457pt.
+[37
+
+]
+Overfull \hbox (2.32544pt too wide) in paragraph at lines 54--57
+\T1/lmr/m/n/12 batch sub-mis-sion, Re-quest Shield clas-si-fi-ca-tion, Gem-ini 
+es-ca-la-tion, threat-suggestion
+ []
+
+[38]
+Overfull \hbox (10.92772pt too wide) in paragraph at lines 141--141
+[]|\T1/lmr/m/n/10.95 Containerisation|  
+ []
+
+ignored error: Infinite glue shrinkage found in box being split [39] [40]
+Overfull \hbox (37.38672pt too wide) in paragraph at lines 204--209
+\T1/lmr/m/n/12 mi-croser-vice trains a scikit-learn \T1/lmtt/m/n/12 IsolationFo
+rest \T1/lmr/m/n/12 (\T1/lmtt/m/n/12 model/app/pipeline/train.py\T1/lmr/m/n/12 
+)
+ []
+
+
+Overfull \hbox (26.38777pt too wide) in paragraph at lines 209--213
+\T1/lmr/m/n/12 re-turns anomaly score and con-fi-dence. Django per-sists re-sul
+ts as \T1/lmtt/m/n/12 AnomalyDetection
+ []
+
+
+Overfull \hbox (166.65565pt too wide) in paragraph at lines 219--221
+[]\T1/lmr/m/it/12 Training data: \T1/lmr/m/n/12 CI-CIDS2017 dataset mapped to 2
+6-feature schema (\T1/lmtt/m/n/12 model/app/pipeline/request_shield.py\T1/lmr/m
+/n/12 ). 
+ []
+
+
+Overfull \hbox (108.15373pt too wide) in paragraph at lines 227--230
+\T1/lmr/m/n/12 mit-ted to Gem-ini for deeper pat-tern anal-y-sis; re-sult store
+d in \T1/lmtt/m/n/12 ThreatSuggestion.gemini_analysis\T1/lmr/m/n/12 . 
+ []
+
+
+Overfull \hbox (106.09459pt too wide) in paragraph at lines 233--236
+[]\T1/lmr/m/it/12 Context: \T1/lmr/m/n/12 An anomaly ev-i-dence snap-shot is bu
+ilt by \T1/lmtt/m/n/12 ai/services.py:anomaly_evidence_snapshot
+ []
+
+[41]
+Overfull \hbox (88.58412pt too wide) in paragraph at lines 240--243
+[]\T1/lmr/m/it/12 Streaming: \T1/lmtt/m/n/12 stream_gemini_response() \T1/lmr/m
+/n/12 uses \T1/lmtt/m/n/12 client.aio.models.generate_content_stream
+ []
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 255.
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 259.
+
+Overfull \hbox (122.88335pt too wide) in paragraph at lines 285--288
+[]\T1/lmr/bx/n/12 feature/<short-description> \T1/lmr/m/n/12 -- One branch per 
+user story (e.g., \T1/lmtt/m/n/12 feature/request-shield-classifier\T1/lmr/m/n/
+12 ,
+ []
+
+[42]
+Overfull \hbox (33.65872pt too wide) in paragraph at lines 292--294
+[]\T1/lmr/m/n/12 Commit mes-sage con-ven-tion: \T1/lmtt/m/n/12 <type>(<scope>):
+ <imperative summary> \T1/lmr/m/n/12 (e.g., \T1/lmtt/m/n/12 feat(ai):
+ []
+
+) (chapters/ch05_design.tex [43]
+Chapter 5.
+<images/diagrams/component_diagram.png, id=1093, 582.37575pt x 348.1005pt>
+File: images/diagrams/component_diagram.png Graphic file (type png)
+<use images/diagrams/component_diagram.png>
+Package pdftex.def Info: images/diagrams/component_diagram.png  used on input l
+ine 10.
+(pdftex.def)             Requested size: 430.31812pt x 257.22383pt.
+
+Overfull \hbox (23.43292pt too wide) in paragraph at lines 17--24
+\T1/lmr/m/n/12 data ac-cess for the AI mod-ule, and \T1/lmtt/m/n/12 common/auth
+orization.py:anomalies_visible_to
+ []
+
+
+Overfull \hbox (13.29314pt too wide) in paragraph at lines 25--30
+\T1/lmr/m/n/12 be-tween \T1/lmtt/m/n/12 ML_MODEL\T1/lmr/m/n/12 , \T1/lmtt/m/n/1
+2 GEMINI\T1/lmr/m/n/12 , and \T1/lmtt/m/n/12 RULE \T1/lmr/m/n/12 clas-si-fiers 
+at run-time based on the \T1/lmtt/m/n/12 ShieldConfig
+ []
+
+
+Overfull \hbox (72.83553pt too wide) in paragraph at lines 25--30
+\T1/lmr/m/n/12 and the re-quest zone. The \T1/lmtt/m/n/12 Classifier TextChoice
+s \T1/lmr/m/n/12 enum in \T1/lmtt/m/n/12 sanitize/models/request_log.py
+ []
+
+[44
+
+ <./images/diagrams/component_diagram.png>]
+Overfull \hbox (44.31018pt too wide) in paragraph at lines 36--40
+[]\T1/lmr/bx/n/12 Observer (Cel-ery Tasks) \T1/lmr/m/n/12 -- Back-ground tasks 
+(\T1/lmtt/m/n/12 ml_model/tasks.py\T1/lmr/m/n/12 , \T1/lmtt/m/n/12 sanitize/tas
+ks.py\T1/lmr/m/n/12 )
+ []
+
+
+Overfull \hbox (64.8996pt too wide) in paragraph at lines 48--52
+[]\T1/lmr/bx/n/12 Facade (Com-mon API Helpers) \T1/lmr/m/n/12 -- \T1/lmtt/m/n/1
+2 common/api.py \T1/lmr/m/n/12 pro-vides \T1/lmtt/m/n/12 get_organization_membe
+rship
+ []
+
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 59.
+Package microtype Info: Character `029' is missing
+(microtype)             in font `T1/lmr/m/sc/12'.
+(microtype)             Ignoring protrusion settings for this character.
+[45{C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.e
+nc}{C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
+[46
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.1}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.2}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.3}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.4}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.5}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.6}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.7}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.8}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.9}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.10})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{ALG@line.11})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.144 
+      ]
+Overfull \hbox (220.10641pt too wide) in paragraph at lines 147--154
+\T1/lmr/bx/n/12 ER Di-a-gram Note: \T1/lmr/m/n/12 Per the must-read in-struc-ti
+on in \T1/lmtt/m/n/12 report/diagrams/er_diagram/MUST_READ_INSTRUCTION_FOR_AI_A
+GENT.md\T1/lmr/m/n/12 ,
+ []
+
+[47]
+Underfull \hbox (badness 1783) in paragraph at lines 189--189
+[]|\T1/lmr/m/n/12 Legacy global role (dep-re-cated by
+ []
+
+
+Underfull \hbox (badness 3138) in paragraph at lines 224--224
+[]|\T1/lmr/m/n/12 OWNER / AD-MIN / EN-GI-
+ []
+
+
+Overfull \hbox (126.03316pt too wide) in alignment at lines 224--224
+[][][][] 
+ []
+
+[48]
+Overfull \hbox (194.81482pt too wide) in paragraph at lines 246--246
+[]|\T1/lmr/m/n/12 HEALTHY/WARNING/CRITICAL/OFFLINE/STALE/UNKNOWN| 
+ []
+
+[49]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg, id=1152, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg  
+used on input line 287.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg, id=1153, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jp
+eg  used on input line 289.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [50]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg, id=1158, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg  
+used on input line 295.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg, id=1159, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jp
+eg  used on input line 297.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [51 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg> <./images/ss/What
+sApp_Image_2026-11-06_at_17.27.19__1_.jpeg>]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg, id=1164, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jp
+eg  used on input line 303.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg, id=1165, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg  
+used on input line 305.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [52 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg> <./images/ss/What
+sApp_Image_2026-11-06_at_17.27.20__1_.jpeg>]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg, id=1170, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jp
+eg  used on input line 311.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg, id=1171, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jp
+eg  used on input line 313.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [53 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg> <./images/ss/
+WhatsApp_Image_2026-11-06_at_17.27.23.jpeg>]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg, id=1177, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg  
+used on input line 319.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg, id=1178, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jp
+eg  used on input line 321.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [54 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg> <./images/ss/
+WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg>]
+Overfull \hbox (81.07906pt too wide) in paragraph at lines 327--330
+\T1/lmr/m/n/12 The fol-low-ing ta-ble sum-marises the pri-mary REST API end-poi
+nts, de-rived from \T1/lmtt/m/n/12 infra_monitor/urls.py\T1/lmr/m/n/12 ,
+ []
+
+[55 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg> <./images/ss/Whats
+App_Image_2026-11-06_at_17.27.24__1_.jpeg>]
+Underfull \hbox (badness 6332) in paragraph at lines 335--336
+[]|\T1/lmr/bx/n/12 Key Params /
+ []
+
+
+Overfull \hbox (77.14172pt too wide) in alignment at lines 332--337
+ [] [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 6332) in paragraph at lines 339--340
+[]|\T1/lmr/bx/n/12 Key Params /
+ []
+
+
+Overfull \hbox (77.14172pt too wide) in alignment at lines 337--341
+ [] [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
+[]|\T1/lmr/m/n/12 email, user-name,
+ []
+
+
+Underfull \hbox (badness 4765) in paragraph at lines 345--345
+[]|\T1/lmr/m/n/12 Login; get JWT
+ []
+
+
+Underfull \hbox (badness 1728) in paragraph at lines 347--347
+[]|\T1/lmr/m/n/12 Refresh ac-cess to-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 349--350
+[]|\T1/lmr/m/n/12 email, otp,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 349--350
+\T1/lmr/m/n/12 new_password
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
+[]|\T1/lmr/m/n/12 notification set-
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 356--356
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 358--358
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 358--359
+[]|$\OMS/lmsy/m/n/12 !$ \T1/lmr/m/n/12 pag-i-nated
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 359--359
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 359--360
+[]|\T1/lmr/m/n/12 name, host-name,
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 360--360
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 361--361
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 362--362
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 364--364
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (7.20457pt too wide) in paragraph at lines 365--365
+[]|\T1/lmr/m/n/12 Acknowledge/resolve| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 365--365
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 367--367
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 368--368
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Overfull \hbox (64.49878pt too wide) in paragraph at lines 369--369
+[]|\T1/lmr/m/n/12 JWT+Admin/Engineer| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 371--371
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
+[]|\T1/lmr/m/n/12 is_anomaly, ser-
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 372--372
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 374--374
+[]|\T1/lmr/m/n/12 Create/get con-ver-
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 374--374
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 375--375
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (20.92775pt too wide) in paragraph at lines 376--376
+[]|\T1/lmr/m/n/12 JWT+Member| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 378--378
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 5050) in paragraph at lines 378--379
+[]|\T1/lmr/m/n/12 hours, source $\OMS/lmsy/m/n/12 !$
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 379--379
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 5741) in paragraph at lines 379--380
+[]|\T1/lmr/m/n/12 zone, source, ip,
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 380--380
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 380--381
+[]|\T1/lmr/m/n/12 verdict (con-
+ []
+
+
+Overfull \hbox (2.96182pt too wide) in paragraph at lines 380--381
+\T1/lmr/m/n/12 firmed_safe/threat)| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 381--381
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 382--382
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
+[]|\T1/lmr/m/n/12 action (ac-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
+\T1/lmr/m/n/12 cept/dismiss),
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 383--383
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 2050) in paragraph at lines 385--386
+[]|\T1/lmr/m/n/12 Prometheus pro-to-
+ []
+
+
+Overfull \hbox (5.59618pt too wide) in paragraph at lines 386--386
+[]|\T1/lmr/m/n/12 EnrollToken| 
+ []
+
+
+Overfull \hbox (13.42104pt too wide) in paragraph at lines 387--387
+[]|\T1/lmr/m/n/12 JWT+Admin| 
+ []
+
+
+Underfull \hbox (badness 1968) in paragraph at lines 391--391
+[]|\T1/lmr/m/n/12 Log in-ges-tion (in-
+ []
+
+
+Overfull \hbox (77.14172pt too wide) in alignment at lines 341--393
+ [] [] [] [] [] 
+ []
+
+[56
+
+] [57] [58] [59]
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+Overfull \hbox (9.66185pt too wide) in paragraph at lines 443--446
+[]\T1/lmr/bx/n/12 Model: \T1/lmtt/m/n/12 sklearn.ensemble.IsolationForest \T1/l
+mr/m/n/12 with \T1/lmtt/m/n/12 contamination \T1/lmr/m/n/12 pa-ram-e-ter (con-
+ []
+
+
+Overfull \hbox (2.77377pt too wide) in paragraph at lines 443--446
+\T1/lmr/m/n/12 fig-urable via Django set-tings), \T1/lmtt/m/n/12 random_state=4
+2 \T1/lmr/m/n/12 (\T1/lmtt/m/n/12 model/app/pipeline/train.py\T1/lmr/m/n/12 ). 
+
+ []
+
+[60
+
+]
+Overfull \hbox (129.517pt too wide) in paragraph at lines 446--449
+\T1/lmr/m/n/12 work I/O) ag-gre-gated into a fixed-length fea-ture vec-tor by \
+T1/lmtt/m/n/12 ml_model/services.py:ServiceFeatureBuilder\T1/lmr/m/n/12 . 
+ []
+
+
+Overfull \hbox (124.4703pt too wide) in paragraph at lines 456--459
+[]\T1/lmr/bx/n/12 Failure han-dling: \T1/lmtt/m/n/12 ModelNotFoundError \T1/lmr
+/m/n/12 raised if no trained ar-ti-fact ex-ists; \T1/lmtt/m/n/12 InsufficientTe
+lemetryError
+ []
+
+
+Overfull \hbox (89.74994pt too wide) in paragraph at lines 464--467
+\T1/lmr/m/n/12 depth 20, \T1/lmtt/m/n/12 class_weight=`balanced'\T1/lmr/m/n/12 
+, \T1/lmtt/m/n/12 n_jobs=-1 \T1/lmr/m/n/12 (\T1/lmtt/m/n/12 model/app/pipeline/
+request_classifier.py\T1/lmr/m/n/12 ). 
+ []
+
+
+Overfull \hbox (10.11578pt too wide) in paragraph at lines 467--470
+[]\T1/lmr/bx/n/12 Dataset: \T1/lmr/m/n/12 CI-CIDS2017 (Cana-dian In-sti-tute fo
+r Cy-ber-se-cu-rity) net-work traf-fic dataset,
+ []
+
+
+Overfull \hbox (22.69867pt too wide) in paragraph at lines 467--470
+\T1/lmr/m/n/12 mapped to 26-feature schema (\T1/lmtt/m/n/12 sanitize/features.p
+y\T1/lmr/m/n/12 ). La-bels: 0=GREEN, 1=GRAY,
+ []
+
+
+Overfull \hbox (63.12073pt too wide) in paragraph at lines 472--475
+[]\T1/lmr/bx/n/12 Versioning: \T1/lmr/m/n/12 Ar-ti-fact for-mat ver-sion pinned
+ in \T1/lmtt/m/n/12 REQUEST_SHIELD_ARTIFACT_FORMAT_VERSION=1\T1/lmr/m/n/12 ;
+ []
+
+
+Overfull \hbox (22.84866pt too wide) in paragraph at lines 484--487
+[]\T1/lmr/bx/n/12 Prompt struc-ture: \T1/lmr/m/n/12 Ev-i-dence blob prepended a
+s user mes-sage, model pre-acknowledges
+ []
+
+
+Overfull \hbox (59.13437pt too wide) in paragraph at lines 484--487
+\T1/lmr/m/n/12 advisory-only mode, then con-ver-sa-tion his-tory ap-pended (\T1
+/lmtt/m/n/12 ai/services.py:gemini_contents\T1/lmr/m/n/12 ). 
+ []
+
+[61]
+Overfull \hbox (65.88579pt too wide) in paragraph at lines 501--504
+[]\T1/lmr/bx/n/12 Integration Test-ing: \T1/lmr/m/n/12 End-to-end Docker Com-po
+se smoke test via \T1/lmtt/m/n/12 scripts/sanitize-e2e.ps1
+ []
+
+[62]) (chapters/ch06_implementation.tex [63]
+Chapter 6.
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 25.
+
+Overfull \hbox (105.89238pt too wide) in paragraph at lines 42--45
+\T1/lmr/m/n/12 ver-i-fied ac-counts. Re-fresh to-kens are black-listed on lo-go
+ut via \T1/lmtt/m/n/12 rest_framework_simplejwt.token_blacklist\T1/lmr/m/n/12 .
+ 
+ []
+
+[64
+
+]
+Overfull \hbox (198.21385pt too wide) in paragraph at lines 46--46
+|[]\T1/lmr/bx/n/14.4 Organisation Mem-ber-ship with RBAC (\T1/lmtt/b/n/14.4 acc
+ounts/models/organisation_membership.py\T1/lmr/bx/n/14.4 )| 
+ []
+
+
+Overfull \hbox (9.1476pt too wide) in paragraph at lines 74--74
+|[]\T1/lmr/bx/n/14.4 AI Chat-bot Web-Socket (\T1/lmtt/b/n/14.4 ai/services.py, 
+ai/consumers.py\T1/lmr/bx/n/14.4 )| 
+ []
+
+[65]
+Overfull \hbox (56.46306pt too wide) in paragraph at lines 129--132
+[]\T1/lmr/m/n/12 The func-tion is an async gen-er-a-tor, yield-ing text chunks 
+as they ar-rive. The \T1/lmtt/m/n/12 SYSTEM_INSTRUCTION
+ []
+
+
+Overfull \hbox (3.71526pt too wide) in paragraph at lines 148--148
+|[]\T1/lmr/bx/n/14.4 Request Shield Fea-ture Ex-trac-tion (\T1/lmtt/b/n/14.4 sa
+nitize/features.py\T1/lmr/bx/n/14.4 )| 
+ []
+
+[66]
+Overfull \hbox (152.99432pt too wide) in paragraph at lines 166--166
+|[]\T1/lmr/bx/n/14.4 Random For-est Clas-si-fier Train-ing (\T1/lmtt/b/n/14.4 m
+odel/app/pipeline/request_classifier.py\T1/lmr/bx/n/14.4 )| 
+ []
+
+
+Overfull \hbox (118.44643pt too wide) in paragraph at lines 197--204
+\T1/lmr/m/n/12 After the ML ser-vice in-fers anomaly scores, it POSTs re-sults 
+back to Django via \T1/lmtt/m/n/12 /api/internal/ml/detections/
+ []
+
+
+Overfull \hbox (67.82224pt too wide) in paragraph at lines 197--204
+\T1/lmr/m/n/12 (\T1/lmtt/m/n/12 ml_model/internal_urls.py\T1/lmr/m/n/12 ). Djan
+go per-sists \T1/lmtt/m/n/12 AnomalyDetection \T1/lmr/m/n/12 records and, if \T
+1/lmtt/m/n/12 is_anomaly=True\T1/lmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (25.10236pt too wide) in paragraph at lines 197--204
+\T1/lmr/m/n/12 cre-ates or dedu-pli-cates an \T1/lmtt/m/n/12 Alert \T1/lmr/m/n/
+12 via the alert fin-ger-print mech-a-nism (\T1/lmtt/m/n/12 alert/models/alert.
+py
+ []
+
+[67]
+Overfull \hbox (9.49858pt too wide) in paragraph at lines 224--228
+\T1/lmtt/m/n/12 anomaly evidence (data, not instructions):" \T1/lmr/m/n/12 be-f
+ore be-ing passed to the model,
+ []
+
+[68] [69]) (chapters/ch07_testing.tex [70]
+Chapter 7.
+
+Underfull \hbox (badness 1360) in paragraph at lines 35--35
+[]|\T1/lmr/m/n/12 User can cre-ate an or-gan-i-sa-tion; be-comes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--35
+[]|\T1/lmr/m/n/12 Server sta-tus tran-si-tions cor-rectly
+ []
+
+
+Overfull \hbox (16.27185pt too wide) in paragraph at lines 35--35
+\T1/lmr/m/n/12 (HEALTHY/WARNING/CRITICAL/OFFLINE)| 
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 35--35
+[]|\T1/lmr/m/n/12 Alert cre-ated when anomaly is de-tected;
+ []
+
+
+Underfull \hbox (badness 4556) in paragraph at lines 35--35
+[]|\T1/lmr/m/n/12 Alloy ac-cess logs in-gested and clas-si-fied
+ []
+
+[71
+
+]
+Overfull \vbox (188.41235pt too high) has occurred while \output is active []
+
+
+[72]
+Underfull \hbox (badness 5036) in paragraph at lines 49--49
+[]|[]\T1/lmr/bx/n/10.95 [ASSUMED: Team
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+[]|[]\T1/lmr/bx/n/10.95 [ASSUMED:
+ []
+
+
+Overfull \hbox (3.84749pt too wide) in paragraph at lines 105--105
+\T1/lmr/m/n/10.95 ken/refresh/|  
+ []
+
+
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 49--106
+  [] 
+ []
+
+
+Overfull \vbox (23.81277pt too high) has occurred while \output is active []
+
+
+[73]
+Underfull \hbox (badness 5036) in paragraph at lines 118--118
+[]|[]\T1/lmr/bx/n/10.95 [ASSUMED: Team
+ []
+
+
+Overfull \hbox (7.69919pt too wide) in paragraph at lines 156--156
+\T1/lmr/m/n/10.95 role=OWNER|  
+ []
+
+
+Overfull \hbox (46.7534pt too wide) in paragraph at lines 156--156
+\T1/lmr/m/n/10.95 tions/<id>/members/|  
+ []
+
+
+Overfull \hbox (2.74142pt too wide) in paragraph at lines 156--156
+\T1/lmr/m/n/10.95 proved=False|  
+ []
+
+
+Overfull \hbox (1.0375pt too wide) in paragraph at lines 156--156
+\T1/lmr/m/n/10.95 proved=True|  
+ []
+
+
+Overfull \hbox (1.0375pt too wide) in paragraph at lines 156--156
+\T1/lmr/m/n/10.95 proved=True|  
+ []
+
+
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 118--157
+  [] 
+ []
+
+
+Overfull \hbox (29.39691pt too wide) in paragraph at lines 181--181
+\T1/lmr/m/n/10.95 /api/metrics/write 
+ []
+
+
+Overfull \hbox (154.41014pt too wide) in paragraph at lines 181--181
+\T1/lmr/m/n/10.95 /servers/<sid>/metrics/?metric=cpu_usage|  
+ []
+
+
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 168--182
+  [] 
+ []
+
+[74]
+Overfull \hbox (40.42006pt too wide) in paragraph at lines 207--207
+\T1/lmr/m/n/10.95 tant/conversations/|  
+ []
+
+
+Overfull \hbox (11.12474pt too wide) in paragraph at lines 207--207
+\T1/lmr/m/n/10.95 /assistant/ws- 
+ []
+
+
+Overfull \hbox (44.85768pt too wide) in paragraph at lines 207--207
+\T1/lmr/m/n/10.95 ini_not_configured''|  
+ []
+
+
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 193--208
+  [] 
+ []
+
+[75]
+Overfull \hbox (4.97295pt too wide) in paragraph at lines 236--236
+[]|\T1/lmr/bx/n/10.95 Expected|  
+ []
+
+
+Overfull \hbox (56.72333pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 /api/internal/request- 
+ []
+
+
+Overfull \hbox (10.98018pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 logs/ingest/|  
+ []
+
+
+Overfull \hbox (7.36066pt too wide) in paragraph at lines 236--236
+[]|\T1/lmr/m/n/10.95 zone=RED 
+ []
+
+
+Overfull \hbox (85.28801pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 shield/analytics/?hours=24|  
+ []
+
+
+Overfull \hbox (39.23706pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 zone_distribution|  
+ []
+
+
+Overfull \hbox (50.18782pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 /logs/<id>/verdict/ 
+ []
+
+
+Overfull \hbox (21.56479pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 firmed_threat|  
+ []
+
+
+Overfull \hbox (12.7222pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 min_verdict 
+ []
+
+
+Overfull \hbox (37.7161pt too wide) in paragraph at lines 236--236
+[]|\T1/lmr/m/n/10.95 ThreatSuggestion 
+ []
+
+
+Overfull \hbox (46.99384pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 tions/<id>/action/ 
+ []
+
+
+Overfull \hbox (39.20618pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 tus=ACCEPTED|  
+ []
+
+
+Overfull \hbox (37.22997pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 tus=DISMISSED|  
+ []
+
+
+Overfull \hbox (18.4015pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 shield/config/ 
+ []
+
+
+Overfull \hbox (8.79018pt too wide) in paragraph at lines 236--236
+\T1/lmr/m/n/10.95 abled=false|  
+ []
+
+
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 219--237
+  [] 
+ []
+
+[76]
+Overfull \hbox (9.91939pt too wide) in paragraph at lines 245--271
+ [][] 
+ []
+
+[77]
+Overfull \hbox (83.50618pt too wide) in paragraph at lines 281--285
+\T1/lmr/m/n/12 and 501 (in-valid) vec-tors, tar-get-ing the bound-ary de-fined 
+by \T1/lmtt/m/n/12 REQUEST_SHIELD_MAX_BATCH_SIZE=500
+ []
+
+
+Overfull \hbox (0.43176pt too wide) in paragraph at lines 286--291
+[]\T1/lmr/bx/n/12 State Tran-si-tion Test-ing: \T1/lmr/m/n/12 Alert state ma-ch
+ine (AC-TIVE $\OMS/lmsy/m/n/12 !$ \T1/lmr/m/n/12 AC-KNOWL-EDGED
+ []
+
+[78]
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 332.
+ [79]
+Underfull \hbox (badness 1325) in paragraph at lines 355--355
+[]|\T1/lmr/m/n/12 Create org, in-vite col-league, ap-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 355--355
+[]|\T1/lmr/m/n/12 Open AI chat-bot, ask about
+ []
+
+
+Underfull \hbox (badness 2846) in paragraph at lines 400--400
+[]|\T1/lmr/m/n/12 SQL In-jec-tion via API query
+ []
+
+
+Underfull \hbox (badness 5563) in paragraph at lines 400--400
+[]|\T1/lmr/m/n/12 Mitigated -- To-kens val-i-dated
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 400--400
+[]|\T1/lmr/m/n/12 Mitigated --
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 400--400
+\T1/lmtt/m/n/12 get_organization_membership
+ []
+
+
+Underfull \hbox (badness 3919) in paragraph at lines 400--400
+[]|\T1/lmr/m/n/12 Security Mis-con-fig-u-ra-tion (DE-
+ []
+
+
+Underfull \hbox (badness 1122) in paragraph at lines 400--400
+\T1/lmtt/m/n/12 .env\T1/lmr/m/n/12 ; de-ploy-ment docs re-quire
+ []
+
+
+Underfull \hbox (badness 1735) in paragraph at lines 400--400
+[]|\T1/lmr/m/n/12 Mitigated -- Pass-words hashed;
+ []
+
+
+Underfull \hbox (badness 2951) in paragraph at lines 400--400
+[]|\T1/lmr/m/n/12 Mitigated -- One-use SHA-256
+ []
+
+[80] [81] [82]) (chapters/ch08_deployment.tex [83]
+Chapter 8.
+
+Overfull \hbox (9.48279pt too wide) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Django+Daphne
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 FastAPI ML
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+\T1/lmr/m/n/12 in-fer-ence mi-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Celery async
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Periodic task
+ []
+
+
+Underfull \hbox (badness 4048) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Celery bro-ker
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Primary
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+\T1/lmr/m/n/12 re-la-tional
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Time-series
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Metric write
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/12 Metric query
+ []
+
+[84
+
+]
+Overfull \hbox (29.32587pt too wide) in paragraph at lines 36--41
+[]\T1/lmr/bx/n/12 Health checks: \T1/lmr/m/n/12 All state-ful ser-vices de-fine
+ Docker health checks (Post-greSQL: \T1/lmtt/m/n/12 pg_isready\T1/lmr/m/n/12 ;
+ []
+
+[85]
+Overfull \hbox (2.01707pt too wide) in paragraph at lines 109--113
+\T1/lmr/m/n/12 monitoring-only fea-tures first (server en-rol-ment, dash-boards
+), then en-able alerts/incidents,
+ []
+
+[86]) (chapters/ch09_sustainability.tex [87]
+Chapter 9.
+
+Underfull \hbox (badness 2245) in paragraph at lines 38--38
+\T1/lmr/m/n/12 un-der high Web-Socket con-cur-
+ []
+
+
+Underfull \hbox (badness 2293) in paragraph at lines 38--38
+\T1/lmr/m/n/12 tamp; mi-grate to Post-greSQL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\T1/lmr/m/n/12 Cluster ar-chi-tec-ture (vm-stor-
+ []
+
+
+Overfull \hbox (38.0076pt too wide) in paragraph at lines 38--38
+\T1/lmtt/m/n/12 REQUEST_SHIELD_CLASSIFY_BATCH_SIZE| 
+ []
+
+
+Underfull \hbox (badness 4120) in paragraph at lines 38--38
+\T1/lmr/m/n/12 cas; in-tro-duce model caching
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\T1/lmr/m/n/12 Set \T1/lmtt/m/n/12 CELERY_RESULT_EXPIRES
+ []
+
+[88
+
+]
+Overfull \hbox (3.07933pt too wide) in paragraph at lines 66--70
+[]\T1/lmr/bx/n/12 Multi-tenancy: \T1/lmr/m/n/12 Vic-to-ri-a-Met-rics ten-ant is
+o-la-tion (\T1/lmtt/m/n/12 VictoriaMetricsTenant \T1/lmr/m/n/12 model)
+ []
+
+
+Overfull \hbox (3.97047pt too wide) in paragraph at lines 80--83
+[]\T1/lmr/bx/n/12 Dependency up-dates: \T1/lmr/m/n/12 Monthly re-view of \T1/lm
+tt/m/n/12 pip-audit \T1/lmr/m/n/12 and \T1/lmtt/m/n/12 flutter pub outdated
+ []
+
+
+Overfull \hbox (40.56184pt too wide) in paragraph at lines 86--88
+[]\T1/lmr/bx/n/12 Database mi-gra-tions: \T1/lmr/m/n/12 All schema changes via 
+Django \T1/lmtt/m/n/12 makemigrations\T1/lmr/m/n/12 ; \T1/lmtt/m/n/12 makemigra
+tions
+ []
+
+
+Overfull \hbox (3.96645pt too wide) in paragraph at lines 88--90
+[]\T1/lmr/bx/n/12 Documentation: \T1/lmtt/m/n/12 docs/ \T1/lmr/m/n/12 folder ma
+in-tained with ar-chi-tec-ture de-ci-sions; API changes
+ []
+
+[89] [90]) (main.bbl [91]) (appendices/appendixA_source_code.tex [92
+
+]
+Appendix A.
+[93
+
+]
+Overfull \hbox (152.95895pt too wide) in paragraph at lines 43--43
+|\T1/lmr/bx/n/14.4 A.2 ML Mi-croser-vice -- Re-quest Clas-si-fier (\T1/lmtt/b/n
+/14.4 model/app/pipeline/request_classifier.py\T1/lmr/bx/n/14.4 )| 
+ []
+
+
+Overfull \hbox (30.61687pt too wide) in paragraph at lines 60--60
+|\T1/lmr/bx/n/14.4 A.3 Docker Com-pose -- Full Stack Or-ches-tra-tion (\T1/lmtt
+/b/n/14.4 docker-compose.yml\T1/lmr/bx/n/14.4 )| 
+ []
+
+) (appendices/appendixB_test_cases.tex [94]
+Appendix B.
+
+Overfull \hbox (11.94067pt too wide) in paragraph at lines 1--1
+|\T1/lmr/bx/n/24.88 Complete Test Cases (De-tailed Ta-bles)| 
+ []
+
+
+Overfull \hbox (8.50851pt too wide) in alignment at lines 7--11
+ [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.50851pt too wide) in alignment at lines 11--13
+ [] [] [] [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]|\T1/lmr/m/n/10.95 valid
+ []
+
+
+Overfull \hbox (8.31233pt too wide) in paragraph at lines 14--14
+\T1/lmr/m/n/10.95 email+pwd| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[]|\T1/lmr/m/n/10.95 POST /reg-is-ter
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[]|\T1/lmr/m/n/10.95 dup
+ []
+
+
+Overfull \hbox (1.0433pt too wide) in paragraph at lines 16--16
+[]|\T1/lmr/m/n/10.95 unverified
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
+[]|\T1/lmr/m/n/10.95 valid
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+[]|\T1/lmr/m/n/10.95 Login wrong
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+[]|\T1/lmr/m/n/10.95 wrong
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+[]|\T1/lmr/m/n/10.95 POST /to-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+[]|\T1/lmr/m/n/10.95 valid
+ []
+
+
+Underfull \hbox (badness 1270) in paragraph at lines 20--20
+[]|\T1/lmr/m/n/10.95 Logout black-
+ []
+
+
+Underfull \hbox (badness 3713) in paragraph at lines 20--20
+[]|\T1/lmr/m/n/10.95 Logout then re-
+ []
+
+
+Overfull \hbox (5.02818pt too wide) in paragraph at lines 20--20
+[]|\T1/lmr/m/n/10.95 blacklisted| 
+ []
+
+
+Underfull \hbox (badness 2478) in paragraph at lines 20--20
+[]|\T1/lmr/m/n/10.95 401 on re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
+[]|\T1/lmr/m/n/10.95 Password
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
+[]|\T1/lmr/m/n/10.95 valid
+ []
+
+
+Underfull \hbox (badness 1281) in paragraph at lines 22--22
+[]|\T1/lmr/m/n/10.95 POST /or-ga-ni-za-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
+[]|\T1/lmr/m/n/10.95 name,
+ []
+
+
+Overfull \hbox (11.22824pt too wide) in paragraph at lines 22--22
+[]|\T1/lmr/m/n/10.95 201+OWNER| 
+ []
+
+
+Underfull \hbox (badness 1281) in paragraph at lines 23--23
+[]|\T1/lmr/m/n/10.95 POST /or-ga-ni-za-
+ []
+
+
+Overfull \hbox (23.07683pt too wide) in paragraph at lines 23--23
+\T1/lmr/m/n/10.95 tions/<id>/members/| 
+ []
+
+
+Overfull \hbox (6.0569pt too wide) in paragraph at lines 23--23
+[]|\T1/lmr/m/n/10.95 201+pending| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--24
+[]|\T1/lmr/m/n/10.95 Owner
+ []
+
+
+Overfull \hbox (11.5626pt too wide) in paragraph at lines 24--24
+[]|\T1/lmr/m/n/10.95 200+approved| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+[]|\T1/lmr/m/n/10.95 Eng
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/10.95 Join same org
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/lmr/m/n/10.95 same
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+[]|\T1/lmr/m/n/10.95 name,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+\T1/lmr/m/n/10.95 host-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+[]|\T1/lmr/m/n/10.95 Dup host-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+[]|\T1/lmr/m/n/10.95 Create server
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+[]|\T1/lmr/m/n/10.95 same
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+\T1/lmr/m/n/10.95 host-
+ []
+
+
+Underfull \hbox (badness 4967) in paragraph at lines 29--29
+[]|\T1/lmr/m/n/10.95 POST /mon-i-tor-
+ []
+
+
+Underfull \hbox (badness 6944) in paragraph at lines 29--29
+[]|\T1/lmr/m/n/10.95 valid to-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[]|\T1/lmr/m/n/10.95 POST
+ []
+
+
+Overfull \hbox (3.70137pt too wide) in paragraph at lines 30--30
+\T1/lmr/m/n/10.95 /api/metrics/write| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[]|\T1/lmr/m/n/10.95 protobuf
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+[]|\T1/lmr/m/n/10.95 GET /met-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--32
+[]|\T1/lmr/m/n/10.95 POST /as-sis-
+ []
+
+
+Overfull \hbox (9.08592pt too wide) in paragraph at lines 32--32
+\T1/lmr/m/n/10.95 tant/conversations/| 
+ []
+
+
+Overfull \hbox (12.2667pt too wide) in paragraph at lines 32--32
+[]|\T1/lmr/m/n/10.95 anomaly_id| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--33
+[]|\T1/lmr/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--33
+\T1/lmr/m/n/10.95 /assistant/ws-
+ []
+
+
+Underfull \hbox (badness 3333) in paragraph at lines 34--34
+[]|\T1/lmr/m/n/10.95 WS con-nect ex-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/lmr/m/n/10.95 Send ma-li-cious
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/lmr/m/n/10.95 injection
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/lmr/m/n/10.95 advisory
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\T1/lmr/m/n/10.95 Ingest log
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\T1/lmr/m/n/10.95 POST /request-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\T1/lmr/m/n/10.95 10 log
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+[]|\T1/lmr/m/n/10.95 Trigger clas-sify
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+[]|\T1/lmr/m/n/10.95 SQL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+\T1/lmr/m/n/10.95 in-jec-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--40
+[]|\T1/lmr/m/n/10.95 GET /an-a-lyt-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--40
+[]|\T1/lmr/m/n/10.95 Admin
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
+[]|\T1/lmr/m/n/10.95 POST
+ []
+
+
+Overfull \hbox (12.79698pt too wide) in paragraph at lines 41--41
+\T1/lmr/m/n/10.95 /logs/<id>/verdict/| 
+ []
+
+
+Overfull \hbox (38.7901pt too wide) in paragraph at lines 41--41
+[]|\T1/lmr/m/n/10.95 confirmed_threat| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
+[]|\T1/lmr/m/n/10.95 high
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
+\T1/lmr/m/n/10.95 RED
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
+[]|\T1/lmr/m/n/10.95 suggestion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
+[]|\T1/lmr/m/n/10.95 POST /ac-tion/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
+[]|\T1/lmr/m/n/10.95 Admin
+ []
+
+
+Overfull \hbox (30.38965pt too wide) in paragraph at lines 43--43
+[]|\T1/lmr/m/n/10.95 200+ACCEPTED| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
+[]|\T1/lmr/m/n/10.95 Dismiss sug-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
+[]|\T1/lmr/m/n/10.95 POST /ac-tion/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
+[]|\T1/lmr/m/n/10.95 Admin
+ []
+
+
+Overfull \hbox (28.41344pt too wide) in paragraph at lines 44--44
+[]|\T1/lmr/m/n/10.95 200+DISMISSED| 
+ []
+
+
+Underfull \hbox (badness 6792) in paragraph at lines 45--45
+[]|\T1/lmr/m/n/10.95 Shield con-fig
+ []
+
+
+Underfull \hbox (badness 4621) in paragraph at lines 45--45
+[]|\T1/lmr/m/n/10.95 PATCH /con-fig/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+[]|\T1/lmr/m/n/10.95 Admin
+ []
+
+
+Overfull \hbox (7.03033pt too wide) in paragraph at lines 45--45
+[]|\T1/lmr/m/n/10.95 200+disabled| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--46
+[]|\T1/lmr/m/n/10.95 Oversized
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]|\T1/lmr/m/n/10.95 Create in-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]|\T1/lmr/m/n/10.95 POST /in-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]|\T1/lmr/m/n/10.95 title,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+\T1/lmr/m/n/10.95 server,
+ []
+
+
+Underfull \hbox (badness 3769) in paragraph at lines 48--48
+[]|\T1/lmr/m/n/10.95 PATCH in-ci-dent
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/lmr/m/n/10.95 Engineer
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+[]|\T1/lmr/m/n/10.95 Assign non-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+[]|\T1/lmr/m/n/10.95 PATCH as-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+[]|\T1/lmr/m/n/10.95 Admin
+ []
+
+
+Underfull \hbox (badness 4981) in paragraph at lines 49--49
+[]|\T1/lmr/m/n/10.95 400 val-i-da-
+ []
+
+
+Overfull \hbox (8.50851pt too wide) in alignment at lines 13--50
+ [] [] [] [] [] [] [] 
+ []
+
+ignored error: Infinite glue shrinkage found in box being split [95
+
+]
+ignored error: Infinite glue shrinkage found in box being split [96])
+(appendices/appendixC_screenshots.tex [97]
+Appendix C.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg  
+used on input line 9.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jp
+eg  used on input line 11.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg  
+used on input line 19.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jp
+eg  used on input line 21.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+[98
+
+]
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jp
+eg  used on input line 30.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg  
+used on input line 32.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [99]
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jp
+eg  used on input line 41.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jp
+eg  used on input line 43.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [100]
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg  
+used on input line 52.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jp
+eg  used on input line 54.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [101]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg, id=1673, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jp
+eg  used on input line 63.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg, id=1674, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg  
+used on input line 65.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [102]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg, id=1679, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jp
+eg  used on input line 74.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg, id=1680, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jp
+eg  used on input line 76.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [103 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg> <./images/ss
+/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg>]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__3_.jpeg, id=1685, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__3_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__3_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__3_.jp
+eg  used on input line 85.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.26.jpeg, id=1686, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.26.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.26.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.26.jpeg  
+used on input line 87.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+
+[104 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg> <./images/ss/
+WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg>]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__1_.jpeg, id=1691, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__1_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__1_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__1_.jp
+eg  used on input line 96.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__2_.jpeg, id=1692, 722.7pt x 1
+606.0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__2_.jpeg Graphic file (ty
+pe jpg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__2_.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__2_.jp
+eg  used on input line 98.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [105 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__3_.jpeg> <./images/ss
+/WhatsApp_Image_2026-11-06_at_17.27.26.jpeg>]
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg, id=1697, 722.7pt x 1606.
+0pt>
+File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg Graphic file (type j
+pg)
+<use images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg>
+Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg  
+used on input line 107.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [106 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__1_.jpeg> <./images/ss
+/WhatsApp_Image_2026-11-06_at_17.27.26__2_.jpeg>])
+(appendices/appendixD_meeting_minutes.tex [107 <./images/ss/WhatsApp_Image_2026
+-11-06_at_17.27.27.jpeg>]
+Appendix D.
+
+Underfull \hbox (badness 6708) in paragraph at lines 43--43
+[]|[]\T1/lmr/bx/n/12 [ASSUMED: Team kick-off; re-quire-ments anal-y-sis; ar-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
+\T1/lmr/bx/n/12 chi-tec-ture de-ci-sion (Lay-ered+Microservice); agreed on
+ []
+
+
+Underfull \hbox (badness 8151) in paragraph at lines 43--43
+\T1/lmr/bx/n/12 Django+Flutter+VictoriaMetrics stack; cre-ated GitHub
+ []
+
+
+Underfull \hbox (badness 1314) in paragraph at lines 43--43
+[]|[]\T1/lmr/bx/n/12 [ASSUMED: Full end-to-end in-te-gra-tion test-ing; sanitiz
+e-
+ []
+
+[108
+
+]) (appendices/appendixE_additional_diagrams.tex [109]
+Appendix E.
+<images/diagrams/01_level1_context.pdf, id=1716, 999.735pt x 347.37779pt>
+File: images/diagrams/01_level1_context.pdf Graphic file (type pdf)
+<use images/diagrams/01_level1_context.pdf>
+Package pdftex.def Info: images/diagrams/01_level1_context.pdf  used on input l
+ine 58.
+(pdftex.def)             Requested size: 416.72963pt x 144.80046pt.
+[110
+
+]
+<images/diagrams/02_level2_services.pdf, id=1721, 761.96669pt x 1078.99106pt>
+File: images/diagrams/02_level2_services.pdf Graphic file (type pdf)
+<use images/diagrams/02_level2_services.pdf>
+Package pdftex.def Info: images/diagrams/02_level2_services.pdf  used on input 
+line 64.
+(pdftex.def)             Requested size: 416.72963pt x 590.12119pt.
+ [111 <./images/diagrams/01_level1_context.pdf>]
+<images/diagrams/03_level3_shield.pdf, id=1740, 649.46638pt x 1393.12462pt>
+File: images/diagrams/03_level3_shield.pdf Graphic file (type pdf)
+<use images/diagrams/03_level3_shield.pdf>
+Package pdftex.def Info: images/diagrams/03_level3_shield.pdf  used on input li
+ne 70.
+(pdftex.def)             Requested size: 416.72963pt x 893.91379pt.
+ [112 <./images/diagrams/02_level2_services.pdf>]
+Overfull \vbox (217.00691pt too high) has occurred while \output is active []
+
+
+[113 <./images/diagrams/03_level3_shield.pdf>]
+<images/diagrams/04_account_organization.pdf, id=1778, 1337.95856pt x 337.26pt>
+
+File: images/diagrams/04_account_organization.pdf Graphic file (type pdf)
+<use images/diagrams/04_account_organization.pdf>
+Package pdftex.def Info: images/diagrams/04_account_organization.pdf  used on i
+nput line 76.
+(pdftex.def)             Requested size: 416.72963pt x 105.04355pt.
+<images/diagrams/05_server_installer.pdf, id=1779, 1000.69856pt x 453.61469pt>
+File: images/diagrams/05_server_installer.pdf Graphic file (type pdf)
+<use images/diagrams/05_server_installer.pdf>
+Package pdftex.def Info: images/diagrams/05_server_installer.pdf  used on input
+ line 82.
+(pdftex.def)             Requested size: 416.72963pt x 188.90413pt.
+<images/diagrams/06_server_ml_anomaly.pdf, id=1780, 1646.06963pt x 418.4433pt>
+File: images/diagrams/06_server_ml_anomaly.pdf Graphic file (type pdf)
+<use images/diagrams/06_server_ml_anomaly.pdf>
+Package pdftex.def Info: images/diagrams/06_server_ml_anomaly.pdf  used on inpu
+t line 88.
+(pdftex.def)             Requested size: 416.72963pt x 105.93224pt.
+<images/diagrams/07_message_service.pdf, id=1781, 1093.2042pt x 407.60278pt>
+File: images/diagrams/07_message_service.pdf Graphic file (type pdf)
+<use images/diagrams/07_message_service.pdf>
+Package pdftex.def Info: images/diagrams/07_message_service.pdf  used on input 
+line 94.
+(pdftex.def)             Requested size: 416.72963pt x 155.37578pt.
+ [114 <./images/diagrams/04_account_organization.pdf> <./images/diagrams/05_ser
+ver_installer.pdf> <./images/diagrams/06_server_ml_anomaly.pdf>]) (appendices/a
+ppendixF_ai_documentation.tex
+[115 <./images/diagrams/07_message_service.pdf>]
+Appendix F.
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[]|\T1/lmr/m/n/12 IsolationForest; \T1/lmtt/m/n/12 random_state=42\T1/lmr/m/n/1
+2 ; con-tam-i-na-tion=[]\T1/lmr/bx/n/12 [TO
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[]|\T1/lmtt/m/n/12 ModelNotFoundError \T1/lmr/m/n/12 (no ar-ti-fact),
+ []
+
+[116
+
+]
+Overfull \vbox (5.30423pt too high) has occurred while \output is active []
+
+
+[117]
+Underfull \hbox (badness 1688) in paragraph at lines 71--71
+[]|\T1/lmr/m/n/12 200 es-ti-ma-tors, max_depth=20, class_weight=`balanced',
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
+[]|\T1/lmtt/m/n/12 model/artifacts/request_shield/model.joblib \T1/lmr/m/n/12 +
+
+ []
+
+
+Underfull \hbox (badness 4634) in paragraph at lines 104--104
+[]|\T1/lmr/m/n/12 Ticket is-suance logged; con-ver-sa-tion records per-sisted i
+n
+ []
+
+[118]) [119] (main.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+ ***********
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 795B2BBB92693F69F0592977301F2A67;23126.
+ ) 
+Here is how much of TeX's memory you used:
+ 36853 strings out of 467871
+ 730090 string characters out of 5418376
+ 1673246 words of memory out of 5000000
+ 64378 multiletter control sequences out of 15000+600000
+ 734968 words of font info for 109 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 89i,17n,97p,1003b,2210s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
+b><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
+b><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx8.pfb
+><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbxi10.pf
+b><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.p
+fb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.p
+fb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pf
+b><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb
+><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb>
+<C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C
+:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt8.pfb><C:/U
+sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb><C:/
+Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on main.pdf (133 pages, 5218293 bytes).
+PDF statistics:
+ 2109 PDF objects out of 2487 (max. 8388607)
+ 677 named destinations out of 1000 (max. 500000)
+ 22608 words of extra memory for PDF output out of 24883 (max. 10000000)
+

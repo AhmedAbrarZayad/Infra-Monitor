@@ -77,13 +77,26 @@ The major components and their interactions are:
 
 \section{Technology, Software, and Hardware Used}
 
-\begin{table}[htbp]
-\centering
-\caption{Technology stack with justification and rejected alternatives}\label{tab:stack}
-\begin{tabularx}{\textwidth}{@{}l l X X@{}}
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}
+                   >{\raggedright\arraybackslash}p{0.19\textwidth}
+                   >{\raggedright\arraybackslash}p{0.33\textwidth}
+                   >{\raggedright\arraybackslash}p{0.25\textwidth}@{}}
+\caption{Technology stack with justification and rejected alternatives}\label{tab:stack}\\
 \toprule
 \textbf{Layer} & \textbf{Technology} & \textbf{Justification} & \textbf{Rejected Alternative}\\
 \midrule
+\endfirsthead
+\multicolumn{4}{@{}l}{\textit{Table \thetable{} continued}}\\
+\toprule
+\textbf{Layer} & \textbf{Technology} & \textbf{Justification} & \textbf{Rejected Alternative}\\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r@{}}{\textit{Continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
 Frontend & Flutter (Dart) &
   Single codebase for Android, iOS, and web; strong widget ecosystem;
   WebSocket support via \texttt{web\_socket\_channel} &
@@ -132,9 +145,8 @@ Containerisation & Docker Compose &
 Push notifications & Firebase Admin SDK 7.5.0 &
   Reliable FCM; cross-platform (Android/iOS); official Google SDK &
   OneSignal (adds vendor dependency); APNs direct (iOS-only)\\
-\bottomrule
-\end{tabularx}
-\end{table}
+\end{longtable}
+}
 
 \section{AI-integration Architecture}
 

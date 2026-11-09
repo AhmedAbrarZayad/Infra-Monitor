@@ -104,7 +104,7 @@ Feature extraction is implemented in \texttt{sanitize/features.py}.  The 26
 features are defined in \texttt{model/app/pipeline/request\_shield.py} as
 \texttt{REQUEST\_SHIELD\_FEATURE\_NAMES}:
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Request Shield feature schema (26 features)}\label{tab:features}
 \small
@@ -170,7 +170,7 @@ in \Cref{fig:er}.
 
 \textbf{Key table schemas derived from Django models:}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Schema of table \texttt{accounts\_users}}\label{tab:schema_users}
 \begin{tabularx}{\textwidth}{@{}l l l X@{}}
@@ -189,7 +189,7 @@ updated\_at     & TIMESTAMP   &           & Last update (auto)\\
 \end{tabularx}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Schema of table \texttt{accounts\_organization}}\label{tab:schema_org}
 \begin{tabularx}{\textwidth}{@{}l l l X@{}}
@@ -206,7 +206,7 @@ updated\_at & TIMESTAMP & & Auto-update timestamp\\
 \end{tabularx}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Schema of table \texttt{accounts\_organizationmembership}}\label{tab:schema_membership}
 \begin{tabularx}{\textwidth}{@{}l l l X@{}}
@@ -224,7 +224,7 @@ approved        & BOOLEAN & & False for pending requests\\
 \end{tabularx}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Schema of table \texttt{servers\_servers}}\label{tab:schema_servers}
 \begin{tabularx}{\textwidth}{@{}l l l X@{}}
@@ -246,7 +246,7 @@ registered\_by\_id & INTEGER & FK,NULL & User who created the record\\
 \end{tabularx}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Schema of table \texttt{ml\_model\_anomalydetection}}\label{tab:schema_anomaly}
 \begin{tabularx}{\textwidth}{@{}l l l X@{}}
@@ -514,7 +514,7 @@ Authorization: Bearer <access-token>
 
 \subsection{Test Case Design / Preparation (Sample)}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Sample high-level test cases}\label{tab:tc_sample}
 \small
