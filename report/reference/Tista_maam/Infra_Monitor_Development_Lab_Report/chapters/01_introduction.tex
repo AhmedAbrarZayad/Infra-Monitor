@@ -1,47 +1,49 @@
 \chapter{Introduction}
 
 \section{Overview}
-Infra Monitor is a project for registering Linux hosts and presenting their
-operational telemetry and events in one interface. The repository describes a
-Django backend, a Flutter client, and a monitoring pipeline built around
-Grafana Alloy and VictoriaMetrics. The product groups monitoring work by
-organization, server, and service, with dashboards, alerts, incidents, logs,
-and anomaly records exposed through the application
-(\cite{readme}; \sourcepath{backend/infra_monitor/organization_urls.py}).
+In modern software engineering, distributed systems, microservices, and multi-node cloud deployments have become the standard foundation for production applications. Maintaining continuous service availability, diagnosing transient hardware bottlenecks, and mitigating unexpected traffic anomalies require reliable, real-time infrastructure observability. Traditionally, engineering teams rely on fragmented tooling: one dashboard for host system metrics, separate tools for application log analysis, and manual ticket-based workflows for incident management.
+
+For university laboratories, small-to-medium enterprises (SMEs), and fast-growing software startups, commercial Application Performance Monitoring (APM) and infrastructure monitoring solutions (such as Datadog, New Relic, and Dynatrace) present steep economic barriers. These platforms often charge between \$15 and \$31 per host per month, impose strict telemetry retention caps, and require sending proprietary operational metrics to third-party cloud infrastructure.
+
+\textbf{Infra Monitor} is an open-source, multi-tenant, AI-augmented infrastructure monitoring and incident management platform designed to provide complete operational observability on self-hosted infrastructure. The system combines an intuitive cross-platform Flutter client with a robust Django REST Framework backend, a high-throughput VictoriaMetrics time-series clustering engine, and an automated agent onboarding pipeline powered by Grafana Alloy. Furthermore, Infra Monitor introduces intelligent operational capabilities directly into the workflow: an unsupervised Isolation Forest machine-learning service detects statistical anomalies in telemetry streams, a Random Forest Request Shield classifies inbound HTTP traffic patterns, and an integrated Google Gemini conversational agent provides contextual diagnostic recommendations over secure WebSockets.
 
 \section{Problem Statement}
-Host and service health signals are useful only when operators can associate
-them with the correct environment and act on resulting alerts. In this project,
-the backend maintains organization-scoped server and service records while
-time-series samples are queried from VictoriaMetrics. The design therefore
-addresses the integration problem of collecting telemetry, retaining
-operational context, and presenting it alongside incident workflows
-(\sourcepath{docs/monitoring-end-to-end.md};
-\sourcepath{backend/servers/models/servers.py};
-\sourcepath{backend/incident/models/incident.py}).
+System administrators and DevOps engineers face several interconnected challenges in managing infrastructure health effectively:
+
+\begin{itemize}
+  \item \textbf{Observability Fragmentation:} Operational telemetry is frequently scattered across disparate tools. Host metrics (CPU, RAM, disk I/O, network) reside in independent monitoring agents, server access logs reside in remote text files, and incident tracking is handled in disconnected issue trackers. Correlating a sudden latency spike with an active security incident requires tedious manual cross-referencing.
+  
+  \item \textbf{Alert Fatigue and Delayed Mean Time to Detect (MTTD):} Static, rule-based threshold alerts (e.g., triggering whenever CPU exceeds 80\%) generate high volumes of false alarms during routine batch jobs, while failing to catch subtle multivariate degradations. Operators suffer from alert fatigue, directly increasing the Mean Time to Detect and Mean Time to Resolve (MTTR) critical outages.
+  
+  \item \textbf{High Cost and Data Sovereignty Concerns of Commercial SaaS:} Proprietary observability suites charge recurring per-host and per-gigabyte licensing fees that are prohibitive for academic institutions and budget-conscious engineering teams. Furthermore, transmitting internal operational metadata to third-party multi-tenant clouds raises severe data privacy and compliance concerns.
+  
+  \item \textbf{Threat Ingress Blindness:} Traditional host monitoring agents collect resource utilization but remain blind to malicious request patterns hitting application endpoints. Without unified request sanitization and anomaly scoring, infrastructure engineers cannot readily determine whether a CPU surge is caused by legitimate user load or an active web-tier exploit (e.g., SQL injection or denial-of-service attempts).
+\end{itemize}
 
 \section{Objectives}
-\begin{enumerate}
-  \item Provide authenticated organization and membership workflows.
-  \item Enroll monitored servers and forward telemetry through a controlled
-        ingestion path.
-  \item Present server/service health, metrics, alerts, incidents, and
-        anomaly detections in the Flutter client.
-  \item Integrate machine-learning services for telemetry anomaly inference
-        and HTTP request classification, while keeping their outputs
-        distinguishable from operator-confirmed state.
-\end{enumerate}
-These objectives describe implemented repository areas, not measured
-operational outcomes. The report does not claim production availability,
-performance benchmarks, or user-study results.
+The primary objective of this project is to architect, implement, and validate an end-to-end, multi-tenant infrastructure monitoring platform. The specific functional and technical goals are:
 
-\section{Scope and Organization}
-This report focuses on the current source tree and supplied interface
-screenshots. It summarizes system design, the telemetry and ML workflows, and
-the implementation structure. It does not treat the unrelated ClubHub
-content in the reference report as project evidence, nor infer an actual
-semester schedule, budget, or deployment outside the local Compose
-configuration. Chapter 2 describes the architecture and core data model;
-Chapter 3 explains telemetry and intelligent features; Chapter 4 covers
-implementation and available verification commands; Chapter 5 summarizes
-limitations and future work.
+\begin{enumerate}
+  \item \textbf{Cross-Platform Client Interface:} To develop a responsive, modern graphical interface using the Flutter framework supporting web and mobile platforms, featuring dedicated views for fleet status, real-time telemetry, alerts, incidents, security analytics, and conversational assistance.
+  
+  \item \textbf{Multi-Tenant Role-Based Access Control (RBAC):} To implement a secure organizational hierarchy in Django with three operational roles (\textit{Owner}, \textit{Admin}, and \textit{Engineer}), ensuring rigorous tenant isolation and cryptographic JWT authentication.
+  
+  \item \textbf{Streamlined Agent Enrollment:} To automate remote host onboarding through a single-line shell installation command that deploys Grafana Alloy, establishes authenticated Prometheus remote-write ingestion, and configures host metric scraping within minutes.
+  
+  \item \textbf{High-Performance Time-Series Storage:} To deploy and integrate a distributed VictoriaMetrics cluster (\texttt{vminsert}, \texttt{vmstorage}, and \texttt{vmselect}) capable of ingesting high-frequency metric samples with sub-second query latency.
+  
+  \item \textbf{Machine Learning Anomaly Detection:} To implement an unsupervised Isolation Forest microservice in FastAPI that evaluates multivariate rolling metric windows (CPU, memory, disk, network) and flags abnormal behavioral deviations without requiring manual threshold tuning.
+  
+  \item \textbf{Request Shield Threat Classification:} To engineer a 26-feature ingress request classification pipeline using a Random Forest model trained on the CICIDS2017 benchmark dataset, segmenting incoming traffic into \textit{GREEN}, \textit{GRAY}, and \textit{RED} threat zones.
+  
+  \item \textbf{AI-Powered Advisory Assistance:} To integrate the Google Gemini large language model via persistent WebSocket channels, providing operators with streaming, context-aware root-cause analyses and remediation recommendations grounded in persisted anomaly snapshots.
+\end{enumerate}
+
+\section{Report Organization}
+The remainder of this report is structured as follows:
+\begin{itemize}
+  \item \textbf{Chapter 2 (System Architecture and Design):} Details the multi-tier architectural decomposition, the technology stack, the comprehensive Entity--Relationship model, formal use cases, relational database schemas, and the graphical user interface design with complete screen walkthroughs.
+  \item \textbf{Chapter 3 (Monitoring and Intelligent Features):} Explains the end-to-end telemetry ingestion pipeline, the mathematical formulation and training workflow of the Isolation Forest anomaly detector, the Request Shield classifier, the Gemini advisory assistant, and operational incident lifecycles.
+  \item \textbf{Chapter 4 (Implementation Details):} Discusses the backend modular structure, Flutter frontend architecture, representative API surfaces, security and authorization middleware, and local containerized verification procedures.
+  \item \textbf{Chapter 5 (Conclusion and Future Work):} Summarizes project contributions, evaluates current system capabilities, and outlines future enhancements including automated runbook execution and production Kubernetes deployment.
+\end{itemize}

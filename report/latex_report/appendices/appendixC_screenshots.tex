@@ -1,17 +1,16 @@
 \chapter{UI Screenshots}
 
-All screenshots are from the Infra Monitor Flutter application running on
-Android, taken during the UAT session in November 2026.  Each screenshot is
-captioned with the screen name, its purpose, and the use case it serves.
+All screenshots are captured from the Infra Monitor Flutter application, running on Android and desktop environments during the project evaluation in November 2026. Each figure is captioned with the accurate screen title, functional description, operational purpose, and the corresponding use case.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg}
-\caption{Appendix C -- Login Screen (left) and Registration Screen (right).
-  The login screen accepts email and password; the registration screen collects
-  username, email, and password.  Serves UC-01 (Registration) and UC-02 (Login).}\label{fig:app_login}
+\caption{Appendix C -- Overview Dashboard (left) and Overview with Active Alerts (right).
+  The left screen provides an executive summary of fleet health, server status indicators, and active alert counters.
+  The right screen dynamically displays high-priority alert warning banners and affected host identifiers.
+  Serves UC-04 (Overview Dashboard \& Metric Collection).}\label{fig:app_overview}
 \end{figure}
 
 \begin{figure}[H]
@@ -19,95 +18,63 @@ captioned with the screen name, its purpose, and the use case it serves.
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg}
-\caption{Appendix C -- Overview Dashboard (left) and Server List (right).
-  The dashboard shows aggregate counts of servers, alerts, and incidents.
-  The server list shows each server's name, environment, and health status.
-  Serves UC-04 (Server Setup \& Metric Collection).}\label{fig:app_dashboard}
+\caption{Appendix C -- Monitored Server Fleet (left) and Server Hardware/Service Detail (right).
+  The left view lists all enrolled Linux servers, host IP addresses, environment tags, and health pills.
+  The right view provides granular host specifications, system uptime, and managed service daemon states.
+  Serves UC-04 (Server Setup \& Management).}\label{fig:app_servers}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg}
-\hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg}
-\caption{Appendix C -- Server Metrics Detail (left) and Alert List (right).
-  The metrics view renders time-series charts for CPU, memory, disk, and
-  network.  The alert list shows severity badges, state, and timestamps.
-  Serves UC-04 and R-ALERT-01.}\label{fig:app_metrics}
+\hfill
+\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg}
+\caption{Appendix C -- Live Service Metric Gauges (left) and Historical Telemetry Time-Series (right).
+  The left screen shows instantaneous CPU, memory, and disk I/O utilization queried from VictoriaMetrics.
+  The right screen allows operators to explore multi-hour historical time-series graphs with interactive pan and zoom.
+  Serves UC-04 and UC-05.}\label{fig:app_metrics}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg}
-\hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg}
-\caption{Appendix C -- Incident List (left) and Incident Detail (right).
-  The incident list shows severity, status, and assigned engineer.
-  The detail view allows status updates and shows the full timeline.
+\hfill
+\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg}
+\caption{Appendix C -- Anomaly Detection History (left) and Active Incident Management Queue (right).
+  The left screen displays multivariate statistical anomalies detected by the Isolation Forest model with confidence ratings.
+  The right screen enumerates open operational incidents with severity badges (CRITICAL, HIGH, MEDIUM) and acknowledgment states.
   Serves UC-05 (Incident \& Anomaly Assignment).}\label{fig:app_incidents}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg}
-\hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg}
-\caption{Appendix C -- Request Shield Analytics (left) and Request Log List (right).
-  The analytics screen shows zone distribution (GREEN/GRAY/RED pie chart),
-  top offending IPs, and trend over time.
-  Serves UC-07 (Request Shield).}\label{fig:app_shield1}
-\end{figure}
-
-\begin{figure}[H]
-\centering
+\hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg}
-\hfill
+\caption{Appendix C -- Conversational AI Operations Assistant (left) and Request Shield Threat Analytics (right).
+  The left screen shows real-time streaming root-cause guidance and diagnostic advice generated by Google Gemini over WebSockets.
+  The right screen visualizes ingress web traffic classified into GREEN (benign), GRAY (suspicious), and RED (hostile) threat zones.
+  Serves UC-06 (AI Assistant) and UC-07 (Request Shield).}\label{fig:app_ai_shield}
+\end{figure}
+
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg}
-\caption{Appendix C -- Request Log Detail (left) and Threat Suggestions List (right).
-  The log detail view shows zone, classifier, confidence, and threat signals.
-  The suggestions list shows pending, accepted, and dismissed suggestions.
-  Serves UC-07.}\label{fig:app_shield2}
-\end{figure}
-
-\begin{figure}[H]
-\centering
+\hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg}
-\hfill
+\caption{Appendix C -- Ingress Classified Request Log (left) and Organization Members Management (right).
+  The left screen displays individual HTTP request feature vectors, path Shannon entropy, and classification confidence scores.
+  The right screen enables administrators to review organization members, reassign operational roles, and approve join requests.
+  Serves UC-03 (Organization Management) and UC-07 (Request Shield).}\label{fig:app_req_org}
+\end{figure}
+
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg}
-\caption{Appendix C -- AI Chatbot Context Selection (left) and Active Conversation (right).
-  The left screen shows the anomaly selector and suggested prompts.
-  The right screen shows the conversation with Gemini's advisory response streamed in real time.
-  Serves UC-06 (AI Chatbot Conversation).}\label{fig:app_chatbot}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__3_.jpeg}
 \hfill
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.26.jpeg}
-\caption{Appendix C -- Organisation Members Screen (left) and Server Registration Screen (right).
-  Members screen shows roles and approval status.
-  Registration form collects server name, hostname, and environment.
-  Serves UC-03 and UC-04.}\label{fig:app_org}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__1_.jpeg}
-\hfill
-\includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.26__2_.jpeg}
-\caption{Appendix C -- Anomaly Detection List (left) and Anomaly Detail (right).
-  The list shows anomaly scores, detection times, and assigned engineers.
-  The detail view links to the AI chatbot for advisory diagnostics.
-  Serves UC-05 and UC-06.}\label{fig:app_anomaly}
-\end{figure}
-
-\begin{figure}[H]
-\centering
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg}
-\caption{Appendix C -- Shield Configuration Screen.
-  Administrators can enable/disable the Request Shield and configure
-  RED/GRAY threshold counts for threat suggestion generation.
-  Serves UC-07 and R-SHIELD-04.}\label{fig:app_shieldconfig}
+\caption{Appendix C -- Operator Preferences Screen (left) and Incident Assignment Dialog (right).
+  The left screen manages user profile settings, notification preferences (email and Firebase push), and application themes.
+  The right modal dialog allows administrators to delegate incident investigation tasks to approved team Engineers.
+  Serves UC-02 (User Preferences) and UC-05 (Incident Delegation).}\label{fig:app_pref_assign}
 \end{figure}
-

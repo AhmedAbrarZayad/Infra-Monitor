@@ -4,7 +4,14 @@
 
 Infra Monitor is containerised with Docker Compose and deployable on any
 Linux host (Ubuntu 22.04 LTS recommended) with Docker Engine 24+ installed.
-The full stack consists of eight services defined in \texttt{docker-compose.yml}:
+For this academic submission, the \textbf{Django backend has been deployed to
+Render} (a cloud PaaS), making the REST API and WebSocket endpoint publicly
+accessible.  VictoriaMetrics (the time-series database cluster) was not deployed
+to a public host because the VictoriaMetrics cluster mode requires persistent
+volumes and a paid tier on most PaaS providers; it continues to run locally
+via Docker Compose during development and testing.
+
+The full local stack consists of nine services defined in \texttt{docker-compose.yml}:
 
 \begin{table}[H]
 \centering
@@ -106,27 +113,35 @@ curl http://localhost:7001/health
 
 \section{Go-Live Strategy and Post-Deployment Monitoring}
 
-\textbf{Rollout strategy:} \textbf{Big-bang} for the initial academic deployment
-(all features deployed at once).  For production adoption, a \textbf{phased
+\textbf{Academic deployment summary:} The Django API backend has been deployed
+to Render for the academic submission.  The Docker Compose configuration
+(\texttt{docker-compose.yml}) is verified and all services start correctly
+locally with \texttt{docker compose up}.  VictoriaMetrics is not publicly hosted
+at this stage; it runs locally for development and testing purposes, as hosting
+the cluster mode on a public platform would require a paid persistent-storage tier.
+
+\textbf{Docker configuration status:} All Compose services have health checks
+(PostgreSQL: \texttt{pg\_isready}; Redis: \texttt{redis-cli ping};
+VictoriaMetrics: HTTP \texttt{/health}; ML service: HTTP \texttt{/health}).
+Service startup ordering is enforced with \texttt{condition: service\_healthy}.
+Environment variables are loaded from \texttt{.env} files; no secrets are
+committed to the repository.
+
+\textbf{Rollout strategy:} For a full production deployment, a \textbf{phased
 rollout} is recommended: deploy monitoring-only features first (server
 enrolment, dashboards), then enable alerts/incidents, then enable AI features.
 
-\textbf{Post-deployment monitoring:}
+\textbf{Post-deployment monitoring (planned):}
 \begin{itemize}
   \item \textbf{Application health:} \texttt{GET /api/health/} polled every
-        30~s by an external uptime monitor \assumed{e.g., UptimeRobot}.
+        30~s by an external uptime monitor.
   \item \textbf{Container health:} \texttt{docker compose ps} and Docker
         restart policies (\texttt{restart: unless-stopped}) ensure automatic
         recovery from crashes.
   \item \textbf{Log monitoring:} \texttt{docker compose logs -f backend}
-        for real-time error tracking; structured JSON logging recommended for
-        production.
-  \item \textbf{Model drift:} Celery beat logs cross-validation F1 scores
-        on each retraining run; administrators should review if F1 drops below
-        0.85.
+        for real-time error tracking.
   \item \textbf{Rollback plan:} Tag each release (\texttt{git tag v1.x.x});
         restore previous image with \texttt{docker compose pull} and
-        \texttt{docker compose up -d}; PostgreSQL point-in-time recovery
-        from daily \texttt{pg\_dump} backups \assumed{configured separately}.
+        \texttt{docker compose up -d}.
 \end{itemize}
 

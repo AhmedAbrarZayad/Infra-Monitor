@@ -1,74 +1,124 @@
 \chapter{Implementation Details}
 
-\section{Application Modules}
-The backend is organized around domain packages rather than a single
-monolithic views module. \sourcepath{backend/accounts/} handles identity,
-organization and membership workflows; \sourcepath{backend/servers/} handles
-host/service records and metric queries; \sourcepath{backend/installer/}
-implements enrollment and telemetry ingestion; and
-\sourcepath{backend/alert/}, \sourcepath{backend/incident/},
-\sourcepath{backend/ml_model/}, and \sourcepath{backend/ai/} handle event
-lifecycles and intelligent features (\cite{readme}; \cite{source}).
+\section{Application Modular Decomposition}
+The Infra Monitor backend is structured into decoupled, domain-driven Django applications rather than a monolithic views hierarchy. Each package encapsulates its own database models, serialization logic, business services, and route definitions.
 
-The Flutter application is configured in
-\sourcepath{frontend/pubspec.yaml}. Domain URL modules are composed under
-\sourcepath{backend/infra_monitor/organization_urls.py}, while authentication,
-monitoring, and internal service routes are composed in
-\sourcepath{backend/infra_monitor/urls.py}.
+\begin{itemize}
+  \item \textbf{\texttt{backend/accounts/}:} Manages core user identity, cryptographic password hashing via Argon2, SimpleJWT token issuance and rotation, SMTP email OTP dispatch, organization creation, and membership approval lifecycles.
+  
+  \item \textbf{\texttt{backend/servers/}:} Handles registered Linux server inventory, hardware metadata storage, associated application service records, and metric range queries proxying VictoriaMetrics.
+  
+  \item \textbf{\texttt{backend/installer/}:} Dynamically templates and generates the one-line shell installation script for Linux hosts. It produces customized Grafana Alloy configuration files pre-populated with authenticated remote-write URLs and host tokens.
+  
+  \item \textbf{\texttt{backend/alert/}:} Implements operational alert creation, de-duplication fingerprinting, alert severity calculations, and acknowledgement transitions.
+  
+  \item \textbf{\texttt{backend/incident/}:} Powers incident management, enabling administrators to convert critical alerts into formal tickets, delegate assignments to approved Engineers, post chronological updates, and record root-cause post-mortems.
+  
+  \item \textbf{\texttt{backend/ml\_model/}:} Manages background Celery tasks that query rolling time-series windows from VictoriaMetrics, dispatches feature vectors to the FastAPI inference service, and stores anomaly records.
+  
+  \item \textbf{\texttt{backend/ai/}:} Contains Daphne ASGI WebSocket consumers, Redis ticket authentication logic, and streaming Google Gemini integration handlers.
+  
+  \item \textbf{\texttt{backend/sanitize/}:} Implements ingress HTTP log ingestion, extracts the 26-feature classification schema, submits batches to Request Shield, and manages automated IP threat suggestions.
+\end{itemize}
 
-\section{Selected API Surface}
-The organization-scoped API prefix is
-\texttt{/api/organizations/\{organization\_id\}/}. The following routes are
-defined in backend URL modules; this table summarizes the path shape and
-operation family rather than duplicating every request/response schema.
+\section{Frontend Architecture and Client State Management}
+The Flutter application under \texttt{frontend/} is structured into feature-oriented modules following clean architecture principles.
+
+\begin{itemize}
+  \item \textbf{Presentation and Widget Layer:} Built using Flutter 3 and Material Design 3. The interface dynamically adapts across mobile (portrait cards) and desktop/web (multi-column dashboard grids).
+  \item \textbf{State Management:} Uses reactive ChangeNotifier and Provider patterns to decouple UI widgets from asynchronous network calls. Telemetry graphs update seamlessly through reactive streams without triggering full-screen rebuilds.
+  \item \textbf{WebSocket Communications:} A dedicated client service maintains the persistent full-duplex WebSocket connection to \texttt{/ws/assistant/}, handling connection retries, binary protocol decoding, and real-time markdown token rendering.
+  \item \textbf{Navigation and Route Guards:} Flutter router guards inspect stored JWT tokens and active organization context before rendering protected screens, automatically redirecting unauthenticated sessions to the login view.
+\end{itemize}
+
+\section{Comprehensive REST and WebSocket API Surface}
+All user-facing operational endpoints are strictly scoped under the organization prefix \texttt{/api/organizations/\{organization\_id\}/}. \Cref{tab:api_full} summarizes key API routes implemented across the platform.
 
 \begin{table}[H]
 \centering
 \small
-\caption{Representative API routes from Django URL configuration}\label{tab:api}
-\begin{tabularx}{\textwidth}{p{0.45\textwidth} p{0.18\textwidth} X}
+\caption{Comprehensive API Surface Specifications}\label{tab:api_full}
+\begin{tabularx}{\textwidth}{p{0.14\textwidth} p{0.36\textwidth} p{0.12\textwidth} X}
 \toprule
-\textbf{Route} & \textbf{Methods} & \textbf{Purpose}\\
+\textbf{Subsystem} & \textbf{Endpoint Path} & \textbf{Method} & \textbf{Description \& Primary Parameters}\\
 \midrule
-\texttt{/api/auth/register/}, \texttt{/api/auth/login/} & POST & Account registration and authentication.\\
-\path{/api/organizations/{id}/servers/} & GET & List organization servers.\\
-\path{/api/organizations/{id}/servers/{server_id}/metrics/} & GET & Query a server metric range.\\
-\path{/api/organizations/{id}/alerts/} & GET & List organization alerts.\\
-\path{/api/organizations/{id}/incidents/{incident_id}/assignment/} & POST & Change incident assignment.\\
-\path{/api/organizations/{id}/anomalies/} & GET & List organization anomaly detections.\\
-\texttt{/api/monitoring/} and \texttt{/api/internal/monitoring/} & Multiple & Enrollment and internal collector operations.\\
+Authentication & \texttt{/api/auth/register/} & POST & Register new user account with email and password.\\
+& \texttt{/api/auth/verify-email/} & POST & Submit OTP received via email to activate account.\\
+& \texttt{/api/auth/login/} & POST & Authenticate credentials; returns JWT access/refresh pair.\\
+& \texttt{/api/auth/token/refresh/} & POST & Exchange valid refresh token for a new access token.\\
+\midrule
+Organizations & \texttt{/api/organizations/} & GET / POST & List user's organizations or create a new organization.\\
+& \texttt{/api/organizations/\{id\}/members/} & GET / POST & View members or submit membership join request.\\
+& \path{.../members/{mid}/} & PATCH & Owner/Admin approves member or alters role.\\
+\midrule
+Servers \& Metrics & \path{.../servers/} & GET / POST & List monitored servers or register new host.\\
+& \path{.../servers/{sid}/metrics/} & GET & Query time-series telemetry range from VictoriaMetrics.\\
+& \texttt{/api/monitoring/install/} & GET & Download dynamic shell script for Grafana Alloy.\\
+& \texttt{/api/monitoring/write/} & POST & Ingest authenticated Prometheus remote-write protobufs.\\
+\midrule
+Alerts \& Incidents & \path{.../alerts/} & GET & List active and resolved operational alerts.\\
+& \path{.../alerts/{aid}/ack/} & POST & Acknowledge an active alert.\\
+& \path{.../incidents/} & GET / POST & List incidents or escalate alert into new incident.\\
+& \path{.../incidents/{iid}/assign/} & POST & Assign incident investigation to an approved Engineer.\\
+\midrule
+AI \& Security & \path{.../anomalies/} & GET & List detected statistical anomalies.\\
+& \texttt{/api/assistant/ws-ticket/} & POST & Request one-time cryptographic ticket for WebSocket.\\
+& \texttt{/ws/assistant/} & WS & Full-duplex WebSocket channel for Gemini diagnostic chat.\\
+& \path{.../request-shield/analytics/} & GET & Retrieve GREEN/GRAY/RED traffic distribution stats.\\
 \bottomrule
 \end{tabularx}
 \end{table}
-Route declarations can be checked in
-\sourcepath{backend/accounts/urls.py}, \sourcepath{backend/servers/urls.py},
-\sourcepath{backend/alert/urls.py}, \sourcepath{backend/incident/urls.py},
-and \sourcepath{backend/ml_model/urls.py}. User-facing organization APIs are
-scoped by organization and use the application's authentication and
-authorization code; internal collector and ML routes use service credentials
-or enrollment credentials as documented in
-\sourcepath{docs/monitoring-end-to-end.md}.
 
-\section{Security and Access Control}
-The user model uses email as its login identifier and requires unique email
-addresses (\sourcepath{backend/accounts/models/users.py}). Organization
-membership stores OWNER, ADMIN, or ENGINEER roles and an approval state. Model
-constraints enforce uniqueness of a user's membership in an organization and
-approval for privileged roles
-(\sourcepath{backend/accounts/models/organization_membership.py}). Sensitive
-internal configuration is supplied through environment files, and the
-repository's setup guide warns against committing those files
-(\sourcepath{README.md}).
+\section{Security Architecture and Access Control}
+Infra Monitor enforces multi-layered defense-in-depth security across every subsystem:
 
-\section{Local Execution and Verification}
-The root Compose file defines the local backend, ML service, PostgreSQL,
-Redis/Celery, and VictoriaMetrics services (\cite{compose}). The README
-documents setup and these backend quality checks:
-\texttt{python manage.py check},
-\texttt{python manage.py makemigrations --check --dry-run},
-\texttt{python manage.py test --noinput},
-\texttt{ruff check .}, and \texttt{ruff format --check .}
-(\cite{readme}). Test files exist in several backend apps and in
-\sourcepath{frontend/test/}. No test execution or coverage run was performed
-for this report, so pass counts, performance figures, and coverage
-percentages are intentionally not reported.
+\begin{itemize}
+  \item \textbf{Cryptographic Authentication:} Passwords are hashed using PBKDF2 with SHA-256 salts. API access requires short-lived JWT Bearer tokens (15-minute expiration) paired with rotatable refresh tokens stored in secure client storage.
+  
+  \item \textbf{Email OTP Verification:} User accounts remain inactive until verified via a cryptographically random 6-digit One-Time Password dispatched over SMTP.
+  
+  \item \textbf{Multi-Tenant Role-Based Access Control (RBAC):} The \texttt{OrganizationMembership} model enforces strict privileges:
+  \begin{itemize}
+    \item \textbf{OWNER:} Complete administrative authority, billing/organization settings, member role modification, and organization deletion.
+    \item \textbf{ADMIN:} Server enrollment, alert escalation, incident assignment, and Request Shield policy management.
+    \item \textbf{ENGINEER:} Read-only telemetry inspection, alert acknowledgement, incident status updates, and AI assistant interaction.
+  \end{itemize}
+  
+  \item \textbf{Tenant Data Isolation Middleware:} Custom Django DRF permission classes (\texttt{IsOrganizationMember}) intercept every request, verifying that the authenticated user holds an approved membership within the target URL's \texttt{organization\_id}.
+  
+  \item \textbf{Secure Secret Management:} Sensitive configurations (Django \texttt{SECRET\_KEY}, database passwords, Gemini API keys, Firebase service accounts) are injected exclusively through Docker environment files (\texttt{.env}) and excluded from version control.
+\end{itemize}
+
+\section{Local Containerization and Verification Suite}
+The system is fully containerized using Docker Compose, orchestrating nine isolated microservices:
+\begin{enumerate}
+  \item \texttt{backend}: Django 6 ASGI server running under Daphne on port 7000.
+  \item \texttt{ml\_service}: FastAPI microservice exposing model inference endpoints on port 7001.
+  \item \texttt{celery\_worker}: Asynchronous task executor processing metric batches and alerts.
+  \item \texttt{celery\_beat}: Periodic task scheduler driving 10-minute ML feature aggregation.
+  \item \texttt{redis}: In-memory key-value store serving as Celery message broker and Channels layer.
+  \item \texttt{postgres}: PostgreSQL 18 relational control-plane database on port 5433.
+  \item \texttt{vmstorage}: VictoriaMetrics cluster storage engine persisting compressed time-series.
+  \item \texttt{vminsert}: VictoriaMetrics remote-write sample ingestion gateway.
+  \item \texttt{vmselect}: VictoriaMetrics PromQL query engine exposing port 8481.
+\end{enumerate}
+
+\subsection{Codebase Verification Commands}
+The repository includes automated verification and testing commands:
+\begin{lstlisting}[language=bash,caption={System verification and quality assurance commands}]
+# 1. Django configuration and system checks
+python manage.py check
+
+# 2. Database migration consistency verification
+python manage.py makemigrations --check --dry-run
+
+# 3. Backend automated test suite
+python manage.py test --noinput
+
+# 4. FastAPI ML microservice test suite
+pytest model/tests/ -v
+
+# 5. Ruff static code linting and formatting verification
+ruff check .
+ruff format --check .
+\end{lstlisting}

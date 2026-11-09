@@ -15,18 +15,18 @@ GitHub Issues for task tracking.
 \toprule
 \textbf{Member} & \textbf{Primary Role} & \textbf{Responsibilities}\\
 \midrule
-Team Member 1 & Scrum Master / Backend Lead &
-  Django API design, authentication module, organisation management,
-  Celery task scheduling, Docker Compose orchestration\\
-Team Member 2 & ML Engineer / DevOps &
-  Isolation Forest model, Random Forest Request Shield, FastAPI ML service,
-  VictoriaMetrics integration, monitoring pipeline\\
-Team Member 3 & Frontend Lead / UI Designer &
-  Flutter application, all screen designs, navigation, state management,
-  WebSocket chatbot UI, screenshots\\
-Team Member 4 & QA / Documentation &
-  Test case design, security (VAPT), report writing, diagrams,
-  API documentation, incident and alert modules\\
+Syed Fardin Ahmed (2204014) & Backend / Security Lead &
+  Django authentication module (JWT, OTP email verification), SMTP integration,
+  role-based access control middleware, request sanitization and security hardening,
+  Docker Compose orchestration\\
+Shahneos Ali (2204013) & Frontend Lead / UI Designer &
+  Flutter application --- all screen designs, navigation, state management,
+  WebSocket chatbot UI, Firebase push notification service, screenshots\\
+Ahmed Abrar Zayad (2204021) & Full-Stack / ML Engineer &
+  Server enrolment pipeline, Grafana Alloy integration, VictoriaMetrics
+  time-series pipeline, Isolation Forest anomaly detection (FastAPI microservice),
+  Random Forest Request Shield classifier, alert/incident modules,
+  Gemini advisory chatbot (WebSocket), Celery task scheduling\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -46,10 +46,9 @@ Team Member 4 & QA / Documentation &
 \makecell{\textbf{User}\\\textbf{Interface}} &
 \textbf{Testing} & \textbf{Deployment} & \textbf{Docs}\\
 \hline
-Team Member 1 & \cmark & \cmark & \cmark & & & & \cmark & \\ \hline
-Team Member 2 & \cmark & & \cmark & \cmark & & \cmark & \cmark & \\ \hline
-Team Member 3 & & & \cmark & & \cmark & \cmark & & \cmark \\ \hline
-Team Member 4 & \cmark & & & & & \cmark & & \cmark \\ \hline
+Syed Fardin Ahmed (2204014) & \cmark & \cmark & \cmark & & & & \cmark & \\ \hline
+Shahneos Ali (2204013) & & & \cmark & & \cmark & \cmark & & \cmark \\ \hline
+Ahmed Abrar Zayad (2204021) & \cmark & & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\ \hline
 \end{tabular}
 \end{table}
 
@@ -84,11 +83,12 @@ Sprint breakdown:
 \begin{itemize}
   \item \textbf{Sprint 1--2:} Requirements, architecture design, database schema,
         Django project scaffold, Docker Compose base stack.
-  \item \textbf{Sprint 3--4:} Authentication module, organisation CRUD, server enrolment,
-        VictoriaMetrics integration, Flutter skeleton.
-  \item \textbf{Sprint 5:} Anomaly detection ML service, alert and incident modules.
-  \item \textbf{Sprint 6:} Gemini chatbot (WebSocket), Request Shield classifier,
-        sanitize middleware.
+  \item \textbf{Sprint 3--4:} Flutter UI skeleton, screen designs and navigation,
+        WebSocket chatbot UI; authentication module, organisation CRUD, server enrolment.
+  \item \textbf{Sprint 5:} VictoriaMetrics integration, Grafana Alloy pipeline,
+        anomaly detection ML service.
+  \item \textbf{Sprint 6:} Alert and incident modules, Gemini chatbot (WebSocket),
+        Request Shield classifier, sanitize middleware.
   \item \textbf{Sprint 7:} UAT, security hardening, documentation, final integration testing.
 \end{itemize}
 
@@ -161,25 +161,6 @@ R8 & Scope creep beyond academic timeline &
 \end{itemize}
 
 \section{Tools/Languages Requirements}
-
-\subsection{Hardware Requirements}
-
-\begin{table}[H]
-\centering
-\caption{Hardware requirements}\label{tab:hw}
-\begin{tabularx}{\textwidth}{@{}l X X@{}}
-\toprule
-\textbf{Component} & \textbf{Development} & \textbf{Deployment (minimum)}\\
-\midrule
-CPU    & Intel/AMD quad-core & 2 vCPUs\\
-RAM    & 16~GB (8~GB minimum) & 4~GB\\
-Storage & 50~GB SSD & 20~GB SSD\\
-Network & 100~Mbps & 10~Mbps (broadband)\\
-OS & Windows 11 / Ubuntu 22.04 & Ubuntu 22.04 LTS\\
-Docker & Docker Desktop 4.x & Docker Engine 24+\\
-\bottomrule
-\end{tabularx}
-\end{table}
 
 \subsection{Software Requirements}
 
@@ -257,16 +238,15 @@ IDE                 & VS Code / Android Studio & --\\
 \toprule
 \textbf{Item} & \textbf{Unit} & \textbf{Qty} & \textbf{Cost (BDT)}\\
 \midrule
-Google Gemini API (free tier) & month & 6 & 0\\
-VictoriaMetrics (self-hosted) & -- & -- & 0\\
+Google Gemini API (free tier) & month & 7 & 0\\
+VictoriaMetrics (self-hosted, local only) & -- & -- & 0\\
 PostgreSQL, Redis (open source) & -- & -- & 0\\
-Docker Desktop (personal licence) & month & 6 & 0\\
-Local server electricity (100W $\times$ 24h $\times$ 42 days) & kWh & 100.8 & \assumed{1,100~BDT at 11~BDT/kWh}\\
-GitHub (free tier) & month & 6 & 0\\
-Domain name (not yet registered) & year & 0 & 0\\
-Human effort (4 members $\times$ 10h/week $\times$ 14 weeks) & hours & 560 & \assumed{0 (academic work)}\\
+Docker Desktop (personal licence) & month & 7 & 0\\
+Local server electricity (100W $\times$ 24h $\times$ 42 days) & kWh & 100.8 & 1{,}100~BDT at 11~BDT/kWh\\
+GitHub (free tier) & month & 7 & 0\\
+Domain name (not registered for academic submission) & year & 0 & 0\\
 \midrule
-\multicolumn{3}{@{}l}{\textbf{Total out-of-pocket}} & \textbf{\assumed{$\approx$1,100~BDT}}\\
+\multicolumn{3}{@{}l}{\textbf{Total out-of-pocket}} & \textbf{$\approx$1{,}100~BDT}\\
 \bottomrule
 \end{tabularx}
 \end{table}

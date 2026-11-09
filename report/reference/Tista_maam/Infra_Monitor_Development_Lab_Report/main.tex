@@ -16,6 +16,7 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{enumitem}
+\usepackage{amsmath}
 
 \usetikzlibrary{shapes.geometric,arrows.meta,positioning}
 
@@ -48,26 +49,28 @@
 % Cover page follows the centered CUET title-page layout in the reference report.
 \begin{titlepage}
 \centering
-\vspace*{1.6cm}
-{\large Bachelor of Science in Computer Science \& Engineering\par}
-\vspace{1.2cm}
+\vspace*{0.8cm}
+{\large\bfseries Bachelor of Science in Computer Science \& Engineering\par}
+\vspace{1.0cm}
+\includegraphics[width=0.32\textwidth]{assets/cuet_logo.png}\par
+\vspace{1.0cm}
 {\Huge\bfseries\color{cuetblue}\reporttitle\par}
 \vspace{0.35cm}
-{\Large Development Lab Project Report\par}
+{\Large\bfseries Development Lab Project Report\par}
 \vspace{1.2cm}
 {\large\bfseries Team Members\par}
 \vspace{0.45cm}
-{\large Syed Fardin Ahmed\\ID: 2204014\par}
+{\large\textbf{Syed Fardin Ahmed}\\ID: 2204014\par}
 \vspace{0.25cm}
-{\large Shahneos Ali\\ID: 2204013\par}
+{\large\textbf{Shahneos Ali}\\ID: 2204013\par}
 \vspace{0.25cm}
-{\large Ahmed Abrar Zayad\\ID: 2204021\par}
+{\large\textbf{Ahmed Abrar Zayad}\\ID: 2204021\par}
 \vfill
 {\large Department of Computer Science and Engineering\\
 Chittagong University of Engineering and Technology (CUET)\\
 Chattogram-4349, Bangladesh\par}
-\vspace{0.7cm}
-{\large November 2026\par}
+\vspace{0.5cm}
+{\large November, 2026\par}
 \end{titlepage}
 
 \pagenumbering{roman}
@@ -77,32 +80,37 @@ Chattogram-4349, Bangladesh\par}
 {\large\bfseries Chittagong University of Engineering \& Technology (CUET)\\
 Department of Computer Science \& Engineering\\
 Chattogram-4349, Bangladesh\par}
-\vspace{1.4cm}
-{\Large\bfseries Development Lab Project Report\par}
-\vspace{0.5cm}
-{\large\reporttitle\par}
 \vspace{1.0cm}
-\begin{tabularx}{0.9\textwidth}{>{\bfseries}p{0.31\textwidth} X}
+{\Large\bfseries Development Lab Project Report\par}
+\vspace{0.4cm}
+{\large\bfseries\color{cuetblue}\reporttitle: AI-Augmented Infrastructure Monitoring \& Anomaly Detection\par}
+\vspace{0.8cm}
+\begin{tabularx}{0.95\textwidth}{>{\bfseries}p{0.32\textwidth} X}
 \toprule
 Course Code & CSE-356\\
-Course Title & Development Lab [TO CONFIRM]\\
-Submitted to & Mir Md. Saki Kowser\\
-              & Md. Refaj Hossan\\
-Department & Computer Science and Engineering\\
-Institution & Chittagong University of Engineering and Technology\\
-Semester / Session & [TO CONFIRM]\\
-Submission Date & [TO CONFIRM]\\
+Course Title & Software Development Lab\\
+Session & 2022--2023\\
+Submitted to & \textbf{Sharmistha Chanda Tista}\\
+Designation & Assistant Professor\\
+Department & Department of Computer Science \& Engineering\\
+Institution & Chittagong University of Engineering and Technology (CUET)\\
+Submission Date & November, 2026\\
 \bottomrule
 \end{tabularx}
 
-\vspace{1.3cm}
-\begin{tabularx}{0.9\textwidth}{l X}
+\vspace{1.0cm}
+\begin{tabularx}{0.95\textwidth}{p{0.32\textwidth} X}
 \toprule
-\textbf{Student} & \textbf{Reported contribution}\\
+\textbf{Student} & \textbf{Reported Contribution}\\
 \midrule
-Syed Fardin Ahmed (2204014) & Authentication, SMTP, role-based access control, and request sanitization\\
-Shahneos Ali (2204013) & User interface and notification service\\
-Ahmed Abrar Zayad (2204021) & Remaining project features, as confirmed by the team\\
+Syed Fardin Ahmed \newline(ID: 2204014) &
+  Backend user authentication with SimpleJWT, SMTP email verification service, multi-tenant role-based access control (RBAC), and HTTP request sanitization / security middleware.\\
+\addlinespace[4pt]
+Shahneos Ali \newline(ID: 2204013) &
+  Flutter application user interface design and frontend architecture, Material Design 3 responsive dashboard, real-time metrics and incident views, Firebase Cloud Messaging push notification integration, and client-side WebSocket communication for AI assistant.\\
+\addlinespace[4pt]
+Ahmed Abrar Zayad \newline(ID: 2204021) &
+  Server enrolment pipeline, Grafana Alloy telemetry ingestion, VictoriaMetrics time-series integration, Isolation Forest ML anomaly detection microservice, Random Forest Request Shield classifier, alert \& incident lifecycle management, and Gemini advisory chatbot backend.\\
 \bottomrule
 \end{tabularx}
 \vfill

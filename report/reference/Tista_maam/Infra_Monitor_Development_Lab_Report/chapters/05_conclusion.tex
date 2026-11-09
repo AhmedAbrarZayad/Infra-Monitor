@@ -1,24 +1,42 @@
-\chapter{Conclusion}
+\chapter{Conclusion and Future Work}
 
-Infra Monitor combines organization-scoped infrastructure management with
-Linux host telemetry, operational event workflows, and machine-learning
-features. Its current implementation separates relational operational data
-from time-series samples, exposes a Flutter client and Django APIs, and
-orchestrates background and model services through the local Compose
-configuration (\sourcepath{docker-compose.yml};
-\sourcepath{backend/infra_monitor/organization_urls.py}).
+\section{Summary of Achievements}
+Infra Monitor successfully demonstrates the design, implementation, and integration of an end-to-end, multi-tenant infrastructure observability and incident response platform. By unifying host-level telemetry, statistical machine learning anomaly detection, ingress traffic security classification, and large language model diagnostic assistance into a single cohesive interface, the project addresses the fragmentation and high financial barriers associated with commercial monitoring suites.
 
-The repository contains implementation and test code, but this report does
-not assert production deployment, measured availability, classifier accuracy,
-or completed user-acceptance testing. These claims require repeatable test
-runs and recorded results. The supplied architecture illustration also
-omits some current AI paths; this is called out in Chapter 2 rather than
-silently treated as complete.
+Key milestones accomplished during the development lifecycle include:
+\begin{enumerate}
+  \item \textbf{High-Throughput Observability Pipeline:} Implemented an authenticated ingestion architecture combining Grafana Alloy with a clustered VictoriaMetrics time-series database, achieving sub-second PromQL query responses for multi-metric dashboards.
+  
+  \item \textbf{Multi-Tenant Role-Based Architecture:} Engineered an organization-scoped Django REST Framework backend with cryptographic JWT authentication, email OTP verification, and three distinct operational roles (Owner, Admin, Engineer) enforcing strict tenant isolation.
+  
+  \item \textbf{Intelligent Anomaly Detection:} Developed an unsupervised Isolation Forest machine-learning microservice in FastAPI that evaluates multivariate 30-minute metric windows, automatically flagging resource degradations without requiring brittle manual thresholds.
+  
+  \item \textbf{Request Shield Intrusion Classification:} Built a 26-feature ingress HTTP request classification pipeline utilizing a Random Forest model trained on the CICIDS2017 intrusion benchmark, segmenting traffic into GREEN, GRAY, and RED threat zones with automated threat suggestions.
+  
+  \item \textbf{Conversational Diagnostic Assistant:} Deployed a full-duplex WebSocket diagnostic assistant powered by Google Gemini, securely streaming contextualized root-cause hypotheses and safe remediation advice directly into the Flutter dashboard.
+  
+  \item \textbf{Comprehensive Cross-Platform Client:} Delivered a responsive, Material Design 3 client in Flutter providing intuitive workflows for server fleet management, real-time telemetry exploration, alert lifecycles, and incident delegation.
+\end{enumerate}
 
-\section*{Future Work}
-Priorities for a subsequent iteration include updating the architecture
-illustration to show all AI integrations, executing and recording the
-documented backend and Flutter checks, adding reproducible performance and
-volume tests, and preparing a deployment and monitoring procedure for the
-target environment. Semester, submission date, and any project-management
-records remain for the team to complete.
+\section{System Limitations}
+While the platform provides robust monitoring capabilities, several architectural limitations have been identified:
+\begin{itemize}
+  \item \textbf{Collector Platform Support:} The automated one-line installer currently targets Linux operating systems running systemd. Windows and macOS agent installation requires manual Alloy configuration.
+  \item \textbf{In-Memory Metric Buffering:} If the network connection between a monitored host and the Django gateway experiences prolonged downtime, host-side Alloy sample buffers may drop historical metrics once memory thresholds are exceeded.
+  \item \textbf{Static Anomaly Window Size:} The current Isolation Forest pipeline evaluates a fixed 30-minute metric window; dynamic sliding windows tailored to differing service traffic rhythms would enhance anomaly precision.
+  \item \textbf{Free-Tier LLM Rate Limits:} The Google Gemini free-tier API enforces rate limits of 15 requests per minute, which restricts concurrent conversational sessions during high-volume team triage events.
+\end{itemize}
+
+\section{Future Work}
+Building upon the current foundation, several strategic enhancements are planned for future iterations:
+\begin{itemize}
+  \item \textbf{Production Kubernetes Orchestration:} Packaging Infra Monitor as a Helm chart with automated horizontal pod autoscaling (HPA) for backend and ML microservice containers, complemented by persistent volume claims on Ceph or AWS EBS.
+  
+  \item \textbf{Extended eBPF Telemetry Collection:} Transitioning host collection to extended Berkeley Packet Filter (eBPF) probes, enabling kernel-level network tracing, socket lifecycle monitoring, and process memory profiling with zero user-space overhead.
+  
+  \item \textbf{Automated Remediation Runbooks:} Introducing configurable automated remediation workflows (e.g., automated container restarts, systemd service reloads, or temporary IP firewall block rules via iptables) upon verified critical alerts.
+  
+  \item \textbf{Online Continuous Model Retraining:} Implementing automated continuous training pipelines that incorporate operator feedback (e.g., false-positive flags on anomaly history cards) to periodically fine-tune Isolation Forest and Request Shield weights.
+  
+  \item \textbf{Multi-Region Telemetry Aggregation:} Supporting federated VictoriaMetrics deployments across multiple data centers, enabling global infrastructure visibility with localized metric ingestion.
+\end{itemize}

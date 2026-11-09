@@ -2,7 +2,7 @@
 
 \section{Stakeholders for the System}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{System stakeholders}\label{tab:stakeholders}
 \begin{tabularx}{\textwidth}{@{}l X X@{}}
@@ -45,10 +45,8 @@ covering the full actor--system interaction surface.
 The following subsections provide full textual specifications for each use case.
 
 %-- UC-01 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-01: User Account Registration}\label{tab:uc01}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-01: User Account Registration}\label{tab:uc01}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-01\\
 \textbf{Name} & User Account Registration\\
@@ -69,14 +67,11 @@ The following subsections provide full textual specifications for each use case.
   E1.~Duplicate email: system returns HTTP~400 with field error.
   E2.~Invalid OTP: system returns HTTP~400 ``Invalid or expired OTP.''\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-02 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-02: User Login}\label{tab:uc02}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-02: User Login}\label{tab:uc02}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-02\\
 \textbf{Name} & User Login\\
@@ -94,14 +89,11 @@ The following subsections provide full textual specifications for each use case.
   E1.~Wrong credentials: HTTP~401 ``Invalid credentials.''
   E2.~Email not verified: HTTP~403 ``Email not verified.''\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-03 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-03: Organisation Creation \& Member Joining}\label{tab:uc03}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-03: Organisation Creation \& Member Joining}\label{tab:uc03}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-03\\
 \textbf{Name} & Organisation Creation \& Member Joining\\
@@ -121,14 +113,11 @@ The following subsections provide full textual specifications for each use case.
   E1.~Duplicate membership: HTTP~400 unique constraint violation.
   E2.~Non-Owner tries to approve: HTTP~403 ``Only the owner may approve memberships.''\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-04 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-04: Server Setup \& Metric Collection}\label{tab:uc04}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-04: Server Setup \& Metric Collection}\label{tab:uc04}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-04\\
 \textbf{Name} & Server Setup \& Metric Collection\\
@@ -152,14 +141,11 @@ The following subsections provide full textual specifications for each use case.
   E1.~Duplicate hostname in org: HTTP~400.
   E2.~VictoriaMetrics unreachable: vminsert health-check fails; Compose restart policy applies.\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-05 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-05: Incident \& Anomaly Assignment}\label{tab:uc05}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-05: Incident \& Anomaly Assignment}\label{tab:uc05}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-05\\
 \textbf{Name} & Incident and Anomaly Assignment\\
@@ -178,14 +164,11 @@ The following subsections provide full textual specifications for each use case.
 \textbf{Exception flow} &
   E1.~Assignee not an Engineer: HTTP~400 validation error from \texttt{Incident.clean()}.\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-06 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-06: AI Chatbot Conversation}\label{tab:uc06}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-06: AI Chatbot Conversation}\label{tab:uc06}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-06\\
 \textbf{Name} & AI Chatbot Conversation (Anomaly Advisory)\\
@@ -209,14 +192,11 @@ The following subsections provide full textual specifications for each use case.
 \textbf{Exception flow} &
   E1.~Ticket expired or already used: WebSocket closed with error code.\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-07 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-07: Request Shield Monitoring}\label{tab:uc07}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-07: Request Shield Monitoring}\label{tab:uc07}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-07\\
 \textbf{Name} & Request Shield -- HTTP Traffic Classification\\
@@ -239,14 +219,11 @@ The following subsections provide full textual specifications for each use case.
 \textbf{Exception flow} &
   E1.~Batch exceeds 500 requests: HTTP~400 from ML service schema validation.\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 %-- UC-08 -------------------------------------------------------
-\begin{table}[H]
-\centering
-\caption{Textual description of UC-08: Password Reset}\label{tab:uc08}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-08: Password Reset}\label{tab:uc08}\par\noindent
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
 \toprule
 \textbf{Use Case ID} & UC-08\\
 \textbf{Name} & Password Reset via OTP\\
@@ -261,74 +238,95 @@ The following subsections provide full textual specifications for each use case.
 \textbf{Exception flow} &
   E1.~OTP expired or already used: HTTP~400.\\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabularx}\vspace{0.35cm}
 
 \section{Activity Diagram}
 
-Activity diagrams illustrate the workflow of major processes.
-\Cref{fig:act_login} shows the account login flow; \Cref{fig:act_server} shows
-server setup and metric collection; \Cref{fig:act_incident} shows incident and
-anomaly assignment; \Cref{fig:act_chatbot} shows the chatbot conversation flow;
-\Cref{fig:act_shield} shows the Request Shield classification flow.
+Activity diagrams illustrate the operational workflow and decision logic of major system processes. Each diagram models the sequence of actions, branch conditions, and state changes executed across client and backend boundaries.
+
+\subsection{Account Authentication Workflow}
+The authentication workflow (\Cref{fig:act_login}) models user registration, email OTP verification, and JWT session initiation. When an unverified user registers, the system generates a secure random 6-digit OTP and transmits it via SMTP. The user must provide the valid OTP within the expiration window to transition their account to active status. Subsequent logins validate credentials against PBKDF2 password hashes and issue an access/refresh token pair.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Account_Login_Activity_Diagram.png}
-\caption{Activity diagram: Account Login}\label{fig:act_login}
+\includegraphics[width=0.72\textwidth]{Account_Login_Activity_Diagram.png}
+\caption{Activity diagram: Account Registration, OTP Verification, and Login}\label{fig:act_login}
 \end{figure}
+
+\subsection{Server Setup and Telemetry Collection Workflow}
+The server setup workflow (\Cref{fig:act_server}) delineates the onboarding of a new Linux host. The administrator registers the server hostname and environment in the dashboard, triggering the generation of a dynamic enrollment token. The administrator executes the generated one-line command on the host terminal, which pulls the Grafana Alloy binary, writes customized systemd service units, and establishes Prometheus remote-write streaming to the Django telemetry gateway.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Server_Setup_and_Metrics_Activity_Diagram.png}
-\caption{Activity diagram: Server Setup and Metric Collection}\label{fig:act_server}
+\includegraphics[width=0.72\textwidth]{Server_Setup_and_Metrics_Activity_Diagram.png}
+\caption{Activity diagram: Server Setup and Metric Collection Pipeline}\label{fig:act_server}
 \end{figure}
+
+\subsection{Incident and Anomaly Assignment Workflow}
+When statistical anomalies or resource threshold breaches are detected, the incident assignment workflow (\Cref{fig:act_incident}) coordinates operational triage. If a metric anomaly produces a persistent alert, administrators can escalate it into a formal incident. The incident is assigned to an approved engineer within the organization, notifying them via push notification. The engineer investigates root causes, posts chronological status updates, and marks the incident resolved once mitigated.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Incident_and_Anomaly_Assignment_Activity_Diagram.png}
-\caption{Activity diagram: Incident and Anomaly Assignment}\label{fig:act_incident}
+\includegraphics[width=0.72\textwidth]{Incident_and_Anomaly_Assignment_Activity_Diagram.png}
+\caption{Activity diagram: Incident and Anomaly Assignment Lifecycle}\label{fig:act_incident}
 \end{figure}
+
+\subsection{AI Chatbot Diagnostic Workflow}
+The AI chatbot workflow (\Cref{fig:act_chatbot}) governs interactive root-cause diagnostics. The user requests a one-time cryptographic WebSocket ticket via REST. Upon WebSocket connection, the consumer retrieves the associated anomaly record, packages metric evidence into a structured system prompt, and queries the Google Gemini API in streaming mode. The user receives real-time advisory guidance and remediation recommendations while strict guardrails prohibit destructive command execution.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Chatbot_Conversation_Activity_Diagram.png}
-\caption{Activity diagram: AI Chatbot Conversation}\label{fig:act_chatbot}
+\includegraphics[width=0.72\textwidth]{Chatbot_Conversation_Activity_Diagram.png}
+\caption{Activity diagram: AI Chatbot Diagnostic Conversation}\label{fig:act_chatbot}
 \end{figure}
+
+\subsection{Request Shield Traffic Classification Workflow}
+The Request Shield workflow (\Cref{fig:act_shield}) models ingress HTTP traffic security analysis. Server access logs are captured and vectorized into a 26-feature schema encoding URI depth, Shannon path entropy, and attack signatures. The Random Forest classifier segments traffic into GREEN (benign), GRAY (suspicious), or RED (malicious) zones. RED-zone requests trigger automated IP threat suggestions, enabling administrators to review and enforce firewall blocks.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Shield_Feature_Activity_Diagram.png}
-\caption{Activity diagram: Request Shield Feature}\label{fig:act_shield}
+\includegraphics[width=0.72\textwidth]{Shield_Feature_Activity_Diagram.png}
+\caption{Activity diagram: Request Shield Traffic Classification}\label{fig:act_shield}
 \end{figure}
+
+\subsection{Organization Creation and Governance Workflow}
+The organization creation workflow (\Cref{fig:act_org}) manages tenant onboarding. An authenticated user specifies organization metadata and is automatically designated as the organization OWNER. The backend creates tenant scopes, initializes default alert policies, and sets up membership registries to govern future team access.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Organization_Creation_Activity_Diagram.png}
-\caption{Activity diagram: Organisation Creation}\label{fig:act_org}
+\includegraphics[width=0.72\textwidth]{Organization_Creation_Activity_Diagram.png}
+\caption{Activity diagram: Organisation Creation and Scoping}\label{fig:act_org}
 \end{figure}
+
+\subsection{Organization Membership and Joining Workflow}
+The membership workflow (\Cref{fig:act_join}) coordinates collaborative access. Users search for existing organizations and submit join requests. The organization owner or administrator receives pending request notifications, inspects applicant credentials, and either approves or rejects the request, assigning the appropriate operational role (Admin or Engineer).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{Organization_Joining_and_Acceptance_Activity_Diagram.png}
-\caption{Activity diagram: Organisation Joining and Acceptance}\label{fig:act_join}
+\includegraphics[width=0.72\textwidth]{Organization_Joining_and_Acceptance_Activity_Diagram.png}
+\caption{Activity diagram: Organisation Joining and Membership Approval}\label{fig:act_join}
 \end{figure}
 
+\clearpage
 \section{Static Model -- Class Diagram}
 
-The class diagram (\Cref{fig:class}) depicts the core domain entities of Infra
-Monitor as Django models, their attributes, and relationships.  Key entities
-include \texttt{Users}, \texttt{Organization}, \texttt{OrganizationMembership},
-\texttt{Servers}, \texttt{Service}, \texttt{AnomalyDetection}, \texttt{Alert},
-\texttt{Incident}, \texttt{AssistantConversation}, \texttt{RequestLog}, and
-\texttt{ThreatSuggestion}.  Many-to-many relationships (e.g., service admin
-assignments) are resolved through explicit junction models
-(\texttt{ServiceAdminAssignment}).
+The static domain model of Infra Monitor (\Cref{fig:class}) illustrates the object-oriented structure, entity properties, method signatures, and structural relationships that form the foundation of the Django backend.
+
+\textbf{Core Class Hierarchies and Domain Models:}
+\begin{itemize}
+  \item \textbf{\texttt{Users}:} Extends Django's \texttt{AbstractBaseUser} and \texttt{PermissionsMixin}, encapsulating authentication fields, email normalization, OTP timestamp tracking, and active verification status.
+  \item \textbf{\texttt{Organization}:} Represents the root tenant entity. It maintains cascade relationships to servers, membership records, and operational configurations, guaranteeing strict multi-tenant isolation.
+  \item \textbf{\texttt{OrganizationMembership}:} Acts as a richly-attributed association class linking \texttt{Users} and \texttt{Organization}. It stores the operational role enumeration (\texttt{OWNER}, \texttt{ADMIN}, \texttt{ENGINEER}), approval flags, and timestamp metadata. Unique constraints prevent duplicate memberships.
+  \item \textbf{\texttt{Servers} and \texttt{Service}:} Model the physical/virtual host topology and running application daemons. \texttt{Servers} encapsulate enrollment tokens, health status, and environment tags, while \texttt{Service} tracks individual system processes.
+  \item \textbf{\texttt{AnomalyDetection}:} Encapsulates machine learning outputs, storing multivariate metric values, Isolation Forest anomaly scores, confidence intervals, and time-window bounds.
+  \item \textbf{\texttt{Alert} and \texttt{Incident}:} Coordinate operational incident management. Alerts contain unique SHA-256 fingerprints to eliminate alarm flooding. Incidents maintain foreign-key assignments to approved engineers and preserve chronological status transition logs.
+  \item \textbf{\texttt{RequestLog} and \texttt{ThreatSuggestion}:} Underpin the Request Shield security architecture, capturing 26-feature numerical vectors, classifier confidence values, zone assignments (GREEN, GRAY, RED), and administrator review states.
+\end{itemize}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{class_diagram.png}
-\caption{Class diagram for Infra Monitor domain model}\label{fig:class}
+\caption{Comprehensive Class Diagram for Infra Monitor domain models and relational associations}\label{fig:class}
 \end{figure}
 
 \section{Dynamic Model -- Sequence Diagram}
@@ -390,7 +388,7 @@ Sequence diagrams illustrate object interactions for the key scenarios.
 Infra Monitor enforces a three-tier RBAC model implemented in
 \texttt{accounts/models/organization\_membership.py}:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{RBAC access control matrix}\label{tab:rbac}
 \begin{tabularx}{\textwidth}{@{}l X c c c@{}}
@@ -455,7 +453,7 @@ before any domain view is executed.
 
 \section{AI-integration Requirements}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{AI-integration requirements}\label{tab:airec}
 \begin{tabularx}{\textwidth}{@{}l X l l@{}}

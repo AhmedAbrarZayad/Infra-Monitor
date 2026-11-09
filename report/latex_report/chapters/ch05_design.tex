@@ -154,18 +154,8 @@ in \Cref{fig:er}.
 
 \begin{figure}[H]
 \centering
-% The ER diagram PDF is in report/diagrams/er_diagram/
-% Include as image; pdflatex can include PDF pages
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{0.5cm}
-  \textbf{ER Diagram} \\[0.3cm]
-  \textit{Source: report/diagrams/er\_diagram/infra\_monitor\_erd\_and\_completed\_dfds.pdf}\\[0.3cm]
-  \small
-  Primary entities: Users, Organization, OrganizationMembership,
-  Servers, Service, AnomalyDetection, Alert, Incident, AssistantConversation,
-  RequestLog, ThreatSuggestion, ShieldConfig\\[0.5cm]
-  \textit{[Compile with \texttt{pdflatex} and include PDF page via \texttt{includegraphics}]}
-  \vspace{0.5cm}}}
-\caption{Entity--Relationship diagram for Infra Monitor (academic notation, B\&W)}\label{fig:er}
+\includegraphics[width=0.98\textwidth]{images/diagrams/er_diagram.png}
+\caption{Entity--Relationship diagram for Infra Monitor (academic notation, black and white)}\label{fig:er}
 \end{figure}
 
 \textbf{Key table schemas derived from Django models:}
@@ -280,14 +270,14 @@ duplicating them in child tables.
 
 The Flutter frontend provides a consistent Material Design 3 interface across
 Android, iOS, and web.  Key screens are presented in
-\Cref{fig:gui_login,fig:gui_dashboard,fig:gui_servers,fig:gui_incidents,fig:gui_shield}.
+\Cref{fig:gui_overview,fig:gui_servers,fig:gui_metrics,fig:gui_incidents,fig:gui_ai_shield}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg}
-\caption{Login screen (left) and Registration screen (right) -- UC-01, UC-02}\label{fig:gui_login}
+\caption{Overview dashboard (left) and Overview with active alerts (right) -- UC-04}\label{fig:gui_overview}
 \end{figure}
 
 \begin{figure}[H]
@@ -295,7 +285,7 @@ Android, iOS, and web.  Key screens are presented in
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg}
-\caption{Overview dashboard (left) and Server list screen (right) -- UC-04}\label{fig:gui_dashboard}
+\caption{Server list screen (left) and Server detail view (right) -- UC-04}\label{fig:gui_servers}
 \end{figure}
 
 \begin{figure}[H]
@@ -303,7 +293,7 @@ Android, iOS, and web.  Key screens are presented in
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg}
-\caption{Server detail / metrics view (left) and Alerts screen (right) -- UC-04, UC-05}\label{fig:gui_servers}
+\caption{Metric detail view (left) and Service metrics history (right) -- UC-04, UC-05}\label{fig:gui_metrics}
 \end{figure}
 
 \begin{figure}[H]
@@ -311,7 +301,7 @@ Android, iOS, and web.  Key screens are presented in
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg}
-\caption{Incident list (left) and Incident detail / assignment view (right) -- UC-05}\label{fig:gui_incidents}
+\caption{Anomaly history list (left) and Incident list (right) -- UC-05}\label{fig:gui_incidents}
 \end{figure}
 
 \begin{figure}[H]
@@ -319,7 +309,7 @@ Android, iOS, and web.  Key screens are presented in
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg}
 \hfill
 \includegraphics[width=0.42\textwidth]{images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg}
-\caption{Request Shield analytics (left) and Request log list (right) -- UC-07}\label{fig:gui_shield}
+\caption{AI advisory chatbot interface (left) and Request Shield analytics (right) -- UC-06, UC-07}\label{fig:gui_ai_shield}
 \end{figure}
 
 \section{API Documentation}
