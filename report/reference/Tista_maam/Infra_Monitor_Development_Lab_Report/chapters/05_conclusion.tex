@@ -1,0 +1,24 @@
+\chapter{Conclusion}
+
+Infra Monitor combines organization-scoped infrastructure management with
+Linux host telemetry, operational event workflows, and machine-learning
+features. Its current implementation separates relational operational data
+from time-series samples, exposes a Flutter client and Django APIs, and
+orchestrates background and model services through the local Compose
+configuration (\sourcepath{docker-compose.yml};
+\sourcepath{backend/infra_monitor/organization_urls.py}).
+
+The repository contains implementation and test code, but this report does
+not assert production deployment, measured availability, classifier accuracy,
+or completed user-acceptance testing. These claims require repeatable test
+runs and recorded results. The supplied architecture illustration also
+omits some current AI paths; this is called out in Chapter 2 rather than
+silently treated as complete.
+
+\section*{Future Work}
+Priorities for a subsequent iteration include updating the architecture
+illustration to show all AI integrations, executing and recording the
+documented backend and Flutter checks, adding reproducible performance and
+volume tests, and preparing a deployment and monitoring procedure for the
+target environment. Semester, submission date, and any project-management
+records remain for the team to complete.

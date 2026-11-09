@@ -1,0 +1,56 @@
+\chapter{Monitoring and Intelligent Features}
+
+\section{Telemetry Collection}
+An organization owner or administrator starts server enrollment from the
+client. Django issues an enrollment command; the Linux host runs the installer
+and starts Grafana Alloy. The collector forwards Prometheus remote-write data
+to the Django ingestion path, which applies trusted organization/server
+identity before writing samples to VictoriaMetrics. Operational API reads
+query that time-series store rather than the separate PostgreSQL metric model
+(\cite{monitoring}; \sourcepath{backend/installer/};
+\sourcepath{backend/servers/services/}).
+
+PostgreSQL and VictoriaMetrics have distinct responsibilities: the former
+stores control-plane objects such as organizations, memberships, servers,
+and enrollment state, while the latter stores metric samples and labels
+(\sourcepath{docs/monitoring-end-to-end.md};
+\sourcepath{docker-compose.yml}). This separation allows the application to
+associate time-series queries with the correct organization and monitored
+host.
+
+\section{Anomaly Detection and Request Shield}
+The ML service exposes separate endpoints for anomaly model training and
+inference, plus batch HTTP request classification
+(\sourcepath{model/app/main.py}). Celery tasks collect a completed service
+metric window, request training when a service model is absent and enough
+varied telemetry exists, then submit inference. The detection result is
+returned to Django for persistence
+(\sourcepath{backend/ml_model/tasks.py};
+\sourcepath{model/app/pipeline/infer.py}).
+
+Request Shield validates a fixed feature schema and classifies request feature
+vectors into GREEN, GRAY, or RED zones. The classifier implementation uses a
+Random Forest training function and produces a zone and confidence value;
+the repository does not establish a final accuracy result in this report
+(\sourcepath{backend/sanitize/features.py};
+\sourcepath{model/app/pipeline/request_classifier.py}).
+
+\section{Advisory Assistant}
+The assistant is a separate conversational feature. Django prepares a
+structured anomaly evidence snapshot and streams a Gemini response. Its
+system instruction treats the anomaly as evidence of unusual behavior, not
+proof of a crash, and tells the model not to execute commands or change
+monitoring state (\sourcepath{backend/ai/services.py};
+\sourcepath{backend/ai/consumers.py}). Thus, model output is advisory; the
+service lifecycle remains the application's authoritative availability
+state.
+
+\section{Operational Workflows}
+The interface presents health, metrics, alerts, and incidents together so an
+operator can move from a monitored resource to an operational event. The
+backend provides organization-scoped endpoints for servers, alerts,
+incidents, and anomaly detections. Incident workflows include acknowledgement,
+assignment, status, updates, evidence, and feedback; the routes are declared
+in \sourcepath{backend/incident/urls.py}. This chapter describes implemented
+paths and does not claim that a specific operational event was resolved by
+the system.

@@ -1,0 +1,74 @@
+\chapter{Implementation Details}
+
+\section{Application Modules}
+The backend is organized around domain packages rather than a single
+monolithic views module. \sourcepath{backend/accounts/} handles identity,
+organization and membership workflows; \sourcepath{backend/servers/} handles
+host/service records and metric queries; \sourcepath{backend/installer/}
+implements enrollment and telemetry ingestion; and
+\sourcepath{backend/alert/}, \sourcepath{backend/incident/},
+\sourcepath{backend/ml_model/}, and \sourcepath{backend/ai/} handle event
+lifecycles and intelligent features (\cite{readme}; \cite{source}).
+
+The Flutter application is configured in
+\sourcepath{frontend/pubspec.yaml}. Domain URL modules are composed under
+\sourcepath{backend/infra_monitor/organization_urls.py}, while authentication,
+monitoring, and internal service routes are composed in
+\sourcepath{backend/infra_monitor/urls.py}.
+
+\section{Selected API Surface}
+The organization-scoped API prefix is
+\texttt{/api/organizations/\{organization\_id\}/}. The following routes are
+defined in backend URL modules; this table summarizes the path shape and
+operation family rather than duplicating every request/response schema.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Representative API routes from Django URL configuration}\label{tab:api}
+\begin{tabularx}{\textwidth}{p{0.45\textwidth} p{0.18\textwidth} X}
+\toprule
+\textbf{Route} & \textbf{Methods} & \textbf{Purpose}\\
+\midrule
+\texttt{/api/auth/register/}, \texttt{/api/auth/login/} & POST & Account registration and authentication.\\
+\path{/api/organizations/{id}/servers/} & GET & List organization servers.\\
+\path{/api/organizations/{id}/servers/{server_id}/metrics/} & GET & Query a server metric range.\\
+\path{/api/organizations/{id}/alerts/} & GET & List organization alerts.\\
+\path{/api/organizations/{id}/incidents/{incident_id}/assignment/} & POST & Change incident assignment.\\
+\path{/api/organizations/{id}/anomalies/} & GET & List organization anomaly detections.\\
+\texttt{/api/monitoring/} and \texttt{/api/internal/monitoring/} & Multiple & Enrollment and internal collector operations.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+Route declarations can be checked in
+\sourcepath{backend/accounts/urls.py}, \sourcepath{backend/servers/urls.py},
+\sourcepath{backend/alert/urls.py}, \sourcepath{backend/incident/urls.py},
+and \sourcepath{backend/ml_model/urls.py}. User-facing organization APIs are
+scoped by organization and use the application's authentication and
+authorization code; internal collector and ML routes use service credentials
+or enrollment credentials as documented in
+\sourcepath{docs/monitoring-end-to-end.md}.
+
+\section{Security and Access Control}
+The user model uses email as its login identifier and requires unique email
+addresses (\sourcepath{backend/accounts/models/users.py}). Organization
+membership stores OWNER, ADMIN, or ENGINEER roles and an approval state. Model
+constraints enforce uniqueness of a user's membership in an organization and
+approval for privileged roles
+(\sourcepath{backend/accounts/models/organization_membership.py}). Sensitive
+internal configuration is supplied through environment files, and the
+repository's setup guide warns against committing those files
+(\sourcepath{README.md}).
+
+\section{Local Execution and Verification}
+The root Compose file defines the local backend, ML service, PostgreSQL,
+Redis/Celery, and VictoriaMetrics services (\cite{compose}). The README
+documents setup and these backend quality checks:
+\texttt{python manage.py check},
+\texttt{python manage.py makemigrations --check --dry-run},
+\texttt{python manage.py test --noinput},
+\texttt{ruff check .}, and \texttt{ruff format --check .}
+(\cite{readme}). Test files exist in several backend apps and in
+\sourcepath{frontend/test/}. No test execution or coverage run was performed
+for this report, so pass counts, performance figures, and coverage
+percentages are intentionally not reported.

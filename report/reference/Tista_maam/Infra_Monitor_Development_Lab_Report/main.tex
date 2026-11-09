@@ -1,0 +1,136 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{newtxtext,newtxmath}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning}
+
+\definecolor{cuetblue}{RGB}{26,55,92}
+\definecolor{lightblue}{RGB}{235,241,248}
+\hypersetup{colorlinks=true,linkcolor=cuetblue,urlcolor=cuetblue,citecolor=cuetblue}
+\setstretch{1.15}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{topsep=3pt,itemsep=2pt,leftmargin=1.5em}
+\setlist[enumerate]{topsep=3pt,itemsep=2pt,leftmargin=1.7em}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large\color{cuetblue}}
+  {\chaptername\ \thechapter}{8pt}{\Large}
+\titleformat{\section}{\normalfont\bfseries\large\color{cuetblue}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{\thesubsection}{0.7em}{}
+\titlespacing*{\chapter}{0pt}{-12pt}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Infra Monitor -- Development Lab Report}
+\fancyhead[R]{\small CSE-356}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+
+\newcommand{\sourcepath}[1]{\path{#1}}
+\newcommand{\reporttitle}{Infra Monitor}
+
+\begin{document}
+
+% Cover page follows the centered CUET title-page layout in the reference report.
+\begin{titlepage}
+\centering
+\vspace*{1.6cm}
+{\large Bachelor of Science in Computer Science \& Engineering\par}
+\vspace{1.2cm}
+{\Huge\bfseries\color{cuetblue}\reporttitle\par}
+\vspace{0.35cm}
+{\Large Development Lab Project Report\par}
+\vspace{1.2cm}
+{\large\bfseries Team Members\par}
+\vspace{0.45cm}
+{\large Syed Fardin Ahmed\\ID: 2204014\par}
+\vspace{0.25cm}
+{\large Shahneos Ali\\ID: 2204013\par}
+\vspace{0.25cm}
+{\large Ahmed Abrar Zayad\\ID: 2204021\par}
+\vfill
+{\large Department of Computer Science and Engineering\\
+Chittagong University of Engineering and Technology (CUET)\\
+Chattogram-4349, Bangladesh\par}
+\vspace{0.7cm}
+{\large November 2026\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+\begin{titlepage}
+\centering
+{\large\bfseries Chittagong University of Engineering \& Technology (CUET)\\
+Department of Computer Science \& Engineering\\
+Chattogram-4349, Bangladesh\par}
+\vspace{1.4cm}
+{\Large\bfseries Development Lab Project Report\par}
+\vspace{0.5cm}
+{\large\reporttitle\par}
+\vspace{1.0cm}
+\begin{tabularx}{0.9\textwidth}{>{\bfseries}p{0.31\textwidth} X}
+\toprule
+Course Code & CSE-356\\
+Course Title & Development Lab [TO CONFIRM]\\
+Submitted to & Mir Md. Saki Kowser\\
+              & Md. Refaj Hossan\\
+Department & Computer Science and Engineering\\
+Institution & Chittagong University of Engineering and Technology\\
+Semester / Session & [TO CONFIRM]\\
+Submission Date & [TO CONFIRM]\\
+\bottomrule
+\end{tabularx}
+
+\vspace{1.3cm}
+\begin{tabularx}{0.9\textwidth}{l X}
+\toprule
+\textbf{Student} & \textbf{Reported contribution}\\
+\midrule
+Syed Fardin Ahmed (2204014) & Authentication, SMTP, role-based access control, and request sanitization\\
+Shahneos Ali (2204013) & User interface and notification service\\
+Ahmed Abrar Zayad (2204021) & Remaining project features, as confirmed by the team\\
+\bottomrule
+\end{tabularx}
+\vfill
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\input{chapters/01_introduction}
+\input{chapters/02_architecture}
+\input{chapters/03_monitoring}
+\input{chapters/04_implementation}
+\input{chapters/05_conclusion}
+
+\begin{thebibliography}{9}
+\bibitem{readme}
+Infra Monitor project repository, \emph{README.md}; project overview, setup, and quality-check commands.
+\bibitem{compose}
+Infra Monitor project repository, \emph{docker-compose.yml}; service definitions and local deployment configuration.
+\bibitem{monitoring}
+Infra Monitor project repository, \emph{docs/monitoring-end-to-end.md}; monitoring enrollment and telemetry data flow.
+\bibitem{model}
+Infra Monitor project repository, \emph{model/app/main.py} and \emph{model/app/pipeline/}; ML service interfaces and inference implementation.
+\bibitem{source}
+Infra Monitor project repository, backend source modules under \emph{backend/}; routes, domain models, and application behavior.
+\bibitem{frontend}
+Infra Monitor project repository, \emph{frontend/pubspec.yaml} and \emph{frontend/lib/}; Flutter client dependencies and screens.
+\end{thebibliography}
+
+\end{document}

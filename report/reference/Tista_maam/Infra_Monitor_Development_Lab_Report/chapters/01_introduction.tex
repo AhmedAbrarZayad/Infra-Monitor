@@ -1,0 +1,47 @@
+\chapter{Introduction}
+
+\section{Overview}
+Infra Monitor is a project for registering Linux hosts and presenting their
+operational telemetry and events in one interface. The repository describes a
+Django backend, a Flutter client, and a monitoring pipeline built around
+Grafana Alloy and VictoriaMetrics. The product groups monitoring work by
+organization, server, and service, with dashboards, alerts, incidents, logs,
+and anomaly records exposed through the application
+(\cite{readme}; \sourcepath{backend/infra_monitor/organization_urls.py}).
+
+\section{Problem Statement}
+Host and service health signals are useful only when operators can associate
+them with the correct environment and act on resulting alerts. In this project,
+the backend maintains organization-scoped server and service records while
+time-series samples are queried from VictoriaMetrics. The design therefore
+addresses the integration problem of collecting telemetry, retaining
+operational context, and presenting it alongside incident workflows
+(\sourcepath{docs/monitoring-end-to-end.md};
+\sourcepath{backend/servers/models/servers.py};
+\sourcepath{backend/incident/models/incident.py}).
+
+\section{Objectives}
+\begin{enumerate}
+  \item Provide authenticated organization and membership workflows.
+  \item Enroll monitored servers and forward telemetry through a controlled
+        ingestion path.
+  \item Present server/service health, metrics, alerts, incidents, and
+        anomaly detections in the Flutter client.
+  \item Integrate machine-learning services for telemetry anomaly inference
+        and HTTP request classification, while keeping their outputs
+        distinguishable from operator-confirmed state.
+\end{enumerate}
+These objectives describe implemented repository areas, not measured
+operational outcomes. The report does not claim production availability,
+performance benchmarks, or user-study results.
+
+\section{Scope and Organization}
+This report focuses on the current source tree and supplied interface
+screenshots. It summarizes system design, the telemetry and ML workflows, and
+the implementation structure. It does not treat the unrelated ClubHub
+content in the reference report as project evidence, nor infer an actual
+semester schedule, budget, or deployment outside the local Compose
+configuration. Chapter 2 describes the architecture and core data model;
+Chapter 3 explains telemetry and intelligent features; Chapter 4 covers
+implementation and available verification commands; Chapter 5 summarizes
+limitations and future work.
