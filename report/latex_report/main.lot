@@ -1,61 +1,59 @@
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1.1}{\ignorespaces Comparison with existing monitoring products}}{3}{table.caption.7}%
-\contentsline {table}{\numberline {1.2}{\ignorespaces Terms, acronyms and abbreviations}}{6}{table.caption.9}%
+\contentsline {table}{\numberline {1.1}{\ignorespaces Comparison with existing monitoring products}}{2}{table.1.1}%
+\contentsline {table}{\numberline {1.2}{\ignorespaces Terms, acronyms and abbreviations}}{4}{table.1.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Team roles and responsibilities}}{7}{table.caption.10}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Individual contribution matrix}}{8}{table.caption.11}%
-\contentsline {table}{\numberline {2.3}{\ignorespaces Risk analysis}}{9}{table.caption.13}%
-\contentsline {table}{\numberline {2.4}{\ignorespaces Hardware requirements}}{10}{table.caption.14}%
-\contentsline {table}{\numberline {2.5}{\ignorespaces Software stack with versions}}{11}{table.caption.15}%
-\contentsline {table}{\numberline {2.6}{\ignorespaces Estimated project budget}}{13}{table.caption.17}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Team roles and responsibilities}}{5}{table.caption.7}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Individual contribution matrix}}{6}{table.caption.8}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Risk analysis}}{7}{table.caption.10}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Software stack with versions}}{9}{table.caption.11}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Estimated project budget}}{11}{table.caption.13}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces System stakeholders}}{15}{table.caption.18}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Textual description of UC-01: User Account Registration}}{17}{table.caption.20}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Textual description of UC-02: User Login}}{17}{table.caption.21}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Textual description of UC-03: Organisation Creation \& Member Joining}}{18}{table.caption.22}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Textual description of UC-04: Server Setup \& Metric Collection}}{19}{table.caption.23}%
-\contentsline {table}{\numberline {3.6}{\ignorespaces Textual description of UC-05: Incident \& Anomaly Assignment}}{20}{table.caption.24}%
-\contentsline {table}{\numberline {3.7}{\ignorespaces Textual description of UC-06: AI Chatbot Conversation}}{21}{table.caption.25}%
-\contentsline {table}{\numberline {3.8}{\ignorespaces Textual description of UC-07: Request Shield Monitoring}}{22}{table.caption.26}%
-\contentsline {table}{\numberline {3.9}{\ignorespaces Textual description of UC-08: Password Reset}}{22}{table.caption.27}%
-\contentsline {table}{\numberline {3.10}{\ignorespaces RBAC access control matrix}}{35}{table.caption.44}%
-\contentsline {table}{\numberline {3.11}{\ignorespaces AI-integration requirements}}{36}{table.caption.45}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces System stakeholders}}{13}{table.caption.14}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Textual description of UC-01: User Account Registration}}{18}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Textual description of UC-02: User Login}}{18}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Textual description of UC-03: Organisation Creation \& Member Joining}}{19}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Textual description of UC-04: Server Setup \& Metric Collection}}{19}{table.3.5}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Textual description of UC-05: Incident \& Anomaly Assignment}}{20}{table.3.6}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Textual description of UC-06: AI Chatbot Conversation}}{20}{table.3.7}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Textual description of UC-07: Request Shield Monitoring}}{21}{table.3.8}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Textual description of UC-08: Password Reset}}{21}{table.3.9}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces RBAC access control matrix}}{37}{table.caption.39}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces AI-integration requirements}}{39}{table.caption.40}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Technology stack with justification and rejected alternatives}}{39}{table.4.1}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Technology stack with justification and rejected alternatives}}{42}{table.4.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Request Shield feature schema (26 features)}}{47}{table.caption.49}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Schema of table \texttt {accounts\_users}}}{48}{table.caption.51}%
-\contentsline {table}{\numberline {5.3}{\ignorespaces Schema of table \texttt {accounts\_organization}}}{48}{table.caption.52}%
-\contentsline {table}{\numberline {5.4}{\ignorespaces Schema of table \texttt {accounts\_organizationmembership}}}{49}{table.caption.53}%
-\contentsline {table}{\numberline {5.5}{\ignorespaces Schema of table \texttt {servers\_servers}}}{49}{table.caption.54}%
-\contentsline {table}{\numberline {5.6}{\ignorespaces Schema of table \texttt {ml\_model\_anomalydetection}}}{50}{table.caption.55}%
-\contentsline {table}{\numberline {5.7}{\ignorespaces API endpoint summary}}{56}{table.5.7}%
-\contentsline {table}{\numberline {5.8}{\ignorespaces Sample high-level test cases}}{63}{table.caption.61}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {7.1}{\ignorespaces System-level requirement list}}{72}{table.caption.62}%
-\contentsline {table}{\numberline {7.2}{\ignorespaces System level test cases -- Module: Authentication}}{73}{table.caption.63}%
-\contentsline {table}{\numberline {7.3}{\ignorespaces System level test cases -- Module: Organisation}}{74}{table.caption.64}%
-\contentsline {table}{\numberline {7.4}{\ignorespaces System level test cases -- Module: Server \& Metrics}}{75}{table.caption.65}%
-\contentsline {table}{\numberline {7.5}{\ignorespaces System level test cases -- Module: AI Chatbot}}{76}{table.caption.66}%
-\contentsline {table}{\numberline {7.6}{\ignorespaces System level test cases -- Module: Request Shield}}{77}{table.caption.67}%
-\contentsline {table}{\numberline {7.7}{\ignorespaces Traceability matrix: test cases vs.\ use cases and requirements}}{78}{table.caption.68}%
-\contentsline {table}{\numberline {7.8}{\ignorespaces UAT task completion results}}{80}{table.caption.69}%
-\contentsline {table}{\numberline {7.9}{\ignorespaces VAPT findings -- OWASP Top~10 checklist}}{81}{table.caption.70}%
-\contentsline {table}{\numberline {7.10}{\ignorespaces Anomaly detection model evaluation}}{82}{table.caption.71}%
-\contentsline {table}{\numberline {7.11}{\ignorespaces Request Shield classifier evaluation (CICIDS2017)}}{82}{table.caption.72}%
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {8.1}{\ignorespaces Docker Compose service inventory}}{84}{table.caption.73}%
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {9.1}{\ignorespaces Scalability analysis}}{88}{table.caption.74}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Request Shield feature schema}}{49}{table.caption.44}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Schema of table \texttt {accounts\_users}}}{50}{table.caption.46}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Schema of table \texttt {accounts\_organization}}}{51}{table.caption.47}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Schema of table \texttt {accounts\_organizationmembership}}}{51}{table.caption.48}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Schema of table \texttt {servers\_servers}}}{51}{table.caption.49}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Schema of table \texttt {ml\_model\_anomalydetection}}}{52}{table.caption.50}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces API endpoint summary}}{57}{table.5.7}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Sample high-level test cases}}{62}{table.caption.55}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {B.1}{\ignorespaces Complete test case table (all modules)}}{95}{table.B.1}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces System-level requirement list}}{69}{table.7.1}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces System level test cases -- Module: Authentication}}{70}{table.7.2}%
+\contentsline {table}{\numberline {7.3}{\ignorespaces System level test cases -- Module: Organisation}}{71}{table.7.3}%
+\contentsline {table}{\numberline {7.4}{\ignorespaces System level test cases -- Module: Server \& Metrics}}{72}{table.7.4}%
+\contentsline {table}{\numberline {7.5}{\ignorespaces System level test cases -- Module: AI Chatbot}}{72}{table.7.5}%
+\contentsline {table}{\numberline {7.6}{\ignorespaces System level test cases -- Module: Request Shield}}{73}{table.7.6}%
+\contentsline {table}{\numberline {7.7}{\ignorespaces Traceability matrix: test cases vs.\ use cases and requirements}}{74}{table.7.7}%
+\contentsline {table}{\numberline {7.8}{\ignorespaces UAT task completion results}}{76}{table.caption.56}%
+\contentsline {table}{\numberline {7.9}{\ignorespaces VAPT findings -- OWASP Top~10 checklist \cite {owasp2021}}}{76}{table.7.9}%
+\contentsline {table}{\numberline {7.10}{\ignorespaces Anomaly detection model evaluation}}{77}{table.caption.57}%
+\contentsline {table}{\numberline {7.11}{\ignorespaces Request Shield classifier evaluation (CICIDS2017)}}{78}{table.caption.58}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {8.1}{\ignorespaces Docker Compose service inventory}}{80}{table.caption.59}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {9.1}{\ignorespaces Scalability analysis}}{84}{table.caption.60}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Complete test case table (all modules)}}{89}{table.A.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {D.1}{\ignorespaces Sprint progress log (reconstructed from Git history)}}{109}{table.caption.86}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces Sprint progress log and development milestones}}{96}{table.caption.67}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {F.1}{\ignorespaces Isolation Forest model card}}{117}{table.caption.95}%
-\contentsline {table}{\numberline {F.2}{\ignorespaces Random Forest Request Shield model card}}{118}{table.caption.96}%
-\contentsline {table}{\numberline {F.3}{\ignorespaces Gemini chatbot configuration documentation}}{119}{table.caption.97}%
+\contentsline {table}{\numberline {E.1}{\ignorespaces Isolation Forest model card}}{104}{table.E.1}%
+\contentsline {table}{\numberline {E.2}{\ignorespaces Random Forest Request Shield model card}}{105}{table.caption.78}%
+\contentsline {table}{\numberline {E.3}{\ignorespaces Gemini chatbot configuration documentation}}{106}{table.caption.79}%

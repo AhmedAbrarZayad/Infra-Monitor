@@ -1,0 +1,351 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@400;500&family=JetBrains+Mono:wght@400;600&display=block" rel="stylesheet">
+<style>
+:root{
+  --primary:#2E6AFF; --primaryV:#1D4ED8; --secondary:#6D5EFF; --violet:#7C3AED;
+  --bg:#071428; --surface:#0F1724; --card:#0E1520; --panel:#111722; --pborder:#2A3445;
+  --text:#F8FAFC; --text2:#9AA4B2; --muted:#6B7280;
+  --success:#20C997; --warning:#F59E0B; --danger:#EF4444; --info:#60A5FA; --border:#1E293B;
+  --live:#10B981; --purple:#C697F5; --amber:#FFB51F; --amuted:#929CAD;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+body{font-family:Inter,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--bg)}
+.bg-grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(46,106,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(46,106,255,.07) 1px,transparent 1px);background-size:60px 60px}
+.glow{position:absolute;border-radius:50%;filter:blur(120px);opacity:.55}
+.scene{position:absolute;inset:0;opacity:0}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* hook */
+#s1 .meta{position:absolute;left:120px;top:96px;display:flex;align-items:center;gap:18px;font-size:30px;color:var(--text2)}
+.livedot{width:16px;height:16px;border-radius:50%;background:var(--live);box-shadow:0 0 18px var(--live)}
+.pill{padding:6px 16px;border-radius:999px;border:1px solid var(--pborder);font-size:24px;color:var(--text2);background:rgba(17,23,34,.8)}
+#s1 h1{position:absolute;left:120px;top:160px;font-size:112px;font-weight:800;letter-spacing:-3px;line-height:1.05}
+#s1 h1 .red{color:var(--danger)}
+#chart1{position:absolute;left:120px;top:420px;width:1680px;height:520px}
+.badge{position:absolute;padding:12px 22px;border-radius:12px;background:var(--danger);color:#fff;font-weight:800;font-size:30px;letter-spacing:1px;box-shadow:0 10px 40px rgba(239,68,68,.45)}
+#vign{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 70%,rgba(239,68,68,.35),transparent 60%);opacity:0}
+
+/* reveal */
+#s2 .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px}
+.logo{width:150px;height:150px;border-radius:38px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 30px 90px rgba(46,106,255,.45)}
+.word{font-size:150px;font-weight:900;letter-spacing:-5px;line-height:1}
+.word span{background:linear-gradient(90deg,#fff 30%,#AFC4FF);-webkit-background-clip:text;color:transparent}
+.tag{font-size:52px;font-weight:500;color:var(--text2);letter-spacing:-.5px}
+.tag b{color:var(--text);font-weight:700}
+
+/* feature scenes */
+.cap{position:absolute;left:120px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.eyebrow{font-size:28px;font-weight:700;letter-spacing:4px;color:var(--primary)}
+.cap h2{font-size:84px;font-weight:800;letter-spacing:-2.5px;line-height:1.04}
+.cap h2 em{font-style:normal;background:linear-gradient(90deg,var(--primary),var(--secondary) 80%);-webkit-background-clip:text;color:transparent}
+.right{position:absolute;left:860px;top:0;bottom:0;width:960px;display:flex;flex-direction:column;justify-content:center}
+.apanel{background:var(--panel);border:1.5px solid var(--pborder);border-radius:20px;padding:40px;box-shadow:0 40px 120px rgba(0,0,0,.45)}
+.apptitle{font-size:34px;font-weight:700}
+.appsub{font-size:24px;color:var(--text2);font-family:Roboto,sans-serif;margin-top:10px}
+.field{margin-top:28px;border:1.5px solid var(--pborder);border-radius:12px;padding:14px 20px 16px;position:relative;background:#0B1018}
+.field label{font-size:18px;color:var(--text2);display:block;margin-bottom:6px}
+.field .val{font-size:28px;font-family:Roboto,sans-serif;min-height:36px}
+.caret{display:inline-block;width:3px;height:30px;background:var(--primary);vertical-align:-5px;margin-left:2px}
+.btn{margin-top:30px;height:72px;border-radius:14px;background:var(--primary);display:flex;align-items:center;justify-content:center;gap:14px;font-size:27px;font-weight:600;position:relative;overflow:hidden}
+.btn.sec{background:transparent;border:1.5px solid var(--pborder);color:var(--text2);margin-top:14px}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);width:40px;height:40px;opacity:0}
+.spin{width:30px;height:30px;border:4px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%}
+.code{margin-top:24px;background:#0B1018;border:1.5px solid var(--border);border-radius:14px;padding:22px 24px;font-size:21px;line-height:1.6;color:#CFE0FF;min-height:118px;white-space:pre-wrap;word-break:break-all}
+.code .k{color:var(--success)}
+.warn{margin-top:16px;color:var(--warning);font-size:19px;font-family:Roboto,sans-serif;line-height:1.4}
+.toast{position:absolute;left:1340px;bottom:110px;transform:translateX(-50%);background:#1F2937;border:1px solid var(--pborder);border-radius:12px;padding:20px 34px;font-size:26px;font-family:Roboto,sans-serif;display:flex;gap:14px;align-items:center;box-shadow:0 20px 60px rgba(0,0,0,.5);opacity:0;white-space:nowrap}
+#cursor{position:absolute;left:0;top:0;width:44px;height:44px;opacity:0;z-index:50;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))}
+
+/* detect */
+.row{display:flex;gap:20px}
+.mcard{flex:1;background:var(--panel);border:1.5px solid var(--pborder);border-radius:18px;padding:24px 26px}
+.mtitle{font-size:17px;font-weight:700;letter-spacing:2px;color:var(--text2)}
+.mval{font-size:58px;font-weight:800;margin-top:6px;line-height:1.1}
+.msub{font-size:18px;color:var(--muted);margin-top:4px;font-family:Roboto,sans-serif}
+.fleetbar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:18px;gap:3px}
+.chips{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+.chip{padding:10px 18px;border-radius:10px;border:1.5px solid var(--pborder);font-size:22px;color:var(--text2);background:#0B1018}
+.inc{margin-top:20px;background:var(--panel);border:1.5px solid rgba(239,68,68,.6);border-left:8px solid var(--danger);border-radius:16px;padding:22px 28px;display:flex;align-items:center;gap:22px}
+.sev{background:rgba(239,68,68,.15);color:var(--danger);font-weight:800;font-size:20px;letter-spacing:1.5px;padding:8px 14px;border-radius:8px}
+
+/* explain */
+.chatbox{margin-top:22px;display:flex;flex-direction:column;gap:16px;min-height:330px}
+.ubub{align-self:flex-end;background:var(--primary);border-radius:18px 18px 4px 18px;padding:16px 24px;font-size:24px;font-family:Roboto,sans-serif}
+.abub{background:#0B1018;border:1.5px solid rgba(198,151,245,.45);border-radius:18px 18px 18px 4px;padding:20px 26px;font-size:23px;line-height:1.5;font-family:Roboto,sans-serif;white-space:pre-wrap;min-height:60px}
+.pchip{padding:10px 18px;border-radius:999px;border:1.5px solid var(--pborder);font-size:19px;color:var(--text);background:#151C2A}
+
+/* outro */
+#s6 .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px}
+.three{display:flex;gap:36px;font-size:96px;font-weight:800;letter-spacing:-3px}
+.cmd{font-size:36px;padding:18px 34px;border-radius:16px;background:#0B1018;border:1.5px solid var(--pborder);color:#CFE0FF}
+.tech{font-size:24px;color:var(--muted);letter-spacing:1px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="bg-grid" id="grid"></div>
+  <div class="glow" id="g1" style="width:900px;height:900px;background:#2E6AFF;left:-300px;top:-300px"></div>
+  <div class="glow" id="g2" style="width:800px;height:800px;background:#6D5EFF;right:-300px;bottom:-300px"></div>
+  <div id="vign"></div>
+
+  <!-- 1 HOOK -->
+  <div class="scene" id="s1">
+    <div class="meta" id="s1meta"><div class="livedot"></div><span style="color:var(--text);font-weight:600">web-prod-01</span><span class="pill">production</span><span class="pill mono">cpu_r</span></div>
+    <h1 id="s1h"><span id="s1a">03:07.</span> <span id="s1b">CPU just hit <span class="red">97%</span>.</span></h1>
+    <svg id="chart1" viewBox="0 0 1680 520">
+      <defs>
+        <linearGradient id="fill1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E6AFF" stop-opacity=".35"/><stop offset="1" stop-color="#2E6AFF" stop-opacity="0"/></linearGradient>
+        <linearGradient id="fill1r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EF4444" stop-opacity=".45"/><stop offset="1" stop-color="#EF4444" stop-opacity="0"/></linearGradient>
+      </defs>
+      <g stroke="#1E293B" stroke-width="1.5">
+        <line x1="0" y1="130" x2="1680" y2="130"/><line x1="0" y1="260" x2="1680" y2="260"/><line x1="0" y1="390" x2="1680" y2="390"/><line x1="0" y1="519" x2="1680" y2="519"/>
+      </g>
+      <line id="thresh" x1="0" y1="104" x2="1680" y2="104" stroke="#EF4444" stroke-width="2" stroke-dasharray="10 10" opacity=".5"/>
+      <path id="area1" fill="url(#fill1)"/>
+      <path id="line1" fill="none" stroke="#2E6AFF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle id="dot1" r="12" fill="#2E6AFF"/>
+      <circle id="ring1" r="12" fill="none" stroke="#EF4444" stroke-width="4"/>
+    </svg>
+    <div class="badge" id="badge1">ANOMALY · cpu_r</div>
+  </div>
+
+  <!-- 2 REVEAL -->
+  <div class="scene" id="s2"><div class="center">
+    <div class="logo" id="logo2"><svg width="96" height="96" viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path id="pulse2" d="M4 26h9l5-12 8 22 6-14 4 4h8"/></svg></div>
+    <div class="word" id="word2"><span>Infra Monitor</span></div>
+    <div class="tag" id="tag2">Linux server monitoring that <b>explains itself.</b></div>
+  </div></div>
+
+  <!-- 3 ENROLL -->
+  <div class="scene" id="s3">
+    <div class="cap"><div class="eyebrow" id="e3">01 · ENROLL</div><h2 id="h3">Add a server in <em>one command.</em></h2></div>
+    <div class="right"><div class="apanel" id="p3" style="position:relative;min-height:640px">
+      <div id="form3" style="position:absolute;inset:40px">
+        <div class="apptitle">Enroll a monitored server</div>
+        <div class="appsub">Generate a single-use command, then run it on the Linux server.</div>
+        <div class="field"><label>Server name</label><div class="val"><span id="typed3"></span><span class="caret" id="caret3"></span></div></div>
+        <div class="field"><label>Environment</label><div class="val" style="display:flex;justify-content:space-between">Production <span style="color:var(--text2)">▾</span></div></div>
+        <div class="btn" id="gen3"><span id="genlbl"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" style="vertical-align:-6px;margin-right:12px"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2m-4 4 3 3m-6 0 3 3"/></svg>Generate install command</span><div class="spin" id="spin3" style="display:none"></div><div class="ripple" id="rip3"></div></div>
+      </div>
+      <div id="res3" style="position:absolute;inset:40px;opacity:0">
+        <div style="display:flex;align-items:center;gap:16px"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#20C997"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#071428" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="apptitle">Enrollment command ready</div></div>
+        <div style="font-size:24px;margin-top:16px;font-family:Roboto">web-prod-01 • production</div>
+        <div class="appsub" style="margin-top:4px">Expires 2026-11-13 03:37</div>
+        <div class="code mono" id="code3"></div>
+        <div class="warn">This command contains a secret, single-use token. Do not share it. Install Docker first, then run the command on the target Linux server.</div>
+        <div class="btn" id="copy3" style="margin-top:22px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Copy command<div class="ripple" id="rip3b"></div></div>
+      </div>
+    </div></div>
+    <div class="toast" id="toast3"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#20C997"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#071428" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>Install command copied.</div>
+  </div>
+
+  <!-- 4 DETECT -->
+  <div class="scene" id="s4">
+    <div class="cap"><div class="eyebrow" id="e4">02 · DETECT</div><h2 id="h4">ML flags what's <em>abnormal.</em></h2></div>
+    <div class="right">
+      <div class="row" id="r4a">
+        <div class="mcard" style="flex:1.4"><div class="mtitle">FLEET STATUS</div><div class="mval">12 <span style="font-size:24px;color:var(--text2);font-weight:500">servers</span></div>
+          <div class="fleetbar"><div style="flex:10;background:var(--success)"></div><div style="flex:1;background:var(--warning)"></div><div id="fcrit" style="flex:1;background:var(--danger)"></div></div></div>
+        <div class="mcard"><div class="mtitle">OPEN CRITICAL</div><div class="mval" id="crit4" style="color:var(--danger)">0</div><div class="msub" id="critsub">0 incidents</div></div>
+        <div class="mcard"><div class="mtitle">OPEN HIGH</div><div class="mval" style="color:var(--warning)">2</div><div class="msub">2 incidents</div></div>
+      </div>
+      <div class="apanel" id="r4b" style="margin-top:20px;padding:28px 32px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:26px;font-weight:600">web-prod-01 <span style="color:var(--text2);font-weight:400">· metric window</span></div><div id="an4" class="sev">ANOMALY DETECTED</div></div>
+        <svg id="chart4" viewBox="0 0 880 200" style="width:100%;height:200px;margin-top:14px">
+          <rect id="band4" x="560" y="0" width="150" height="200" fill="#EF4444" opacity="0" rx="8"/>
+          <path id="l4a" fill="none" stroke="#2E6AFF" stroke-width="4" stroke-linejoin="round"/>
+          <path id="l4b" fill="none" stroke="#6D5EFF" stroke-width="4" stroke-linejoin="round" opacity=".85"/>
+        </svg>
+        <div class="chips" id="chips4"></div>
+      </div>
+      <div class="inc" id="inc4"><div class="sev">CRITICAL</div><div style="flex:1"><div style="font-size:26px;font-weight:700">CPU and disk write saturation</div><div style="font-size:20px;color:var(--text2);margin-top:6px;font-family:Roboto">INC-1042 · web-prod-01 · ◷ 2m · ♙ unassigned</div></div></div>
+    </div>
+  </div>
+
+  <!-- 5 EXPLAIN -->
+  <div class="scene" id="s5">
+    <div class="cap"><div class="eyebrow" id="e5" style="color:var(--purple)">03 · EXPLAIN</div><h2 id="h5">Then ask <em style="background:linear-gradient(90deg,#C697F5,#6D5EFF);-webkit-background-clip:text">the AI why.</em></h2></div>
+    <div class="right"><div class="apanel" id="p5" style="padding:34px 38px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="color:var(--amber);font-weight:700;font-size:26px">AI advice — crash not confirmed</div>
+        <div style="display:flex;gap:10px;align-items:center;color:var(--amuted);font-size:18px"><div style="width:12px;height:12px;border-radius:50%;background:#35D17C"></div>connected</div>
+      </div>
+      <div style="color:var(--amuted);font-size:19px;margin-top:8px;font-family:Roboto">Gemini explains stored anomaly evidence. Django lifecycle checks remain authoritative.</div>
+      <div style="margin-top:22px;font-size:17px;font-weight:700;letter-spacing:2px;color:var(--text2)">SUGGESTED PROMPTS</div>
+      <div class="chips" id="pchips5" style="margin-top:12px;gap:10px"></div>
+      <div class="chatbox"><div class="ubub" id="ub5">What should I check first?</div><div class="abub" id="ab5"></div></div>
+    </div></div>
+  </div>
+
+  <!-- 6 OUTRO -->
+  <div class="scene" id="s6"><div class="center">
+    <div style="display:flex;align-items:center;gap:30px" id="brand6"><div class="logo" style="width:104px;height:104px;border-radius:28px"><svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26h9l5-12 8 22 6-14 4 4h8"/></svg></div><div class="word" style="font-size:110px"><span>Infra Monitor</span></div></div>
+    <div class="three"><span id="w1">Enroll.</span><span id="w2" style="color:var(--primary)">Detect.</span><span id="w3" style="color:var(--purple)">Explain.</span></div>
+    <div class="cmd mono" id="cmd6"><span style="color:var(--success)">$</span> docker compose up</div>
+    <div class="tech" id="tech6">Django · Flutter · Grafana Alloy · VictoriaMetrics · Gemini</div>
+  </div></div>
+
+  <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2l15 10.5-6.6 1.3 4 7.6-3 1.5-4-7.6L4 20z" fill="#fff" stroke="#071428" stroke-width="1.3" stroke-linejoin="round"/></svg>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const P=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const lerp=(a,b,x)=>a+(b-a)*x;
+function hash(i){const s=Math.sin(i*127.1+311.7)*43758.5453;return s-Math.floor(s)}
+function rise(el,t,t0,dur=.4,dy=40){const k=eo(P(t,t0,t0+dur));el.style.opacity=k;el.style.transform=`translateY(${(1-k)*dy}px)`;}
+function sceneVis(el,t,a,b,inD=.3,outD=.25){let o=1;if(t<a||t>=b){el.style.opacity=0;el.style.visibility='hidden';return false}
+  if(a>0)o=Math.min(o,eo(P(t,a,a+inD)));o=Math.min(o,1-P(t,b-outD,b));el.style.opacity=o;el.style.visibility='visible';
+  const out=P(t,b-outD,b);el.style.transform=`translateY(${-out*30}px) scale(${1-out*.02})`;return true}
+
+// ---- data
+const N1=120;const data1=[];
+for(let i=0;i<=N1;i++){let v=30+6*Math.sin(i*.33)+4*Math.sin(i*1.17+1)+6*hash(i);data1.push(v)}
+const SPK=96;
+function v1(i,sp){ // spike amount 0..1
+  const d=i-SPK; let s=0; if(d>=0){s=Math.min(1,d/5)*(97-data1[i])*(d<=22?1:0)+ (d>0?hash(i+9)*2:0)} return data1[i]+s*sp }
+const X1=i=>i/N1*1680, Y1=v=>520-v/100*520;
+
+const N4=88;const da=[],db=[];
+for(let i=0;i<=N4;i++){const sp=(i>=56&&i<=70)?Math.sin((i-56)/14*Math.PI):0;
+  da.push(34+5*Math.sin(i*.4)+5*hash(i+3)+sp*55);db.push(22+4*Math.sin(i*.27+2)+4*hash(i+40)+sp*48)}
+const path=(arr,n,X,Y,upto)=>{let d='';const m=Math.floor(upto);for(let i=0;i<=m;i++)d+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(arr[i]).toFixed(1);
+  if(upto<n&&m<n){const f=upto-m;d+='L'+lerp(X(m),X(m+1),f).toFixed(1)+' '+lerp(Y(arr[m]),Y(arr[m+1]),f).toFixed(1)}return d};
+
+const feats=['cpu_r','mem_u','disk_r','disk_w','eth1_fi','eth1_fo'];
+$('chips4').innerHTML=feats.map(f=>`<div class="chip mono" id="f_${f}">${f}</div>`).join('');
+const prompts=['Explain what is unusual in these metrics.','What should I check first?','What are the likely causes?','Which metric is the strongest signal?','Give me a safe diagnostic checklist.'];
+$('pchips5').innerHTML=prompts.map((p,i)=>`<div class="pchip" id="pc${i}">${p}</div>`).join('');
+const CMD='curl -fsSL -o install.sh https://infra.example.com/api/monitoring/install.sh && sudo sh install.sh --token ●●●●●●●●●●●● --server https://infra.example.com';
+const ANS='cpu_r and disk_w rose together at 03:07 — that looks like a heavy write job, not a crash.\n1. Check top processes on web-prod-01\n2. Look for a backup or cron job near 03:00\n3. Confirm free space on /var';
+
+function center(el){const r=el.getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]}
+let cursorState=null;
+function cursor(t,keys){ // keys: [[time,x,y],...], click times handled outside
+  const c=$('cursor');
+  if(!keys){c.style.opacity=0;return}
+  let x,y; if(t<=keys[0][0]){[,x,y]=keys[0]} else if(t>=keys[keys.length-1][0]){[,x,y]=keys[keys.length-1]} else {
+    for(let i=0;i<keys.length-1;i++){const[a,ax,ay]=keys[i],[b,bx,by]=keys[i+1];if(t>=a&&t<=b){const k=eio(P(t,a,b));x=lerp(ax,bx,k);y=lerp(ay,by,k);break}}}
+  return [x,y]}
+function placeCursor(x,y,o,press){const c=$('cursor');c.style.opacity=o;c.style.transform=`translate(${x-6}px,${y-4}px) scale(${press?0.85:1})`}
+
+function render(t){
+  // background drift
+  $('g1').style.transform=`translate(${Math.sin(t*.4)*80}px,${Math.cos(t*.3)*60}px)`;
+  $('g2').style.transform=`translate(${Math.cos(t*.35)*80}px,${Math.sin(t*.45)*60}px)`;
+  $('grid').style.transform=`translateY(${(t*12)%60}px)`;
+  let cur=null;
+
+  // ---------- S1 HOOK 0-3
+  if(sceneVis($('s1'),t,0,3)){
+    rise($('s1meta'),t,0,.3,20);
+    $('s1a').style.opacity=t<0.05?1:1; // poster-safe
+    const kb=eo(P(t,.95,1.3)); $('s1b').style.opacity=kb; $('s1b').style.display='inline-block';$('s1b').style.transform=`translateY(${(1-kb)*30}px)`;
+    const draw=lerp(60,N1,eo(P(t,0,1.4)));
+    const sp=eo(P(t,.95,1.35));
+    const arr=data1.map((_,i)=>v1(i,sp));
+    const d=path(arr,N1,X1,Y1,draw);
+    $('line1').setAttribute('d',d);
+    $('area1').setAttribute('d',d+`L${X1(draw).toFixed(1)} 520L0 520Z`);
+    const red=P(t,1.0,1.3);
+    $('line1').setAttribute('stroke',red>.5?'#EF4444':'#2E6AFF');
+    $('area1').setAttribute('fill',red>.5?'url(#fill1r)':'url(#fill1)');
+    const m=Math.min(Math.floor(draw),N1);const cx=X1(draw),cy=Y1(arr[m]);
+    $('dot1').setAttribute('cx',cx);$('dot1').setAttribute('cy',cy);$('dot1').setAttribute('fill',red>.5?'#EF4444':'#2E6AFF');
+    const pk=X1(SPK+6),py=Y1(97);
+    const ring=((t-1.3)%1+1)%1; $('ring1').setAttribute('cx',pk);$('ring1').setAttribute('cy',py);
+    $('ring1').setAttribute('r',12+ring*40);$('ring1').setAttribute('opacity',t>1.3?(1-ring):0);
+    const b=$('badge1');const kb2=back(P(t,1.35,1.65));b.style.opacity=P(t,1.35,1.5);
+    b.style.left=(120+pk-150)+'px';b.style.top=(420+py-110)+'px';b.style.transform=`scale(${.6+.4*kb2})`;
+    $('vign').style.opacity=(t>1.2&&t<3)?.6*P(t,1.2,1.5)*(1-P(t,2.75,3)):0;
+  } else $('vign').style.opacity=0;
+
+  // ---------- S2 REVEAL 3-6
+  if(sceneVis($('s2'),t,3,6)){
+    const kl=back(P(t,3.0,3.45));$('logo2').style.transform=`scale(${kl}) rotate(${(1-kl)*-20}deg)`;$('logo2').style.opacity=P(t,3,3.15);
+    rise($('word2'),t,3.15,.45,50);
+    rise($('tag2'),t,3.6,.45,30);
+  }
+
+  // ---------- S3 ENROLL 6-10
+  if(sceneVis($('s3'),t,6,10)){
+    rise($('e3'),t,6.0,.35);rise($('h3'),t,6.1,.45);
+    const pk=eo(P(t,6.15,6.6));$('p3').style.opacity=pk;$('p3').style.transform=`translateX(${(1-pk)*80}px)`;
+    const name='web-prod-01';const n=Math.round(name.length*P(t,6.55,7.05));$('typed3').textContent=name.slice(0,n);
+    $('caret3').style.opacity=(t<7.3&&Math.floor(t*4)%2===0)||(t>6.5&&t<7.05)?1:0;
+    const gen=$('gen3');
+    const loading=t>=7.5&&t<7.8;$('spin3').style.display=loading?'block':'none';$('genlbl').style.display=loading?'none':'inline';
+    if(loading)$('spin3').style.transform=`rotate(${t*900}deg)`;
+    const rp=P(t,7.5,7.85);const rip=$('rip3');rip.style.opacity=t>=7.5&&t<7.85?(1-rp)*.9:0;rip.style.transform=`scale(${1+rp*25})`;
+    rip.style.left=(gen.offsetWidth/2-20)+'px';rip.style.top='16px';
+    gen.style.transform=`scale(${t>=7.5&&t<7.6?.97:1})`;
+    const sw=P(t,7.8,8.0),sw2=eo(P(t,7.95,8.25));
+    $('form3').style.opacity=1-sw;$('res3').style.opacity=sw2;$('res3').style.transform=`translateY(${(1-sw2)*20}px)`;
+    const cn=Math.round(CMD.length*P(t,8.05,8.65));const shown=CMD.slice(0,cn);
+    $('code3').innerHTML=shown.replace('curl','<span class="k">curl</span>').replace('sudo sh','<span class="k">sudo sh</span>')+(t<8.9&&Math.floor(t*4)%2===0?'▌':'');
+    const cp=$('copy3');const rp2=P(t,9.0,9.35);const r2=$('rip3b');r2.style.opacity=t>=9&&t<9.35?(1-rp2)*.9:0;r2.style.transform=`scale(${1+rp2*25})`;
+    r2.style.left=(cp.offsetWidth/2-20)+'px';r2.style.top='16px';cp.style.transform=`scale(${t>=9&&t<9.1?.97:1})`;
+    const tk=back(P(t,9.05,9.35));const to=$('toast3');to.style.opacity=P(t,9.05,9.15);to.style.transform=`translateX(-50%) translateY(${(1-tk)*60}px)`;
+    if(t>6.7&&t<9.8){
+      const [gx,gy]=center(gen);const [cx,cy]=t>7.8?center(cp):[0,0];
+      const keys=[[6.7,1900,1000],[7.42,gx+60,gy+6]];
+      if(t>7.8)keys.push([8.5,gx+60,gy+6],[8.95,cx+60,cy+6]);
+      const[x,y]=cursor(t,keys);cur=[x,y,P(t,6.7,6.9)*(1-P(t,9.5,9.8)),(t>=7.45&&t<7.6)||(t>=8.95&&t<9.1)];
+    }
+  }
+
+  // ---------- S4 DETECT 10-14
+  if(sceneVis($('s4'),t,10,14)){
+    rise($('e4'),t,10.0,.35);rise($('h4'),t,10.1,.45);
+    rise($('r4a'),t,10.15,.45,60);rise($('r4b'),t,10.3,.45,60);
+    const dr=lerp(0,N4,eo(P(t,10.4,11.4)));
+    const X=i=>i/N4*880,Y=v=>200-v/100*200;
+    $('l4a').setAttribute('d',path(da,N4,X,Y,dr));$('l4b').setAttribute('d',path(db,N4,X,Y,dr));
+    const hot=P(t,11.15,11.4);
+    $('band4').setAttribute('x',X(55));$('band4').setAttribute('width',X(16));$('band4').setAttribute('opacity',hot*.18);
+    $('l4a').setAttribute('stroke',hot>.5?'#EF4444':'#2E6AFF');
+    const an=$('an4');an.style.opacity=hot;an.style.transform=`scale(${.7+.3*back(hot)})`;
+    feats.forEach((f,i)=>{const el=$('f_'+f);const on=(f==='cpu_r'||f==='disk_w')&&t>11.3+(f==='disk_w'?.25:0);
+      el.style.borderColor=on?'#EF4444':'';el.style.color=on?'#fff':'';el.style.background=on?'rgba(239,68,68,.25)':'';
+      const k=eo(P(t,10.5+i*.06,10.8+i*.06));el.style.opacity=k});
+    const ik=eo(P(t,12.0,12.4));$('inc4').style.opacity=ik;$('inc4').style.transform=`translateY(${(1-ik)*50}px)`;
+    const c=t>12.1?1:0;$('crit4').textContent=c;$('critsub').textContent=c+(c===1?' incident':' incidents');
+    $('crit4').style.transform=`scale(${t>12.1&&t<12.35?1.18:1})`;$('crit4').style.transformOrigin='left center';
+    $('fcrit').style.opacity=t>12.1?1:.15;
+  }
+
+  // ---------- S5 EXPLAIN 14-18
+  if(sceneVis($('s5'),t,14,18)){
+    rise($('e5'),t,14.0,.35);rise($('h5'),t,14.1,.45);
+    const pk=eo(P(t,14.1,14.55));$('p5').style.opacity=pk;$('p5').style.transform=`translateX(${(1-pk)*80}px)`;
+    prompts.forEach((p,i)=>{const el=$('pc'+i);const sel=i===1&&t>14.95;el.style.background=sel?'#6D5EFF':'';el.style.borderColor=sel?'#C697F5':'';
+      el.style.transform=`scale(${i===1&&t>=14.95&&t<15.05?.94:1})`});
+    const uk=eo(P(t,15.05,15.3));$('ub5').style.opacity=uk;$('ub5').style.transform=`translateY(${(1-uk)*20}px)`;
+    const ab=$('ab5');ab.style.opacity=P(t,15.3,15.4);
+    const n=Math.round(ANS.length*P(t,15.4,17.0));ab.textContent=ANS.slice(0,n)+(t<17.2&&t>15.3?' ▍':'');
+    if(t>14.4&&t<16.2){const [px,py]=center($('pc1'));
+      const[x,y]=cursor(t,[[14.4,1900,1050],[14.92,px+40,py+6]]);cur=[x,y,P(t,14.4,14.55)*(1-P(t,15.9,16.2)),t>=14.95&&t<15.08]}
+  }
+
+  // ---------- S6 OUTRO 18-21
+  if(sceneVis($('s6'),t,18,21.5)){
+    const kb=eo(P(t,18.0,18.4));$('brand6').style.opacity=kb;$('brand6').style.transform=`scale(${.9+.1*kb})`;
+    ['w1','w2','w3'].forEach((w,i)=>{const k=back(P(t,18.25+i*.5,18.6+i*.5));const el=$(w);el.style.opacity=P(t,18.25+i*.5,18.4+i*.5);el.style.display='inline-block';el.style.transform=`translateY(${(1-k)*50}px)`});
+    rise($('cmd6'),t,19.75,.4,30);rise($('tech6'),t,20.0,.4,20);
+  }
+  if(cur)placeCursor(cur[0],cur[1],cur[2],cur[3]);else $('cursor').style.opacity=0;
+}
+window.render=render;
+window.ready=Promise.all([document.fonts.load('800 80px Inter'),document.fonts.load('900 80px Inter'),document.fonts.load('400 20px Roboto'),document.fonts.load('400 20px "JetBrains Mono"')]).then(()=>document.fonts.ready).then(()=>{render(0);return true});
+</script>
+</body>
+</html>

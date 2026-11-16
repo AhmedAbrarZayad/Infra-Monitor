@@ -2,16 +2,17 @@
 
 \section{Project Organisation}
 
-The Infra Monitor project team consists of four members drawn from the
+The Infra Monitor project team consists of three members drawn from the
 CSE-356 cohort at CUET.  The team operates under a flat hierarchy with a
 rotating \textit{Scrum Master} role.  Communication channels include
 daily async stand-ups via WhatsApp, bi-weekly sprint review meetings, and
-GitHub Issues for task tracking.
+GitHub Issues for task tracking.  \Cref{tab:roles} lists each member's
+primary role and the modules they were responsible for.
 
 \begin{table}[H]
 \centering
 \caption{Team roles and responsibilities}\label{tab:roles}
-\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.4cm} >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}X@{}}
 \toprule
 \textbf{Member} & \textbf{Primary Role} & \textbf{Responsibilities}\\
 \midrule
@@ -33,23 +34,27 @@ Ahmed Abrar Zayad (2204021) & Full-Stack / ML Engineer &
 
 \subsection{Individual Contribution to the Project}
 
+Work was divided by module, but most phases of the lifecycle involved more
+than one member.  \Cref{tab:contrib} marks which members contributed to each
+phase, from requirement specification through to documentation.
+
 \begin{table}[H]
 \centering
 \caption{Individual contribution matrix}\label{tab:contrib}
 \scriptsize\setlength{\tabcolsep}{3pt}
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+\begin{tabularx}{\textwidth}{|p{0.19\textwidth}|*{8}{>{\centering\arraybackslash}X|}}
 \hline
 \textbf{Member} &
 \makecell{\textbf{Req.}\\\textbf{Spec.}} &
 \textbf{Planning} & \textbf{Design} &
 \makecell{\textbf{Model}\\\textbf{Build}} &
 \makecell{\textbf{User}\\\textbf{Interface}} &
-\textbf{Testing} & \textbf{Deployment} & \textbf{Docs}\\
+\textbf{Testing} & \makecell{\textbf{Deploy-}\\\textbf{ment}} & \textbf{Docs}\\
 \hline
 Syed Fardin Ahmed (2204014) & \cmark & \cmark & \cmark & & & & \cmark & \\ \hline
 Shahneos Ali (2204013) & & & \cmark & & \cmark & \cmark & & \cmark \\ \hline
-Ahmed Abrar Zayad (2204021) & \cmark & & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\ \hline
-\end{tabular}
+Ahmed Abrar Zayad (2204021) & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\ \hline
+\end{tabularx}
 \end{table}
 
 \section{Process Model Used}
@@ -96,8 +101,6 @@ Sprint breakdown:
 
 Scrum was selected over Waterfall because:
 \begin{itemize}
-  \item Requirements evolved as the ML models were trained and the API shape
-        became clear---a fixed-plan model would have required costly rework.
   \item The team had prior experience with GitHub-flow branching, which pairs
         naturally with Scrum's iterative delivery.
   \item Short sprints allowed the instructor to review working software at each
@@ -108,6 +111,10 @@ Scrum was selected over Waterfall because:
 \end{itemize}
 
 \section{Risk Analysis}
+
+Risks were identified during Sprint~0 and reviewed at every sprint
+retrospective.  \Cref{tab:risk} rates each risk by probability and impact
+and records the mitigation the team adopted.
 
 \begin{table}[H]
 \centering
@@ -125,7 +132,7 @@ R3 & VictoriaMetrics cluster instability on dev hardware &
   Med & Med & Health-check in Docker Compose; fallback to single-node
   VictoriaMetrics if cluster fails\\
 R4 & Gemini API rate-limiting or quota exhaustion &
-  Low & High & Ticket-based rate throttle (\texttt{ai/throttles.py});
+  Low & High & Ticket-based rate throttling;
   graceful ``gemini\_not\_configured'' error response\\
 R5 & Flutter WebSocket disconnect during chatbot session &
   Med & Med & Auto-reconnect logic in Flutter client; server-side
@@ -134,7 +141,7 @@ R6 & PostgreSQL migration conflict during team merge &
   Med & Med & Squash migrations before merging to \texttt{main};
   CI migration check (\texttt{makemigrations --check})\\
 R7 & Django security vulnerability in dependency &
-  Low & High & Pin versions in \texttt{requirements.txt};
+  Low & High & Pin dependency versions;
   \texttt{pip-audit} in CI pipeline\\
 R8 & Scope creep beyond academic timeline &
   Med & Med & Product backlog prioritised by MoSCoW; defer stretch
@@ -147,10 +154,10 @@ R8 & Scope creep beyond academic timeline &
 
 \begin{itemize}
   \item \textbf{Schedule:} 14-week semester; hard deadline at week 14.
-  \item \textbf{Budget:} Zero allocated budget; all infrastructure runs locally
-        via Docker Compose or on personal hardware.
-  \item \textbf{Gemini API:} Free tier has a 15~RPM limit, restricting chatbot
-        load during demonstrations.
+  \item \textbf{Budget:} No project budget was allocated; infrastructure costs
+        remain a deployment consideration.
+  \item \textbf{Gemini API:} Usage depends on provider quota and configuration,
+        which must be considered during deployment.
   \item \textbf{Data:} The CICIDS2017 dataset is publicly available but labelled
         for a different threat taxonomy; feature engineering was required to map
         it to the 26-feature Request Shield schema.
@@ -162,7 +169,15 @@ R8 & Scope creep beyond academic timeline &
 
 \section{Tools/Languages Requirements}
 
+The system is built entirely from open-source languages, frameworks, and
+services, apart from the Google Gemini API and Firebase Cloud Messaging.
+This section lists the software the team needed to develop, test, and run
+Infra Monitor.
+
 \subsection{Software Requirements}
+
+\Cref{tab:sw} gives the software stack with pinned versions where available.  Components marked ``latest'' track
+the current stable release.
 
 \begin{table}[H]
 \centering
@@ -171,25 +186,21 @@ R8 & Scope creep beyond academic timeline &
 \toprule
 \textbf{Category} & \textbf{Tool / Library} & \textbf{Version / Notes}\\
 \midrule
-Language (backend)  & Python & 3.12 (inferred from Django 6 requirement)\\
-Web framework       & Django & 6.0.6 (\texttt{requirements.txt})\\
-REST layer          & Django REST Framework & latest (\texttt{requirements.txt})\\
-JWT auth            & djangorestframework-simplejwt & latest\\
-Async gateway       & Daphne + Django Channels & latest (\texttt{requirements.txt})\\
-Task queue          & Celery + Redis & celery[redis] (\texttt{requirements.txt})\\
-Database            & PostgreSQL & 18 (\texttt{docker-compose.yml})\\
-Time-series DB      & VictoriaMetrics cluster & v1.150.0 (\texttt{docker-compose.yml})\\
+Language (backend)  & Python & 3.12\\
+Web framework       & Django & 6.0.6\\
+Task queue          & Celery + Redis & Celery with Redis broker\\
+Database            & PostgreSQL & Relational data store\\
+Time-series DB      & VictoriaMetrics cluster & Time-series data store\\
 Metrics agent       & Grafana Alloy & latest (generated installer script)\\
 ML (anomaly)        & scikit-learn (IsolationForest) & latest\\
 ML (classifier)     & scikit-learn (RandomForest) & latest\\
-ML service framework & FastAPI & latest (\texttt{model/app/main.py})\\
-LLM API             & Google Gemini (google-genai) & latest (\texttt{requirements.txt})\\
-Push notifications  & Firebase Admin SDK & 7.5.0 (\texttt{requirements.txt})\\
+ML service framework & FastAPI & ML inference service\\
+LLM API             & Google Gemini (google-genai) & latest\\
+Push notifications  & Firebase Admin SDK & 7.5.0\\
 Frontend language   & Dart + Flutter & latest stable\\
-Linter/formatter    & Ruff & latest (\texttt{pyproject.toml})\\
 Containerisation    & Docker + Docker Compose & 24+\\
-Version control     & Git + GitHub & --\\
-IDE                 & VS Code / Android Studio & --\\
+Version control     & Git + GitHub & \\
+IDE                 & VS Code / Android Studio & \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -199,7 +210,7 @@ IDE                 & VS Code / Android Studio & --\\
 \begin{figure}[H]
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{ganttchart}[hgrid, vgrid={*{1}{draw=none},dotted}, x unit=0.55cm,
+\begin{ganttchart}[hgrid, vgrid={dotted}, x unit=0.55cm,
   y unit title=0.65cm, y unit chart=0.65cm,
   title label font=\small, bar label font=\small,
   bar/.append style={fill=cuetblue!70},
@@ -218,11 +229,11 @@ IDE                 & VS Code / Android Studio & --\\
 \ganttbar{Integration Testing \& UAT}{11}{12}\\
 \ganttbar{Security (VAPT) Testing}{12}{13}\\
 \ganttbar{Documentation \& Report}{12}{14}\\
-\ganttmilestone{Sprint Reviews (every 2 weeks)}{2}\\
-\ganttmilestone{}{4}\\
-\ganttmilestone{}{6}\\
-\ganttmilestone{}{8}\\
-\ganttmilestone{}{10}\\
+\ganttmilestone{Sprint Reviews (every 2 weeks)}{2}
+\ganttmilestone{}{4}
+\ganttmilestone{}{6}
+\ganttmilestone{}{8}
+\ganttmilestone{}{10}
 \ganttmilestone{}{12}\\
 \ganttmilestone{Final Submission}{14}
 \end{ganttchart}}
@@ -231,6 +242,11 @@ IDE                 & VS Code / Android Studio & --\\
 
 \section{Estimated Budget}
 
+Because every component is open source or used within a free tier, the
+project incurred no out-of-pocket cost during development
+(\Cref{tab:budget}).  Hosting costs would apply only to a production
+deployment.
+
 \begin{table}[H]
 \centering
 \caption{Estimated project budget}\label{tab:budget}
@@ -238,15 +254,15 @@ IDE                 & VS Code / Android Studio & --\\
 \toprule
 \textbf{Item} & \textbf{Unit} & \textbf{Qty} & \textbf{Cost (BDT)}\\
 \midrule
-Google Gemini API (free tier) & month & 7 & 0\\
-VictoriaMetrics (self-hosted, local only) & -- & -- & 0\\
-PostgreSQL, Redis (open source) & -- & -- & 0\\
+Google Gemini API & month & 7 & 0\\
+VictoriaMetrics (self-hosted, local only) &  &  & 0\\
+PostgreSQL, Redis (open source) &  &  & 0\\
 Docker Desktop (personal licence) & month & 7 & 0\\
-Local server electricity (100W $\times$ 24h $\times$ 42 days) & kWh & 100.8 & 1{,}100~BDT at 11~BDT/kWh\\
-GitHub (free tier) & month & 7 & 0\\
+Local server electricity & provided resource & 0 & 0\\
+GitHub & month & 7 & 0\\
 Domain name (not registered for academic submission) & year & 0 & 0\\
 \midrule
-\multicolumn{3}{@{}l}{\textbf{Total out-of-pocket}} & \textbf{$\approx$1{,}100~BDT}\\
+\multicolumn{3}{@{}l}{\textbf{Total out-of-pocket}} & \textbf{0~BDT}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -256,8 +272,9 @@ Domain name (not registered for academic submission) & year & 0 & 0\\
 \textbf{Positive impacts:}
 \begin{itemize}
   \item \textit{Technological:} Demonstrates how open-source components
-        (VictoriaMetrics, Grafana Alloy, Django, Flutter) can replace
-        proprietary SaaS monitoring at near-zero cost.  The Request Shield
+        such as VictoriaMetrics, Grafana Alloy, Django, and Flutter can replace
+        proprietary SaaS monitoring while recognising the cost of operating
+        servers.  The Request Shield
         contributes a reusable ML-based WAF component to the community.
   \item \textit{Societal:} Small organisations, NGOs, and academic institutions
         in Bangladesh that cannot afford Datadog or New Relic can adopt Infra

@@ -1,4 +1,22 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{liu2008isolation}
+F.~T. Liu, K.~M. Ting, and Z.-H. Zhou, ``Isolation forest,'' in {\em 2008
+  Eighth IEEE International Conference on Data Mining}, pp.~413--422, IEEE,
+  2008.
+
+\bibitem{breiman2001random}
+L.~Breiman, ``Random forests,'' {\em Machine Learning}, vol.~45, no.~1,
+  pp.~5--32, 2001.
+
+\bibitem{cicids2017}
+I.~Sharafaldin, A.~H. Lashkari, and A.~A. Ghorbani, ``Toward generating a new
+  intrusion detection dataset and intrusion traffic characterization.'' 4th
+  International Conference on Information Systems Security and Privacy
+  (ICISSP), 2018.
+
+\bibitem{owasp2021}
+{OWASP Foundation}, ``Owasp top 10: 2021,'' 2021.
 
 \bibitem{pressman2019}
 R.~S. Pressman and B.~R. Maxim, {\em Software Engineering: A Practitioner's
@@ -8,5 +26,17 @@ R.~S. Pressman and B.~R. Maxim, {\em Software Engineering: A Practitioner's
 \bibitem{sommerville2016}
 I.~Sommerville, {\em Software Engineering}.
 \newblock Pearson, 10th~ed., 2016.
+
+\bibitem{django2024}
+{Django Software Foundation}, ``Django documentation,'' 2024.
+
+\bibitem{victoriametrics2024}
+{VictoriaMetrics}, ``Victoriametrics cluster documentation,'' 2024.
+
+\bibitem{gemini_api}
+{Google DeepMind}, ``Gemini api documentation,'' 2024.
+
+\bibitem{grafana_alloy}
+{Grafana Labs}, ``Grafana alloy documentation,'' 2024.
 
 \end{thebibliography}

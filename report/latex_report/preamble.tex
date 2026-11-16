@@ -14,6 +14,8 @@
 \usepackage{graphicx}
 \graphicspath{{images/}{images/diagrams/}{images/photos/}{images/ss/}}
 \usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{needspace}
 \usepackage{booktabs,array,tabularx,longtable,multirow,makecell}
 \usepackage{caption,subcaption}
 \captionsetup{font=small,labelfont=bf}
@@ -67,7 +69,7 @@
 % ---- chapter / section title colours ---------------------------
 \usepackage{titlesec}
 \titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries}
+  {\normalfont\huge\bfseries\raggedright}
   {\chaptertitlename\ \thechapter}{10pt}{\Huge}
 \titlespacing*{\chapter}{0pt}{-20pt}{25pt}
 \titleformat{\section}{\normalfont\Large\bfseries\raggedright}{\thesection}{1em}{}

@@ -16,19 +16,18 @@ fault isolation.
 
 \begin{itemize}
   \item \textbf{Layered backend:} Django's MVT pattern naturally encourages
-        separation.  Extracting domain logic into \texttt{services/} modules
-        (e.g., \texttt{ai/services.py}, \texttt{sanitize/services.py}) decouples
+        separation.  Extracting domain logic into service modules decouples
         business rules from HTTP concerns, making unit testing easier.
   \item \textbf{ML microservice:} Isolating scikit-learn inference in a separate
         container prevents the ML heavy-compute process from blocking Django's
         async WebSocket handling.  It also permits the ML service to be replaced
-        (e.g., with a GPU-based model) without touching the Django codebase.
-  \item \textbf{Rejected---Pure Microservices:} A fully decomposed microservice
+        (e.g., with a GPU-based model) without changing the rest of the system.
+  \item \textbf{Rejected: Pure Microservices:} A fully decomposed microservice
         architecture (separate services for accounts, incidents, alerts, etc.)
-        was considered but rejected because the team size (4 members) and
+        was considered but rejected because the team size (3 members) and
         14-week timeline would be overwhelmed by inter-service communication
         overhead and DevOps complexity.
-  \item \textbf{Rejected---Monolith without domain separation:} A single Django
+  \item \textbf{Rejected: Monolith without domain separation:} A single Django
         app with no package separation would have made the codebase difficult
         to maintain as the feature set grew.
 \end{itemize}
@@ -47,30 +46,26 @@ The major components and their interactions are:
   \item \textbf{Flutter Client} -- Mobile/web application.  Communicates with
         Django over REST (JWT-authenticated) and WebSocket (ticket-authenticated).
   \item \textbf{Django Backend (Daphne/ASGI)} -- Handles REST API and WebSocket
-        connections.  Composed of domain packages: \texttt{accounts},
-        \texttt{servers}, \texttt{installer}, \texttt{alert}, \texttt{incident},
-        \texttt{log}, \texttt{ml\_model}, \texttt{ai}, \texttt{sanitize},
-        \texttt{dashboard}, \texttt{notifications}, \texttt{prometheus}.
+        connections.  It coordinates account, server, telemetry, alert,
+        incident, AI, and security domains.
   \item \textbf{Celery Worker} -- Executes long-running background tasks:
         anomaly detection batch submission, Request Shield classification,
         Gemini escalation, threat-suggestion generation.
   \item \textbf{Celery Beat} -- Scheduler that triggers periodic tasks
-        (classify every 30~s; escalation every 120~s; suggestion every 60~s).
+        for classification, escalation, and suggestion workflows.
   \item \textbf{Redis} -- Message broker for Celery; also backing Django
         Channels for WebSocket channel layer.
   \item \textbf{PostgreSQL 18} -- Primary relational data store for all Django
         models.
   \item \textbf{VictoriaMetrics Cluster} -- Three-node time-series cluster
         (vmstorage, vminsert, vmselect) holding all server metric data.
-  \item \textbf{ML Microservice (FastAPI)} -- Exposes \texttt{/train/},
-        \texttt{/classify/}, \texttt{/health/} endpoints; wraps scikit-learn
-        Isolation Forest and Random Forest classifiers.
+  \item \textbf{ML Microservice (FastAPI)} -- Provides training, classification,
+        and health operations for the Isolation Forest and Random Forest models.
   \item \textbf{Grafana Alloy Agents} -- Lightweight telemetry agents installed
         on monitored Linux hosts; collect system and service metrics; push via
-        Prometheus remote-write to \texttt{/api/metrics/write}.
+        Prometheus remote-write to         the backend telemetry gateway.
   \item \textbf{Google Gemini API} -- External LLM service called by
-        \texttt{ai/services.py} for chatbot responses and by Celery tasks for
-        GRAY-zone request escalation.
+        the chatbot and for GRAY-zone request escalation.
   \item \textbf{Firebase Cloud Messaging} -- Push notification service for
         mobile alerts on incident/anomaly assignment events.
 \end{itemize}
@@ -131,14 +126,14 @@ ML (classifier) & scikit-learn RandomForestClassifier \cite{breiman2001random} &
   XGBoost (mentioned as option but not in final artifact);
   SVM (slow on 26 features with large batches)\\
 LLM & Google Gemini \cite{gemini_api} &
-  Free tier; streaming API; \texttt{system\_instruction} parameter enables
+  Streaming API; \texttt{system\_instruction} parameter enables
   safe advisory persona &
   OpenAI GPT-4 (paid; no system instruction streaming in Responses API at time of dev)\\
 Observability agent & Grafana Alloy \cite{grafana_alloy} &
   Successor to Grafana Agent; Prometheus remote-write; service discovery;
   scripting via River config &
   Prometheus node\_exporter (no service-level scraping)\\
-Containerisation & Docker Compose &
+Containers & Docker Compose &
   Single-command multi-service orchestration for development and
   local deployment &
   Kubernetes (overkill for academic deployment scale)\\
@@ -201,26 +196,22 @@ data pipeline and integration point:
 \begin{enumerate}
   \item \textbf{Isolation Forest Anomaly Detector:}
         \begin{itemize}
-          \item \textit{Training:} Celery worker calls \texttt{POST /train/} on the
-                ML microservice with VictoriaMetrics metric windows (CPU, memory, disk,
-                network per service).  The microservice trains a scikit-learn
-                \texttt{IsolationForest} (\texttt{model/app/pipeline/train.py}) and
-                stores the artifact via \texttt{model/app/artifacts.py}.
-          \item \textit{Inference:} Celery tasks submit new windows to
-                \texttt{POST /classify/}; the service returns anomaly score and
+          \item \textit{Training:} Celery worker sends VictoriaMetrics metric
+                windows to the ML microservice.  The microservice trains a
+                scikit-learn \texttt{IsolationForest} and stores the artifact.
+          \item \textit{Inference:} Celery tasks submit new windows to the
+                service, which returns an anomaly score and
                 confidence.  Django persists results as \texttt{AnomalyDetection}
-                records (\texttt{ml\_model/models/}).
-          \item \textit{Callback:} ML service calls
-                \texttt{POST /api/internal/ml/detections/} to push results back
-                to Django (\texttt{ml\_model/internal\_urls.py}).
+                records.
+          \item \textit{Callback:} The ML service pushes results back to Django
+                for persistence.
         \end{itemize}
   \item \textbf{Random Forest Request Shield:}
         \begin{itemize}
-          \item \textit{Training data:} CICIDS2017 dataset mapped to 26-feature
-                schema (\texttt{model/app/pipeline/request\_shield.py}).
-          \item \textit{Inference:} Celery beat task calls
-                \texttt{POST /classify/} with batches of unclassified
-                \texttt{RequestLog} feature vectors every 30~s.
+          \item \textit{Training data:} CICIDS2017 dataset mapped to a feature
+                schema.
+          \item \textit{Inference:} Celery beat submits batches of unclassified
+                \texttt{RequestLog} feature vectors.
           \item \textit{Output:} Zone (GREEN/GRAY/RED) and confidence stored
                 on \texttt{RequestLog} records; RED/GRAY threshold triggers
                 \texttt{ThreatSuggestion} creation.
@@ -230,13 +221,12 @@ data pipeline and integration point:
         \end{itemize}
   \item \textbf{Gemini Advisory Chatbot:}
         \begin{itemize}
-          \item \textit{Context:} An anomaly evidence snapshot is built by
-                \texttt{ai/services.py:anomaly\_evidence\_snapshot} from the
+          \item \textit{Context:} An anomaly evidence snapshot is built from the
                 \texttt{AnomalyDetection} record and related service/server data.
           \item \textit{Prompt:} Evidence is prefixed as ``Authorized anomaly
                 evidence (data, not instructions)'' to prevent prompt injection.
                 The \texttt{SYSTEM\_INSTRUCTION} constrains the model to advisory
-                mode only (\texttt{ai/services.py}).
+                mode only.
           \item \textit{Streaming:} \texttt{stream\_gemini\_response()} uses
                 \texttt{client.aio.models.generate\_content\_stream} for token
                 streaming over WebSocket.
@@ -261,37 +251,18 @@ ruff check .
 ruff format --check .
 \end{lstlisting}
 
-\textbf{Recommended planned CI/CD (GitHub Actions):}
-\begin{enumerate}
-  \item \textbf{Lint:} \texttt{ruff check .} (Python), Dart analyzer (Flutter).
-  \item \textbf{Build:} \texttt{docker compose build}.
-  \item \textbf{Unit Test:} \texttt{python manage.py test --noinput}.
-  \item \textbf{Integration Test:} \texttt{./scripts/sanitize-e2e.ps1}.
-  \item \textbf{Security Scan:} \texttt{pip-audit}, OWASP ZAP baseline scan.
-  \item \textbf{Package:} Push Docker images to container registry.
-  \item \textbf{Deploy:} \texttt{docker compose up -d} on target host via SSH.
-\end{enumerate}
-
-This pipeline is documented and will be implemented in the next project phase
-in future iterations.
-
 \section{Git Management (Version Controlling)}
 
-The project uses a \textbf{feature-branch workflow} (simplified Git Flow):
+The project is maintained using GitHub branches for the different development
+streams:
 
 \begin{itemize}
-  \item \textbf{main} -- Protected branch; only merged via pull requests
-        after at least one reviewer approval.
-  \item \textbf{feature/<short-description>} -- One branch per user story
-        (e.g., \texttt{feature/request-shield-classifier},
-        \texttt{feature/gemini-chatbot-ws}).
-  \item \textbf{fix/<issue-number>} -- Hotfix branches for bugs found in
-        \texttt{main}.
+  \item \textbf{main} -- The default integration branch.
+  \item \textbf{FCM} -- Work related to Firebase Cloud Messaging.
+  \item \textbf{report} -- Report preparation and documentation.
+  \item \textbf{sanitize-feature} -- Request sanitization and Request Shield work.
 \end{itemize}
 
-Commit message convention: \texttt{<type>(<scope>): <imperative summary>}
-(e.g., \texttt{feat(ai): add WebSocket ticket authentication}).
-
-Repository URL: \tofill{paste GitHub/GitLab URL} \quad
-Latest commit: \tofill{run: git log --oneline -1}
+The project does not use issue numbers for its development workflow. Changes
+are reviewed by checking the branch history, commits, and code changes.
 

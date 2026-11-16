@@ -26,7 +26,7 @@ VictoriaMetrics &
 Celery &
   Task queue depth grows if classify interval is too short &
   Add more Celery workers; tune
-  \texttt{REQUEST\_SHIELD\_CLASSIFY\_BATCH\_SIZE}\\
+  \texttt{REQUEST\_SHIELD\_\allowbreak CLASSIFY\_\allowbreak BATCH\_SIZE}\\
 ML microservice &
   CPU-bound inference under large request volumes &
   Deploy multiple ML service replicas; introduce model caching (joblib
@@ -50,7 +50,7 @@ planned for the production deployment.
   \item \textbf{Environment-driven configuration:} All tuneable parameters
         (batch size, intervals, Gemini model name, JWT TTLs, VictoriaMetrics
         retention period) are exposed as environment variables in
-        \texttt{docker-compose.yml} and loaded via Django settings, requiring
+        the deployment environment and loaded via application settings, requiring
         no code changes to adjust.
   \item \textbf{Modular Django apps:} Each domain (alerts, incidents,
         anomaly detection, Request Shield) is a separate Django app with its
@@ -85,8 +85,7 @@ planned for the production deployment.
         run via the admin API.
   \item \textbf{Database migrations:} All schema changes via Django
         \texttt{makemigrations}; \texttt{makemigrations --check} run in CI.
-  \item \textbf{Documentation:} \texttt{docs/} folder maintained with
-        architecture decisions; API changes documented in CHANGELOG.
+  \item \textbf{Documentation:} Architecture decisions are recorded in the project documentation; API changes documented in CHANGELOG.
 \end{itemize}
 
 \textbf{Planned future enhancements:}

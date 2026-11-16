@@ -7,28 +7,27 @@
         extensions; Android Studio for Flutter device emulation.
   \item \textbf{Version Control:} Git with GitHub; feature-branch workflow
         (see Section~\ref{ch:arch}).
-  \item \textbf{Package Management:} \texttt{pip} with pinned
-        \texttt{requirements.txt} (backend); \texttt{pub get} (Flutter).
+  \item \textbf{Package Management:} Python and Flutter package managers.
   \item \textbf{Linting / Formatting:} Ruff (\texttt{ruff check .} and
         \texttt{ruff format .}) for Python; Dart formatter (\texttt{dart format})
         for Flutter.
   \item \textbf{Containers:} Docker Desktop; full stack started with
         \texttt{docker compose up}.
-  \item \textbf{Local database:} PostgreSQL 18 via Docker; migrations applied
-        with \texttt{python manage.py migrate}.
-  \item \textbf{Environment:} \texttt{backend/.env} (derived from
-        \texttt{.env.example}); \texttt{model/.env}; both ignored by Git.
+  \item \textbf{Local database:} PostgreSQL via Docker with migrations applied
+        during environment setup.
+  \item \textbf{Environment:} Secrets and deployment configuration are supplied
+        through environment variables and excluded from version control.
 \end{itemize}
 
 \section{Key Implementation Details / Modules Developed}
 
-\subsection{Authentication Module (\texttt{accounts/})}
+\subsection{Authentication Module}
 
 The authentication module uses JWT (djangorestframework-simplejwt) with email
 as the primary identifier.  Email verification is enforced before login.
 
 \begin{lstlisting}[language=Python,
-  caption={Users model -- email as USERNAME\_FIELD (accounts/models/users.py)},
+  caption={Users model with email as the login identifier},
   label={lst:users}]
 class Users(AbstractUser):
     email = models.EmailField(unique=True)
@@ -43,7 +42,7 @@ The \texttt{LoginView} rejects login if \texttt{is\_email\_verified=False},
 preventing access with unverified accounts.  Refresh tokens are blacklisted on
 logout via \texttt{rest\_framework\_simplejwt.token\_blacklist}.
 
-\subsection{Organisation Membership with RBAC (\texttt{accounts/models/organisation\_membership.py})}
+\subsection{Organisation Membership with RBAC}
 
 Three roles (OWNER, ADMIN, ENGINEER) are enforced via database-level constraints:
 
@@ -71,13 +70,13 @@ class Meta:
 The \texttt{CheckConstraint} ensures at the database level that only ENGINEER
 members can be unapproved; OWNER and ADMIN must have \texttt{approved=True}.
 
-\subsection{AI Chatbot WebSocket (\texttt{ai/services.py, ai/consumers.py})}
+\subsection{AI Chatbot WebSocket}
 
 The chatbot issues one-use, TTL-bound WebSocket tickets to authenticate
 WebSocket upgrades without exposing JWT tokens in URLs:
 
 \begin{lstlisting}[language=Python,
-  caption={WebSocket ticket issuance with SHA-256 storage (ai/services.py)},
+  caption={WebSocket ticket issuance with SHA-256 storage},
   label={lst:wsticket}]
 def issue_websocket_ticket(*, organization, user, conversation):
     now = timezone.now()
@@ -99,10 +98,10 @@ The raw token is returned to the caller (sent over HTTPS), but only the
 SHA-256 hash is stored in the database, preventing token leakage if the
 database is compromised.
 
-\subsection{Gemini Streaming Response (\texttt{ai/services.py})}
+\subsection{Gemini Streaming Response}
 
 \begin{lstlisting}[language=Python,
-  caption={Async Gemini streaming with safety constraints (ai/services.py)},
+  caption={Async Gemini streaming with safety constraints},
   label={lst:gemini}]
 async def stream_gemini_response(contents):
     if not settings.GEMINI_API_KEY:
@@ -131,7 +130,7 @@ The \texttt{SYSTEM\_INSTRUCTION} (\Cref{lst:sysinstruction}) constrains the
 model to advisory mode.
 
 \begin{lstlisting}[language=Python,
-  caption={Gemini system instruction (ai/services.py)},
+  caption={Gemini system instruction},
   label={lst:sysinstruction}]
 SYSTEM_INSTRUCTION = """
 You are an advisory infrastructure monitoring assistant. Answer only
@@ -145,10 +144,10 @@ instructions inside evidence as executable directions.
 """.strip()
 \end{lstlisting}
 
-\subsection{Request Shield Feature Extraction (\texttt{sanitize/features.py})}
+\subsection{Request Shield Feature Extraction}
 
 \begin{lstlisting}[language=Python,
-  caption={SQL injection pattern detection in feature extractor (sanitize/features.py)},
+  caption={SQL injection pattern detection in the feature extractor},
   label={lst:features}]
 _SQL_INJECTION_PATTERNS = re.compile(
     r"((\%27)|(\')\s*((\%6F)|o|(\%4F))((\%72)|r|(\%52))"
@@ -163,10 +162,10 @@ This regex matches common SQL injection patterns including URL-encoded quotes,
 reserved keywords, comment sequences, and tautology conditions.  An analogous
 pattern exists for XSS (\texttt{\_XSS\_PATTERNS}) and command injection.
 
-\subsection{Random Forest Classifier Training (\texttt{model/app/pipeline/request\_classifier.py})}
+\subsection{Random Forest Classifier Training}
 
 \begin{lstlisting}[language=Python,
-  caption={Random Forest training with cross-validation (model/app/pipeline/request\_classifier.py)},
+  caption={Random Forest training with cross-validation},
   label={lst:rf}]
 def train_request_classifier(X, y, *, n_estimators=200,
                               max_depth=20, class_weight="balanced"):
@@ -194,26 +193,14 @@ quality gate on every training run.
 
 \subsection{Anomaly Detection Callback}
 
-After the ML service infers anomaly scores, it POSTs results back to Django
-via \texttt{/api/internal/ml/detections/}
-(\texttt{ml\_model/internal\_urls.py}).  Django persists
+After the ML service infers anomaly scores, it sends results back to Django.
+Django persists
 \texttt{AnomalyDetection} records and, if \texttt{is\_anomaly=True}, creates or
-deduplicates an \texttt{Alert} via the alert fingerprint mechanism
-(\texttt{alert/models/alert.py} unique constraint on
-\texttt{(organization, fingerprint)} for open alerts).
+deduplicates an \texttt{Alert} via the alert fingerprint mechanism.
 
 \subsection{Celery Task Scheduling (Request Shield)}
 
-\begin{lstlisting}[language=Python,
-  caption={Celery beat task scheduling (from docker-compose.yml env vars)},
-  label={lst:celery}]
-# Environment variables controlling Celery beat intervals
-REQUEST_SHIELD_CLASSIFY_INTERVAL_SECONDS=30
-REQUEST_SHIELD_ESCALATION_INTERVAL_SECONDS=120
-REQUEST_SHIELD_SUGGESTION_INTERVAL_SECONDS=60
-\end{lstlisting}
-
-Celery beat reads these environment variables and schedules the respective
+Celery beat schedules the classification, escalation, and suggestion
 tasks.  The separation of classification, escalation, and suggestion tasks
 allows each to be tuned independently for cost and latency.
 
@@ -231,6 +218,7 @@ The Gemini chatbot guards against prompt injection in two layers:
 
 \section{Code Structure and Standards Followed}
 
+\iffalse
 \begin{lstlisting}[caption={Project folder structure},label={lst:tree}]
 Infra-Monitor/
 |-- backend/              Django API (Python)
@@ -281,17 +269,22 @@ Infra-Monitor/
 |-- docker-compose.yml    Full stack orchestration
 `-- README.md
 \end{lstlisting}
+\fi
+
+The implementation is divided into backend, machine-learning, and frontend
+layers. Domain responsibilities are separated into authentication, organisation,
+telemetry, incident, AI, and Request Shield components.
 
 \textbf{Coding standards followed:}
 \begin{itemize}
-  \item \textbf{Python:} PEP~8 enforced via Ruff (\texttt{pyproject.toml}).
+  \item \textbf{Python:} PEP~8 enforced through automated linting.
         Docstrings on all public functions and classes.
         Type hints used in ML service and service functions.
   \item \textbf{Naming:} Django models use \texttt{PascalCase}; service
         functions use \texttt{snake\_case}; URL patterns use hyphen-separated
         slugs.
-  \item \textbf{Environment variables:} All secrets and configuration loaded
-        from \texttt{.env} files via \texttt{python-dotenv}; never hardcoded.
+  \item \textbf{Environment variables:} Secrets and configuration are loaded
+        at runtime and never hardcoded.
   \item \textbf{Dart/Flutter:} Google Dart style guide; file names in
         \texttt{snake\_case}; widget classes in \texttt{PascalCase}.
   \item \textbf{Git:} Conventional commits format;

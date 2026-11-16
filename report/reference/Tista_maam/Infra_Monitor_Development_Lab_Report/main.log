@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  9 NOV 2026 11:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  9 NOV 2026 15:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -529,6 +529,26 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip56
 )
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/cleveref\cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+Package cleveref Info: `hyperref' support loaded on input line 2370.
+LaTeX Info: Redefining \cref on input line 2370.
+LaTeX Info: Redefining \Cref on input line 2370.
+LaTeX Info: Redefining \crefrange on input line 2370.
+LaTeX Info: Redefining \Crefrange on input line 2370.
+LaTeX Info: Redefining \cpageref on input line 2370.
+LaTeX Info: Redefining \Cpageref on input line 2370.
+LaTeX Info: Redefining \cpagerefrange on input line 2370.
+LaTeX Info: Redefining \Cpagerefrange on input line 2370.
+LaTeX Info: Redefining \labelcref on input line 2370.
+LaTeX Info: Redefining \labelcpageref on input line 2370.
+Package cleveref Info: include cross-reference names in hyperlinks on input lin
+e 7836.
+Package cleveref Info: include cross-reference names in hyperlinks on input lin
+e 7852.
+)
+==> First Aid for cleveref.sty applied!
+
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
 sty
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
@@ -924,65 +944,65 @@ File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 z/libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 24.
+Package hyperref Info: Option `colorlinks' set `true' on input line 26.
 LaTeX Font Info:    Trying to load font information for OT1+ntxtlf on input lin
-e 46.
+e 48.
 
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\ot1ntxtlf.fd
 File: ot1ntxtlf.fd 2021/05/24 v1.0 font definition file for OT1/ntx/tlf
 )
 LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
-(Font)              scaled to size 12.0pt on input line 46.
+(Font)              scaled to size 12.0pt on input line 48.
 
 (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/ntxmi/m/it on input line 46.
+LaTeX Font Info:    Checking defaults for OML/ntxmi/m/it on input line 48.
 LaTeX Font Info:    Trying to load font information for OML+ntxmi on input line
- 46.
+ 48.
 
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\omlntxmi.fd
 File: omlntxmi.fd 2015/08/25 Fontinst v1.933 font definitions for OML/ntxmi.
 )
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 48.
 LaTeX Font Info:    Trying to load font information for U+ntxexa on input line 
-46.
+48.
 
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxexa.fd
 File: untxexa.fd 2012/04/16 Fontinst v1.933 font definitions for U/ntxexa.
 )
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 48.
 LaTeX Font Info:    Trying to load font information for LMS+ntxsy on input line
- 46.
+ 48.
 
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\lmsntxsy.fd
 File: lmsntxsy.fd 2016/07/02 Fontinst v1.933 font definitions for LMS/ntxsy.
 )
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 48.
 LaTeX Font Info:    Trying to load font information for LMX+ntxexx on input lin
-e 46.
+e 48.
 
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\lmxntxexx.fd
 File: lmxntxexx.fd 2016/07/03 Fontinst v1.933 font definitions for LMX/ntxexx.
 )
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1046,228 +1066,480 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 \c@mv@tabular=\count363
 \c@mv@boldtabular=\count364
-LaTeX Info: Command `\dddot' is already robust on input line 46.
-LaTeX Info: Command `\ddddot' is already robust on input line 46.
-Package hyperref Info: Link coloring ON on input line 46.
+LaTeX Info: Command `\dddot' is already robust on input line 48.
+LaTeX Info: Command `\ddddot' is already robust on input line 48.
+Package hyperref Info: Link coloring ON on input line 48.
  (main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
 \c@lstlisting=\count365
 LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
-(Font)              scaled to size 14.4pt on input line 52.
-LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
-(Font)              scaled to size 24.88pt on input line 54.
+(Font)              scaled to size 14.4pt on input line 54.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
-(Font)              scaled to size 24.88pt on input line 54.
+(Font)              scaled to size 14.4pt on input line 54.
+<assets/cuet_logo.png, id=178, 501.875pt x 501.875pt>
+File: assets/cuet_logo.png Graphic file (type png)
+<use assets/cuet_logo.png>
+Package pdftex.def Info: assets/cuet_logo.png  used on input line 56.
+(pdftex.def)             Requested size: 126.83044pt x 126.83156pt.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
-(Font)              scaled to size 17.28pt on input line 56.
+(Font)              scaled to size 24.88pt on input line 58.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
-(Font)              scaled to size 14.4pt on input line 58.
+(Font)              scaled to size 24.88pt on input line 58.
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
+(Font)              scaled to size 17.28pt on input line 60.
+LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
+(Font)              scaled to size 17.28pt on input line 60.
  [1
 
 {C:/Users/ahmed/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/ahme
-d/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ot1-tlf.enc}]
-LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
-(Font)              scaled to size 17.28pt on input line 81.
-
+d/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ot1-tlf.enc} <./asset
+s/cuet_logo.png>]
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\ot1minntx.fd)
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxmia.fd)
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsym.fd)
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsyc.fd)
-[1] (main.toc)
-\tf@toc=\write5
-\openout5 = `main.toc'.
-
-
+[1] (main.toc
 pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.112 \clearpage
-                 [1
+l.35 ... {4}Implementation Details}{24}{chapter.4}
+                                                  % [1
 
-] (chapters/01_introduction.tex
+])
+\tf@toc=\write5
+\openout5 = `main.toc'.
+
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
+(Font)              scaled to size 10.95pt on input line 126.
+ [2]
+(chapters/01_introduction.tex
 Chapter 1.
-LaTeX Font Info:    Trying to load font information for OT1+ntxtt on input line
- 10.
-(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\ot1ntxtt.fd
-File: ot1ntxtt.fd 2012/04/20 v3.1
+LaTeX Font Info:    Trying to load font information for TS1+ntxtlf on input lin
+e 14.
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\ts1ntxtlf.fd
+File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
 )
-LaTeX Font Info:    Font shape `OT1/ntxtt/m/n' will be
-(Font)              scaled to size 12.0pt on input line 10.
+LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
+(Font)              scaled to size 12.0pt on input line 14.
 
-Overfull \hbox (25.8031pt too wide) in paragraph at lines 13--22
-\OT1/ntxtt/m/n/12 monitoring-[]end-[]to-[]end . md$\OT1/minntx/m/n/12 ; $\OT1/n
-txtt/m/n/12 backend / servers / models / servers . py$\OT1/minntx/m/n/12 ; $\OT
-1/ntxtt/m/n/12 backend / incident /
- []
-
-) (chapters/02_architecture.tex
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1 \chapter
-            {System Architecture and Design} [1
+l.17 
+      [1
 
 
-]
-LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.95pt on input line 1.
- [2]
+{C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/tex-gyre/q-ts1.en
+c}]
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/it' will be
+(Font)              scaled to size 12.0pt on input line 29.
+LaTeX Font Info:    Trying to load font information for OT1+ntxtt on input line
+ 33.
+
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/newtx\ot1ntxtt.fd
+File: ot1ntxtt.fd 2012/04/20 v3.1
+)
+LaTeX Font Info:    Font shape `OT1/ntxtt/m/n' will be
+(Font)              scaled to size 12.0pt on input line 33.
+
+[2]) (chapters/02_architecture.tex [3]
 Chapter 2.
-<assets/architecture.png, id=156, 537.207pt x 349.90726pt>
+
+Overfull \hbox (4.24106pt too wide) in paragraph at lines 15--16
+\OT1/minntx/m/n/12 FastAPI that ex-poses high-performance HTTP end-points for u
+n-su-per-vised teleme-try anomaly
+ []
+
+<assets/architecture.png, id=265, 537.207pt x 349.90726pt>
 File: assets/architecture.png Graphic file (type png)
 <use assets/architecture.png>
-Package pdftex.def Info: assets/architecture.png  used on input line 15.
-(pdftex.def)             Requested size: 398.61395pt x 259.64275pt.
+Package pdftex.def Info: assets/architecture.png  used on input line 20.
+(pdftex.def)             Requested size: 416.72963pt x 271.44226pt.
+[4
 
-Underfull \hbox (badness 1622) in paragraph at lines 45--45
-\OT1/minntx/m/n/10.95 de-pen-dency names are listed in $\OT1/ntxtt/m/n/10.95 ba
-ckend /
+]
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+[]|\OT1/minntx/m/n/10.95 Large Lan-guage
+ []
+
+[5 <./assets/architecture.png>] [6]
+Overfull \hbox (2.82721pt too wide) in paragraph at lines 60--61
+[]\OT1/ntxtlf/b/n/12 OrganizationMembership: \OT1/minntx/m/n/12 An ex-plicit ju
+nc-tion en-tity link-ing a \OT1/ntxtt/m/n/12 User \OT1/minntx/m/n/12 to an \OT1
+/ntxtt/m/n/12 Organization\OT1/minntx/m/n/12 ,
+ []
+
+<assets/er_diagram.png, id=288, 766.062pt x 476.982pt>
+File: assets/er_diagram.png Graphic file (type png)
+<use assets/er_diagram.png>
+Package pdftex.def Info: assets/er_diagram.png  used on input line 71.
+(pdftex.def)             Requested size: 443.9066pt x 276.40228pt.
+[7 <./assets/er_diagram.png>]
+<assets/use_cases.pdf, id=296, page=1, 845.04686pt x 597.50786pt>
+File: assets/use_cases.pdf Graphic file (type pdf)
+<use assets/use_cases.pdf, page 1>
+Package pdftex.def Info: assets/use_cases.pdf , page1 used on input line 97.
+(pdftex.def)             Requested size: 398.61395pt x 281.84985pt.
+ [8]
+<assets/use_cases.pdf, id=302, page=4, 845.04686pt x 597.50786pt>
+File: assets/use_cases.pdf Graphic file (type pdf)
+<use assets/use_cases.pdf, page 4>
+Package pdftex.def Info: assets/use_cases.pdf , page4 used on input line 103.
+(pdftex.def)             Requested size: 398.61395pt x 281.84985pt.
+
+Underfull \hbox (badness 2564) in paragraph at lines 132--132
+[]|\OT1/minntx/m/n/10.95 Unique con-straint on \OT1/ntxtt/m/n/10.95 (user[]id,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-[]|\OT1/minntx/m/n/10.95 Inference/training and re-quest clas-si-
+Underfull \hbox (badness 5592) in paragraph at lines 132--132
+[]|\OT1/minntx/m/n/10.95 Unique con-straint on \OT1/ntxtt/m/n/10.95 (org[]id,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-\OT1/minntx/m/n/10.95 fi-ca-tion in $\OT1/ntxtt/m/n/10.95 model / app / main . 
-py$ \OT1/minntx/m/n/10.95 and
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+\OT1/ntxtt/m/n/10.95 hostname)\OT1/minntx/m/n/10.95 ; tracks \OT1/ntxtt/m/n/10.
+95 HEALTHY\OT1/minntx/m/n/10.95 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-[]|\OT1/minntx/m/n/10.95 Installed on mon-i-tored Linux hosts;
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+\OT1/ntxtt/m/n/10.95 window[]start \OT1/minntx/m/n/10.95 (TIMES-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-\OT1/minntx/m/n/10.95 remote-write flow is doc-u-mented in
- []
-
-[3
-
- <./assets/architecture.png>]
-Overfull \hbox (29.61108pt too wide) in paragraph at lines 52--61
-\OT1/ntxtt/m/n/12 organization _ membership . py$\OT1/minntx/m/n/12 , $\OT1/ntx
-tt/m/n/12 backend / servers / models / servers . py$\OT1/minntx/m/n/12 , $\OT1/
-ntxtt/m/n/12 backend / servers /
- []
-
-LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 72.
-[4]
-Overfull \hbox (30.60309pt too wide) in paragraph at lines 151--160
-\OT1/ntxtt/m/n/12 membership . py$\OT1/minntx/m/n/12 ; $\OT1/ntxtt/m/n/12 backe
-nd / alert / models / alert . py$\OT1/minntx/m/n/12 ; $\OT1/ntxtt/m/n/12 backen
-d / incident / models / incident .
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+\OT1/ntxtt/m/n/10.95 window[]start, model[]version)\OT1/minntx/m/n/10.95 ;
  []
 
 
-Overfull \hbox (12.48528pt too wide) in paragraph at lines 176--176
-[]|\OT1/minntx/m/n/10.95 OrganizationMembership| 
+Underfull \hbox (badness 4927) in paragraph at lines 132--132
+\OT1/minntx/m/n/10.95 in-dexes en-able rapid time-range
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--176
-[]|\OT1/minntx/m/n/10.95 UUID key, or-ga-ni-za-
+Underfull \hbox (badness 6995) in paragraph at lines 132--132
+\OT1/minntx/m/n/10.95 avoids alert spam-ming; states:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--176
-\OT1/minntx/m/n/10.95 tion/server/service FKs,
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+[]|\OT1/minntx/m/n/10.95 Tracks life-cy-cle: \OT1/ntxtt/m/n/10.95 NEW\OT1/minnt
+x/m/n/10.95 ,
  []
 
-[5]
-<assets/ui_overview.jpeg, id=177, 722.7pt x 1606.0pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+\OT1/ntxtt/m/n/10.95 INVESTIGATING\OT1/minntx/m/n/10.95 , \OT1/ntxtt/m/n/10.95 
+MITIGATED\OT1/minntx/m/n/10.95 ,
+ []
+
+[9 <./assets/use_cases.pdf> <./assets/use_cases.pdf>] [10]
+<assets/ui_organization.jpeg, id=322, 722.7pt x 1606.0pt>
+File: assets/ui_organization.jpeg Graphic file (type jpg)
+<use assets/ui_organization.jpeg>
+Package pdftex.def Info: assets/ui_organization.jpeg  used on input line 143.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_preferences.jpeg, id=323, 722.7pt x 1606.0pt>
+File: assets/ui_preferences.jpeg Graphic file (type jpg)
+<use assets/ui_preferences.jpeg>
+Package pdftex.def Info: assets/ui_preferences.jpeg  used on input line 145.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+ [11 <./assets/ui_organization.jpeg> <./assets/ui_preferences.jpeg>]
+<assets/ui_overview.jpeg, id=332, 722.7pt x 1606.0pt>
 File: assets/ui_overview.jpeg Graphic file (type jpg)
 <use assets/ui_overview.jpeg>
-Package pdftex.def Info: assets/ui_overview.jpeg  used on input line 188.
-(pdftex.def)             Requested size: 113.47296pt x 252.16216pt.
-<assets/ui_servers.jpeg, id=178, 722.7pt x 1606.0pt>
+Package pdftex.def Info: assets/ui_overview.jpeg  used on input line 154.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_servers.jpeg, id=333, 722.7pt x 1606.0pt>
 File: assets/ui_servers.jpeg Graphic file (type jpg)
 <use assets/ui_servers.jpeg>
-Package pdftex.def Info: assets/ui_servers.jpeg  used on input line 190.
-(pdftex.def)             Requested size: 113.47296pt x 252.16216pt.
-<assets/ui_metrics.jpeg, id=179, 722.7pt x 1606.0pt>
+Package pdftex.def Info: assets/ui_servers.jpeg  used on input line 156.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_overview_alerts.jpeg, id=336, 722.7pt x 1606.0pt>
+File: assets/ui_overview_alerts.jpeg Graphic file (type jpg)
+<use assets/ui_overview_alerts.jpeg>
+Package pdftex.def Info: assets/ui_overview_alerts.jpeg  used on input line 164
+.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_server_detail.jpeg, id=337, 722.7pt x 1606.0pt>
+File: assets/ui_server_detail.jpeg Graphic file (type jpg)
+<use assets/ui_server_detail.jpeg>
+Package pdftex.def Info: assets/ui_server_detail.jpeg  used on input line 166.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+ [12 <./assets/ui_overview.jpeg> <./assets/ui_servers.jpeg>]
+<assets/ui_metrics.jpeg, id=346, 722.7pt x 1606.0pt>
 File: assets/ui_metrics.jpeg Graphic file (type jpg)
 <use assets/ui_metrics.jpeg>
-Package pdftex.def Info: assets/ui_metrics.jpeg  used on input line 195.
-(pdftex.def)             Requested size: 113.47296pt x 252.16216pt.
-<assets/ui_incidents.jpeg, id=180, 722.7pt x 1606.0pt>
+Package pdftex.def Info: assets/ui_metrics.jpeg  used on input line 175.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_metric_history.jpeg, id=347, 722.7pt x 1606.0pt>
+File: assets/ui_metric_history.jpeg Graphic file (type jpg)
+<use assets/ui_metric_history.jpeg>
+Package pdftex.def Info: assets/ui_metric_history.jpeg  used on input line 177.
+
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+ [13 <./assets/ui_overview_alerts.jpeg> <./assets/ui_server_detail.jpeg>]
+<assets/ui_anomaly_history.jpeg, id=354, 722.7pt x 1606.0pt>
+File: assets/ui_anomaly_history.jpeg Graphic file (type jpg)
+<use assets/ui_anomaly_history.jpeg>
+Package pdftex.def Info: assets/ui_anomaly_history.jpeg  used on input line 185
+.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [14 <./assets/ui_metrics.jpeg> <./assets/ui_metric_history.jpeg>]
+<assets/ui_incidents.jpeg, id=362, 722.7pt x 1606.0pt>
 File: assets/ui_incidents.jpeg Graphic file (type jpg)
 <use assets/ui_incidents.jpeg>
-Package pdftex.def Info: assets/ui_incidents.jpeg  used on input line 197.
-(pdftex.def)             Requested size: 113.47296pt x 252.16216pt.
- [6]) (chapters/03_monitoring.tex [7 <./assets/ui_overview.jpeg> <./assets/ui_s
-ervers.jpeg> <./assets/ui_metrics.jpeg> <./assets/ui_incidents.jpeg>]
+Package pdftex.def Info: assets/ui_incidents.jpeg  used on input line 194.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_incident_assignment.jpeg, id=363, 722.7pt x 1606.0pt>
+File: assets/ui_incident_assignment.jpeg Graphic file (type jpg)
+<use assets/ui_incident_assignment.jpeg>
+Package pdftex.def Info: assets/ui_incident_assignment.jpeg  used on input line
+ 196.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+ [15 <./assets/ui_anomaly_history.jpeg>]
+<assets/ui_assistant.jpeg, id=371, 722.7pt x 1606.0pt>
+File: assets/ui_assistant.jpeg Graphic file (type jpg)
+<use assets/ui_assistant.jpeg>
+Package pdftex.def Info: assets/ui_assistant.jpeg  used on input line 204.
+(pdftex.def)             Requested size: 190.24568pt x 422.76984pt.
+ [16 <./assets/ui_incidents.jpeg> <./assets/ui_incident_assignment.jpeg>]
+<assets/ui_shield.jpeg, id=380, 722.7pt x 1606.0pt>
+File: assets/ui_shield.jpeg Graphic file (type jpg)
+<use assets/ui_shield.jpeg>
+Package pdftex.def Info: assets/ui_shield.jpeg  used on input line 213.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+<assets/ui_shield_requests.jpeg, id=381, 722.7pt x 1606.0pt>
+File: assets/ui_shield_requests.jpeg Graphic file (type jpg)
+<use assets/ui_shield_requests.jpeg>
+Package pdftex.def Info: assets/ui_shield_requests.jpeg  used on input line 215
+.
+(pdftex.def)             Requested size: 181.18439pt x 402.62628pt.
+) (chapters/03_monitoring.tex
+[17 <./assets/ui_assistant.jpeg>] [18 <./assets/ui_shield.jpeg> <./assets/ui_sh
+ield_requests.jpeg>]
 Chapter 3.
-[8
 
-]) (chapters/04_implementation.tex [9]
+Overfull \hbox (98.75401pt too wide) in paragraph at lines 9--10
+[]\OT1/ntxtlf/b/n/12 CPU Met-rics: \OT1/minntx/m/n/12 Ag-gre-gate and per-core 
+user, sys-tem, idle, and I/O-wait per-cent-ages (\OT1/ntxtt/m/n/12 node[]cpu[]s
+econds[]total\OT1/minntx/m/n/12 ). 
+ []
+
+
+Overfull \hbox (83.65936pt too wide) in paragraph at lines 10--11
+[]\OT1/ntxtlf/b/n/12 Memory Met-rics: \OT1/minntx/m/n/12 To-tal, avail-able, ca
+ched, buffered, and swap mem-ory al-lo-ca-tions (\OT1/ntxtt/m/n/12 node[]memory
+[]*[]bytes\OT1/minntx/m/n/12 ). 
+ []
+
+
+Overfull \hbox (12.85783pt too wide) in paragraph at lines 16--18
+\OT1/minntx/m/n/12 sages and trans-mit-ted over HTTPS to the Django in-ges-tion
+ gate-way at \OT1/ntxtt/m/n/12 /api/monitoring/write/\OT1/minntx/m/n/12 .
+ []
+
+[19
+
+]
+LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
+(Font)              scaled to size 12.0pt on input line 37.
+LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
+(Font)              scaled to size 8.8pt on input line 37.
+LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
+(Font)              scaled to size 6.6pt on input line 37.
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
+(Font)              scaled to size 8.8pt on input line 56.
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
+(Font)              scaled to size 6.6pt on input line 56.
+ [20] [21]
+Overfull \hbox (67.97495pt too wide) in paragraph at lines 102--103
+[]\OT1/minntx/m/n/12 The Flut-ter client re-quests a one-time Web-Socket ticket
+ via REST: \OT1/ntxtt/m/n/12 POST /api/assistant/ws-ticket/\OT1/minntx/m/n/12 .
+ 
+ []
+
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/it' will be
+(Font)              scaled to size 10.95pt on input line 118.
+[22]
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
+(Font)              scaled to size 8.0pt on input line 139.
+
+Overfull \hbox (25.20721pt too wide) in paragraph at lines 149--150
+[]\OT1/minntx/b/n/12 Acknowledgement: \OT1/minntx/m/n/12 An en-gi-neer ac-knowl
+-edges the alert, tran-si-tion-ing its state to \OT1/ntxtt/m/n/12 ACKNOWLEDGED
+ []
+
+) (chapters/04_implementation.tex [23]
 Chapter 4.
+LaTeX Font Info:    Font shape `OT1/ntxtt/b/n' will be
+(Font)              scaled to size 12.0pt on input line 7.
+[24
+
+]
 LaTeX Font Info:    Trying to load font information for OMS+ntxtt on input line
- 21.
-LaTeX Font Info:    No file OMSntxtt.fd. on input line 21.
+ 35.
+LaTeX Font Info:    No file OMSntxtt.fd. on input line 35.
+
 
 LaTeX Font Warning: Font shape `OMS/ntxtt/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 21.
+(Font)              for symbol `textbraceleft' on input line 35.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--41
-[]|\OT1/ntxtt/m/n/10.95 /api/auth/register/\OT1/minntx/m/n/10.95 ,
+Overfull \hbox (180.10294pt too wide) in paragraph at lines 35--36
+\OT1/minntx/m/n/12 All user-facing op-er-a-tional end-points are strictly scope
+d un-der the or-ga-ni-za-tion pre-fix \OT1/ntxtt/m/n/12 /api/organizations/\OMS
+/ntxtt/m/n/12 f\OT1/ntxtt/m/n/12 organization[]id\OMS/ntxtt/m/n/12 g\OT1/ntxtt/
+m/n/12 /\OT1/minntx/m/n/12 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--41
-[]|$\OT1/ntxtt/m/n/10.95 /api / organizations / {id} / servers /
+Overfull \hbox (1.34294pt too wide) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Authentication| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--41
-[]|$\OT1/ntxtt/m/n/10.95 /api / organizations / {id} / incidents /
+Underfull \hbox (badness 3039) in paragraph at lines 69--69
+\OT1/minntx/m/n/10.95 turns JWT ac-cess/refresh
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--41
-[]|\OT1/ntxtt/m/n/10.95 /api/monitoring/ \OT1/minntx/m/n/10.95 and
+Overfull \hbox (20.3433pt too wide) in paragraph at lines 69--69
+[]|\OT1/ntxtt/m/n/10.95 /api/organizations/\OMS/ntxtt/m/n/10.95 f\OT1/ntxtt/m/n
+/10.95 id\OMS/ntxtt/m/n/10.95 g\OT1/ntxtt/m/n/10.95 /members/| 
  []
 
 
-Overfull \hbox (15.97903pt too wide) in paragraph at lines 43--51
-\OT1/ntxtt/m/n/12 urls . py$\OT1/minntx/m/n/12 , $\OT1/ntxtt/m/n/12 backend / a
-lert / urls . py$\OT1/minntx/m/n/12 , $\OT1/ntxtt/m/n/12 backend / incident / u
-rls . py$\OT1/minntx/m/n/12 , and $\OT1/ntxtt/m/n/12 backend / ml _ model /
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Owner/Admin ap-proves
  []
 
-[10
 
-]) (chapters/05_conclusion.tex
-Overfull \hbox (28.57901pt too wide) in paragraph at lines 64--1
-\OT1/ntxtt/m/n/12 --dry-run\OT1/minntx/m/n/12 , \OT1/ntxtt/m/n/12 python manage
-.py test --noinput\OT1/minntx/m/n/12 , \OT1/ntxtt/m/n/12 ruff check .\OT1/minnt
-x/m/n/12 , and \OT1/ntxtt/m/n/12 ruff format --check
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Servers &
  []
 
-[11]
+
+Underfull \hbox (badness 4024) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Download dy-namic shell
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Ingest au-then-ti-cated
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+\OT1/minntx/m/n/10.95 Prometheus remote-write
+ []
+
+
+Underfull \hbox (badness 1365) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 List in-ci-dents or es-ca-late
+ []
+
+
+Underfull \hbox (badness 1521) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Assign in-ci-dent in-ves-ti-ga-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 List de-tected sta-tis-ti-cal
+ []
+
+
+Underfull \hbox (badness 2698) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Request one-time cryp-to-
+ []
+
+
+Underfull \hbox (badness 4391) in paragraph at lines 69--69
+\OT1/minntx/m/n/10.95 graphic ticket for Web-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Full-duplex Web-Socket
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|$\OT1/ntxtt/m/n/10.95 . . . / request-[]shield /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+[]|\OT1/minntx/m/n/10.95 Retrieve
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
+\OT1/minntx/m/n/10.95 GREEN/GRAY/RED
+ []
+
+[25]
+Overfull \vbox (62.52254pt too high) has occurred while \output is active []
+
+
+[26]
+Overfull \hbox (69.53403pt too wide) in paragraph at lines 87--88
+[]\OT1/minntx/b/n/12 Tenant Data Iso-la-tion Mid-dle-ware: \OT1/minntx/m/n/12 C
+us-tom Django DRF per-mis-sion classes (\OT1/ntxtt/m/n/12 IsOrganizationMember\
+OT1/minntx/m/n/12 )
+ []
+
+[27]
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 108.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 113.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 113.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 113.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 113.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 113.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 116.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 116.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 119.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 123.
+LaTeX Info: Symbol \textminus not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 123.
+) (chapters/05_conclusion.tex [28]
 Chapter 5.
+[29
 
-Overfull \hbox (0.30746pt too wide) in paragraph at lines 3--10
-\OT1/minntx/m/n/12 Infra Mon-i-tor com-bines organization-scoped in-fras-truc-t
-ure man-age-ment with Linux host teleme-
- []
-
-) [12
-
-]
-LaTeX Font Info:    Font shape `OT1/ntxtlf/m/it' will be
-(Font)              scaled to size 12.0pt on input line 123.
- [13
+]) [30] [31
 
 ] (main.aux)
  ***********
@@ -1279,25 +1551,34 @@ L3 programming layer <2020/03/25>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 316D4D76E7EDCB7655A15F7D85CDF146;3788.
+(rerunfilecheck)             Checksum: 987351CD51E7C804C24D689A44C4C3D3;9016.
  ) 
 Here is how much of TeX's memory you used:
- 27786 strings out of 467871
- 502233 string characters out of 5418376
- 892698 words of memory out of 5000000
- 56111 multiletter control sequences out of 15000+600000
- 671407 words of font info for 123 fonts, out of 8000000 for 9000
+ 30032 strings out of 467871
+ 548018 string characters out of 5418376
+ 1103833 words of memory out of 5000000
+ 58216 multiletter control sequences out of 15000+600000
+ 683659 words of font info for 152 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,94p,408b,722s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/txf
-onts/txtt.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-newtx/ztmb.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/newtx/ztmr.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/newtx/ztmri.pfb>
-Output written on main.pdf (16 pages, 495352 bytes).
+ 84i,13n,102p,939b,1261s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\ahmed\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1200.pk><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/
+NewTXMI.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/ne
+wtx/NewTXMI7.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/tex-gyre/qtmr.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/txfonts/txbtt.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/newtx/txexs.pfb><C:/Users/ahmed/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/newtx/txmiaX.pfb><C:/Users/ahmed/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/newtx/txsym.pfb><C:/Users/ahmed/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/newtx/txsys.pfb><C:/Users/ahmed/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/txfonts/txtt.pfb><C:/Users/ahmed/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/newtx/ztmb.pfb><C:/Users/ahmed/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/newtx/ztmr.pfb><C:/Users/ahmed/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/newtx/ztmri.pfb>
+Output written on main.pdf (35 pages, 1687478 bytes).
 PDF statistics:
- 268 PDF objects out of 1000 (max. 8388607)
- 59 named destinations out of 1000 (max. 500000)
- 230 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 611 PDF objects out of 1000 (max. 8388607)
+ 164 named destinations out of 1000 (max. 500000)
+ 452 words of extra memory for PDF output out of 10000 (max. 10000000)
 

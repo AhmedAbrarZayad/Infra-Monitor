@@ -1,107 +1,131 @@
 \contentsline {chapter}{Authors}{ii}{chapter*.1}%
 \contentsline {chapter}{Executive Summary}{iii}{chapter*.2}%
 \contentsline {chapter}{Acknowledgement}{iv}{chapter*.3}%
-\contentsline {chapter}{List of Figures}{xi}{chapter*.5}%
-\contentsline {chapter}{List of Tables}{xiii}{chapter*.6}%
+\contentsline {chapter}{List of Figures}{x}{chapter*.5}%
+\contentsline {chapter}{List of Tables}{xii}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Goals and Objectives of the Project}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Scope of the Work}{2}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Current Situation and Context}{2}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Competing Products (Available in Market)}{3}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.2}Scope of the Work}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Current Situation and Context}{1}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Competing Products (Available in Market)}{2}{subsection.1.2.2}%
 \contentsline {section}{\numberline {1.3}System Overview}{3}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Structure of the Document}{5}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Terms, Acronyms, and Abbreviations Used}{6}{section.1.5}%
-\contentsline {chapter}{\numberline {2}Project Management Plan}{7}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Project Organisation}{7}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Individual Contribution to the Project}{8}{subsection.2.1.1}%
-\contentsline {section}{\numberline {2.2}Process Model Used}{8}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Rationale for Choosing Lifecycle Model}{8}{subsection.2.2.1}%
-\contentsline {section}{\numberline {2.3}Risk Analysis}{9}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Constraints to Project Implementation}{10}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Tools/Languages Requirements}{10}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Hardware Requirements}{10}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Software Requirements}{11}{subsection.2.5.2}%
-\contentsline {section}{\numberline {2.6}Project Timeline and Schedule}{12}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Estimated Budget}{13}{section.2.7}%
-\contentsline {section}{\numberline {2.8}Technological, Societal, \& Environmental Impact of the Project}{13}{section.2.8}%
-\contentsline {chapter}{\numberline {3}Requirement Specifications}{15}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Stakeholders for the System}{15}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Use Case Diagram with Graphical and Textual Description}{15}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Activity Diagram}{23}{section.3.3}%
+\contentsline {section}{\numberline {1.4}Structure of the Document}{3}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Terms, Acronyms, and Abbreviations Used}{4}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Project Management Plan}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Project Organisation}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Individual Contribution to the Project}{5}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Process Model Used}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Rationale for Choosing Lifecycle Model}{6}{subsection.2.2.1}%
+\contentsline {section}{\numberline {2.3}Risk Analysis}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Constraints to Project Implementation}{8}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Tools/Languages Requirements}{8}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Software Requirements}{8}{subsection.2.5.1}%
+\contentsline {section}{\numberline {2.6}Project Timeline and Schedule}{10}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Estimated Budget}{10}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Technological, Societal, \& Environmental Impact of the Project}{11}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Requirement Specifications}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Stakeholders for the System}{13}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Use Case Diagram with Graphical and Textual Description}{13}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Use Case Diagrams}{13}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Textual Use Case Descriptions}{18}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Activity Diagram}{22}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Account Authentication Workflow}{22}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Server Setup and Telemetry Collection Workflow}{23}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Incident and Anomaly Assignment Workflow}{24}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}AI Chatbot Diagnostic Workflow}{25}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Request Shield Traffic Classification Workflow}{26}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.6}Organization Creation and Governance Workflow}{27}{subsection.3.3.6}%
+\contentsline {subsection}{\numberline {3.3.7}Organization Membership and Joining Workflow}{28}{subsection.3.3.7}%
 \contentsline {section}{\numberline {3.4}Static Model -- Class Diagram}{29}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Dynamic Model -- Sequence Diagram}{30}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Safety and Security Requirements}{34}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Access Requirements}{34}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Integrity Requirements}{35}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Privacy Requirements}{36}{subsection.3.6.3}%
-\contentsline {section}{\numberline {3.7}AI-integration Requirements}{36}{section.3.7}%
-\contentsline {chapter}{\numberline {4}Architecture}{37}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Architectural Model/Style Used}{37}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Rationale for Choosing the Architectural Model/Style}{37}{subsection.4.1.1}%
-\contentsline {section}{\numberline {4.2}Architectural Design (High-Level Design)}{38}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Technology, Software, and Hardware Used}{39}{section.4.3}%
-\contentsline {section}{\numberline {4.4}AI-integration Architecture}{40}{section.4.4}%
-\contentsline {section}{\numberline {4.5}CI/CD Pipeline}{42}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Git Management (Version Controlling)}{42}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Design}{44}{chapter.5}%
-\contentsline {section}{\numberline {5.1}High-Level Design (HLD) -- Component Level Design}{44}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Low-Level Design (LLD)}{45}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Anomaly Detection Pipeline Algorithm}{45}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Request Shield Classification Algorithm}{46}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Feature Extraction for Request Shield (26 Features)}{46}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Database Schema (ER Diagram \& Schema)}{47}{section.5.3}%
-\contentsline {section}{\numberline {5.4}GUI (Graphical User Interface) Design}{50}{section.5.4}%
-\contentsline {section}{\numberline {5.5}API Documentation}{55}{section.5.5}%
-\contentsline {section}{\numberline {5.6}AI Model Design \& Integration}{61}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Isolation Forest Anomaly Model}{61}{subsection.5.6.1}%
+\contentsline {section}{\numberline {3.5}Dynamic Model -- Sequence Diagram}{31}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Account Registration and Email Verification}{31}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}User Login and JWT Issuance}{32}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Organisation Creation}{33}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Organisation Joining and Acceptance}{34}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Server Setup and Metric Collection}{34}{subsection.3.5.5}%
+\contentsline {subsection}{\numberline {3.5.6}Incident and Anomaly Assignment}{35}{subsection.3.5.6}%
+\contentsline {subsection}{\numberline {3.5.7}AI Chatbot Conversation}{36}{subsection.3.5.7}%
+\contentsline {subsection}{\numberline {3.5.8}Request Shield Classification and Threat Suggestion}{36}{subsection.3.5.8}%
+\contentsline {section}{\numberline {3.6}Safety and Security Requirements}{37}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Access Requirements}{37}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Integrity Requirements}{38}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Privacy Requirements}{38}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}AI-integration Requirements}{39}{section.3.7}%
+\contentsline {chapter}{\numberline {4}Architecture}{40}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Architectural Model/Style Used}{40}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Rationale for Choosing the Architectural Model/Style}{40}{subsection.4.1.1}%
+\contentsline {section}{\numberline {4.2}Architectural Design (High-Level Design)}{41}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Technology, Software, and Hardware Used}{42}{section.4.3}%
+\contentsline {section}{\numberline {4.4}AI-integration Architecture}{43}{section.4.4}%
+\contentsline {section}{\numberline {4.5}CI/CD Pipeline}{45}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Git Management (Version Controlling)}{45}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Design}{46}{chapter.5}%
+\contentsline {section}{\numberline {5.1}High-Level Design (HLD) -- Component Level Design}{46}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Low-Level Design (LLD)}{47}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Anomaly Detection Pipeline Algorithm}{47}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Request Shield Classification Algorithm}{48}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Feature Extraction for Request Shield}{48}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Database Schema (ER Diagram \& Schema)}{49}{section.5.3}%
+\contentsline {section}{\numberline {5.4}GUI (Graphical User Interface) Design}{52}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Overview Dashboard}{52}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Server Fleet and Server Detail}{53}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Metric History, Discovered Services, and Anomaly History}{54}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Request Shield and AI Advisory Chatbot}{55}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}API Documentation}{56}{section.5.5}%
+\contentsline {section}{\numberline {5.6}AI Model Design \& Integration}{60}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Isolation Forest Anomaly Model}{60}{subsection.5.6.1}%
 \contentsline {subsection}{\numberline {5.6.2}Random Forest Request Shield Model}{61}{subsection.5.6.2}%
 \contentsline {subsection}{\numberline {5.6.3}Gemini LLM Advisory Chatbot}{61}{subsection.5.6.3}%
-\contentsline {section}{\numberline {5.7}Test Plan}{62}{section.5.7}%
-\contentsline {subsection}{\numberline {5.7.1}Test Strategy and Approaches}{62}{subsection.5.7.1}%
-\contentsline {subsection}{\numberline {5.7.2}Test Case Design / Preparation (Sample)}{63}{subsection.5.7.2}%
-\contentsline {chapter}{\numberline {6}Implementation / Construction}{64}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Development Environment and Tools}{64}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Key Implementation Details / Modules Developed}{64}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Authentication Module (\texttt {accounts/})}{64}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Organisation Membership with RBAC (\texttt {accounts/models/organisation\_membership.py})}{65}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}AI Chatbot WebSocket (\texttt {ai/services.py, ai/consumers.py})}{65}{subsection.6.2.3}%
-\contentsline {subsection}{\numberline {6.2.4}Gemini Streaming Response (\texttt {ai/services.py})}{66}{subsection.6.2.4}%
-\contentsline {subsection}{\numberline {6.2.5}Request Shield Feature Extraction (\texttt {sanitize/features.py})}{67}{subsection.6.2.5}%
-\contentsline {subsection}{\numberline {6.2.6}Random Forest Classifier Training (\texttt {model/app/pipeline/request\_classifier.py})}{67}{subsection.6.2.6}%
-\contentsline {section}{\numberline {6.3}AI-integration Implementation}{68}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Anomaly Detection Callback}{68}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Celery Task Scheduling (Request Shield)}{68}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}Prompt Injection Prevention}{68}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Code Structure and Standards Followed}{68}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Testing and Quality Assurance}{71}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Requirements/Specifications-Based System Level Test}{72}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Requirement List}{72}{subsection.7.1.1}%
-\contentsline {section}{\numberline {7.2}Traceability of Test Cases to Use Cases}{78}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Techniques Used for Test Generation}{78}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Unit Testing, Integration Testing}{79}{section.7.4}%
-\contentsline {section}{\numberline {7.5}System Testing (UAT, PT, VT)}{80}{section.7.5}%
-\contentsline {subsection}{\numberline {7.5.1}User Acceptance Testing (UAT)}{80}{subsection.7.5.1}%
-\contentsline {subsection}{\numberline {7.5.2}Performance Testing}{80}{subsection.7.5.2}%
-\contentsline {subsection}{\numberline {7.5.3}Volume Testing}{80}{subsection.7.5.3}%
-\contentsline {section}{\numberline {7.6}Security Testing (VAPT)}{81}{section.7.6}%
-\contentsline {section}{\numberline {7.7}AI-specific Testing}{82}{section.7.7}%
-\contentsline {subsection}{\numberline {7.7.1}Isolation Forest Anomaly Model}{82}{subsection.7.7.1}%
-\contentsline {subsection}{\numberline {7.7.2}Request Shield Classifier}{82}{subsection.7.7.2}%
-\contentsline {subsection}{\numberline {7.7.3}Gemini Chatbot Safety Tests}{82}{subsection.7.7.3}%
-\contentsline {section}{\numberline {7.8}Assessment of the Goodness of the Test Suite}{82}{section.7.8}%
-\contentsline {chapter}{\numberline {8}Deployment and Go-Live}{84}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Deployment Environment}{84}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Deployment Process and CI/CD Implementation}{85}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Go-Live Strategy and Post-Deployment Monitoring}{86}{section.8.3}%
-\contentsline {chapter}{\numberline {9}Sustainability Plan \& Ethical Considerations}{88}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Scalability}{88}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Flexibility / Customization}{89}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Maintainability and Future Enhancements}{89}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Ethical Considerations}{90}{section.9.4}%
-\contentsline {chapter}{References}{92}{chapter*.75}%
-\contentsline {chapter}{\numberline {A}Full Source Code Snapshots \& Repository Link}{93}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Complete Test Cases (Detailed Tables)}{95}{appendix.B}%
-\contentsline {chapter}{\numberline {C}UI Screenshots}{98}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Meeting Minutes / Progress Logs}{108}{appendix.D}%
-\contentsline {chapter}{\numberline {E}Deployment \& Component Diagrams}{110}{appendix.E}%
-\contentsline {chapter}{\numberline {F}AI Model Documentation / Training Details}{116}{appendix.F}%
+\contentsline {section}{\numberline {5.7}Test Plan}{61}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Test Strategy and Approaches}{61}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Test Case Design / Preparation (Sample)}{62}{subsection.5.7.2}%
+\contentsline {chapter}{\numberline {6}Implementation / Construction}{63}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Development Environment and Tools}{63}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Key Implementation Details / Modules Developed}{63}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Authentication Module}{63}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Organisation Membership with RBAC}{64}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}AI Chatbot WebSocket}{64}{subsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.2.4}Gemini Streaming Response}{65}{subsection.6.2.4}%
+\contentsline {subsection}{\numberline {6.2.5}Request Shield Feature Extraction}{66}{subsection.6.2.5}%
+\contentsline {subsection}{\numberline {6.2.6}Random Forest Classifier Training}{66}{subsection.6.2.6}%
+\contentsline {section}{\numberline {6.3}AI-integration Implementation}{67}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Anomaly Detection Callback}{67}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Celery Task Scheduling (Request Shield)}{67}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Prompt Injection Prevention}{67}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Code Structure and Standards Followed}{67}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Testing and Quality Assurance}{69}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Requirements/Specifications-Based System Level Test}{69}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Requirement List}{69}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Test Cases by Module}{70}{subsection.7.1.2}%
+\contentsline {section}{\numberline {7.2}Traceability of Test Cases to Use Cases}{73}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Techniques Used for Test Generation}{74}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Unit Testing, Integration Testing}{75}{section.7.4}%
+\contentsline {section}{\numberline {7.5}System Testing (UAT, PT, VT)}{75}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}User Acceptance Testing (UAT)}{75}{subsection.7.5.1}%
+\contentsline {section}{\numberline {7.6}Security Testing (VAPT)}{76}{section.7.6}%
+\contentsline {section}{\numberline {7.7}AI-specific Testing}{77}{section.7.7}%
+\contentsline {subsection}{\numberline {7.7.1}Isolation Forest Anomaly Model \cite {liu2008isolation}}{77}{subsection.7.7.1}%
+\contentsline {subsection}{\numberline {7.7.2}Request Shield Classifier \cite {breiman2001random,cicids2017}}{78}{subsection.7.7.2}%
+\contentsline {subsection}{\numberline {7.7.3}Gemini Chatbot Safety Tests}{78}{subsection.7.7.3}%
+\contentsline {section}{\numberline {7.8}Assessment of the Goodness of the Test Suite}{78}{section.7.8}%
+\contentsline {chapter}{\numberline {8}Deployment and Go-Live}{80}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Deployment Environment}{80}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Deployment Process and CI/CD Implementation}{81}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Go-Live Strategy and Post-Deployment Monitoring}{82}{section.8.3}%
+\contentsline {chapter}{\numberline {9}Sustainability Plan \& Ethical Considerations}{84}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Scalability}{84}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Flexibility / Customization}{85}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Maintainability and Future Enhancements}{85}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Ethical Considerations}{86}{section.9.4}%
+\contentsline {chapter}{References}{88}{chapter*.61}%
+\contentsline {chapter}{\numberline {A}Complete Test Cases (Detailed Tables)}{89}{appendix.A}%
+\contentsline {chapter}{\numberline {B}UI Screenshots}{92}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Meeting Minutes / Progress Logs}{96}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Deployment \& Component Diagrams}{97}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Deployment Diagram}{97}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Flow Diagrams (DFD)}{97}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Detailed Process DFDs}{101}{section.D.3}%
+\contentsline {chapter}{\numberline {E}AI Model Documentation / Training Details}{104}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Isolation Forest Anomaly Detector -- Model Card}{104}{section.E.1}%
+\contentsline {section}{\numberline {E.2}Random Forest Request Shield -- Model Card}{105}{section.E.2}%
+\contentsline {section}{\numberline {E.3}Gemini LLM Advisory Chatbot -- Model Card}{106}{section.E.3}%

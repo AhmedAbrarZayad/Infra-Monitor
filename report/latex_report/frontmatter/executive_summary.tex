@@ -8,7 +8,7 @@ from noise---all without adequate tooling beyond expensive enterprise platforms.
 Existing solutions such as Datadog, New Relic, and Zabbix are cost-prohibitive
 for small-to-medium teams and lack integrated AI-assisted diagnostics.
 
-\textbf{Infra Monitor} is an open-source, full-stack infrastructure monitoring
+\textbf{Infra Monitor} is a self-hosted, full-stack infrastructure monitoring
 platform built with Django (backend), Flutter (mobile/web frontend), and a
 dedicated FastAPI microservice for machine-learning inference.  The system
 enables engineering teams to enrol Linux servers through a one-command agent
@@ -32,13 +32,11 @@ the Google Gemini API (LLM).
 Testing comprised unit tests (Django test runner), system-level functional test
 cases mapped to all eight major use cases, a VAPT security assessment against
 OWASP Top~10, and AI-specific evaluation of the Isolation Forest and Random
-Forest classifiers.  The platform was deployed locally via Docker Compose, with
-a path to cloud deployment documented in Chapter~8.
+Forest classifiers.  The backend was deployed to Render, while the remaining services were exercised
+locally during development and testing.
 
-Key results: the Request Shield classifier achieved a macro-F1 of approximately
-0.91 on the CICIDS2017 validation split;
-the anomaly pipeline processed telemetry windows in under 500\,ms end-to-end;
-and all 36 functional test cases passed on the deployed stack.  Future work
+The implemented workflows were validated through functional and system-level
+testing without claiming unmeasured performance targets. Future work
 includes Kubernetes orchestration, horizontal Alloy agent federation, and
 fine-tuning the Gemini prompt with organisation-specific runbooks.
 
