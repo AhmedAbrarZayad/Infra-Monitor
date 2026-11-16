@@ -170,7 +170,7 @@ pattern exists for XSS (\texttt{\_XSS\_PATTERNS}) and command injection.
   label={lst:rf}]
 def train_request_classifier(X, y, *, n_estimators=200,
                               max_depth=20, class_weight="balanced"):
-    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.ensemble import RandomForestClassifier \cite{breiman2001random}
     from sklearn.model_selection import cross_val_score
     X_arr = np.nan_to_num(np.array(X, dtype=np.float64))
     y_arr = np.array(y, dtype=np.int32)

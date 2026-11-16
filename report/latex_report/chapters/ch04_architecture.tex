@@ -101,7 +101,7 @@ Frontend & Flutter (Dart) &
   Single codebase for Android, iOS, and web; strong widget ecosystem;
   WebSocket support via \texttt{web\_socket\_channel} &
   React Native (JS bridge overhead); plain React (no native mobile)\\
-Backend API & Django 6 + DRF &
+Backend API & Django 6 + DRF \cite{django2024} &
   Batteries-included ORM, admin, auth; DRF serialisers; async support
   via Daphne; large CUET team familiarity &
   FastAPI (less built-in; weaker admin/migrations); Node.js (unfamiliar)\\
@@ -117,24 +117,24 @@ RDBMS & PostgreSQL 18 &
   ACID guarantees; UUID primary key support; partial indexes; Django
   ORM first-class support &
   MySQL (weaker JSON support); SQLite (not suitable for concurrent writes)\\
-Time-series DB & VictoriaMetrics cluster &
+Time-series DB & VictoriaMetrics cluster \cite{victoriametrics2024} &
   Prometheus remote-write compatible; horizontal cluster with tenant
   isolation via account/project IDs; lower memory than InfluxDB &
   InfluxDB (commercial licensing for cluster); Prometheus (no long-term storage)\\
-ML (anomaly) & scikit-learn IsolationForest &
+ML (anomaly) & scikit-learn IsolationForest \cite{liu2008isolation} &
   Unsupervised; no labeled anomaly data required; fast CPU inference;
   well-documented &
   LSTM autoencoder (requires GPU, more data); LOF (not scalable)\\
-ML (classifier) & scikit-learn RandomForestClassifier &
+ML (classifier) & scikit-learn RandomForestClassifier \cite{breiman2001random} &
   Robust to class imbalance with \texttt{balanced} weights; interpretable
   feature importances; fast prediction &
   XGBoost (mentioned as option but not in final artifact);
   SVM (slow on 26 features with large batches)\\
-LLM & Google Gemini (google-genai) &
+LLM & Google Gemini \cite{gemini_api} &
   Free tier; streaming API; \texttt{system\_instruction} parameter enables
   safe advisory persona &
   OpenAI GPT-4 (paid; no system instruction streaming in Responses API at time of dev)\\
-Observability agent & Grafana Alloy &
+Observability agent & Grafana Alloy \cite{grafana_alloy} &
   Successor to Grafana Agent; Prometheus remote-write; service discovery;
   scripting via River config &
   Prometheus node\_exporter (no service-level scraping)\\
@@ -273,7 +273,7 @@ ruff format --check .
 \end{enumerate}
 
 This pipeline is documented and will be implemented in the next project phase
-\assumed{post-semester}.
+in future iterations.
 
 \section{Git Management (Version Controlling)}
 

@@ -56,7 +56,7 @@ showing the internal modules, their interfaces, and external dependencies.
 \subsection{Anomaly Detection Pipeline Algorithm}
 
 \begin{algorithm}[H]
-\caption{Isolation Forest anomaly detection pipeline}\label{alg:anomaly}
+\caption{Isolation Forest anomaly detection pipeline \cite{liu2008isolation}}\label{alg:anomaly}
 \begin{algorithmic}[1]
 \Require Service $s$, metric window $[t_{\text{start}}, t_{\text{end}}]$, trained model $M$
 \Ensure Anomaly record persisted or no-op
@@ -77,7 +77,7 @@ showing the internal modules, their interfaces, and external dependencies.
 \subsection{Request Shield Classification Algorithm}
 
 \begin{algorithm}[H]
-\caption{Request Shield batch classification pipeline}\label{alg:shield}
+\caption{Request Shield batch classification pipeline \cite{breiman2001random,cicids2017}}\label{alg:shield}
 \begin{algorithmic}[1]
 \Require Batch $B$ of unclassified \texttt{RequestLog} records (max 500)
 \Ensure Each log classified; threat suggestions generated for threshold-breaching IPs

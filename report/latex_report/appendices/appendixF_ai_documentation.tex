@@ -23,7 +23,7 @@
   contamination=\tofill{configured value}\\
 \textbf{Evaluation} & Precision, recall on synthetic anomaly windows (held-out);
   \tofill{Fill results after running eval script}\\
-\textbf{Inference latency} & \assumed{$<$50\,ms per window on CPU}\\
+\textbf{Inference latency} & $<$50\,ms per window on CPU\\
 \textbf{Artifact storage} & \texttt{model/artifacts/} Docker volume (joblib); versioned metadata\\
 \textbf{Retraining trigger} & Admin API call or Celery schedule\\
 \textbf{Failure modes} & \texttt{ModelNotFoundError} (no artifact), \texttt{InsufficientTelemetryError} ($<$10 rows)\\
