@@ -93,39 +93,39 @@
 \contentsline {subsection}{\numberline {6.3.2}Celery Task Scheduling (Request Shield)}{67}{subsection.6.3.2}%
 \contentsline {subsection}{\numberline {6.3.3}Prompt Injection Prevention}{67}{subsection.6.3.3}%
 \contentsline {section}{\numberline {6.4}Code Structure and Standards Followed}{67}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Testing and Quality Assurance}{69}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Requirements/Specifications-Based System Level Test}{69}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Requirement List}{69}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}Test Cases by Module}{70}{subsection.7.1.2}%
-\contentsline {section}{\numberline {7.2}Traceability of Test Cases to Use Cases}{73}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Techniques Used for Test Generation}{74}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Unit Testing, Integration Testing}{75}{section.7.4}%
-\contentsline {section}{\numberline {7.5}System Testing (UAT, PT, VT)}{75}{section.7.5}%
-\contentsline {subsection}{\numberline {7.5.1}User Acceptance Testing (UAT)}{75}{subsection.7.5.1}%
-\contentsline {section}{\numberline {7.6}Security Testing (VAPT)}{76}{section.7.6}%
-\contentsline {section}{\numberline {7.7}AI-specific Testing}{77}{section.7.7}%
-\contentsline {subsection}{\numberline {7.7.1}Isolation Forest Anomaly Model \cite {liu2008isolation}}{77}{subsection.7.7.1}%
-\contentsline {subsection}{\numberline {7.7.2}Request Shield Classifier \cite {breiman2001random,cicids2017}}{78}{subsection.7.7.2}%
-\contentsline {subsection}{\numberline {7.7.3}Gemini Chatbot Safety Tests}{78}{subsection.7.7.3}%
-\contentsline {section}{\numberline {7.8}Assessment of the Goodness of the Test Suite}{78}{section.7.8}%
-\contentsline {chapter}{\numberline {8}Deployment and Go-Live}{80}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Deployment Environment}{80}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Deployment Process and CI/CD Implementation}{81}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Go-Live Strategy and Post-Deployment Monitoring}{82}{section.8.3}%
-\contentsline {chapter}{\numberline {9}Sustainability Plan \& Ethical Considerations}{84}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Scalability}{84}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Flexibility / Customization}{85}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Maintainability and Future Enhancements}{85}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Ethical Considerations}{86}{section.9.4}%
-\contentsline {chapter}{References}{88}{chapter*.61}%
-\contentsline {chapter}{\numberline {A}Complete Test Cases (Detailed Tables)}{89}{appendix.A}%
-\contentsline {chapter}{\numberline {B}UI Screenshots}{92}{appendix.B}%
-\contentsline {chapter}{\numberline {C}Meeting Minutes / Progress Logs}{96}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Deployment \& Component Diagrams}{97}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Deployment Diagram}{97}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Data Flow Diagrams (DFD)}{97}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Detailed Process DFDs}{101}{section.D.3}%
-\contentsline {chapter}{\numberline {E}AI Model Documentation / Training Details}{104}{appendix.E}%
-\contentsline {section}{\numberline {E.1}Isolation Forest Anomaly Detector -- Model Card}{104}{section.E.1}%
-\contentsline {section}{\numberline {E.2}Random Forest Request Shield -- Model Card}{105}{section.E.2}%
-\contentsline {section}{\numberline {E.3}Gemini LLM Advisory Chatbot -- Model Card}{106}{section.E.3}%
+\contentsline {chapter}{\numberline {7}Testing and Quality Assurance}{68}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Requirements/Specifications-Based System Level Test}{68}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Requirement List}{68}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Test Cases by Module}{69}{subsection.7.1.2}%
+\contentsline {section}{\numberline {7.2}Traceability of Test Cases to Use Cases}{72}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Techniques Used for Test Generation}{73}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Unit Testing, Integration Testing}{74}{section.7.4}%
+\contentsline {section}{\numberline {7.5}System Testing (UAT, PT, VT)}{74}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}User Acceptance Testing (UAT)}{74}{subsection.7.5.1}%
+\contentsline {section}{\numberline {7.6}Security Testing (VAPT)}{75}{section.7.6}%
+\contentsline {section}{\numberline {7.7}AI-specific Testing}{76}{section.7.7}%
+\contentsline {subsection}{\numberline {7.7.1}Isolation Forest Anomaly Model \cite {liu2008isolation}}{76}{subsection.7.7.1}%
+\contentsline {subsection}{\numberline {7.7.2}Request Shield Classifier \cite {breiman2001random,cicids2017}}{77}{subsection.7.7.2}%
+\contentsline {subsection}{\numberline {7.7.3}Gemini Chatbot Safety Tests}{77}{subsection.7.7.3}%
+\contentsline {section}{\numberline {7.8}Assessment of the Goodness of the Test Suite}{77}{section.7.8}%
+\contentsline {chapter}{\numberline {8}Deployment and Go-Live}{79}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Deployment Environment}{79}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Deployment Process and CI/CD Implementation}{80}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Go-Live Strategy and Post-Deployment Monitoring}{81}{section.8.3}%
+\contentsline {chapter}{\numberline {9}Sustainability Plan \& Ethical Considerations}{83}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Scalability}{83}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Flexibility / Customization}{84}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Maintainability and Future Enhancements}{84}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Ethical Considerations}{85}{section.9.4}%
+\contentsline {chapter}{References}{87}{chapter*.61}%
+\contentsline {chapter}{\numberline {A}Complete Test Cases (Detailed Tables)}{88}{appendix.A}%
+\contentsline {chapter}{\numberline {B}UI Screenshots}{91}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Meeting Minutes / Progress Logs}{95}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Deployment \& Component Diagrams}{96}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Deployment Diagram}{96}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Flow Diagrams (DFD)}{96}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Detailed Process DFDs}{100}{section.D.3}%
+\contentsline {chapter}{\numberline {E}AI Model Documentation / Training Details}{103}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Isolation Forest Anomaly Detector -- Model Card}{103}{section.E.1}%
+\contentsline {section}{\numberline {E.2}Random Forest Request Shield -- Model Card}{104}{section.E.2}%
+\contentsline {section}{\numberline {E.3}Gemini LLM Advisory Chatbot -- Model Card}{105}{section.E.3}%

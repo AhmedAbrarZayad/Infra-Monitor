@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  16 NOV 2026 21:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  17 NOV 2026 09:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1959,9 +1959,9 @@ Underfull \hbox (badness 1033) in paragraph at lines 128--131
 as they ar-rive. The
  []
 
-[65] [66] [67]) (chapters/ch07_testing.tex [68]
+[65] [66]) (chapters/ch07_testing.tex [67]
 Chapter 7.
-ignored error: Infinite glue shrinkage found in box being split [69
+ignored error: Infinite glue shrinkage found in box being split [68
 
 ]
 Overfull \hbox (0.54977pt too wide) in paragraph at lines 64--65
@@ -2013,7 +2013,7 @@ Overfull \hbox (0.80392pt too wide) in paragraph at lines 116--116
 []|\T1/lmr/m/n/10 TC-AUTH-08|  
  []
 
-ignored error: Infinite glue shrinkage found in box being split [70]
+ignored error: Infinite glue shrinkage found in box being split [69]
 Overfull \hbox (0.54977pt too wide) in paragraph at lines 132--133
 []|\T1/lmr/bx/n/10 Status|  
  []
@@ -2033,7 +2033,7 @@ Overfull \hbox (0.54977pt too wide) in paragraph at lines 187--188
 []|\T1/lmr/bx/n/10 Status|  
  []
 
-[71]
+[70]
 Overfull \hbox (0.54977pt too wide) in paragraph at lines 207--208
 []|\T1/lmr/bx/n/10 Status|  
  []
@@ -2063,8 +2063,8 @@ Overfull \hbox (3.25696pt too wide) in paragraph at lines 250--250
 \T1/lmtt/m/n/10 /request-[]shield / 
  []
 
-[72] [73] [74] [75]
-ignored error: Infinite glue shrinkage found in box being split [76]
+[71] [72] [73] [74]
+ignored error: Infinite glue shrinkage found in box being split [75]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\@ifnextchar' on input line 430.
@@ -2073,12 +2073,12 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\@ifnextchar' on input line 454.
 
-[77]
+[76]
 Underfull \hbox (badness 10000) in paragraph at lines 474--474
 []|\T1/lmr/m/n/12 5-fold cross-validation on CI-
  []
 
-[78]) (chapters/ch08_deployment.tex [79]
+[77]) (chapters/ch08_deployment.tex [78]
 Chapter 8.
 
 Underfull \hbox (badness 10000) in paragraph at lines 33--33
@@ -2095,7 +2095,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--33
 []|\T1/lmr/m/n/12 Primary re-la-tional
  []
 
-[80
+[79
 
 ]
 Underfull \hbox (badness 1127) in paragraph at lines 43--48
@@ -2103,7 +2103,7 @@ Underfull \hbox (badness 1127) in paragraph at lines 43--48
  Docker health checks (Post-greSQL:
  []
 
-[81] [82]) (chapters/ch09_sustainability.tex [83]
+[80] [81]) (chapters/ch09_sustainability.tex [82]
 Chapter 9.
 
 Underfull \hbox (badness 2245) in paragraph at lines 38--38
@@ -2135,7 +2135,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--38
 []|\T1/lmr/m/n/12 Set \T1/lmtt/m/n/12 CELERY_RESULT_EXPIRES
  []
 
-[84
+[83
 
 ]
 Underfull \hbox (badness 2635) in paragraph at lines 66--70
@@ -2155,7 +2155,7 @@ Underfull \hbox (badness 1803) in paragraph at lines 86--88
 Django \T1/lmtt/m/n/12 makemigrations\T1/lmr/m/n/12 ;
  []
 
-[85] [86]) (main.bbl [87]) (appendices/appendixB_test_cases.tex [88
+[84] [85]) (main.bbl [86]) (appendices/appendixB_test_cases.tex [87
 
 ]
 Appendix A.
@@ -2209,11 +2209,11 @@ Overfull \hbox (0.80392pt too wide) in paragraph at lines 21--21
 []|\T1/lmr/m/n/10 TC-AUTH-08|  
  []
 
-ignored error: Infinite glue shrinkage found in box being split [89
+ignored error: Infinite glue shrinkage found in box being split [88
 
 ]
-ignored error: Infinite glue shrinkage found in box being split [90])
-(appendices/appendixC_screenshots.tex [91]
+ignored error: Infinite glue shrinkage found in box being split [89])
+(appendices/appendixC_screenshots.tex [90]
 Appendix B.
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19.jpeg Graphic file (type j
 pg)
@@ -2227,7 +2227,7 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.19__1_.jp
 eg  used on input line 14.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg, id=1713, 722.7pt x 1606.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg, id=1708, 722.7pt x 1606.
 0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg Graphic file (type j
 pg)
@@ -2247,7 +2247,7 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.20__2_.jp
 eg  used on input line 25.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg, id=1714, 722.7pt x 1606.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg, id=1709, 722.7pt x 1606.
 0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg Graphic file (type j
 pg)
@@ -2255,7 +2255,7 @@ pg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg  
 used on input line 26.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-[92
+[91
 
  <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.20.jpeg>]
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg Graphic file (ty
@@ -2270,7 +2270,7 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.23__2_.jp
 eg  used on input line 36.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg, id=1719, 722.7pt x 1606.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg, id=1715, 722.7pt x 1606.
 0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg Graphic file (type j
 pg)
@@ -2278,7 +2278,7 @@ pg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24.jpeg  
 used on input line 37.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg, id=1720, 722.7pt x 1
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg, id=1716, 722.7pt x 1
 606.0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg Graphic file (ty
 pe jpg)
@@ -2286,7 +2286,7 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__2_.jp
 eg  used on input line 47.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg, id=1721, 722.7pt x 1606.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg, id=1717, 722.7pt x 1606.
 0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25.jpeg Graphic file (type j
 pg)
@@ -2300,9 +2300,9 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.24__1_.jp
 eg  used on input line 49.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
- [93 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg> <./images/ss/What
+ [92 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.23.jpeg> <./images/ss/What
 sApp_Image_2026-11-06_at_17.27.24.jpeg>]
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg, id=1726, 722.7pt x 1
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg, id=1722, 722.7pt x 1
 606.0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg Graphic file (ty
 pe jpg)
@@ -2310,7 +2310,7 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jp
 eg  used on input line 59.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg, id=1727, 722.7pt x 1
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg, id=1723, 722.7pt x 1
 606.0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg Graphic file (ty
 pe jpg)
@@ -2318,7 +2318,7 @@ pe jpg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jp
 eg  used on input line 60.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-<images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg, id=1728, 722.7pt x 1606.
+<images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg, id=1724, 722.7pt x 1606.
 0pt>
 File: images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg Graphic file (type j
 pg)
@@ -2326,102 +2326,102 @@ pg)
 Package pdftex.def Info: images/ss/WhatsApp_Image_2026-11-06_at_17.27.27.jpeg  
 used on input line 61.
 (pdftex.def)             Requested size: 126.83044pt x 281.8384pt.
-) (appendices/appendixD_meeting_minutes.tex [94 <./images/ss/WhatsApp_Image_202
+) (appendices/appendixD_meeting_minutes.tex [93 <./images/ss/WhatsApp_Image_202
 6-11-06_at_17.27.24__2_.jpeg> <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.2
-5.jpeg>] [95 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg> <./im
+5.jpeg>] [94 <./images/ss/WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg> <./im
 ages/ss/WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg> <./images/ss/WhatsApp_I
 mage_2026-11-06_at_17.27.27.jpeg>]
 Appendix C.
-) (appendices/appendixE_additional_diagrams.tex [96
+) (appendices/appendixE_additional_diagrams.tex [95
 
 ]
 Appendix D.
-<images/diagrams/01_level1_context.pdf, id=1743, 999.735pt x 347.37779pt>
+<images/diagrams/01_level1_context.pdf, id=1739, 999.735pt x 347.37779pt>
 File: images/diagrams/01_level1_context.pdf Graphic file (type pdf)
 <use images/diagrams/01_level1_context.pdf>
 Package pdftex.def Info: images/diagrams/01_level1_context.pdf  used on input l
 ine 74.
 (pdftex.def)             Requested size: 416.72812pt x 144.80046pt.
-[97
+[96
 
 ]
-<images/diagrams/02_level2_services.pdf, id=1749, 761.96669pt x 1078.99106pt>
+<images/diagrams/02_level2_services.pdf, id=1744, 761.96669pt x 1078.99106pt>
 File: images/diagrams/02_level2_services.pdf Graphic file (type pdf)
 <use images/diagrams/02_level2_services.pdf>
 Package pdftex.def Info: images/diagrams/02_level2_services.pdf  used on input 
 line 80.
 (pdftex.def)             Requested size: 356.17111pt x 504.35991pt.
- [98 <./images/diagrams/01_level1_context.pdf>]
-<images/diagrams/03_level3_shield.pdf, id=1768, 649.46638pt x 1393.12462pt>
+ [97 <./images/diagrams/01_level1_context.pdf>]
+<images/diagrams/03_level3_shield.pdf, id=1764, 649.46638pt x 1393.12462pt>
 File: images/diagrams/03_level3_shield.pdf Graphic file (type pdf)
 <use images/diagrams/03_level3_shield.pdf>
 Package pdftex.def Info: images/diagrams/03_level3_shield.pdf  used on input li
 ne 86.
 (pdftex.def)             Requested size: 235.13567pt x 504.37297pt.
- [99 <./images/diagrams/02_level2_services.pdf>]
-<images/diagrams/04_account_organization.pdf, id=1787, 1337.95856pt x 337.26pt>
+ [98 <./images/diagrams/02_level2_services.pdf>]
+<images/diagrams/04_account_organization.pdf, id=1783, 1337.95856pt x 337.26pt>
 
 File: images/diagrams/04_account_organization.pdf Graphic file (type pdf)
 <use images/diagrams/04_account_organization.pdf>
 Package pdftex.def Info: images/diagrams/04_account_organization.pdf  used on i
 nput line 92.
 (pdftex.def)             Requested size: 416.72276pt x 105.04355pt.
-<images/diagrams/05_server_installer.pdf, id=1788, 1000.69856pt x 453.61469pt>
+<images/diagrams/05_server_installer.pdf, id=1784, 1000.69856pt x 453.61469pt>
 File: images/diagrams/05_server_installer.pdf Graphic file (type pdf)
 <use images/diagrams/05_server_installer.pdf>
 Package pdftex.def Info: images/diagrams/05_server_installer.pdf  used on input
  line 98.
 (pdftex.def)             Requested size: 416.73276pt x 188.90413pt.
- [100 <./images/diagrams/03_level3_shield.pdf> <./images/diagrams/04_account_or
-ganization.pdf>]
-<images/diagrams/06_server_ml_anomaly.pdf, id=1821, 1646.06963pt x 418.4433pt>
+ [99 <./images/diagrams/03_level3_shield.pdf> <./images/diagrams/04_account_org
+anization.pdf>]
+<images/diagrams/06_server_ml_anomaly.pdf, id=1817, 1646.06963pt x 418.4433pt>
 File: images/diagrams/06_server_ml_anomaly.pdf Graphic file (type pdf)
 <use images/diagrams/06_server_ml_anomaly.pdf>
 Package pdftex.def Info: images/diagrams/06_server_ml_anomaly.pdf  used on inpu
 t line 104.
 (pdftex.def)             Requested size: 416.7156pt x 105.93224pt.
-<images/diagrams/07_message_service.pdf, id=1822, 1093.2042pt x 407.60278pt>
+<images/diagrams/07_message_service.pdf, id=1818, 1093.2042pt x 407.60278pt>
 File: images/diagrams/07_message_service.pdf Graphic file (type pdf)
 <use images/diagrams/07_message_service.pdf>
 Package pdftex.def Info: images/diagrams/07_message_service.pdf  used on input 
 line 110.
 (pdftex.def)             Requested size: 416.72302pt x 155.37578pt.
- [101 <./images/diagrams/05_server_installer.pdf> <./images/diagrams/06_server_
+ [100 <./images/diagrams/05_server_installer.pdf> <./images/diagrams/06_server_
 ml_anomaly.pdf> <./images/diagrams/07_message_service.pdf>]
-<images/diagrams/08_deeper_accounts.pdf, id=1869, 1712.31712pt x 423.50218pt>
+<images/diagrams/08_deeper_accounts.pdf, id=1865, 1712.31712pt x 423.50218pt>
 File: images/diagrams/08_deeper_accounts.pdf Graphic file (type pdf)
 <use images/diagrams/08_deeper_accounts.pdf>
 Package pdftex.def Info: images/diagrams/08_deeper_accounts.pdf  used on input 
 line 125.
 (pdftex.def)             Requested size: 700.48691pt x 173.24928pt.
-<images/diagrams/09_deeper_anomalies.pdf, id=1870, 1619.08882pt x 405.43468pt>
+<images/diagrams/09_deeper_anomalies.pdf, id=1866, 1619.08882pt x 405.43468pt>
 File: images/diagrams/09_deeper_anomalies.pdf Graphic file (type pdf)
 <use images/diagrams/09_deeper_anomalies.pdf>
 Package pdftex.def Info: images/diagrams/09_deeper_anomalies.pdf  used on input
  line 129.
 (pdftex.def)             Requested size: 700.49335pt x 175.40994pt.
-<images/diagrams/10_deeper_answer_questions.pdf, id=1871, 1600.05775pt x 327.14
+<images/diagrams/10_deeper_answer_questions.pdf, id=1867, 1600.05775pt x 327.14
 218pt>
 File: images/diagrams/10_deeper_answer_questions.pdf Graphic file (type pdf)
 <use images/diagrams/10_deeper_answer_questions.pdf>
 Package pdftex.def Info: images/diagrams/10_deeper_answer_questions.pdf  used o
 n input line 135.
 (pdftex.def)             Requested size: 700.51186pt x 143.22418pt.
-<images/diagrams/11_deeper_register_servers.pdf, id=1872, 1594.99881pt x 288.11
+<images/diagrams/11_deeper_register_servers.pdf, id=1868, 1594.99881pt x 288.11
 641pt>
 File: images/diagrams/11_deeper_register_servers.pdf Graphic file (type pdf)
 <use images/diagrams/11_deeper_register_servers.pdf>
 Package pdftex.def Info: images/diagrams/11_deeper_register_servers.pdf  used o
 n input line 139.
 (pdftex.def)             Requested size: 700.51176pt x 126.53859pt.
- [102
+ [101
 
  <./images/diagrams/08_deeper_accounts.pdf> <./images/diagrams/09_deeper_anomal
-ies.pdf>] [103 <./images/diagrams/10_deeper_answer_questions.pdf> <./images/dia
+ies.pdf>] [102 <./images/diagrams/10_deeper_answer_questions.pdf> <./images/dia
 grams/11_deeper_register_servers.pdf>])
 (appendices/appendixF_ai_documentation.tex
 Appendix E.
-[104
+[103
 
 
 ]
@@ -2440,7 +2440,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 114--114
 d in
  []
 
-[105]) [106] (main.aux)
+[104]) [105] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -2449,9 +2449,9 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4E304C170D329611F0D925D89947ACC0;28360.
  ) 
 Here is how much of TeX's memory you used:
- 36743 strings out of 467871
- 730170 string characters out of 5418376
- 1515180 words of memory out of 5000000
+ 36742 strings out of 467871
+ 730162 string characters out of 5418376
+ 1515174 words of memory out of 5000000
  64352 multiletter control sequences out of 15000+600000
  749908 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2475,9 +2475,9 @@ sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/U
 sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/U
 sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb><C:/
 Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (118 pages, 5202986 bytes).
+Output written on main.pdf (117 pages, 5202062 bytes).
 PDF statistics:
- 2175 PDF objects out of 2487 (max. 8388607)
- 584 named destinations out of 1000 (max. 500000)
+ 2171 PDF objects out of 2487 (max. 8388607)
+ 583 named destinations out of 1000 (max. 500000)
  24424 words of extra memory for PDF output out of 24883 (max. 10000000)
 

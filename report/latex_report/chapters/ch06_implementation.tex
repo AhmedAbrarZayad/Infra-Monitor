@@ -272,19 +272,15 @@ Infra-Monitor/
 \fi
 
 The implementation is divided into backend, machine-learning, and frontend
-layers. Domain responsibilities are separated into authentication, organisation,
-telemetry, incident, AI, and Request Shield components.
-
-\textbf{Coding standards followed:}
+layers, with separate authentication, organisation, telemetry, incident, AI,
+and Request Shield components.  The coding standards followed were:
 \begin{itemize}
-  \item \textbf{Python:} PEP~8 enforced through automated linting.
-        Docstrings on all public functions and classes.
-        Type hints used in ML service and service functions.
-  \item \textbf{Naming:} Django models use \texttt{PascalCase}; service
-        functions use \texttt{snake\_case}; URL patterns use hyphen-separated
-        slugs.
-  \item \textbf{Environment variables:} Secrets and configuration are loaded
-        at runtime and never hardcoded.
+  \item \textbf{Python:} PEP~8 enforced by linting; docstrings on public
+        functions and classes; type hints in the ML and service layers.
+  \item \textbf{Naming:} \texttt{PascalCase} models, \texttt{snake\_case}
+        functions, and hyphen-separated URL slugs.
+  \item \textbf{Configuration:} Secrets are loaded from the environment at
+        runtime and never hardcoded.
   \item \textbf{Dart/Flutter:} Google Dart style guide; file names in
         \texttt{snake\_case}; widget classes in \texttt{PascalCase}.
   \item \textbf{Git:} Conventional commits format;

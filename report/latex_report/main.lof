@@ -43,23 +43,23 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {B.1}{\ignorespaces Overview dashboard screens}}{92}{figure.caption.62}%
-\contentsline {figure}{\numberline {B.2}{\ignorespaces Server management screens}}{93}{figure.caption.63}%
-\contentsline {figure}{\numberline {B.3}{\ignorespaces Monitoring and incident triage screens}}{93}{figure.caption.64}%
-\contentsline {figure}{\numberline {B.4}{\ignorespaces Request Shield and AI assistant screens}}{94}{figure.caption.65}%
-\contentsline {figure}{\numberline {B.5}{\ignorespaces Organisation, preferences, and assignment screens}}{95}{figure.caption.66}%
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Overview dashboard screens}}{91}{figure.caption.62}%
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Server management screens}}{92}{figure.caption.63}%
+\contentsline {figure}{\numberline {B.3}{\ignorespaces Monitoring and incident triage screens}}{92}{figure.caption.64}%
+\contentsline {figure}{\numberline {B.4}{\ignorespaces Request Shield and AI assistant screens}}{93}{figure.caption.65}%
+\contentsline {figure}{\numberline {B.5}{\ignorespaces Organisation, preferences, and assignment screens}}{94}{figure.caption.66}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {D.1}{\ignorespaces Deployment diagram for Infra Monitor (Docker Compose on Ubuntu 22.04)}}{97}{figure.caption.68}%
-\contentsline {figure}{\numberline {D.2}{\ignorespaces DFD Level 1: Context diagram -- Infra Monitor as a black box}}{98}{figure.caption.69}%
-\contentsline {figure}{\numberline {D.3}{\ignorespaces DFD Level 2: Service decomposition}}{99}{figure.caption.70}%
-\contentsline {figure}{\numberline {D.4}{\ignorespaces DFD Level 3: Request Shield internal data flows}}{100}{figure.caption.71}%
-\contentsline {figure}{\numberline {D.5}{\ignorespaces DFD: Account and Organisation flows}}{100}{figure.caption.72}%
-\contentsline {figure}{\numberline {D.6}{\ignorespaces DFD: Server installer and enrollment flows}}{101}{figure.caption.73}%
-\contentsline {figure}{\numberline {D.7}{\ignorespaces DFD: Server metric collection and ML anomaly detection}}{101}{figure.caption.74}%
-\contentsline {figure}{\numberline {D.8}{\ignorespaces DFD: Message / notification service flows}}{101}{figure.caption.75}%
-\contentsline {figure}{\numberline {D.9}{\ignorespaces Detailed DFD: Manage accounts and organisations}}{102}{figure.caption.76}%
-\contentsline {figure}{\numberline {D.10}{\ignorespaces Detailed DFD: Detect anomalies and manage incidents}}{102}{figure.caption.76}%
-\contentsline {figure}{\numberline {D.11}{\ignorespaces Detailed DFD: Answer incident questions (AI assistant)}}{103}{figure.caption.77}%
-\contentsline {figure}{\numberline {D.12}{\ignorespaces Detailed DFD: Register servers and collect metrics}}{103}{figure.caption.77}%
+\contentsline {figure}{\numberline {D.1}{\ignorespaces Deployment diagram for Infra Monitor (Docker Compose on Ubuntu 22.04)}}{96}{figure.caption.68}%
+\contentsline {figure}{\numberline {D.2}{\ignorespaces DFD Level 1: Context diagram -- Infra Monitor as a black box}}{97}{figure.caption.69}%
+\contentsline {figure}{\numberline {D.3}{\ignorespaces DFD Level 2: Service decomposition}}{98}{figure.caption.70}%
+\contentsline {figure}{\numberline {D.4}{\ignorespaces DFD Level 3: Request Shield internal data flows}}{99}{figure.caption.71}%
+\contentsline {figure}{\numberline {D.5}{\ignorespaces DFD: Account and Organisation flows}}{99}{figure.caption.72}%
+\contentsline {figure}{\numberline {D.6}{\ignorespaces DFD: Server installer and enrollment flows}}{100}{figure.caption.73}%
+\contentsline {figure}{\numberline {D.7}{\ignorespaces DFD: Server metric collection and ML anomaly detection}}{100}{figure.caption.74}%
+\contentsline {figure}{\numberline {D.8}{\ignorespaces DFD: Message / notification service flows}}{100}{figure.caption.75}%
+\contentsline {figure}{\numberline {D.9}{\ignorespaces Detailed DFD: Manage accounts and organisations}}{101}{figure.caption.76}%
+\contentsline {figure}{\numberline {D.10}{\ignorespaces Detailed DFD: Detect anomalies and manage incidents}}{101}{figure.caption.76}%
+\contentsline {figure}{\numberline {D.11}{\ignorespaces Detailed DFD: Answer incident questions (AI assistant)}}{102}{figure.caption.77}%
+\contentsline {figure}{\numberline {D.12}{\ignorespaces Detailed DFD: Register servers and collect metrics}}{102}{figure.caption.77}%
 \addvspace {10\p@ }
