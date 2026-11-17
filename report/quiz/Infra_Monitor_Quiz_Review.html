@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Infra Monitor | Software Engineering Quiz Review</title>
+<style>
+  @page { size: A4; margin: 12mm 13mm 13mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #172033; font: 9.4pt/1.35 "Segoe UI", Arial, sans-serif; }
+  .page { position: relative; page-break-after: always; min-height: 270mm; padding-bottom: 8mm; }
+  .page:last-child { page-break-after: auto; }
+  header { display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding: 0 0 5px; margin-bottom: 12px; color: #526179; font-size: 8pt; }
+  footer { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 4px; color: #64748b; font-size: 7.5pt; }
+  h1 { margin: 0 0 6px; color: #122443; font-size: 25pt; line-height: 1.05; }
+  h2 { margin: 13px 0 5px; color: #173c70; font-size: 14pt; line-height: 1.15; }
+  h3 { margin: 8px 0 3px; color: #244b79; font-size: 10.3pt; }
+  p { margin: 4px 0 6px; }
+  ul, ol { margin: 3px 0 7px; padding-left: 18px; }
+  li { margin: 2px 0; }
+  .eyebrow { color: #087c78; font-size: 9pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .subtitle { color: #526179; font-size: 12pt; margin: 0 0 13px; }
+  .lead { color: #34445e; font-size: 10.5pt; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .card { border: 1px solid #d5deea; border-radius: 6px; padding: 7px 9px; break-inside: avoid; }
+  .card h3 { margin-top: 0; }
+  .tint { background: #f2f7fc; }
+  .teal { background: #eff9f7; border-color: #b6dfd7; }
+  .gold { background: #fff8e9; border-color: #f0dda9; }
+  .callout { border-left: 3px solid #087c78; background: #f2f7fc; padding: 7px 10px; margin: 7px 0; break-inside: avoid; }
+  .note { color: #526179; font-size: 8pt; }
+  .small { font-size: 8.3pt; }
+  .tiny { font-size: 7.4pt; }
+  .tag { display: inline-block; border: 1px solid #b8c5d5; border-radius: 10px; padding: 1px 6px; margin: 1px 2px 1px 0; color: #34506f; font-size: 7.4pt; white-space: nowrap; }
+  .step { display: flex; gap: 7px; align-items: flex-start; margin: 5px 0; }
+  .num { flex: 0 0 19px; height: 19px; border-radius: 50%; background: #173c70; color: white; text-align: center; line-height: 19px; font-size: 8pt; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 5px 0 8px; font-size: 8pt; }
+  th { background: #edf2f8; color: #1c3659; text-align: left; }
+  th, td { padding: 4px 5px; border: 1px solid #d5deea; vertical-align: top; }
+  svg { display: block; width: 100%; height: auto; margin: 5px 0; }
+  .diagram { border: 1px solid #d5deea; border-radius: 6px; padding: 5px; margin: 6px 0 8px; break-inside: avoid; }
+  .diagram-title { color: #526179; font-size: 7.5pt; margin: 1px 2px 3px; }
+  .q { margin: 5px 0; padding: 5px 7px; border: 1px solid #d5deea; border-radius: 5px; break-inside: avoid; }
+  .q strong { color: #173c70; }
+  .cover-band { margin: 10px 0 13px; padding: 13px; background: #122443; color: white; border-radius: 8px; }
+  .cover-band strong { color: #d7eee9; }
+  .muted { color: #526179; }
+  .mono { font-family: Consolas, "Courier New", monospace; }
+  .answer { color: #35445c; }
+  @media screen {
+    body { background: #e8edf3; }
+    .page { width: 210mm; min-height: 297mm; margin: 12px auto; padding: 12mm 13mm 13mm; background: white; box-shadow: 0 2px 12px #9ca9ba; }
+  }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <header><span>SOFTWARE ENGINEERING · QUIZ REVIEW</span><span>INFRA MONITOR</span></header>
+  <div class="eyebrow">Compact, project-based study guide</div>
+  <h1>Software Engineering<br>Quiz Review</h1>
+  <p class="subtitle">Introduction · Process model · Architectural design · Component design · Testing</p>
+  <div class="cover-band">
+    <strong>Use this guide to practise explanations, not just definitions.</strong>
+    <p>For each answer: define the concept → draw a labelled diagram where useful → connect it to Infra Monitor → state one design reason, test, or trade-off.</p>
+  </div>
+  <div class="grid">
+    <div class="card tint">
+      <h3>Project in one sentence</h3>
+      <p>Infra Monitor is a self-hostable, multi-tenant platform that enrolls Linux servers, collects telemetry, detects anomalies, and supports alerts, incidents, and advisory investigation.</p>
+      <p class="small"><b>Clients:</b> Flutter app. <b>Core:</b> Django REST/ASGI backend. <b>Data:</b> PostgreSQL + VictoriaMetrics. <b>Async/ML:</b> Celery/Redis + FastAPI model service.</p>
+    </div>
+    <div class="card teal">
+      <h3>Five topics at a glance</h3>
+      <ol class="small">
+        <li><b>Introduction:</b> what software engineering is and why quality/evolution matter.</li>
+        <li><b>Process:</b> how a team organizes work and feedback.</li>
+        <li><b>Architecture:</b> system-level elements and their connections.</li>
+        <li><b>Components:</b> modules, interfaces, responsibilities, and data flow.</li>
+        <li><b>Testing:</b> evidence that components and the integrated system meet needs.</li>
+      </ol>
+    </div>
+  </div>
+  <h2>1 · Introduction: the ideas to explain</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Software and software engineering</h3>
+      <p><b>Software</b> includes executable instructions, the data structures they use, and descriptive information such as operating and user documentation. It can be a product or a vehicle that controls devices and delivers other products.</p>
+      <p><b>Software engineering</b> applies a systematic, disciplined, measurable approach to software development, operation, and maintenance.</p>
+    </div>
+    <div class="card">
+      <h3>Layered technology</h3>
+      <p><b>Quality focus</b> supports <b>process</b>, which organizes the work; <b>methods</b> describe technical how-to; <b>tools</b> automate or assist the process and methods.</p>
+      <p class="small"><b>Memory line:</b> quality → process → methods → tools. Tools do not replace a suitable process or engineering judgement.</p>
+    </div>
+    <div class="card gold">
+      <h3>Why software needs engineering</h3>
+      <ul class="small">
+        <li>Complex systems need deliberate requirements and design.</li>
+        <li>Failures can affect service availability, security, and trust.</li>
+        <li>Users and technology change, so successful software must be maintainable.</li>
+      </ul>
+      <p class="small"><b>Key contrast:</b> software does not physically wear out like hardware; changes can introduce defects, so it may deteriorate unless maintained carefully.</p>
+    </div>
+    <div class="card">
+      <h3>Apply it to this project</h3>
+      <ul class="small">
+        <li><b>Problem:</b> fragmented, reactive Linux-server monitoring.</li>
+        <li><b>Goals:</b> enrollment, metric visibility, anomaly detection, incident workflow, Request Shield, role-based tenant access, repeatable deployment.</li>
+        <li><b>Quality concerns:</b> correct organization isolation, reliable telemetry, security, maintainability, and usable investigation workflows.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout"><b>Likely descriptive prompt:</b> “Define software engineering and explain its importance to Infra Monitor.” Include the definition, layered technology, project problem, quality risks, and how systematic requirements/design/testing reduce those risks.</div>
+  <footer><span>Based on the supplied Pressman study notes and Infra Monitor report</span><span>01</span></footer>
+</section>
+
+<section class="page">
+  <header><span>02 · PROCESS MODEL</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>2 · Process model: Agile/Scrum in the project</h2>
+  <p>A <b>software process</b> is an adapted framework of activities, actions, tasks, work products, and checks for building and evolving software. A process creates control; it should fit the product, team, and risks rather than become paperwork for its own sake.</p>
+  <div class="grid">
+    <div class="card tint">
+      <h3>Generic framework activities</h3>
+      <p><b>Communication → Planning → Modeling → Construction → Deployment</b></p>
+      <p class="small">Umbrella work continues across activities: project tracking, risk management, quality assurance, configuration management, and technical reviews.</p>
+    </div>
+    <div class="card teal">
+      <h3>Why this team used Scrum</h3>
+      <ul class="small">
+        <li>Seven two-week sprints across a 14-week project.</li>
+        <li>Each sprint aimed to produce an integrated, reviewable increment.</li>
+        <li>Short feedback cycles helped expose integration and requirement issues sooner than a single end-of-project delivery.</li>
+        <li>Scale was appropriate for a three-person academic team; full microservice decomposition was avoided.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="diagram">
+    <div class="diagram-title"><b>Diagram A · Scrum cycle</b> — label the feedback loop and the usable increment.</div>
+    <svg viewBox="0 0 900 190" role="img" aria-label="Scrum cycle from sprint planning through daily stand-up, development and testing, review, retrospective, and feedback to planning">
+      <defs><marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#35557c"/></marker></defs>
+      <g fill="#f2f7fc" stroke="#35557c" stroke-width="2">
+        <rect x="20" y="46" width="145" height="65" rx="8"/><rect x="195" y="46" width="145" height="65" rx="8"/>
+        <rect x="370" y="46" width="155" height="65" rx="8"/><rect x="555" y="46" width="145" height="65" rx="8"/>
+        <rect x="730" y="46" width="145" height="65" rx="8"/>
+      </g>
+      <g fill="#173c70" font-family="Arial" font-size="16" font-weight="700" text-anchor="middle">
+        <text x="92" y="74">Sprint</text><text x="92" y="94">planning</text>
+        <text x="267" y="74">Daily</text><text x="267" y="94">stand-up</text>
+        <text x="447" y="74">Development</text><text x="447" y="94">+ testing</text>
+        <text x="627" y="74">Sprint</text><text x="627" y="94">review</text>
+        <text x="802" y="74">Retrospective</text>
+      </g>
+      <g stroke="#35557c" stroke-width="2.2" fill="none" marker-end="url(#arr1)">
+        <path d="M165 78 H190"/><path d="M340 78 H365"/><path d="M525 78 H550"/><path d="M700 78 H725"/>
+        <path d="M802 116 C802 164 92 164 92 116"/>
+      </g>
+      <text x="450" y="153" fill="#526179" font-family="Arial" font-size="13" text-anchor="middle">Feedback informs the next sprint; review the increment and improve the team’s process.</text>
+      <text x="450" y="183" fill="#087c78" font-family="Arial" font-size="13" font-weight="700" text-anchor="middle">Repeat for a short, time-boxed sprint</text>
+    </svg>
+  </div>
+  <h3>Project increments (high-level)</h3>
+  <table>
+    <tr><th>Sprint focus</th><th>Example work from the report</th></tr>
+    <tr><td>1–2</td><td>Requirements, architecture, schema, project scaffold, Compose base.</td></tr>
+    <tr><td>3–4</td><td>Flutter foundations; authentication, organization CRUD, server enrollment.</td></tr>
+    <tr><td>5–6</td><td>Telemetry and anomaly service; alerts/incidents, chatbot, Request Shield.</td></tr>
+    <tr><td>7</td><td>UAT, security hardening, documentation, final integration testing.</td></tr>
+  </table>
+  <div class="grid">
+    <div class="card">
+      <h3>Compare models in one sentence</h3>
+      <p class="small"><b>Waterfall:</b> sequential; suitable for stable requirements, but late feedback is risky. <b>Prototyping:</b> clarifies uncertain requirements or interfaces. <b>Spiral:</b> iterative with explicit risk analysis; useful for large, high-risk work. <b>Unified Process:</b> use-case driven, architecture-centric, iterative and incremental.</p>
+    </div>
+    <div class="card gold">
+      <h3>Strong exam response</h3>
+      <p class="small">Name the model; draw the cycle; give project cadence and a concrete sprint example; justify the fit; contrast one alternative and its trade-off. Do not claim Scrum eliminates planning or documentation.</p>
+    </div>
+  </div>
+  <footer><span>Remember: a model organizes work; it does not guarantee a good product by itself.</span><span>02</span></footer>
+</section>
+
+<section class="page">
+  <header><span>03 · ARCHITECTURAL DESIGN</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>3 · Architectural design: the system-level view</h2>
+  <p><b>Architecture</b> describes major elements, their responsibilities, and the connections that let them meet system-level goals. Infra Monitor uses a <b>hybrid: client–server + layered backend + selected ML microservice</b>.</p>
+  <div class="diagram">
+    <div class="diagram-title"><b>Diagram B · Simplified architecture</b> — follow arrows; solid lines are primary calls/data paths.</div>
+    <svg viewBox="0 0 920 470" role="img" aria-label="Infra Monitor architecture showing Flutter client, Django backend, Alloy agents, PostgreSQL, VictoriaMetrics, Celery and Redis, FastAPI ML, Gemini and Firebase">
+      <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#35557c"/></marker></defs>
+      <g fill="#f2f7fc" stroke="#35557c" stroke-width="1.8">
+        <rect x="20" y="45" width="160" height="65" rx="7"/><rect x="245" y="40" width="250" height="100" rx="7"/>
+        <rect x="20" y="205" width="160" height="65" rx="7"/><rect x="245" y="195" width="200" height="65" rx="7"/>
+        <rect x="245" y="295" width="200" height="65" rx="7"/><rect x="535" y="200" width="190" height="75" rx="7"/>
+        <rect x="535" y="315" width="190" height="70" rx="7"/><rect x="780" y="85" width="125" height="65" rx="7"/>
+        <rect x="780" y="235" width="125" height="65" rx="7"/><rect x="780" y="340" width="125" height="65" rx="7"/>
+      </g>
+      <g fill="#173c70" font-family="Arial" font-size="14" font-weight="700" text-anchor="middle">
+        <text x="100" y="73">Flutter client</text><text x="100" y="94" font-size="11">dashboards · workflows</text>
+        <text x="370" y="68">Django backend (ASGI)</text><text x="370" y="91" font-size="11">REST / WebSocket · auth · RBAC</text><text x="370" y="111" font-size="11">accounts · servers · alert · incident</text>
+        <text x="100" y="232">Linux / WSL hosts</text><text x="100" y="252" font-size="11">Grafana Alloy agents</text>
+        <text x="345" y="224">PostgreSQL</text><text x="345" y="245" font-size="11">accounts + domain records</text>
+        <text x="345" y="324">VictoriaMetrics</text><text x="345" y="345" font-size="11">time-series metrics</text>
+        <text x="630" y="230">Celery worker / Beat</text><text x="630" y="251" font-size="11">scheduled background jobs</text>
+        <text x="630" y="345">FastAPI ML service</text><text x="630" y="366" font-size="11">Isolation Forest + Random Forest</text>
+        <text x="842" y="111">Redis</text><text x="842" y="132" font-size="11">broker / channel layer</text>
+        <text x="842" y="261">Gemini API</text><text x="842" y="282" font-size="11">advisory / escalation</text>
+        <text x="842" y="367">Firebase</text><text x="842" y="388" font-size="11">push notifications</text>
+      </g>
+      <g stroke="#35557c" stroke-width="2" fill="none" marker-end="url(#arr2)">
+        <path d="M180 77 H238"/><path d="M180 237 C220 237 205 130 240 120"/>
+        <path d="M370 142 V188"/><path d="M330 142 V288"/>
+        <path d="M495 95 H526 V220 H530"/><path d="M445 328 H510 V260 H530"/>
+        <path d="M445 328 H500 V348 H530"/><path d="M725 220 H752 V120 H775"/>
+        <path d="M725 245 H770"/><path d="M725 250 H758 V372 H775"/>
+        <path d="M725 348 H754 V275 H775"/>
+      </g>
+      <g fill="#526179" font-family="Arial" font-size="10">
+        <text x="190" y="67">HTTPS</text><text x="185" y="218">remote-write</text><text x="379" y="170">domain data</text>
+        <text x="453" y="314">metric query</text><text x="503" y="207">jobs</text><text x="744" y="104">queue</text>
+        <text x="737" y="239">LLM</text><text x="732" y="381">notifications</text><text x="737" y="325">classify / train</text>
+      </g>
+    </svg>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>Why this hybrid fits</h3>
+      <ul class="small">
+        <li>Client–server gives the Flutter app a clear API boundary.</li>
+        <li>Domain-separated Django apps keep related rules together.</li>
+        <li>Separate ML inference isolates compute and permits independent model-service deployment.</li>
+        <li>Celery/Redis moves scheduled or long-running work away from interactive requests.</li>
+      </ul>
+    </div>
+    <div class="card gold">
+      <h3>Trade-offs to mention</h3>
+      <p class="small">A microservice adds network, deployment, and failure boundaries, so only ML workloads are separated. A pure monolith could blur domain boundaries; splitting every domain into a service would add more coordination than this small team needed.</p>
+    </div>
+  </div>
+  <div class="callout"><b>Likely descriptive prompt:</b> “Draw and explain Infra Monitor’s architecture.” Label client, backend, worker/broker, databases, ML service, and external APIs; explain one request path and one telemetry/anomaly path; finish with rationale and a trade-off.</div>
+  <footer><span>Data stores: PostgreSQL for application records; VictoriaMetrics for time-series telemetry.</span><span>03</span></footer>
+</section>
+
+<section class="page">
+  <header><span>04 · COMPONENT DESIGN</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>4 · Component design: responsibilities and interfaces</h2>
+  <p>Component design decomposes the architecture into cohesive modules. A good explanation says <b>what each component owns, what it accepts/returns, and which dependency it uses</b>. Keep presentation, domain rules, persistence, and external integrations distinguishable.</p>
+  <div class="diagram">
+    <div class="diagram-title"><b>Diagram C · Component boundaries</b> — boxes are logical components; arrows identify the collaboration direction.</div>
+    <svg viewBox="0 0 920 370" role="img" aria-label="Component diagram with Flutter client, API gateway, account, monitoring, operations and AI shield components with data and external adapters">
+      <defs><marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#35557c"/></marker></defs>
+      <g fill="#f2f7fc" stroke="#35557c" stroke-width="1.8">
+        <rect x="20" y="130" width="140" height="70" rx="7"/><rect x="210" y="115" width="170" height="100" rx="7"/>
+        <rect x="445" y="20" width="210" height="75" rx="7"/><rect x="445" y="125" width="210" height="75" rx="7"/>
+        <rect x="445" y="230" width="210" height="75" rx="7"/>
+        <rect x="740" y="18" width="160" height="75" rx="7"/><rect x="740" y="120" width="160" height="75" rx="7"/>
+        <rect x="740" y="225" width="160" height="85" rx="7"/>
+      </g>
+      <g fill="#173c70" font-family="Arial" font-size="14" font-weight="700" text-anchor="middle">
+        <text x="90" y="159">Flutter client</text><text x="90" y="181" font-size="11">screens + state</text>
+        <text x="295" y="151">API / WS boundary</text><text x="295" y="174" font-size="11">JWT · ticket · routing</text><text x="295" y="192" font-size="11">serializers · authorization</text>
+        <text x="550" y="49">Accounts &amp; organizations</text><text x="550" y="72" font-size="11">users · membership · roles</text>
+        <text x="550" y="154">Monitoring</text><text x="550" y="177" font-size="11">enrollment · metrics · servers</text>
+        <text x="550" y="259">Operations</text><text x="550" y="282" font-size="11">alerts · incidents · assignments</text>
+        <text x="820" y="47">Application adapters</text><text x="820" y="69" font-size="11">PostgreSQL · repositories</text>
+        <text x="820" y="149">Telemetry adapter</text><text x="820" y="172" font-size="11">Alloy · VictoriaMetrics</text>
+        <text x="820" y="252">AI &amp; Request Shield</text><text x="820" y="274" font-size="11">Celery · FastAPI · Gemini</text><text x="820" y="293" font-size="11">classify · explain · notify</text>
+      </g>
+      <g stroke="#35557c" stroke-width="2" fill="none" marker-end="url(#arr3)">
+        <path d="M160 165 H205"/><path d="M380 145 H410 V57 H440"/>
+        <path d="M380 165 H440"/><path d="M380 185 H410 V267 H440"/>
+        <path d="M655 55 H735"/><path d="M655 163 H735"/><path d="M655 267 H735"/>
+        <path d="M655 176 H700 V267 H735"/>
+      </g>
+      <text x="194" y="152" fill="#526179" font-family="Arial" font-size="10">REST / WS</text>
+      <text x="682" y="48" fill="#526179" font-family="Arial" font-size="10">persist</text>
+      <text x="672" y="155" fill="#526179" font-family="Arial" font-size="10">ingest / query</text>
+      <text x="676" y="255" fill="#526179" font-family="Arial" font-size="10">schedule / infer</text>
+    </svg>
+  </div>
+  <div class="grid">
+    <div class="card tint">
+      <h3>Example contracts</h3>
+      <ul class="small">
+        <li><b>Enrollment:</b> authorized organization request → enrollment/configuration response.</li>
+        <li><b>Telemetry:</b> agent remote-write → accepted metric series; backend/worker queries a time window.</li>
+        <li><b>Anomaly:</b> feature window → score/confidence → persisted detection; qualifying anomaly can create/update an alert.</li>
+        <li><b>Shield:</b> request features → GREEN/GRAY/RED + confidence → stored log and possible suggestion.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Patterns named in the report</h3>
+      <ul class="small">
+        <li><b>Strategy:</b> select classifier route (ML, rule, or Gemini) by configuration/zone.</li>
+        <li><b>Factory:</b> create short-lived one-use WebSocket tickets.</li>
+        <li><b>Observer-like scheduling:</b> periodic Celery events trigger background jobs.</li>
+        <li><b>Facade:</b> shared helpers hide recurring membership/pagination details.</li>
+      </ul>
+      <p class="note">Explain the responsibility and benefit; do not identify a pattern solely by its name.</p>
+    </div>
+  </div>
+  <h3>Two project flows worth practising</h3>
+  <div class="grid">
+    <div class="card teal small"><b>Metrics → anomaly:</b> Linux host/Alloy → telemetry gateway → VictoriaMetrics → scheduled Celery task queries a window → FastAPI Isolation Forest → detection callback → Django stores detection and may create/update an alert → client displays it.</div>
+    <div class="card gold small"><b>Request Shield:</b> access log → normalize/extract 26 features → scheduled batch (up to 500 records) → Random Forest returns zone/confidence → Django persists result → threshold may create a threat suggestion; gray cases may be escalated to Gemini when configured.</div>
+  </div>
+  <footer><span>A component diagram answers “what collaborates?”; a sequence diagram answers “in what order?”</span><span>04</span></footer>
+</section>
+
+<section class="page">
+  <header><span>05 · DIAGRAMS &amp; FLOWS</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>5 · How to choose and explain a diagram</h2>
+  <p>Begin with the question the diagram must answer. Give it a title, use consistent symbols, label important flows, and add a sentence about what the diagram demonstrates.</p>
+  <div class="diagram">
+    <div class="diagram-title"><b>Diagram D · Sequence example: telemetry to anomaly alert</b></div>
+    <svg viewBox="0 0 900 390" role="img" aria-label="Sequence diagram from Alloy host through Django and VictoriaMetrics to Celery, FastAPI ML and anomaly persistence">
+      <defs><marker id="arr4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#35557c"/></marker></defs>
+      <g fill="#f2f7fc" stroke="#35557c" stroke-width="1.4">
+        <rect x="25" y="15" width="125" height="42" rx="6"/><rect x="190" y="15" width="125" height="42" rx="6"/>
+        <rect x="355" y="15" width="125" height="42" rx="6"/><rect x="520" y="15" width="125" height="42" rx="6"/>
+        <rect x="685" y="15" width="125" height="42" rx="6"/>
+      </g>
+      <g fill="#173c70" font-family="Arial" font-size="12" font-weight="700" text-anchor="middle">
+        <text x="87" y="41">Alloy host</text><text x="252" y="41">Django gateway</text><text x="417" y="41">VictoriaMetrics</text><text x="582" y="41">Celery worker</text><text x="747" y="41">FastAPI ML</text>
+      </g>
+      <g stroke="#9aa9bc" stroke-dasharray="5 5" stroke-width="1.3">
+        <path d="M87 58 V365"/><path d="M252 58 V365"/><path d="M417 58 V365"/><path d="M582 58 V365"/><path d="M747 58 V365"/>
+      </g>
+      <g stroke="#35557c" stroke-width="1.8" fill="none" marker-end="url(#arr4)">
+        <path d="M90 95 H248"/><path d="M255 145 H413"/><path d="M585 190 H744"/>
+        <path d="M750 235 H255"/><path d="M255 280 H420"/><path d="M258 325 H580"/>
+      </g>
+      <g fill="#34445e" font-family="Arial" font-size="11">
+        <text x="130" y="88">remote-write metrics</text><text x="300" y="138">store time series</text>
+        <text x="630" y="182">query window + submit features</text><text x="480" y="227">score + confidence</text>
+        <text x="300" y="273">persist detection / alert</text><text x="420" y="318">result shown to client</text>
+      </g>
+      <rect x="190" y="303" width="125" height="40" rx="5" fill="#eff9f7" stroke="#087c78" stroke-width="1.5"/>
+      <text x="252" y="327" fill="#145c59" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">Django + PostgreSQL</text>
+      <rect x="25" y="303" width="125" height="40" rx="5" fill="#eff9f7" stroke="#087c78" stroke-width="1.5"/>
+      <text x="87" y="327" fill="#145c59" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">Flutter client</text>
+    </svg>
+  </div>
+  <table>
+    <tr><th>Diagram type</th><th>Question it answers</th><th>Infra Monitor example</th></tr>
+    <tr><td><b>Use case</b></td><td>Who uses which system capability?</td><td>Owner/admin/engineer and enrollment, alert, incident, investigation actions.</td></tr>
+    <tr><td><b>Activity / process</b></td><td>What are the steps, choices, and parallel paths?</td><td>Login, server setup, incident assignment, chatbot workflow.</td></tr>
+    <tr><td><b>Sequence</b></td><td>Which participant sends what, and when?</td><td>Telemetry ingestion and anomaly response; login or incident assignment.</td></tr>
+    <tr><td><b>Class / ER</b></td><td>What are the static types/entities and relationships?</td><td>Organization, membership, server, anomaly, incident; ER focuses on data/cardinality.</td></tr>
+    <tr><td><b>Component</b></td><td>What modules exist and how do their interfaces connect?</td><td>Django API, domain components, data/ML adapters.</td></tr>
+    <tr><td><b>Architecture / deployment</b></td><td>What are the major runtime nodes and links?</td><td>Flutter, containers, databases, Redis, ML service, Alloy hosts.</td></tr>
+    <tr><td><b>State machine</b></td><td>How does an entity change state?</td><td>Alert ACTIVE → ACKNOWLEDGED → RESOLVED; incident lifecycle.</td></tr>
+    <tr><td><b>DFD</b></td><td>Where does data enter, transform, and persist?</td><td>Metrics/logs through gateway, processing, storage, and dashboards.</td></tr>
+  </table>
+  <div class="callout"><b>Diagram checklist:</b> title + scope; actors/components with meaningful names; arrows with verb/noun labels; direction and sequence clear; include external dependencies; explain the key decision or quality boundary below the picture.</div>
+  <footer><span>Do not mix static structure (component/class) with time order (sequence).</span><span>05</span></footer>
+</section>
+
+<section class="page">
+  <header><span>06 · TESTING CONCEPTS</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>6 · Testing: strategy, levels, and techniques</h2>
+  <div class="grid">
+    <div class="card tint">
+      <h3>Verification vs validation</h3>
+      <p><b>Verification:</b> “Are we building the product right?” Check the implementation against its design/specification.</p>
+      <p><b>Validation:</b> “Are we building the right product?” Check that the product meets user needs and requirements.</p>
+    </div>
+    <div class="card teal">
+      <h3>Testing is not debugging</h3>
+      <p><b>Testing</b> runs planned checks to reveal failures and provide evidence. <b>Debugging</b> investigates a failure’s cause and fixes it. Testing can reveal defects; it cannot prove the absence of all defects.</p>
+    </div>
+  </div>
+  <div class="diagram">
+    <div class="diagram-title"><b>Diagram E · Incremental testing, small to large</b></div>
+    <svg viewBox="0 0 900 140" role="img" aria-label="Testing sequence from unit and component to integration, validation and system testing">
+      <defs><marker id="arr5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#35557c"/></marker></defs>
+      <g fill="#f2f7fc" stroke="#35557c" stroke-width="1.8">
+        <rect x="20" y="32" width="190" height="62" rx="8"/><rect x="245" y="32" width="190" height="62" rx="8"/>
+        <rect x="470" y="32" width="190" height="62" rx="8"/><rect x="695" y="32" width="190" height="62" rx="8"/>
+      </g>
+      <g fill="#173c70" font-family="Arial" font-size="15" font-weight="700" text-anchor="middle">
+        <text x="115" y="58">Unit / component</text><text x="115" y="78" font-size="11">one module</text>
+        <text x="340" y="58">Integration</text><text x="340" y="78" font-size="11">connected interfaces</text>
+        <text x="565" y="58">Validation</text><text x="565" y="78" font-size="11">requirements / use cases</text>
+        <text x="790" y="58">System / acceptance</text><text x="790" y="78" font-size="11">whole product in context</text>
+      </g>
+      <g stroke="#35557c" stroke-width="2" fill="none" marker-end="url(#arr5)"><path d="M210 63 H240"/><path d="M435 63 H465"/><path d="M660 63 H690"/></g>
+      <text x="450" y="123" fill="#526179" font-family="Arial" font-size="12" text-anchor="middle">Test incrementally; preserve requirement-to-test traceability.</text>
+    </svg>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>White-box / structural</h3>
+      <p class="small">Uses internal code/control structure: exercise statements and independent paths, both outcomes of decisions, loops at boundaries, and important data flows.</p>
+      <p class="small"><b>Cyclomatic complexity:</b> V(G) = E − N + 2, or P + 1 for a connected flow graph; it estimates the number of independent paths to consider, not correctness.</p>
+    </div>
+    <div class="card">
+      <h3>Black-box / behavioral</h3>
+      <p class="small">Checks externally visible behavior against requirements without relying on internal implementation. Look for missing/incorrect functions, interface/data errors, performance and start/stop behavior.</p>
+    </div>
+  </div>
+  <h3>High-yield test design techniques</h3>
+  <table>
+    <tr><th>Technique</th><th>Idea</th><th>Project example</th></tr>
+    <tr><td>Equivalence partitioning</td><td>Choose representatives from valid and invalid input classes.</td><td>Valid login vs wrong password; duplicate email vs unique email.</td></tr>
+    <tr><td>Boundary value analysis</td><td>Test just below, at, and just above limits.</td><td>Shield batch cap: 500 valid vectors vs 501 rejected.</td></tr>
+    <tr><td>State transition</td><td>Check allowed and forbidden state changes.</td><td>Alert ACTIVE → ACKNOWLEDGED → RESOLVED; reject invalid backward transition.</td></tr>
+    <tr><td>Decision table</td><td>Turn combinations of conditions/roles into explicit rules.</td><td>Organization role-based access matrix.</td></tr>
+    <tr><td>Traceability</td><td>Link each test to a requirement; aids audit and regression.</td><td>R-AUTH-03 ↔ refresh-token/logout test.</td></tr>
+  </table>
+  <div class="callout"><b>Unit-test checklist (Pressman):</b> interface, local data, independent paths, boundaries, and error handling. Add requirement/use-case coverage and negative/security tests where relevant. Exhaustive testing is usually impossible, so prioritize risk and criticality.</div>
+  <footer><span>Test scaffolding: a driver calls the unit under test; a stub stands in for a called dependency.</span><span>06</span></footer>
+</section>
+
+<section class="page">
+  <header><span>07 · PROJECT TESTING</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>7 · Testing examples from Infra Monitor</h2>
+  <p>Explain a test as <b>precondition → action/input → expected result → observed result</b>. A good test is tied to a requirement and states both positive and negative behavior where relevant.</p>
+  <table>
+    <tr><th>Area</th><th>Example test / expected behavior</th><th>Level or technique</th></tr>
+    <tr><td>Authentication</td><td>Unverified user attempts login → 403; valid OTP then login → JWT issued.</td><td>System/black-box; equivalence classes.</td></tr>
+    <tr><td>Organization</td><td>Create organization → creator becomes OWNER; unauthorized membership action is rejected.</td><td>Integration/system; role decision rules.</td></tr>
+    <tr><td>Server/metrics</td><td>Duplicate hostname in same organization → unique-constraint error; valid enrollment delivers metrics.</td><td>Integration; negative test.</td></tr>
+    <tr><td>Incident</td><td>Assign only to approved Engineer; assigned engineer updates status along valid lifecycle.</td><td>State transition + authorization.</td></tr>
+    <tr><td>WebSocket chatbot</td><td>Missing/reused/expired one-use ticket → reject connection; valid ticket allows advisory flow.</td><td>Integration/security; negative test.</td></tr>
+    <tr><td>Request Shield</td><td>500-item batch accepted; 501 rejected; classified zone is persisted; threshold can create a suggestion.</td><td>Boundary + end-to-end.</td></tr>
+    <tr><td>AI safety</td><td>Prompt asks for a command or privileged data → chatbot remains advisory and does not execute it.</td><td>AI safety/system test.</td></tr>
+  </table>
+  <div class="grid">
+    <div class="card tint">
+      <h3>Project test approach</h3>
+      <ul class="small">
+        <li><b>Unit:</b> backend modules and ML-service schema/API behavior.</li>
+        <li><b>Integration:</b> container smoke test across migrations, ML training/classification, and connected services.</li>
+        <li><b>System/UAT:</b> black-box user workflows; report describes three participants completing the listed tasks.</li>
+        <li><b>Security:</b> manual VAPT-style checks mapped to OWASP categories.</li>
+      </ul>
+    </div>
+    <div class="card teal">
+      <h3>Know what is and is not measured</h3>
+      <p class="small">The report records functional test results and UAT task completion. It explicitly says formal coverage was not measured, load/performance baselines were not executed, Flutter UI automation was absent, and quantitative model metrics were not evaluated in that release.</p>
+      <p class="small"><b>Exam quality:</b> distinguish “functional behavior passed” from “model accuracy/performance is proven.” Do not invent results.</p>
+    </div>
+  </div>
+  <h3>Fast answer template for a test-case question</h3>
+  <div class="grid3">
+    <div class="card"><b>1 · Requirement</b><br><span class="small">State ID/behavior and actor.</span></div>
+    <div class="card"><b>2 · Test data</b><br><span class="small">Valid, invalid, boundary, or role.</span></div>
+    <div class="card"><b>3 · Evidence</b><br><span class="small">Steps, expected result, actual result, pass/fail.</span></div>
+  </div>
+  <div class="callout"><b>Likely prompt:</b> “Describe a testing strategy for Infra Monitor.” Draw the incremental levels; include one unit, one integration, one system/UAT, one security test; explain traceability and report limitations.</div>
+  <footer><span>Tests reveal defects and build confidence; they do not prove defect-free software.</span><span>07</span></footer>
+</section>
+
+<section class="page">
+  <header><span>08 · PRACTICE QUESTIONS</span><span>INFRA MONITOR QUIZ REVIEW</span></header>
+  <h2>8 · Descriptive practice questions</h2>
+  <p class="muted">Try answering aloud or in short paragraphs. For diagram prompts, draw first from memory, then compare with the earlier pages.</p>
+  <div class="q"><strong>1. Define software engineering. Explain its layered technology and apply it to Infra Monitor.</strong><div class="answer small">Include quality focus, process, methods, tools; tie disciplined work to reliability, security, maintainability, and the monitoring problem.</div></div>
+  <div class="q"><strong>2. Explain why software must evolve even though it does not wear out physically.</strong><div class="answer small">Changes in requirements/platforms and defects introduced by change can raise failure risk; legacy systems need controlled maintenance and reengineering.</div></div>
+  <div class="q"><strong>3. Describe the generic process framework and distinguish framework from umbrella activities.</strong><div class="answer small">Communication, planning, modeling, construction, deployment; overlay tracking, risk, QA, configuration management, and reviews.</div></div>
+  <div class="q"><strong>4. Which process model did the team use? Draw its cycle, describe sprint cadence, and justify the choice.</strong><div class="answer small">Agile/Scrum; seven two-week sprints; planning, stand-ups, development/testing, review, retrospective; incremental feedback suits a small team and evolving integration.</div></div>
+  <div class="q"><strong>5. Compare Scrum/iterative delivery with Waterfall for this project.</strong><div class="answer small">Contrast sequential stable-requirement fit and late feedback with short increments, earlier working slices, and ongoing feedback; note Scrum still needs planning and quality checks.</div></div>
+  <div class="q"><strong>6. Draw and explain the high-level architecture. Why is it a hybrid rather than pure microservices?</strong><div class="answer small">Show Flutter ↔ Django; PostgreSQL; VictoriaMetrics; Celery/Redis; FastAPI ML; Alloy; external Gemini/FCM. Explain boundaries and the operational cost of extra services.</div></div>
+  <div class="q"><strong>7. Draw a component diagram and trace telemetry to an anomaly alert.</strong><div class="answer small">Label gateway, monitoring, ML, persistence/alert, and interfaces; trace agent → metrics store → scheduled task → model → callback → record/alert → user.</div></div>
+  <div class="q"><strong>8. Differentiate architecture, component, sequence, and ER diagrams with project examples.</strong><div class="answer small">Runtime/top-level structure; module interfaces; time-ordered interactions; data entities/relationships respectively.</div></div>
+  <div class="q"><strong>9. Explain verification vs validation and white-box vs black-box testing.</strong><div class="answer small">Product right vs right product; internal paths/conditions vs externally visible behavior/requirements. Both are complementary.</div></div>
+  <div class="q"><strong>10. Propose a compact test strategy for Request Shield or incident handling.</strong><div class="answer small">Unit feature extraction/state rules; integration with ML/persistence; system role/threshold workflow; equivalence classes, 500/501 boundary or valid/invalid transitions; trace to requirements.</div></div>
+  <div class="q"><strong>11. What are a driver and a stub? Why is exhaustive testing impractical?</strong><div class="answer small">Driver invokes the unit; stub replaces a dependency. Large input/path spaces make exhaustive enumeration too costly; prioritize risk, boundaries, and independent paths.</div></div>
+  <div class="q"><strong>12. State two strengths and two limitations of the project test evidence.</strong><div class="answer small">Strength examples: functional coverage of reported use cases, integrated smoke test, UAT/security checks. Limitations: no formal coverage/load baseline/automated Flutter UI or quantitative model evaluation (as noted in report).</div></div>
+  <h2>Last-minute recall</h2>
+  <div class="grid3">
+    <div class="card tint"><b>Process</b><br><span class="small">Scrum · 7 × 2 weeks · working increments</span></div>
+    <div class="card teal"><b>Architecture</b><br><span class="small">Client–server + layered Django + ML service</span></div>
+    <div class="card gold"><b>Testing</b><br><span class="small">Unit → integration → validation → system; trace tests to requirements</span></div>
+  </div>
+  <p class="note">Study source: supplied <i>Pressman &amp; Maxim, Software Engineering: A Practitioner’s Approach</i> study notes (Chapters 1, 2, 19), plus the Infra Monitor project report chapters on introduction, project management/process model, architecture, design, and testing. This is a revision aid, not a substitute for the full source material.</p>
+  <footer><span>Best of luck — define it, draw it, connect it to the project, justify it.</span><span>08</span></footer>
+</section>
+
+</body>
+</html>
