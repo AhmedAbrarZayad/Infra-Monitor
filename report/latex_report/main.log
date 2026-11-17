@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  17 NOV 2026 10:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  17 NOV 2026 19:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1452,7 +1452,7 @@ Underfull \hbox (badness 7667) in paragraph at lines 57--57
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 57--57
-[]|\T1/lmr/m/n/8 Shahneouaz Ali
+[]|\T1/lmr/m/n/8 Shahneous Ali
  []
 
 
@@ -2526,7 +2526,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  36985 strings out of 467871
  736045 string characters out of 5418376
- 1517104 words of memory out of 5000000
+ 1517101 words of memory out of 5000000
  64566 multiletter control sequences out of 15000+600000
  751828 words of font info for 126 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2550,7 +2550,7 @@ sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/U
 sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/U
 sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb><C:/
 Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (122 pages, 6111094 bytes).
+Output written on main.pdf (122 pages, 6110916 bytes).
 PDF statistics:
  2246 PDF objects out of 2487 (max. 8388607)
  600 named destinations out of 1000 (max. 500000)
