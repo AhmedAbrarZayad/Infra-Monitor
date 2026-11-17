@@ -129,3 +129,4 @@
 \contentsline {section}{\numberline {E.1}Isolation Forest Anomaly Detector -- Model Card}{103}{section.E.1}%
 \contentsline {section}{\numberline {E.2}Random Forest Request Shield -- Model Card}{104}{section.E.2}%
 \contentsline {section}{\numberline {E.3}Gemini LLM Advisory Chatbot -- Model Card}{105}{section.E.3}%
+\contentsline {chapter}{\numberline {F}Git Commit History}{106}{appendix.F}%
