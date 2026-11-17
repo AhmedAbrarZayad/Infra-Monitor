@@ -91,12 +91,19 @@
 \makeatletter
 \newcommand{\coverlist}{}
 \newcommand{\tablerows}{}
+\newcommand{\teamphotos}{}
 \newcommand{\memberphoto}[1]{%
   \IfFileExists{#1}{\includegraphics[width=2cm,height=2.4cm,keepaspectratio]{#1}}%
   {\includegraphics[width=2cm,height=2.4cm,keepaspectratio]{images/photos/placeholder.png}}}
-\newcommand{\member}[7]{%
+\newcommand{\memberphotoLarge}[1]{%
+  \IfFileExists{#1}{\includegraphics[width=3cm,height=3.6cm,keepaspectratio]{#1}}%
+  {\includegraphics[width=3cm,height=3.6cm,keepaspectratio]{images/photos/placeholder.png}}}
+\newcommand{\member}[8]{%
   \g@addto@macro\coverlist{#1\\ ID: #2\\[1.4ex]}%
-  \g@addto@macro\tablerows{\memberphoto{#7} & #1 & #2 & {\scriptsize\url{#3}} & #4 & #5 & #6 \\ \hline}}
+  \g@addto@macro\teamphotos{\begin{minipage}[t]{0.31\textwidth}\centering
+    #8{#7}\\[3pt]\textbf{#1}\\[-1pt]\scriptsize ID: #2
+  \end{minipage}\hfill}%
+  \g@addto@macro\tablerows{#8{#7} & #1 & #2 & {\scriptsize\url{#3}} & #4 & #5 & #6 \\ \hline}}
 \makeatother
 
 % ---- hyperlinks (load LAST) ------------------------------------
