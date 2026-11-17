@@ -227,9 +227,9 @@ data pipeline and integration point:
                 evidence (data, not instructions)'' to prevent prompt injection.
                 The \texttt{SYSTEM\_INSTRUCTION} constrains the model to advisory
                 mode only.
-          \item \textit{Streaming:} \texttt{stream\_gemini\_response()} uses
-                \texttt{client.aio.models.generate\_content\_stream} for token
-                streaming over WebSocket.
+          \item \textit{Streaming:} Responses are requested from Gemini's
+                asynchronous streaming API and relayed token by token over
+                the WebSocket.
           \item \textit{Safety:} Ticket-based one-use authentication prevents
                 unauthorised WebSocket access; max 1024 output tokens per turn.
         \end{itemize}

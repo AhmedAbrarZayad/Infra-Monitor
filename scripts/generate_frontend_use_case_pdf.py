@@ -130,28 +130,45 @@ def boundary(c, title):
     c.drawString(x + 20, y + h - 2, f"INFRA MONITOR — {title.upper()}")
 
 
-def roles(c):
-    """One generalized User with Engineer/Admin/Owner specializations, all left."""
-    ux, uy = 110, 420
-    stick_actor(c, ux, uy, "User")
-    positions = [(110, 295, "Engineer"), (110, 195, "Admin"), (110, 95, "Owner")]
-    for x, y, label in positions:
-        stick_actor(c, x, y, label, .85)
-    # Put the generalization tree to the left of the actors. Associations leave
-    # to the right, so inheritance and participation lines never intersect.
-    trunk_x = 35
-    c.setStrokeColor(INK)
-    c.setLineWidth(1)
-    for x, y, _ in positions:
-        c.line(x - 13, y + 5, trunk_x, y + 5)
-    c.line(trunk_x, positions[-1][1] + 5, trunk_x, uy + 5)
-    generalization(c, trunk_x, uy + 5, ux - 13, uy + 5)
-    return {"User": (ux, uy), **{label: (x, y) for x, y, label in positions}}
+def roles(c, used):
+    """Draw only the human actors that take part in this diagram.
+
+    User is the generalized actor; Engineer, Admin, and Owner specialize it.
+    The generalization tree is drawn only when User and at least one
+    specialized role both appear.
+    """
+    x = 110
+    specialized = [r for r in ("Engineer", "Admin", "Owner") if r in used]
+    labels = (["User"] if "User" in used else []) + specialized
+    top, bottom = 420, 95
+    n = len(labels)
+    if n == 1:
+        ys = [(top + bottom) / 2]
+    else:
+        ys = [top - i * (top - bottom) / (n - 1) for i in range(n)]
+    actors = {}
+    for label, y in zip(labels, ys):
+        scale = 1.0 if label == "User" or "User" not in used else .85
+        stick_actor(c, x, y, label, scale)
+        actors[label] = (x, y)
+    if "User" in actors and specialized:
+        # Generalization tree to the left of the actors. Associations leave
+        # to the right, so inheritance and participation lines never cross.
+        ux, uy = actors["User"]
+        trunk_x = 35
+        c.setStrokeColor(INK)
+        c.setLineWidth(1)
+        for label in specialized:
+            sx, sy = actors[label]
+            c.line(sx - 13, sy + 5, trunk_x, sy + 5)
+        c.line(trunk_x, actors[specialized[-1]][1] + 5, trunk_x, uy + 5)
+        generalization(c, trunk_x, uy + 5, ux - 13, uy + 5)
+    return actors
 
 
 def diagram(c, number, title, subtitle, cases, links, systems=()):
     boundary(c, f"{number}. {title}")
-    actors = roles(c)
+    actors = roles(c, {actor for actor, _ in links if actor not in systems})
     points = {}
     # A single use-case column avoids lines passing through neighboring
     # ellipses. Case order follows the actor hierarchy from User to Owner.

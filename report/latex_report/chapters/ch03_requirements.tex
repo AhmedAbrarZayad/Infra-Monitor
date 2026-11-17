@@ -26,10 +26,11 @@ Organisation Engineer &
 
 The system's functionality is modelled as eight use case diagrams, one per
 feature area (\Cref{fig:uc1,fig:uc2,fig:uc3,fig:uc4,fig:uc5,fig:uc6,fig:uc7,fig:uc8}).
-All diagrams share the same four human actors.  \textit{User} is the general
-actor, and \textit{Engineer}, \textit{Admin}, and \textit{Owner} specialise it
-(shown by the generalisation arrow), so every use case linked to User is
-available to all roles.  Use cases drawn in blue are available to any
+The system has four human actors.  \textit{User} is the general actor, and
+\textit{Engineer}, \textit{Admin}, and \textit{Owner} specialise it, so every
+use case linked to User is available to all roles.  Each diagram shows only
+the actors that take part in it; where a specialised role appears alongside
+User, the generalisation arrow links it to User.  Use cases drawn in blue are available to any
 authenticated member; those drawn in orange are restricted to the roles
 connected to them.  External systems (the email service, the host agent, and
 Gemini) appear as \guillemotleft system\guillemotright{} boxes outside the
@@ -105,8 +106,8 @@ The tables below give full textual specifications for the eight primary use
 cases.
 
 %-- UC-01 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-01: User Account Registration}\label{tab:uc01}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-01: User Account Registration}\label{tab:uc01}\\
 \toprule
 \textbf{Use Case ID} & UC-01\\
 \textbf{Name} & User Account Registration\\
@@ -125,11 +126,11 @@ cases.
   E1.~Duplicate email: system returns HTTP~400 with field error.
   E2.~Invalid OTP: system returns HTTP~400 ``Invalid or expired OTP.''\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-02 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-02: User Login}\label{tab:uc02}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-02: User Login}\label{tab:uc02}\\
 \toprule
 \textbf{Use Case ID} & UC-02\\
 \textbf{Name} & User Login\\
@@ -147,11 +148,11 @@ cases.
   E1.~Wrong credentials: HTTP~401 ``Invalid credentials.''
   E2.~Email not verified: HTTP~403 ``Email not verified.''\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-03 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-03: Organisation Creation \& Member Joining}\label{tab:uc03}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-03: Organisation Creation \& Member Joining}\label{tab:uc03}\\
 \toprule
 \textbf{Use Case ID} & UC-03\\
 \textbf{Name} & Organisation Creation \& Member Joining\\
@@ -169,11 +170,11 @@ cases.
   E1.~Duplicate membership: HTTP~400 unique constraint violation.
   E2.~Non-Owner tries to approve: HTTP~403 ``Only the owner may approve memberships.''\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-04 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-04: Server Setup \& Metric Collection}\label{tab:uc04}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-04: Server Setup \& Metric Collection}\label{tab:uc04}\\
 \toprule
 \textbf{Use Case ID} & UC-04\\
 \textbf{Name} & Server Setup \& Metric Collection\\
@@ -192,11 +193,11 @@ cases.
   E1.~Duplicate hostname in org: HTTP~400.
   E2.~VictoriaMetrics unreachable: vminsert health-check fails; Compose restart policy applies.\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-05 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-05: Incident \& Anomaly Assignment}\label{tab:uc05}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-05: Incident \& Anomaly Assignment}\label{tab:uc05}\\
 \toprule
 \textbf{Use Case ID} & UC-05\\
 \textbf{Name} & Incident and Anomaly Assignment\\
@@ -213,11 +214,11 @@ cases.
 \textbf{Exception flow} &
   E1.~Assignee not an Engineer: HTTP~400 validation error from \texttt{Incident.clean()}.\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-06 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-06: AI Chatbot Conversation}\label{tab:uc06}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-06: AI Chatbot Conversation}\label{tab:uc06}\\
 \toprule
 \textbf{Use Case ID} & UC-06\\
 \textbf{Name} & AI Chatbot Conversation (Anomaly Advisory)\\
@@ -235,11 +236,11 @@ cases.
 \textbf{Exception flow} &
   E1.~Ticket expired or already used: WebSocket closed with error code.\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-07 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-07: Request Shield Monitoring}\label{tab:uc07}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-07: Request Shield Monitoring}\label{tab:uc07}\\
 \toprule
 \textbf{Use Case ID} & UC-07\\
 \textbf{Name} & Request Shield -- HTTP Traffic Classification\\
@@ -259,11 +260,11 @@ cases.
 \textbf{Exception flow} &
   E1.~An invalid batch is rejected and remains available for later processing.\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 %-- UC-08 -------------------------------------------------------
-\vspace{0.25cm}\noindent\captionof{table}{Textual description of UC-08: Password Reset}\label{tab:uc08}\par\noindent
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} X@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{\dimexpr0.75\textwidth-2\tabcolsep\relax}@{}}
+\caption{Textual description of UC-08: Password Reset}\label{tab:uc08}\\
 \toprule
 \textbf{Use Case ID} & UC-08\\
 \textbf{Name} & Password Reset via OTP\\
@@ -278,7 +279,7 @@ cases.
 \textbf{Exception flow} &
   E1.~OTP expired or already used: HTTP~400.\\
 \bottomrule
-\end{tabularx}\vspace{0.35cm}
+\end{longtable}
 
 \section{Activity Diagram}
 
@@ -555,9 +556,9 @@ before any domain view is executed.
 \subsection{Integrity Requirements}
 
 \begin{itemize}
-  \item \textbf{Database constraints:} All models use UUID primary keys and
-        Django's \texttt{UniqueConstraint} / \texttt{CheckConstraint} to enforce
-        invariants at the database level (e.g., one OWNER per organisation,
+  \item \textbf{Database constraints:} All models use UUID primary keys, and
+        Django unique and check constraints enforce invariants at the
+        database level (e.g., one OWNER per organisation,
         unique hostname per organisation, privileged memberships must be
         approved).
   \item \textbf{Model-level validation:} \texttt{clean()} methods on
@@ -568,8 +569,8 @@ before any domain view is executed.
         \texttt{transaction.atomic()} with \texttt{get\_or\_create} to prevent
         duplicate rows under race conditions.
   \item \textbf{Metric write integrity:} VictoriaMetrics vminsert enforces
-        per-tenant data isolation; the backend proxies writes using the
-        organisation's \texttt{VictoriaMetricsTenant.account\_id}.
+        per-tenant data isolation; the backend proxies each write under the
+        organisation's own VictoriaMetrics tenant account ID.
 \end{itemize}
 
 \subsection{Privacy Requirements}

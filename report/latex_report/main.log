@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  17 NOV 2026 09:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.11.9)  17 NOV 2026 09:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -200,6 +200,17 @@ Package: placeins 2005/04/18  v 2.2
 )
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/needspace\needspace.sty
 Package: needspace 2026/10/13 v1.3f reserve vertical space
+) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/hyphenat\hyphenat.sty
+Package: hyphenat 2026/10/12 v2.3d hyphenation utilities
+
+Package hyphenat Warning: *******************************
+(hyphenat)                * You have used the htt option.
+(hyphenat)                * You are likely to get many Font Warning messages.
+(hyphenat)                * These can usually be ignored.
+(hyphenat)                *******************************.
+
+\langwohyphens=\language79
+LaTeX Info: Redefining \_ on input line 44.
 ) (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen162
@@ -1213,13 +1224,121 @@ G,.JBIG2,.JB2,.eps]
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+0.
+ (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/b/it' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/b/scsl' undefined
+(Font)              using `T1/lmtt/b/sc' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/b/sc' undefined
+(Font)              using `T1/lmtt/b/n' instead on input line 10.
+
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 10.
+
+LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 10.
+
+LaTeX Font Info:    Font shape `T1/lmtt/bx/sl' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 10.
+
+LaTeX Font Warning: Font shape `T1/lmtt/bx/scsl' undefined
+(Font)              using `T1/lmtt/bx/sc' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/bx/sc' undefined
+(Font)              using `T1/lmtt/bx/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/sbx/sc' undefined
+(Font)              using `T1/lmtt/bx/sc' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/sbx/n' undefined
+(Font)              using `T1/lmtt/bx/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/sbx/it' undefined
+(Font)              using `T1/lmtt/bx/it' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/sbx/sl' undefined
+(Font)              using `T1/lmtt/bx/sl' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/bx/scsl' undefined
+(Font)              using `T1/lmtt/bx/sc' instead on input line 10.
+
+LaTeX Font Info:    Font shape `T1/lmtt/bx/sc' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 10.
+
+LaTeX Font Warning: Font shape `T1/lmtt/bc/sc' undefined
+(Font)              using `T1/lmtt/c/sc' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/c/n' undefined
+(Font)              using `T1/lmtt/m/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/c/it' undefined
+(Font)              using `T1/lmtt/c/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/c/sl' undefined
+(Font)              using `T1/lmtt/c/it' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/c/scit' undefined
+(Font)              using `T1/lmtt/c/sc' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/c/sc' undefined
+(Font)              using `T1/lmtt/c/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/lc/it' in size <12> not available
+(Font)              Font shape `T1/lmtt/lc/sl' tried instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/lc/scsl' undefined
+(Font)              using `T1/lmtt/lc/sc' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/lc/sc' undefined
+(Font)              using `T1/lmtt/lc/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/m/ui' undefined
+(Font)              using `T1/lmtt/m/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/bx/ui' undefined
+(Font)              using `T1/lmtt/bx/n' instead on input line 10.
+
+
+LaTeX Font Warning: Font shape `T1/lmtt/m/In' undefined
+(Font)              using `T1/lmtt/m/n' instead on input line 10.
+
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count404
 Package hyperref Info: Link coloring OFF on input line 10.
- (main.out) (main.out)
+(main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
@@ -1233,8 +1352,7 @@ Package pdftex.def Info: images/cuet_logo.png  used on input line 6.
 
 {C:/Users/ahmed/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/ahme
 d/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./images/cuet_lo
-go.png>])
-(frontmatter/team.tex
+go.png>]) (frontmatter/team.tex
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd)
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd)
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd)
@@ -1277,35 +1395,24 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
- [10] (main.lot
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-6.
-
-(C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
- [11
+ [10] (main.lot [11
 
 
 ])
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
-
-[12] (chapters/ch01_introduction.tex
+ [12]
+(chapters/ch01_introduction.tex
 Chapter 1.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 3.
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (0.41084pt too wide) in paragraph at lines 33--38
+Underfull \hbox (badness 1014) in paragraph at lines 33--38
 \T1/lmr/m/n/12 Modern soft-ware teams man-age fleets of Linux servers host-ing 
-web ap-pli-ca-tions, databases,
+web ap-pli-ca-tions,
  []
 
 [1
@@ -1358,28 +1465,18 @@ Underfull \hbox (badness 1173) in paragraph at lines 150--150
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-[]|\T1/lmr/m/n/12 Ticket-based rate throt-
+Underfull \hbox (badness 3919) in paragraph at lines 150--150
+[]|\T1/lmr/m/n/12 Ticket-based rate throt-tling;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/lmr/m/n/12 tling; grace-ful ``gem-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/lmr/m/n/12 ini_not_configured'' er-ror
+Underfull \hbox (badness 5637) in paragraph at lines 150--150
+\T1/lmr/m/n/12 grace-ful ``gem-ini_-not_-con-fig-
  []
 
 
 Underfull \hbox (badness 1087) in paragraph at lines 150--150
 []|\T1/lmr/m/n/12 Django se-cu-rity vul-ner-a-bil-ity
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-[]|\T1/lmr/m/n/12 Pin de-pen-dency ver-sions;
  []
 
 
@@ -1420,7 +1517,7 @@ File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 1>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page1 used on input line 52.
+ms.pdf , page1 used on input line 53.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
 [13
 
@@ -1431,7 +1528,7 @@ File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 2>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page2 used on input line 59.
+ms.pdf , page2 used on input line 60.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
  [14 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf> <./images
 /diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
@@ -1441,7 +1538,7 @@ File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 3>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page3 used on input line 66.
+ms.pdf , page3 used on input line 67.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
 <images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1028, page=4,
  845.04686pt x 597.50786pt>
@@ -1449,34 +1546,34 @@ File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 4>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page4 used on input line 72.
+ms.pdf , page4 used on input line 73.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
- [15 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf> <./images
-/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
-<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1040, page=5,
+ [15 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
+<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1039, page=5,
  845.04686pt x 597.50786pt>
 File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 5>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page5 used on input line 79.
+ms.pdf , page5 used on input line 80.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
-<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1043, page=6,
+ [16 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf> <./images
+/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
+<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1048, page=6,
  845.04686pt x 597.50786pt>
 File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 6>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page6 used on input line 86.
+ms.pdf , page6 used on input line 87.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
- [16 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
-<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1054, page=7,
+<images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, id=1051, page=7,
  845.04686pt x 597.50786pt>
 File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 7>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page7 used on input line 93.
+ms.pdf , page7 used on input line 94.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
  [17 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf> <./images
 /diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
@@ -1486,70 +1583,19 @@ File: images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf Graphic file
  (type pdf)
 <use images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf, page 8>
 Package pdftex.def Info: images/diagrams/infra_monitor_frontend_use_case_diagra
-ms.pdf , page8 used on input line 100.
+ms.pdf , page8 used on input line 101.
 (pdftex.def)             Requested size: 452.9679pt x 260.41998pt.
 
-
-Package caption Warning: \setcaptiontype
-(caption)                outside box or environment on input line 108.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 108.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 131.
-See the caption package documentation for explanation.
-
-[18 <./images/diagrams/infra_monitor_frontend_use_case_diagrams.pdf>]
-Underfull \hbox (badness 3000) in paragraph at lines 150--150
-[]|\T1/lmr/m/n/12 E1. Wrong cre-den-tials: HTTP 401 ``In-valid cre-den-tials.''
-
- []
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 153.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 175.
-See the caption package documentation for explanation.
-
-[19]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 198.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 219.
-See the caption package documentation for explanation.
-
-[20]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 241.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 265.
-See the caption package documentation for explanation.
-
-[21]
+ignored error: Infinite glue shrinkage found in box being split [18 <./images/d
+iagrams/infra_monitor_frontend_use_case_diagrams.pdf>] [19] [20]
+ignored error: Infinite glue shrinkage found in box being split [21]
 <images/diagrams/Account_Login_Activity_Diagram.png, id=1087, 1284.8pt x 1104.1
 25pt>
 File: images/diagrams/Account_Login_Activity_Diagram.png Graphic file (type png
 )
 <use images/diagrams/Account_Login_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Account_Login_Activity_Diagram.png  us
-ed on input line 292.
+ed on input line 293.
 (pdftex.def)             Requested size: 326.13744pt x 280.27615pt.
  [22]
 <images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png, id=1093, 1284.8
@@ -1558,16 +1604,17 @@ File: images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png Graphic fil
 e (type png)
 <use images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Server_Setup_and_Metrics_Activity_Diag
-ram.png  used on input line 301.
+ram.png  used on input line 302.
 (pdftex.def)             Requested size: 326.13744pt x 443.34593pt.
- [23 <./images/diagrams/Account_Login_Activity_Diagram.png (PNG copy)>]
+
+[23 <./images/diagrams/Account_Login_Activity_Diagram.png (PNG copy)>]
 <images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png, id=1099,
  1284.8pt x 1766.6pt>
 File: images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png Grap
 hic file (type png)
 <use images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Incident_and_Anomaly_Assignment_Activi
-ty_Diagram.png  used on input line 310.
+ty_Diagram.png  used on input line 311.
 (pdftex.def)             Requested size: 326.13744pt x 448.44186pt.
  [24 <./images/diagrams/Server_Setup_and_Metrics_Activity_Diagram.png (PNG copy
 )>]
@@ -1577,17 +1624,18 @@ File: images/diagrams/Chatbot_Conversation_Activity_Diagram.png Graphic file (t
 ype png)
 <use images/diagrams/Chatbot_Conversation_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Chatbot_Conversation_Activity_Diagram.
-png  used on input line 319.
+png  used on input line 320.
 (pdftex.def)             Requested size: 326.13744pt x 443.34593pt.
- [25 <./images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png (P
-NG copy)>]
+
+[25 <./images/diagrams/Incident_and_Anomaly_Assignment_Activity_Diagram.png (PN
+G copy)>]
 <images/diagrams/Shield_Feature_Activity_Diagram.png, id=1112, 1284.8pt x 1957.
 3125pt>
 File: images/diagrams/Shield_Feature_Activity_Diagram.png Graphic file (type pn
 g)
 <use images/diagrams/Shield_Feature_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Shield_Feature_Activity_Diagram.png  u
-sed on input line 328.
+sed on input line 329.
 (pdftex.def)             Requested size: 326.13744pt x 496.8532pt.
  [26 <./images/diagrams/Chatbot_Conversation_Activity_Diagram.png (PNG copy)>]
 <images/diagrams/Organization_Creation_Activity_Diagram.png, id=1118, 1284.8pt 
@@ -1596,7 +1644,7 @@ File: images/diagrams/Organization_Creation_Activity_Diagram.png Graphic file (
 type png)
 <use images/diagrams/Organization_Creation_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Organization_Creation_Activity_Diagram
-.png  used on input line 337.
+.png  used on input line 338.
 (pdftex.def)             Requested size: 326.13744pt x 394.93459pt.
  [27 <./images/diagrams/Shield_Feature_Activity_Diagram.png (PNG copy)>]
 <images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.png, id=1
@@ -1605,49 +1653,47 @@ File: images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.png
 Graphic file (type png)
 <use images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.png>
 Package pdftex.def Info: images/diagrams/Organization_Joining_and_Acceptance_Ac
-tivity_Diagram.png  used on input line 346.
+tivity_Diagram.png  used on input line 347.
 (pdftex.def)             Requested size: 326.13744pt x 405.12645pt.
  [28 <./images/diagrams/Organization_Creation_Activity_Diagram.png (PNG copy)>]
 <images/diagrams/class_diagram.png, id=1130, 2248.4pt x 2103.86pt>
 File: images/diagrams/class_diagram.png Graphic file (type png)
 <use images/diagrams/class_diagram.png>
 Package pdftex.def Info: images/diagrams/class_diagram.png  used on input line 
-356.
+357.
 (pdftex.def)             Requested size: 443.9066pt x 415.37137pt.
  [29 <./images/diagrams/Organization_Joining_and_Acceptance_Activity_Diagram.pn
-g (PNG copy)>]
-LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 362.
- [30 <./images/diagrams/class_diagram.png (PNG copy)>]
+g (PNG copy)>] [30 <./images/diagrams/class_diagram.png (PNG copy)>]
 <images/diagrams/Account_Creation_Sequence_Diagram__2_.png, id=1141, 1453.43pt 
 x 1090.0725pt>
 File: images/diagrams/Account_Creation_Sequence_Diagram__2_.png Graphic file (t
 ype png)
 <use images/diagrams/Account_Creation_Sequence_Diagram__2_.png>
 Package pdftex.def Info: images/diagrams/Account_Creation_Sequence_Diagram__2_.
-png  used on input line 394.
+png  used on input line 395.
 (pdftex.def)             Requested size: 416.72963pt x 312.5368pt.
-
-[31]
+ [31]
 <images/diagrams/Account_Login_Sequence_Diagram_1_.png, id=1148, 1445.4pt x 732
 .7375pt>
 File: images/diagrams/Account_Login_Sequence_Diagram_1_.png Graphic file (type 
 png)
 <use images/diagrams/Account_Login_Sequence_Diagram_1_.png>
 Package pdftex.def Info: images/diagrams/Account_Login_Sequence_Diagram_1_.png 
- used on input line 410.
+ used on input line 411.
 (pdftex.def)             Requested size: 416.72963pt x 211.25856pt.
- [32 <./images/diagrams/Account_Creation_Sequence_Diagram__2_.png (PNG copy)>]
+
+[32 <./images/diagrams/Account_Creation_Sequence_Diagram__2_.png (PNG copy)>]
 <images/diagrams/Organization_Creation_Sequence_Diagram.png, id=1154, 1806.75pt
  x 901.3675pt>
 File: images/diagrams/Organization_Creation_Sequence_Diagram.png Graphic file (
 type png)
 <use images/diagrams/Organization_Creation_Sequence_Diagram.png>
 Package pdftex.def Info: images/diagrams/Organization_Creation_Sequence_Diagram
-.png  used on input line 427.
+.png  used on input line 428.
 (pdftex.def)             Requested size: 452.9679pt x 225.97398pt.
- [33 <./images/diagrams/Account_Login_Sequence_Diagram_1_.png (PNG copy)> <./im
-ages/diagrams/Organization_Creation_Sequence_Diagram.png (PNG copy)>]
+
+[33 <./images/diagrams/Account_Login_Sequence_Diagram_1_.png (PNG copy)> <./ima
+ges/diagrams/Organization_Creation_Sequence_Diagram.png (PNG copy)>]
 <images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.png, i
 d=1160, 2168.1pt x 1238.6275pt>
 File: images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.p
@@ -1655,7 +1701,7 @@ ng Graphic file (type png)
 <use images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.pn
 g>
 Package pdftex.def Info: images/diagrams/Organization_Joining_and_Acceptance_Se
-quence_Diagram_1_.png  used on input line 445.
+quence_Diagram_1_.png  used on input line 446.
 (pdftex.def)             Requested size: 452.9679pt x 258.77756pt.
 <images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png, id=1162, 289
 0.8pt x 1407.2575pt>
@@ -1663,18 +1709,17 @@ File: images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png Graphic
 file (type png)
 <use images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png>
 Package pdftex.def Info: images/diagrams/Server_Setup_and_Metrics_Sequence_Diag
-ram_1_.png  used on input line 464.
+ram_1_.png  used on input line 465.
 (pdftex.def)             Requested size: 452.9679pt x 220.50616pt.
-
-[34 <./images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_.
-png (PNG copy)>]
+ [34 <./images/diagrams/Organization_Joining_and_Acceptance_Sequence_Diagram_1_
+.png (PNG copy)>]
 <images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png, id=11
 68, 2529.45pt x 1322.9425pt>
 File: images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png G
 raphic file (type png)
 <use images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.png>
 Package pdftex.def Info: images/diagrams/Incident_and_Anomaly_Assignment_Sequen
-ce_Diagram_1_.png  used on input line 481.
+ce_Diagram_1_.png  used on input line 482.
 (pdftex.def)             Requested size: 452.9679pt x 236.90819pt.
  [35 <./images/diagrams/Server_Setup_and_Metrics_Sequence_Diagram_1_.png (PNG c
 opy)> <./images/diagrams/Incident_and_Anomaly_Assignment_Sequence_Diagram_1_.pn
@@ -1685,7 +1730,7 @@ File: images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png Graphic file
  (type png)
 <use images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png>
 Package pdftex.def Info: images/diagrams/Chatbot_Conversation_Sequence_Diagram_
-1_.png  used on input line 499.
+1_.png  used on input line 500.
 (pdftex.def)             Requested size: 452.9679pt x 221.80934pt.
 <images/diagrams/Shield_Feature_Sequence_Diagram_1_.png, id=1176, 2890.8pt x 14
 07.2575pt>
@@ -1693,22 +1738,11 @@ File: images/diagrams/Shield_Feature_Sequence_Diagram_1_.png Graphic file (type
  png)
 <use images/diagrams/Shield_Feature_Sequence_Diagram_1_.png>
 Package pdftex.def Info: images/diagrams/Shield_Feature_Sequence_Diagram_1_.png
-  used on input line 517.
+  used on input line 518.
 (pdftex.def)             Requested size: 452.9679pt x 220.50616pt.
  [36 <./images/diagrams/Chatbot_Conversation_Sequence_Diagram_1_.png (PNG copy)
->] [37 <./images/diagrams/Shield_Feature_Sequence_Diagram_1_.png (PNG copy)>]
-Underfull \hbox (badness 5726) in paragraph at lines 570--573
-[]\T1/lmr/bx/n/12 Metric write in-tegrity: \T1/lmr/m/n/12 Vic-to-ri-a-Met-rics 
-vmin-sert en-forces per-tenant
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 570--573
-\T1/lmr/m/n/12 data iso-la-tion; the back-end prox-ies writes us-ing the or-gan
--i-sa-tion's
- []
-
-[38]) (chapters/ch04_architecture.tex [39]
+>] [37 <./images/diagrams/Shield_Feature_Sequence_Diagram_1_.png (PNG copy)>] [
+38]) (chapters/ch04_architecture.tex [39]
 Chapter 4.
 <images/diagrams/architecture_diagram.png, id=1194, 537.207pt x 349.90726pt>
 File: images/diagrams/architecture_diagram.png Graphic file (type png)
@@ -1720,23 +1754,7 @@ t line 39.
 
 ] [41 <./images/diagrams/architecture_diagram.png>]
 ignored error: Infinite glue shrinkage found in box being split [42] [43]
-Underfull \hbox (badness 1721) in paragraph at lines 218--221
-[]\T1/lmr/m/it/12 Gemini es-ca-la-tion: \T1/lmr/m/n/12 GRAY-zone logs above a r
-e-quest count thresh-old
- []
-
-
-Underfull \hbox (badness 1009) in paragraph at lines 218--221
-\T1/lmr/m/n/12 are sub-mit-ted to Gem-ini for deeper pat-tern anal-y-sis; re-su
-lt stored in
- []
-
 [44]
-Underfull \hbox (badness 10000) in paragraph at lines 230--233
-[]\T1/lmr/m/it/12 Streaming: \T1/lmtt/m/n/12 stream_gemini_response() \T1/lmr/m
-/n/12 uses
- []
-
 (C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
@@ -1939,27 +1957,9 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 [59] [60] [61]) (chapters/ch06_implementation.tex [62]
 Chapter 6.
-
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
-[]\T1/lmr/m/n/12 The \T1/lmtt/m/n/12 LoginView \T1/lmr/m/n/12 re-jects lo-gin i
-f \T1/lmtt/m/n/12 is_email_verified=False\T1/lmr/m/n/12 , pre-vent-ing ac-
- []
-
-
-Underfull \hbox (badness 2856) in paragraph at lines 41--44
-\T1/lmr/m/n/12 cess with un-ver-i-fied ac-counts. Re-fresh to-kens are black-li
-sted on lo-gout via
- []
-
 [63
 
-] [64]
-Underfull \hbox (badness 1033) in paragraph at lines 128--131
-[]\T1/lmr/m/n/12 The func-tion is an async gen-er-a-tor, yield-ing text chunks 
-as they ar-rive. The
- []
-
-[65] [66]) (chapters/ch07_testing.tex [67]
+] [64] [65] [66]) (chapters/ch07_testing.tex [67]
 Chapter 7.
 ignored error: Infinite glue shrinkage found in box being split [68
 
@@ -2097,13 +2097,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--33
 
 [79
 
-]
-Underfull \hbox (badness 1127) in paragraph at lines 43--48
-[]\T1/lmr/bx/n/12 Health checks: \T1/lmr/m/n/12 All state-ful ser-vices de-fine
- Docker health checks (Post-greSQL:
- []
-
-[80] [81]) (chapters/ch09_sustainability.tex [82]
+] [80] [81]) (chapters/ch09_sustainability.tex [82]
 Chapter 9.
 
 Underfull \hbox (badness 2245) in paragraph at lines 38--38
@@ -2122,7 +2116,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--38
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 38--38
-\T1/lmtt/m/n/12 REQUEST_SHIELD_CLASSIFY_
+\T1/lmtt/c/it/12 RE-QUEST_-SHIELD_-CLASSIFY_-
  []
 
 
@@ -2132,7 +2126,7 @@ Underfull \hbox (badness 4120) in paragraph at lines 38--38
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 38--38
-[]|\T1/lmr/m/n/12 Set \T1/lmtt/m/n/12 CELERY_RESULT_EXPIRES
+[]|\T1/lmr/m/n/12 Set \T1/lmtt/c/it/12 CEL-ERY_-RE-SULT_-EX-PIRES
  []
 
 [83
@@ -2140,19 +2134,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--38
 ]
 Underfull \hbox (badness 2635) in paragraph at lines 66--70
 []\T1/lmr/bx/n/12 Multi-tenancy: \T1/lmr/m/n/12 Vic-to-ri-a-Met-rics ten-ant is
-o-la-tion (\T1/lmtt/m/n/12 VictoriaMetricsTenant
- []
-
-
-Underfull \hbox (badness 1939) in paragraph at lines 80--83
-[]\T1/lmr/bx/n/12 Dependency up-dates: \T1/lmr/m/n/12 Monthly re-view of \T1/lm
-tt/m/n/12 pip-audit \T1/lmr/m/n/12 and \T1/lmtt/m/n/12 flutter pub
- []
-
-
-Underfull \hbox (badness 1803) in paragraph at lines 86--88
-[]\T1/lmr/bx/n/12 Database mi-gra-tions: \T1/lmr/m/n/12 All schema changes via 
-Django \T1/lmtt/m/n/12 makemigrations\T1/lmr/m/n/12 ;
+o-la-tion (\T1/lmtt/c/it/12 VictoriaMetricsTenant
  []
 
 [84] [85]) (main.bbl [86]) (appendices/appendixB_test_cases.tex [87
@@ -2426,12 +2408,13 @@ Appendix E.
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 81--81
-[]|\T1/lmr/m/n/10.95 Code de-faults: 200 es-ti-ma-tors, max_depth=20,
+[]|\T1/lmr/m/n/10.95 Code de-faults: 200 es-ti-ma-tors, max_-depth=20, class_-
  []
 
 
-Underfull \hbox (badness 1009) in paragraph at lines 81--81
-\T1/lmr/m/n/10.95 class_weight=`balanced', n_jobs=-1, ran-dom_state=42. The
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+\T1/lmr/m/n/10.95 base-line ar-ti-fact (\T1/lmtt/m/n/10.95 request-shield-basel
+ine-20260915\T1/lmr/m/n/10.95 ) was
  []
 
 
@@ -2445,17 +2428,21 @@ d in
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4E304C170D329611F0D925D89947ACC0;28360.
  ) 
 Here is how much of TeX's memory you used:
- 36742 strings out of 467871
- 730162 string characters out of 5418376
- 1515174 words of memory out of 5000000
- 64352 multiletter control sequences out of 15000+600000
- 749908 words of font info for 120 fonts, out of 8000000 for 9000
+ 36854 strings out of 467871
+ 732036 string characters out of 5418376
+ 1516353 words of memory out of 5000000
+ 64455 multiletter control sequences out of 15000+600000
+ 751828 words of font info for 126 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,19n,97p,1003b,2185s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,19n,97p,1003b,2195s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
 b><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
 b><C:/Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx8.pfb
@@ -2475,9 +2462,9 @@ sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/U
 sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/U
 sers/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb><C:/
 Users/ahmed/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (117 pages, 5202062 bytes).
+Output written on main.pdf (117 pages, 5199660 bytes).
 PDF statistics:
  2171 PDF objects out of 2487 (max. 8388607)
  583 named destinations out of 1000 (max. 500000)
- 24424 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 27496 words of extra memory for PDF output out of 29859 (max. 10000000)
 

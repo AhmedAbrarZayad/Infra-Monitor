@@ -78,6 +78,8 @@ INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\placeins\placeins.s
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\placeins\placeins.sty
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\needspace\needspace.sty
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\needspace\needspace.sty
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\hyphenat\hyphenat.sty
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\hyphenat\hyphenat.sty
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\booktabs\booktabs.sty
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\booktabs\booktabs.sty
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\tools\tabularx.sty
@@ -376,6 +378,17 @@ INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\grfext\grfext.sty
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtti10.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtto10.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtcso10.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtk10.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtko10.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtlc10.tfm
+INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtlco10.tfm
 INPUT .\main.out
 INPUT .\main.out
 INPUT main.out
@@ -480,10 +493,6 @@ OUTPUT main.lof
 INPUT .\main.lot
 INPUT .\main.lot
 INPUT main.lot
-INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
 OUTPUT main.lot
 INPUT .\chapters\ch01_introduction.tex
 INPUT .\chapters\ch01_introduction.tex
@@ -601,7 +610,6 @@ INPUT .\images\diagrams\class_diagram.png
 INPUT .\images\diagrams\class_diagram.png
 INPUT .\images\diagrams\class_diagram.png
 INPUT .\images\diagrams\class_diagram.png
-INPUT C:\Users\ahmed\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtk10.tfm
 INPUT .\images\diagrams\Account_Creation_Sequence_Diagram__2_.png
 INPUT .\images\diagrams\Account_Creation_Sequence_Diagram__2_.png
 INPUT .\images\diagrams\Account_Creation_Sequence_Diagram__2_.png
