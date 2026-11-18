@@ -117,7 +117,7 @@ class EmailServiceTest(TestCase):
         mock_smtp = mock_smtp_class.return_value.__enter__.return_value
 
         service = GmailOAuth2EmailService()
-        result = service.send_email("test@example.com", "Test Subject", "<p>Hello</p>")
+        result = service.send_email("ahmedabrarzayad@gmail.com", "Test Subject", "<p>Hello</p>")
 
         self.assertTrue(result)
         mock_smtp.starttls.assert_called_once()
