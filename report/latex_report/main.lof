@@ -1,0 +1,77 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Scrum sprint cycle used for Infra Monitor development}}{6}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Project timeline (Gantt chart) over 14 weeks}}{10}{figure.caption.12}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Use case diagram 1: Identity and account access}}{14}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Use case diagram 2: Organisation and membership}}{14}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Use case diagram 3: Server enrolment}}{15}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Use case diagram 4: Overview dashboard}}{16}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Use case diagram 5: Servers, services, and metrics}}{16}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Use case diagram 6: Anomalies and assignments}}{17}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Use case diagram 7: Incident response}}{17}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Use case diagram 8: AI operations assistant}}{18}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Activity diagram: Account Registration, OTP Verification, and Login}}{23}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Activity diagram: Server Setup and Metric Collection Pipeline}}{24}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Activity diagram: Incident and Anomaly Assignment Lifecycle}}{25}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Activity diagram: AI Chatbot Diagnostic Conversation}}{26}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Activity diagram: Request Shield Traffic Classification}}{27}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Activity diagram: Organisation Creation and Scoping}}{28}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Activity diagram: Organisation Joining and Membership Approval}}{29}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Comprehensive Class Diagram for Infra Monitor domain models and relational associations}}{30}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Sequence diagram: Account Registration and Email Verification}}{32}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Sequence diagram: User Login and JWT Issuance}}{33}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Sequence diagram: Organisation Creation}}{33}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Sequence diagram: Organisation Joining and Acceptance}}{34}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Sequence diagram: Server Setup and Metric Collection}}{35}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Sequence diagram: Incident and Anomaly Assignment}}{35}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.23}{\ignorespaces Sequence diagram: AI Chatbot (WebSocket) Conversation}}{36}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.24}{\ignorespaces Sequence diagram: Request Shield Classification and Threat Suggestion}}{37}{figure.caption.38}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces High-level system architecture of Infra Monitor}}{41}{figure.caption.41}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces AI-integration architecture showing three ML/LLM data flows}}{44}{figure.caption.42}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Component diagram for Infra Monitor}}{46}{figure.caption.43}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Entity--Relationship diagram for Infra Monitor (academic notation, black and white)}}{50}{figure.caption.45}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Overview dashboard (left) and its alerts and platform-health section (right) -- UC-04}}{53}{figure.caption.51}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Server fleet list (left) and server detail view (right) -- UC-04}}{54}{figure.caption.52}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Metric history and discovered services (left) and anomaly history list (right) -- UC-04, UC-05}}{55}{figure.caption.53}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Request Shield interface (left) and AI advisory chatbot interface (right) -- UC-06, UC-07}}{56}{figure.caption.54}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Overview dashboard screens}}{91}{figure.caption.62}%
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Server management screens}}{92}{figure.caption.63}%
+\contentsline {figure}{\numberline {B.3}{\ignorespaces Monitoring and incident triage screens}}{92}{figure.caption.64}%
+\contentsline {figure}{\numberline {B.4}{\ignorespaces Request Shield and AI assistant screens}}{93}{figure.caption.65}%
+\contentsline {figure}{\numberline {B.5}{\ignorespaces Organisation, preferences, and assignment screens}}{94}{figure.caption.66}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {D.1}{\ignorespaces Deployment diagram for Infra Monitor (Docker Compose on Ubuntu 22.04)}}{96}{figure.caption.68}%
+\contentsline {figure}{\numberline {D.2}{\ignorespaces DFD Level 1: Context diagram -- Infra Monitor as a black box}}{97}{figure.caption.69}%
+\contentsline {figure}{\numberline {D.3}{\ignorespaces DFD Level 2: Service decomposition}}{98}{figure.caption.70}%
+\contentsline {figure}{\numberline {D.4}{\ignorespaces DFD Level 3: Request Shield internal data flows}}{99}{figure.caption.71}%
+\contentsline {figure}{\numberline {D.5}{\ignorespaces DFD: Account and Organisation flows}}{99}{figure.caption.72}%
+\contentsline {figure}{\numberline {D.6}{\ignorespaces DFD: Server installer and enrollment flows}}{100}{figure.caption.73}%
+\contentsline {figure}{\numberline {D.7}{\ignorespaces DFD: Server metric collection and ML anomaly detection}}{100}{figure.caption.74}%
+\contentsline {figure}{\numberline {D.8}{\ignorespaces DFD: Message / notification service flows}}{100}{figure.caption.75}%
+\contentsline {figure}{\numberline {D.9}{\ignorespaces Detailed DFD: Manage accounts and organisations}}{101}{figure.caption.76}%
+\contentsline {figure}{\numberline {D.10}{\ignorespaces Detailed DFD: Detect anomalies and manage incidents}}{101}{figure.caption.76}%
+\contentsline {figure}{\numberline {D.11}{\ignorespaces Detailed DFD: Answer incident questions (AI assistant)}}{102}{figure.caption.77}%
+\contentsline {figure}{\numberline {D.12}{\ignorespaces Detailed DFD: Register servers and collect metrics}}{102}{figure.caption.77}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {F.1}{\ignorespaces Git commit history screenshot 1}}{106}{figure.caption.80}%
+\contentsline {figure}{\numberline {F.2}{\ignorespaces Git commit history screenshot 2}}{106}{figure.caption.81}%
+\contentsline {figure}{\numberline {F.3}{\ignorespaces Git commit history screenshot 3}}{107}{figure.caption.82}%
+\contentsline {figure}{\numberline {F.4}{\ignorespaces Git commit history screenshot 4}}{107}{figure.caption.83}%
+\contentsline {figure}{\numberline {F.5}{\ignorespaces Git commit history screenshot 5}}{107}{figure.caption.84}%
+\contentsline {figure}{\numberline {F.6}{\ignorespaces Git commit history screenshot 6}}{108}{figure.caption.85}%
+\contentsline {figure}{\numberline {F.7}{\ignorespaces Git commit history screenshot 7}}{108}{figure.caption.86}%
+\contentsline {figure}{\numberline {F.8}{\ignorespaces Git commit history screenshot 8}}{109}{figure.caption.87}%
+\contentsline {figure}{\numberline {F.9}{\ignorespaces Git commit history screenshot 9}}{109}{figure.caption.88}%
+\contentsline {figure}{\numberline {F.10}{\ignorespaces Git commit history screenshot 10}}{110}{figure.caption.89}%
+\contentsline {figure}{\numberline {F.11}{\ignorespaces Git commit history screenshot 11}}{110}{figure.caption.90}%

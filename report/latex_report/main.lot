@@ -1,0 +1,60 @@
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Comparison with existing monitoring products}}{2}{table.1.1}%
+\contentsline {table}{\numberline {1.2}{\ignorespaces Terms, acronyms and abbreviations}}{4}{table.1.2}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Team roles and responsibilities}}{5}{table.caption.7}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Individual contribution matrix}}{6}{table.caption.8}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Risk analysis}}{7}{table.caption.10}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Software stack with versions}}{9}{table.caption.11}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Estimated project budget}}{11}{table.caption.13}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces System stakeholders}}{13}{table.caption.14}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Textual description of UC-01: User Account Registration}}{18}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Textual description of UC-02: User Login}}{19}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Textual description of UC-03: Organisation Creation \& Member Joining}}{19}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Textual description of UC-04: Server Setup \& Metric Collection}}{20}{table.3.5}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Textual description of UC-05: Incident \& Anomaly Assignment}}{20}{table.3.6}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Textual description of UC-06: AI Chatbot Conversation}}{21}{table.3.7}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Textual description of UC-07: Request Shield Monitoring}}{21}{table.3.8}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Textual description of UC-08: Password Reset}}{22}{table.3.9}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces RBAC access control matrix}}{37}{table.caption.39}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces AI-integration requirements}}{39}{table.caption.40}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Technology stack with justification and rejected alternatives}}{42}{table.4.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Request Shield feature schema}}{49}{table.caption.44}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Schema of table \texttt {accounts\_users}}}{50}{table.caption.46}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Schema of table \texttt {accounts\_organization}}}{51}{table.caption.47}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Schema of table \texttt {accounts\_organizationmembership}}}{51}{table.caption.48}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Schema of table \texttt {servers\_servers}}}{51}{table.caption.49}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Schema of table \texttt {ml\_model\_anomalydetection}}}{52}{table.caption.50}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces API endpoint summary}}{57}{table.5.7}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Sample high-level test cases}}{62}{table.caption.55}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {7.1}{\ignorespaces System-level requirement list}}{68}{table.7.1}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces System level test cases -- Module: Authentication}}{69}{table.7.2}%
+\contentsline {table}{\numberline {7.3}{\ignorespaces System level test cases -- Module: Organisation}}{70}{table.7.3}%
+\contentsline {table}{\numberline {7.4}{\ignorespaces System level test cases -- Module: Server \& Metrics}}{71}{table.7.4}%
+\contentsline {table}{\numberline {7.5}{\ignorespaces System level test cases -- Module: AI Chatbot}}{71}{table.7.5}%
+\contentsline {table}{\numberline {7.6}{\ignorespaces System level test cases -- Module: Request Shield}}{72}{table.7.6}%
+\contentsline {table}{\numberline {7.7}{\ignorespaces Traceability matrix: test cases vs.\ use cases and requirements}}{73}{table.7.7}%
+\contentsline {table}{\numberline {7.8}{\ignorespaces UAT task completion results}}{75}{table.caption.56}%
+\contentsline {table}{\numberline {7.9}{\ignorespaces VAPT findings -- OWASP Top~10 checklist \cite {owasp2021}}}{75}{table.7.9}%
+\contentsline {table}{\numberline {7.10}{\ignorespaces Anomaly detection model evaluation}}{76}{table.caption.57}%
+\contentsline {table}{\numberline {7.11}{\ignorespaces Request Shield classifier evaluation (CICIDS2017)}}{77}{table.caption.58}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {8.1}{\ignorespaces Docker Compose service inventory}}{79}{table.caption.59}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {9.1}{\ignorespaces Scalability analysis}}{83}{table.caption.60}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Complete test case table (all modules)}}{88}{table.A.1}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {C.1}{\ignorespaces Sprint progress log and development milestones}}{95}{table.caption.67}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {E.1}{\ignorespaces Isolation Forest model card}}{103}{table.E.1}%
+\contentsline {table}{\numberline {E.2}{\ignorespaces Random Forest Request Shield model card}}{104}{table.caption.78}%
+\contentsline {table}{\numberline {E.3}{\ignorespaces Gemini chatbot configuration documentation}}{105}{table.caption.79}%
+\addvspace {10\p@ }

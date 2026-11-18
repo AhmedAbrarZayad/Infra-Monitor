@@ -1,0 +1,68 @@
+\chapter{UI Screenshots}\label{app:screens}
+
+All screenshots were captured from the Infra Monitor Flutter application
+running on Android during project evaluation in November 2026.  Screens are
+grouped by feature area and read left to right; each caption names the screens
+and the use cases they serve.  \Cref{sec:gui} in Chapter~5 describes the
+interface design in more detail.
+
+\newcommand{\shot}[1]{\includegraphics[width=0.28\textwidth]{images/ss/#1}}
+
+\begin{figure}[H]
+\centering
+\shot{WhatsApp_Image_2026-11-06_at_17.27.19.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.19__1_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.20.jpeg}
+\caption[Overview dashboard screens]{Overview dashboard.  Left: fleet status counters and open critical
+  or high incidents.  Centre: services flagged by the anomaly model and the
+  streaming alert feed.  Right: platform health (API and telemetry ingestion)
+  and the live WebSocket stream indicator.  Serves UC-04.}\label{fig:app_overview}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\shot{WhatsApp_Image_2026-11-06_at_17.27.20__1_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.20__2_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.23.jpeg}
+\caption[Server management screens]{Server management.  Left: monitored server fleet with search,
+  health and environment filters, and the \textit{Add server} action.
+  Centre: server detail with host, environment, CPU, memory, and load.
+  Right: further server readings (disk, network, TCP).  Serves UC-04.}\label{fig:app_servers}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\shot{WhatsApp_Image_2026-11-06_at_17.27.23__1_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.23__2_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.24.jpeg}
+\caption[Monitoring and incident triage screens]{Monitoring and incident triage.  Left: metric history chart with
+  1\,h/24\,h/7\,d/30\,d ranges and discovered services.  Centre: anomaly
+  history produced by the Isolation Forest model.  Right: incident queue with
+  severity and status badges and the \textit{Assign Engineer} action.  Serves
+  UC-04 and UC-05.}\label{fig:app_incidents}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\shot{WhatsApp_Image_2026-11-06_at_17.27.24__2_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.25.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.24__1_.jpeg}
+\caption[Request Shield and AI assistant screens]{Request Shield and AI assistant.  Left: traffic totals and the
+  GREEN/GRAY/RED zone distribution.  Centre: top offending IPs, pending
+  threat suggestions, and the recent classified-request log.  Right: Gemini
+  advisory chatbot with the selected anomaly's evidence.  Serves UC-06 and
+  UC-07.}\label{fig:app_ai_shield}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\shot{WhatsApp_Image_2026-11-06_at_17.27.25__1_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.25__2_.jpeg}\hfill
+\shot{WhatsApp_Image_2026-11-06_at_17.27.27.jpeg}
+\caption[Organisation, preferences, and assignment screens]{Organisation, preferences, and assignment.  Left: current
+  organisation with \textit{Join another organisation}, \textit{Create
+  organisation}, and pending join requests.  Centre: members, environment
+  preference, and user preferences (notifications, theme, refresh interval,
+  time zone).  Right: incident assignment dialog listing approved engineers
+  and the assignment history.  Serves UC-03 and UC-05.}\label{fig:app_org_assign}
+\end{figure}

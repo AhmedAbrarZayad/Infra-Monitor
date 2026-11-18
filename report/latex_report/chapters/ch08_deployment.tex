@@ -1,0 +1,138 @@
+\chapter{Deployment and Go-Live}\label{ch:deploy}
+
+\section{Deployment Environment}
+
+Infra Monitor is containerised with Docker Compose and deployable on any
+Linux host (Ubuntu 22.04 LTS recommended) with Docker Engine 24+ installed.
+For this academic submission, the \textbf{Django backend has been deployed to
+Render} (a cloud PaaS), making the REST API and WebSocket endpoint publicly
+accessible.  VictoriaMetrics (the time-series database cluster) was not deployed
+to a public host because the VictoriaMetrics cluster mode requires persistent
+volumes and a paid tier on most PaaS providers; it continues to run locally
+via Docker Compose during development and testing.
+
+The full local stack consists of nine cooperating services:
+
+\begin{table}[H]
+\centering
+\caption{Docker Compose service inventory}\label{tab:services}
+\begin{tabularx}{\textwidth}{@{}l l X l@{}}
+\toprule
+\textbf{Service} & \textbf{Image / Build} & \textbf{Role} & \textbf{Port}\\
+\midrule
+backend        & Django+Daphne ASGI API & Django+Daphne ASGI API & 7000:8000\\
+ml\_service    & FastAPI ML inference microservice & FastAPI ML inference microservice & 7001:80\\
+celery\_worker & Celery async task executor & Celery async task executor & \\
+celery\_beat   & Periodic task scheduler & Periodic task scheduler & \\
+redis          & Redis     & Celery broker + WS channel layer & \\
+postgres       & PostgreSQL        & Primary relational database & 5433:5432\\
+vmstorage      & VictoriaMetrics storage & Time-series storage & \\
+vminsert       & VictoriaMetrics write service  & Metric write endpoint & \\
+vmselect       & VictoriaMetrics  & Metric query endpoint & 8481\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Data volumes:}
+\begin{itemize}
+  \item PostgreSQL data storage
+  \item VictoriaMetrics data storage
+  \item Trained model artifacts
+\end{itemize}
+
+\textbf{Health checks:} All stateful services define Docker health checks
+(PostgreSQL: \texttt{pg\_isready}; Redis: \texttt{redis-cli ping};
+VictoriaMetrics: HTTP \texttt{/health}; ML service: HTTP \texttt{/health}).
+The backend service depends on all three external services being healthy
+before starting (\texttt{condition: service\_healthy}).
+
+\textbf{Environment configuration:} Secrets, database settings, service
+credentials, and allowed hosts are supplied through deployment environment
+variables and are not committed to version control.
+
+\textbf{SSL/TLS:} In production, a reverse proxy (Nginx or Caddy) is placed
+in front of the backend container to terminate HTTPS and proxy WebSocket
+upgrades.  Let's Encrypt or an internal CA provides the certificate.
+
+\textbf{Deployment diagram:} See \Cref{fig:deploy} in Appendix~\ref{app:deploy}.
+
+\section{Deployment Process and CI/CD Implementation}
+
+\textbf{Step-by-step deployment procedure:}
+
+\begin{enumerate}
+  \item \textbf{Provision host:} Launch an Ubuntu 22.04 LTS VM or bare-metal
+        server (minimum 4~GB RAM, 20~GB SSD).
+  \item \textbf{Install Docker:}
+\begin{lstlisting}[language=bash,caption={Docker installation (Ubuntu)},label={lst:docker}]
+sudo apt update
+sudo apt install -y docker.io docker-compose-plugin
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+\end{lstlisting}
+  \item \textbf{Clone repository:}
+\begin{lstlisting}[language=bash,caption={Clone and configure},label={lst:clone}]
+git clone https://github.com/AhmedAbrarZayad/Infra-Monitor infra-monitor
+cd infra-monitor
+# Configure deployment environment variables with actual secrets
+\end{lstlisting}
+  \item \textbf{Build and start services:}
+\begin{lstlisting}[language=bash,caption={Start the full stack},label={lst:compose}]
+docker compose build
+docker compose up -d
+\end{lstlisting}
+  \item \textbf{Run migrations and create superuser:}
+\begin{lstlisting}[language=bash,caption={Database initialisation},label={lst:migrate}]
+docker compose exec backend python manage.py migrate
+docker compose exec backend python manage.py createsuperuser
+\end{lstlisting}
+  \item \textbf{Train initial ML model:}
+\begin{lstlisting}[language=bash,caption={Initial ML model training},label={lst:train}]
+# Trigger training via Celery or admin API
+docker compose exec backend python manage.py trigger_ml_training
+\end{lstlisting}
+  \item \textbf{Configure reverse proxy:} Point Nginx to port 7000 (backend)
+        with WebSocket upgrade support (\texttt{Upgrade: websocket} header
+        pass-through).
+  \item \textbf{Verify health:}
+\begin{lstlisting}[language=bash,caption={Health verification},label={lst:health}]
+curl http://localhost:7000/api/health/
+# Expected: {"status": "ok"}
+curl http://localhost:7001/health
+# Expected: {"status": "ok"}
+\end{lstlisting}
+\end{enumerate}
+
+\section{Go-Live Strategy and Post-Deployment Monitoring}
+
+\textbf{Academic deployment summary:} The Django API backend has been deployed
+to Render for the academic submission.  The local container configuration has
+been verified and the services start together during development.  VictoriaMetrics is not publicly hosted
+at this stage; it runs locally for development and testing purposes, as hosting
+the cluster mode on a public platform would require a paid persistent-storage tier.
+
+\textbf{Docker configuration status:} All Compose services have health checks
+(PostgreSQL: \texttt{pg\_isready}; Redis: \texttt{redis-cli ping};
+VictoriaMetrics: HTTP \texttt{/health}; ML service: HTTP \texttt{/health}).
+Service startup ordering is enforced with \texttt{condition: service\_healthy}.
+Environment variables are loaded at deployment time; no secrets are
+committed to the repository.
+
+\textbf{Rollout strategy:} For a full production deployment, a \textbf{phased
+rollout} is recommended: deploy monitoring-only features first (server
+enrolment, dashboards), then enable alerts/incidents, then enable AI features.
+
+\textbf{Post-deployment monitoring (planned):}
+\begin{itemize}
+  \item \textbf{Application health:} The health endpoint is polled
+        periodically by an external uptime monitor.
+  \item \textbf{Container health:} \texttt{docker compose ps} and Docker
+        restart policies (\texttt{restart: unless-stopped}) ensure automatic
+        recovery from crashes.
+  \item \textbf{Log monitoring:} \texttt{docker compose logs -f backend}
+        for real-time error tracking.
+  \item \textbf{Rollback plan:} Tag each release (\texttt{git tag v1.x.x});
+        restore previous image with \texttt{docker compose pull} and
+        \texttt{docker compose up -d}.
+\end{itemize}
+

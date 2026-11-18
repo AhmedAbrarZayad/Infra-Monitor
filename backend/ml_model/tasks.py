@@ -22,6 +22,11 @@ def completed_window(now=None):
     return end - timedelta(seconds=window_seconds), end
 
 
+def _has_variation(rows):
+    distinct = {tuple(sorted(row["values"].items())) for row in rows}
+    return len(distinct) > 1
+
+
 @shared_task(name="ml_model.dispatch_service_ml")
 def dispatch_service_ml():
     service_ids = list(Service.objects.values_list("service_id", flat=True))
@@ -75,10 +80,17 @@ def orchestrate_service_ml(self, service_id):
                 start=training_start,
                 end=end,
                 step=settings.ML_METRIC_STEP_SECONDS,
-                min_rows=2,
+                min_rows=settings.ML_TRAINING_MIN_ROWS,
             )
         except InsufficientTelemetryError as exc:
             return {"status": "insufficient_training_data", "detail": str(exc)}
+        # Isolation Forest cannot split identical rows; such a model scores
+        # every window identically and never reports an anomaly.
+        if not _has_variation(training_rows):
+            return {
+                "status": "insufficient_training_data",
+                "detail": "Training rows are identical; waiting for baseline variation.",
+            }
         client.train(service_id=service.service_id, rows=training_rows)
         result = client.infer(
             service=service,

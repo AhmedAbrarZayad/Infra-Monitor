@@ -7,7 +7,11 @@
 #
 # Example:
 #   sudo sh install.sh --token enroll_example \
-#     --server https://monitoring.example.com
+#     --server https://monitoring.example.com \
+#     --access-log /var/log/nginx/access.log
+#
+# The forwarder expects nginx/Apache combined access-log lines. The default
+# path is /var/log/nginx/access.log.
 #
 # This uses portable POSIX `sh` syntax; Bash is not required.
 
@@ -28,10 +32,11 @@ REQUEST_LOG_USER="infra-monitor"
 REQUEST_LOG_CONFIG_DIR="/etc/infra-monitor"
 REQUEST_LOG_STATE_DIR="/var/lib/infra-monitor"
 REQUEST_LOG_SCRIPT="/usr/local/libexec/infra-monitor-request-forwarder.py"
+ACCESS_LOG_PATH="/var/log/nginx/access.log"
 
 # Show command usage. Exit 0 for --help and 2 for malformed arguments.
 usage() {
-    echo "Usage: $0 --token TOKEN --server BACKEND_URL" >&2
+    echo "Usage: $0 --token TOKEN --server BACKEND_URL [--access-log PATH]" >&2
     exit "${1:-2}"
 }
 
@@ -43,6 +48,7 @@ while [ "$#" -gt 0 ]; do
     case "$1" in
         --token) [ "$#" -ge 2 ] || usage; TOKEN=$2; shift 2 ;;
         --server) [ "$#" -ge 2 ] || usage; SERVER_URL=${2%/}; shift 2 ;;
+        --access-log) [ "$#" -ge 2 ] || usage; ACCESS_LOG_PATH=$2; shift 2 ;;
         -h|--help) usage 0 ;;
         *) die "unknown argument: $1" ;;
     esac
@@ -51,6 +57,10 @@ done
 # Validate everything before installing packages or writing system files.
 [ -n "$TOKEN" ] || die "--token is required"
 [ -n "$SERVER_URL" ] || die "--server is required"
+case "$ACCESS_LOG_PATH" in
+    /*) ;;
+    *) die "--access-log must be an absolute path" ;;
+esac
 
 # Fail before consuming the one-time token when the selected callback address
 # is unreachable. This catches stale WSL gateways immediately.
@@ -203,6 +213,7 @@ CREDENTIAL_FILE = os.environ["REQUEST_LOG_CREDENTIAL_FILE"]
 SERVER_ID = os.environ["REQUEST_LOG_SERVER_ID"]
 STATE_FILE = os.environ.get("REQUEST_LOG_STATE_FILE", "/var/lib/infra-monitor/access-log.offset")
 BATCH_SIZE = 100
+_warned_log_paths = set()
 LINE = re.compile(r'^(?P<ip>\S+) \S+ \S+ \[(?P<date>[^]]+)\] "(?P<method>\S+) (?P<target>\S+) (?P<protocol>\S+)" (?P<status>\d{3}) (?P<size>\d+|-) "(?P<referer>[^"]*)" "(?P<agent>[^"]*)"(?: (?P<seconds>[\d.]+))?')
 
 
@@ -258,14 +269,26 @@ def send(entries):
 
 
 def run_once():
-    if not os.path.exists(LOG_PATH):
+    try:
+        current = os.path.getsize(LOG_PATH)
+        handle = open(LOG_PATH, "rb")
+    except OSError as error:
+        if LOG_PATH not in _warned_log_paths:
+            print(
+                "request-log-forwarder: cannot read access log "
+                + LOG_PATH
+                + ": "
+                + str(error),
+                flush=True,
+            )
+            _warned_log_paths.add(LOG_PATH)
         return
-    current = os.path.getsize(LOG_PATH)
-    position = offset()
-    if position > current:
-        position = 0
-    entries = []
-    with open(LOG_PATH, "rb") as handle:
+
+    with handle:
+        position = offset()
+        if position > current:
+            position = 0
+        entries = []
         handle.seek(position)
         for raw_line in handle:
             position = handle.tell()
@@ -275,9 +298,9 @@ def run_once():
             if len(entries) == BATCH_SIZE:
                 send(entries)
                 entries = []
-    if entries:
-        send(entries)
-    save_offset(position)
+        if entries:
+            send(entries)
+        save_offset(position)
 
 
 while True:
@@ -293,7 +316,7 @@ REQUEST_LOG_ENDPOINT=$SERVER_URL/api/internal/request-logs/
 REQUEST_LOG_CREDENTIAL_FILE=$ALLOY_CREDENTIAL_FILE
 REQUEST_LOG_SERVER_ID=$SERVER_ID
 REQUEST_LOG_STATE_FILE=$REQUEST_LOG_STATE_DIR/access-log.offset
-ACCESS_LOG_PATH=/var/log/nginx/access.log
+ACCESS_LOG_PATH=$ACCESS_LOG_PATH
 EOF
 chown root:"$REQUEST_LOG_USER" "$REQUEST_LOG_CONFIG_DIR/forwarder.env"
 chmod 0640 "$REQUEST_LOG_CONFIG_DIR/forwarder.env"

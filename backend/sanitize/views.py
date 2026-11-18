@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from common.api import get_organization_membership, paginated_response
+from sanitize.middleware import clear_platform_self_monitor_cache
 from sanitize.models import RequestLog, ShieldConfig, ThreatSuggestion
 from sanitize.presenters import (
     present_request_log,
@@ -42,9 +43,11 @@ class ShieldAnalyticsView(APIView):
         hours = min(max(hours, 1), 720)  # Clamp to 1h–30d
         source = request.query_params.get("source")  # EXTERNAL | PLATFORM | None (all)
 
-        dist = zone_distribution(organization.id, hours=hours)
-        top_ips = top_offending_ips(organization.id, hours=hours, limit=10)
-        trend = zone_trend(organization.id, hours=hours)
+        dist = zone_distribution(organization.id, hours=hours, source=source)
+        top_ips = top_offending_ips(
+            organization.id, hours=hours, limit=10, source=source
+        )
+        trend = zone_trend(organization.id, hours=hours, source=source)
 
         # Per-source counts for the dual-panel view
         base_qs = RequestLog.objects.filter(
@@ -214,4 +217,5 @@ class ShieldConfigView(APIView):
             update_fields.append(field)
 
         config.save(update_fields=update_fields)
+        clear_platform_self_monitor_cache(organization.id)
         return Response(present_shield_config(config))

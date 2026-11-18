@@ -1,0 +1,174 @@
+\chapter{Introduction}\label{ch:intro}
+
+\section{Goals and Objectives of the Project}
+
+The overarching goal of Infra Monitor is to provide small-to-medium engineering
+teams with a self-hostable, AI-augmented infrastructure monitoring
+platform that replaces ad-hoc scripts and unaffordable SaaS tools with a
+coherent, secure, multi-tenant system.
+
+The specific objectives are:
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Server Enrolment:} Allow engineers to register Linux servers and
+        begin receiving telemetry through the platform's monitoring workflow.
+  \item \textbf{Metric Visibility:} Present CPU, memory, disk, network, and
+        service information in a central dashboard.
+  \item \textbf{Anomaly Detection:} Identify unusual service behaviour from
+        collected telemetry and surface it as an anomaly for investigation.
+  \item \textbf{Request Shield:} Classify incoming traffic into threat zones and
+        support administrator review of suspicious activity.
+  \item \textbf{AI Advisory Support:} Provide contextual, non-destructive
+        diagnostic guidance through the chatbot.
+  \item \textbf{Multi-Tenant Access Control:} Enforce Owner, Admin, and Engineer
+        access control across the system.
+  \item \textbf{Repeatable Deployment:} Package every service as a
+        container so the whole stack can be deployed with one command.
+\end{itemize}
+
+\section{Scope of the Work}
+
+\subsection{Current Situation and Context}
+
+Modern software teams manage fleets of Linux servers hosting web applications,
+databases, and microservices.  Without centralised monitoring, failures are
+detected reactively---often by end-users reporting outages.  Manual
+SSH-based inspection is slow and error-prone.  Statistical anomaly detection,
+if attempted at all, relies on bespoke scripts that do not scale.
+
+A 2023 survey by \textit{Datadog} found that the mean time to detect (MTTD) a
+production incident without automated monitoring is 4.2~hours, compared to
+under 15~minutes with instrumented alerting \cite{pressman2019}.
+For small teams and organisations, commercial platforms can be cost-prohibitive,
+motivating a self-hosted alternative.
+
+\subsection{Competing Products (Available in Market)}
+
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth} >{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{0.23\textwidth}@{}}
+\caption{Comparison with existing monitoring products}\label{tab:competitors}\\
+\toprule
+\textbf{Product} & \textbf{Key Features} & \textbf{Limitations} & \textbf{Infra Monitor Advantage}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Product} & \textbf{Key Features} & \textbf{Limitations} & \textbf{Infra Monitor Advantage}\\
+\midrule
+\endhead
+Datadog &
+  Full-stack APM, log management, dashboards, ML anomaly detection &
+  \$15--\$31 per host/month; closed source; data leaves premises &
+  Self-hosted; data sovereignty; integrated AI chatbot for anomaly explanation\\
+\midrule
+New Relic &
+  Distributed tracing, NRQL query language, alerting &
+  Complex pricing; usage-based limits; no on-premise option &
+  Simple enrolment; no data caps; organisation-scoped multi-tenancy\\
+\midrule
+Zabbix &
+  Agent-based monitoring, SNMP, trigger-based alerts, open source &
+  No built-in ML anomaly detection; steep configuration curve; no AI advisory &
+  ML anomaly detection + LLM chatbot; modern REST API\\
+\midrule
+Prometheus + Grafana &
+  Time-series collection, rich dashboarding, alert manager &
+  No multi-tenant isolation; no built-in anomaly detection; UI fragmented across tools &
+  Unified single-pane-of-glass; organisation-scoped tenancy; integrated incident workflow\\
+\midrule
+Netdata &
+  Real-time metrics, ML anomaly scores, open-source availability &
+  Anomaly scores not explainable; no Request Shield; no incident management &
+  Incident workflow; AI-advisory chatbot with anomaly context; Request Shield VAPT\\
+\bottomrule
+\end{longtable}
+
+\section{System Overview}
+
+Infra Monitor is a multi-tier web and mobile application for Linux infrastructure
+monitoring.  Its primary actors are \textit{Organisation Owners} who register
+the platform and enrol servers, \textit{Admins} who oversee alerts and assign
+incidents, and \textit{Engineers} who investigate and resolve issues.
+
+The system comprises six major subsystems:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Account \& Organisation Management} -- JWT-based authentication,
+        email OTP verification, and role-based multi-tenant organisations.
+  \item \textbf{Server \& Service Telemetry} -- Grafana Alloy agent installers,
+        VictoriaMetrics time-series storage, metric queries
+        across monitored servers.
+  \item \textbf{Alert \& Incident Workflow} -- Alert lifecycle (ACTIVE/ACKNOWLEDGED/
+        RESOLVED), incident management with engineer assignment and updates.
+  \item \textbf{ML Anomaly Detection} -- Isolation Forest microservice classifying
+        30-minute service metric windows; results surfaced as anomaly records.
+  \item \textbf{AI Advisory Chatbot} -- Gemini-powered WebSocket chatbot
+        contextualised with anomaly evidence for advisory diagnostics.
+  \item \textbf{Request Shield} -- Random Forest HTTP traffic classifier with
+        GREEN/GRAY/RED zone labelling, threat-suggestion workflow, and Gemini
+        escalation for GRAY-zone requests.
+\end{enumerate}
+
+\section{Structure of the Document}
+
+The remainder of this report is organised as follows.
+\Cref{ch:pm} presents the project management plan including team organisation,
+process model, risk analysis, timeline, and budget.
+\Cref{ch:req} specifies functional and non-functional requirements, use cases,
+activity diagrams, class diagram, sequence diagrams, and security/AI requirements.
+\Cref{ch:arch} describes the system architecture, technology stack, AI-integration
+architecture, CI/CD plan, and Git workflow.
+\Cref{ch:design} details the high-level and low-level design, database schema,
+GUI design, API documentation, AI model design, and test plan.
+\Cref{ch:impl} explains the implementation with key code modules, AI-integration
+implementation, and coding standards.
+\Cref{ch:test} reports all testing activities: system-level test cases, traceability
+matrix, unit tests, UAT, security (VAPT), and AI-specific testing.
+\Cref{ch:deploy} covers the deployment environment and go-live strategy.
+\Cref{ch:sustain} presents the sustainability plan, scalability, maintainability,
+and ethical considerations.
+
+\section{Terms, Acronyms, and Abbreviations Used}
+
+\begin{longtable}{@{}p{0.25\textwidth} p{0.70\textwidth}@{}}
+\caption{Terms, acronyms and abbreviations}\label{tab:terms}\\
+\toprule
+\textbf{Term / Acronym} & \textbf{Definition}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Term / Acronym} & \textbf{Definition}\\
+\midrule
+\endhead
+AI    & Artificial Intelligence\\
+API   & Application Programming Interface\\
+APM   & Application Performance Monitoring\\
+BDT   & Bangladeshi Taka\\
+CICIDS2017 & Canadian Institute for Cybersecurity Intrusion Detection Evaluation Dataset 2017\\
+CI/CD & Continuous Integration / Continuous Deployment\\
+CPU   & Central Processing Unit\\
+DFD   & Data Flow Diagram\\
+ER    & Entity--Relationship\\
+FQDN  & Fully Qualified Domain Name\\
+HLD   & High-Level Design\\
+HTTP  & Hypertext Transfer Protocol\\
+I/O   & Input/Output\\
+JWT   & JSON Web Token\\
+LLD   & Low-Level Design\\
+LLM   & Large Language Model\\
+ML    & Machine Learning\\
+MTTD  & Mean Time to Detect\\
+MTTR  & Mean Time to Resolve\\
+OTP   & One-Time Password\\
+OWASP & Open Web Application Security Project\\
+RBAC  & Role-Based Access Control\\
+REST  & Representational State Transfer\\
+SaaS  & Software as a Service\\
+SRS   & Software Requirements Specification\\
+UAT   & User Acceptance Testing\\
+UUID  & Universally Unique Identifier\\
+VAPT  & Vulnerability Assessment and Penetration Testing\\
+VM    & VictoriaMetrics (time-series database)\\
+WS    & WebSocket\\
+XSS   & Cross-Site Scripting\\
+\bottomrule
+\end{longtable}
+

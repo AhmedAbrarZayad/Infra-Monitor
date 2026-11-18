@@ -1,0 +1,33 @@
+\chapter{Implementation / Construction}\label{ch:impl}
+
+\section{Development Environment and Tools}
+\guide{IDE, version control, local setup, server/cloud setup, containers (Docker), package managers.}
+\todo{Describe the development environment.}
+
+\section{Key Implementation Details / Modules Developed}
+\guide{For each important module: purpose, how it was implemented, and a SHORT annotated code excerpt (10--25 lines). Put full code in Appendix~A / the repository.}
+\begin{lstlisting}[language=Python,caption={Example: image-extension validation},label={lst:validate}]
+ALLOWED = {".jpg", ".jpeg", ".png"}
+
+def is_valid_image(filename: str) -> bool:
+    """Return True only for supported image extensions."""
+    ext = filename[filename.rfind("."):].lower()
+    return ext in ALLOWED
+\end{lstlisting}
+\Cref{lst:validate} shows \todo{explain the code}.
+
+\section{AI-integration Implementation}
+\guide{How the AI model was implemented and wired into the system: data pre-processing code, training/fine-tuning scripts, model loading, inference endpoint, prompt templates, caching, error handling, and cost/latency considerations.}
+\todo{Describe the AI implementation.}
+
+\section{Code Structure and Standards Followed}
+\guide{Folder structure, naming conventions, coding standards (PEP\,8, ESLint, Google Style\ldots), linting/formatting tools, documentation/comments policy, code-review checklist.}
+\begin{lstlisting}[caption={Project folder structure},label={lst:tree}]
+project/
+|-- backend/    (APIs, services, models)
+|-- frontend/   (UI components)
+|-- ml/         (datasets, notebooks, training scripts)
+|-- tests/      (unit & integration tests)
+|-- docs/
+`-- .github/workflows/
+\end{lstlisting}

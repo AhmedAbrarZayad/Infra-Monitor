@@ -1,0 +1,75 @@
+\chapter{Requirement Specifications}\label{ch:req}
+
+\section{Stakeholders for the System}
+\guide{List all stakeholders (users, admins, client, developers, regulators\ldots) with their role and interest/influence.}
+\begin{table}[htbp]
+\centering
+\caption{Stakeholders}\label{tab:stakeholders}
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+\textbf{Stakeholder} & \textbf{Role} & \textbf{Interest in the system}\\
+\midrule
+End user & \todo{...} & \todo{...}\\
+Administrator & \todo{...} & \todo{...}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Use Case Diagram with Graphical and Textual Description}
+\guide{Give the use case diagram (UML) and, for \textbf{each} use case, a textual description table: ID, name, actors, preconditions, postconditions, main flow (steps), alternative/exception flows. Tools: draw.io, StarUML, PlantUML, Lucidchart.}
+\figplaceholder{usecase_diagram.png}{Use case diagram}{fig:usecase}
+
+\begin{table}[htbp]
+\centering
+\caption{Textual description of use case UC-01}\label{tab:uc01}
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Use Case ID} & UC-01\\
+\textbf{Name} & \todo{e.g.\ Upload Image}\\
+\textbf{Actor(s)} & \todo{Primary / secondary actors}\\
+\textbf{Precondition} & \todo{...}\\
+\textbf{Postcondition} & \todo{...}\\
+\textbf{Main flow} & 1.~\todo{...}\quad 2.~\todo{...}\quad 3.~\todo{...}\\
+\textbf{Alternative flow} & \todo{...}\\
+\textbf{Exception flow} & \todo{...}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Activity Diagram}
+\guide{Show the workflow of major processes (swimlanes recommended). One diagram per major use case/process.}
+\figplaceholder{activity_diagram.png}{Activity diagram of \todo{process}}{fig:activity}
+
+\section{Static Model -- Class Diagram}
+\guide{Show classes, attributes, methods, visibility and relationships (association, aggregation, composition, inheritance) with multiplicities.}
+\figplaceholder{class_diagram.png}{Class diagram}{fig:class}
+
+\section{Dynamic Model -- Sequence Diagram}
+\guide{Show object interactions for the key scenarios (one diagram per important use case). Include actor, UI, controller, services, DB and AI/external API lifelines.}
+\figplaceholder{sequence_diagram.png}{Sequence diagram of \todo{scenario}}{fig:sequence}
+
+\section{Safety and Security Requirements}
+\subsection{Access Requirements}
+\guide{Who has authorised access to functionality and data, under what circumstances, and to which parts. Include authentication, authorisation, roles (RBAC table).}
+\todo{Write access requirements.} See also \cite{owasp2021}.
+\subsection{Integrity Requirements}
+\guide{Required integrity of databases, files and the product itself: data accuracy, validation, consistency, backups, audit logs, transaction handling.}
+\todo{Write integrity requirements.}
+\subsection{Privacy Requirements}
+\guide{What the product must do to protect personal data and comply with privacy laws (e.g.\ Bangladesh Data Protection Act / GDPR where applicable): consent, minimisation, encryption, retention, anonymisation.}
+\todo{Write privacy requirements.}
+
+\section{AI-integration Requirements}
+\guide{Specify requirements for the AI component: functional (inputs/outputs, tasks), data (sources, quality, labelling), performance (accuracy, precision/recall, latency), ethical (fairness, transparency, explainability, human oversight), robustness, and monitoring/retraining. If your project has no AI part, write a short justification and (with your teacher's approval) mark this section ``Not applicable''.}
+\begin{table}[htbp]
+\centering
+\caption{AI-integration requirements}\label{tab:airec}
+\begin{tabularx}{\textwidth}{@{}l X l l@{}}
+\toprule
+\textbf{ID} & \textbf{Requirement} & \textbf{Must/Want} & \textbf{Metric}\\
+\midrule
+R-AI-01 & Model shall classify input with accuracy $\ge$ \todo{X}\% & Must & Accuracy\\
+R-AI-02 & Inference latency shall be below \todo{X}\,s & Want & Latency\\
+\bottomrule
+\end{tabularx}
+\end{table}

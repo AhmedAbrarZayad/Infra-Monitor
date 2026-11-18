@@ -1,0 +1,42 @@
+\chapter{Meeting Minutes / Progress Logs}
+
+The following progress log summarizes the sprint cycle activities, key design decisions, and implementation milestones achieved by the team across the 14-week project timeline.
+
+\begin{table}[H]
+\centering
+\caption{Sprint progress log and development milestones}\label{tab:meetings}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Week} & \textbf{Sprint} & \textbf{Activities / Decisions}\\
+\midrule
+1--2  & Sprint 1 &
+  Team kickoff; requirements analysis; architecture decision (Layered + Microservice);
+  agreed on Django + Flutter + VictoriaMetrics stack; created GitHub repository;
+  initial Docker Compose skeleton committed.\\
+3--4  & Sprint 2 &
+  Flutter UI skeleton, screen designs and navigation tree; database schema design;
+  Django project scaffold; PostgreSQL container connected; initial accounts app
+  with registration and OTP email flow; JWT integration complete.\\
+5--6  & Sprint 3 &
+  Organisation management API (CRUD, RBAC); server registration module;
+  Grafana Alloy installer generation; VictoriaMetrics cluster integrated;
+  telemetry ingestion pipeline established.\\
+7--8  & Sprint 4 &
+  Alert and incident modules complete; Celery worker integrated;
+  anomaly detection ML service (FastAPI) skeleton; IsolationForest training
+  pipeline; Flutter alert and incident screens.\\
+9--10 & Sprint 5 &
+  Gemini chatbot (WebSocket, ticket auth); AI advisory conversation
+  UI in Flutter; Request Shield Random Forest classifier; sanitize middleware;
+  batch classification Celery task.\\
+11--12 & Sprint 6 &
+  Full end-to-end integration testing; sanitize-e2e.ps1 script;
+  VAPT security review; Flutter Request Shield screens (analytics, logs,
+  suggestions); Firebase push notifications.\\
+13--14 & Sprint 7 &
+  UAT with target users; bug fixes from UAT feedback; report writing;
+  diagram finalisation; LaTeX report compilation; submission preparation.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+

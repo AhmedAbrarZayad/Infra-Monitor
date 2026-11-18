@@ -44,7 +44,10 @@ class MLTaskTests(TestCase):
     @patch("ml_model.tasks.ServiceFeatureBuilder")
     def test_missing_model_trains_once_then_retries_inference(self, builder_class, client_class):
         inference_rows = [{"timestamp": "inference", "values": {}}]
-        training_rows = [{"timestamp": "training", "values": {}}]
+        training_rows = [
+            {"timestamp": "t1", "values": {"cpu_r": 0.1}},
+            {"timestamp": "t2", "values": {"cpu_r": 0.2}},
+        ]
         builder_class.return_value.build.side_effect = [
             inference_rows,
             training_rows,
@@ -63,6 +66,37 @@ class MLTaskTests(TestCase):
             rows=training_rows,
         )
         self.assertEqual(client.infer.call_count, 2)
+
+    @override_settings(ML_TRAINING_MIN_ROWS=10)
+    @patch("ml_model.tasks.MLServiceClient")
+    @patch("ml_model.tasks.ServiceFeatureBuilder")
+    def test_training_requires_configured_minimum_rows(self, builder_class, client_class):
+        builder_class.return_value.build.side_effect = [
+            [{"timestamp": "inference", "values": {}}],
+            InsufficientTelemetryError("too few"),
+        ]
+        client_class.return_value.infer.side_effect = ModelNotFoundError("missing")
+
+        result = orchestrate_service_ml.run(str(self.service.service_id))
+
+        self.assertEqual(result["status"], "insufficient_training_data")
+        self.assertEqual(builder_class.return_value.build.call_args.kwargs["min_rows"], 10)
+        client_class.return_value.train.assert_not_called()
+
+    @patch("ml_model.tasks.MLServiceClient")
+    @patch("ml_model.tasks.ServiceFeatureBuilder")
+    def test_identical_training_rows_do_not_train(self, builder_class, client_class):
+        row = {"cpu_r": 0.0, "mem_u": 0.08}
+        builder_class.return_value.build.side_effect = [
+            [{"timestamp": "inference", "values": row}],
+            [{"timestamp": f"t{i}", "values": dict(row)} for i in range(12)],
+        ]
+        client_class.return_value.infer.side_effect = ModelNotFoundError("missing")
+
+        result = orchestrate_service_ml.run(str(self.service.service_id))
+
+        self.assertEqual(result["status"], "insufficient_training_data")
+        client_class.return_value.train.assert_not_called()
 
     @patch("ml_model.tasks.ServiceFeatureBuilder")
     def test_insufficient_inference_data_skips_only_that_service(self, builder_class):

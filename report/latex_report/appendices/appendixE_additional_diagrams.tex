@@ -1,0 +1,143 @@
+\chapter{Deployment \& Component Diagrams}\label{app:deploy}
+
+This appendix collects the deployment diagram and the data flow diagrams
+(DFDs) that complement the architecture described in \Cref{ch:arch}.
+
+\section{Deployment Diagram}\label{sec:deploy_diagram}
+
+\Cref{fig:deploy} shows where each runtime component is deployed.  All
+server-side services run as containers under Docker Compose on a single
+Ubuntu host.  The Flutter client and the monitored Linux servers sit outside
+that host, and Gemini and Firebase are external cloud services.  Solid arrows
+are internal calls; dashed arrows are calls to external services.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  svc/.style={rectangle, draw=cuetblue, fill=cuetblue!8, rounded corners,
+              minimum width=2.6cm, minimum height=1cm, font=\small, align=center},
+  ext/.style={rectangle, draw=cuetgold!90!black, fill=cuetgold!12,
+              minimum width=2.8cm, minimum height=1.1cm, font=\small\bfseries, align=center},
+  arr/.style={-Stealth, thick, color=cuetblue},
+  darr/.style={-Stealth, thick, dashed, color=gray!80!black},
+  lbl/.style={font=\scriptsize, fill=white, inner sep=1.5pt}
+]
+  % --- containers on the Docker host -----------------------------
+  \node[svc] (nginx)    at (3.5,10)  {Nginx\\(HTTPS proxy)};
+  \node[svc] (django)   at (3.5,8)   {Django\\(Daphne ASGI)};
+  \node[svc] (redis)    at (6.5,8)   {Redis\\(broker)};
+  \node[svc] (celery)   at (9.5,8)   {Celery\\Worker / Beat};
+  \node[svc] (postgres) at (2.5,5.5) {PostgreSQL 18};
+  \node[svc] (mlsvc)    at (9.5,5.5) {FastAPI\\ML Service};
+  \node[svc] (vms)      at (6.5,3)   {VictoriaMetrics\\cluster (3 nodes)};
+
+  \node[draw=cuetblue, dashed, rounded corners, inner sep=0.45cm,
+        fit=(nginx)(django)(redis)(celery)(postgres)(mlsvc)(vms)] (host) {};
+  \node[anchor=north east, font=\small\bfseries, text=cuetblue]
+        at ([yshift=-0.1cm]host.south east)
+        {Ubuntu 22.04 LTS -- Docker Compose host};
+
+  % --- outside the host ------------------------------------------
+  \node[ext] (client)   at (-1.8,10)  {Flutter client\\(Android / Web)};
+  \node[ext] (target)   at (-1.8,5.5) {Monitored Linux\\server (Alloy)};
+  \node[ext] (gemini)   at (13.6,8)   {Google Gemini\\API};
+  \node[ext] (firebase) at (13.6,5.5) {Firebase\\(FCM push)};
+
+  % --- connections -----------------------------------------------
+  \draw[arr] (client) -- node[lbl, above=2pt]{HTTPS / WSS} (nginx);
+  \draw[arr] (nginx) -- (django);
+  \draw[arr] (django) -- (redis);
+  \draw[arr] (celery) -- (redis);
+  \draw[arr] (django) -- (postgres);
+  \draw[arr] (celery.south west) -- (postgres.east);
+  \draw[arr] (celery) -- node[lbl]{classify} (mlsvc);
+  \draw[arr] (mlsvc) -- node[lbl]{read metrics} (vms);
+  \draw[arr] ([xshift=1.0cm]django.south) |- node[lbl, pos=0.4, right]{query / write} (vms.west);
+  \draw[arr] (target.east) -- node[lbl, sloped]{remote-write} (django.west);
+  \draw[darr] ([xshift=1.0cm]django.north) -- ++(0,0.7) -| node[lbl, pos=0.3]{chat prompts} (gemini.north);
+  \draw[darr] (celery) -- node[lbl, above=2pt]{GRAY} (gemini);
+  \draw[darr] (celery.south east) -- node[lbl, sloped]{push} (firebase.west);
+\end{tikzpicture}}
+\caption{Deployment diagram for Infra Monitor (Docker Compose on Ubuntu 22.04)}\label{fig:deploy}
+\end{figure}
+
+\section{Data Flow Diagrams (DFD)}
+
+The DFDs below show how data moves through the system at increasing levels of
+detail.  Level~1 treats Infra Monitor as a single process exchanging data with
+its external entities; Level~2 decomposes it into services; Level~3 expands
+the Request Shield.  The remaining diagrams follow individual feature flows.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{01_level1_context.pdf}
+\caption{DFD Level 1: Context diagram -- Infra Monitor as a black box}\label{fig:dfd1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{02_level2_services.pdf}
+\caption{DFD Level 2: Service decomposition}\label{fig:dfd2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{03_level3_shield.pdf}
+\caption{DFD Level 3: Request Shield internal data flows}\label{fig:dfd3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{04_account_organization.pdf}
+\caption{DFD: Account and Organisation flows}\label{fig:dfd4}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{05_server_installer.pdf}
+\caption{DFD: Server installer and enrollment flows}\label{fig:dfd5}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{06_server_ml_anomaly.pdf}
+\caption{DFD: Server metric collection and ML anomaly detection}\label{fig:dfd6}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{07_message_service.pdf}
+\caption{DFD: Message / notification service flows}\label{fig:dfd7}
+\end{figure}
+
+\section{Detailed Process DFDs}
+
+The four diagrams below expand the main processes of the Level~2 DFD to
+their deepest level: account and organisation management, anomaly detection
+and incident handling, answering incident questions with the AI assistant,
+and server registration with metric collection.  Because these diagrams are
+wide, they are shown on landscape pages.
+
+\begin{landscape}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{08_deeper_accounts.pdf}
+\caption{Detailed DFD: Manage accounts and organisations}\label{fig:dfd8}
+
+\vspace{0.6cm}
+\includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{09_deeper_anomalies.pdf}
+\caption{Detailed DFD: Detect anomalies and manage incidents}\label{fig:dfd9}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{10_deeper_answer_questions.pdf}
+\caption{Detailed DFD: Answer incident questions (AI assistant)}\label{fig:dfd10}
+
+\vspace{0.6cm}
+\includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{11_deeper_register_servers.pdf}
+\caption{Detailed DFD: Register servers and collect metrics}\label{fig:dfd11}
+\end{figure}
+\end{landscape}
+

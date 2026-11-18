@@ -14,7 +14,7 @@ from __future__ import annotations
 import logging
 import time
 
-from django.conf import settings
+from django.core.cache import cache
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
@@ -26,6 +26,15 @@ _SKIP_PREFIXES = (
     "/static/",
     "/favicon.ico",
 )
+_PLATFORM_SELF_MONITOR_CACHE_TIMEOUT = 60
+
+
+def _platform_self_monitor_cache_key(organization_id):
+    return f"sanitize:platform_self_monitor:{organization_id}"
+
+
+def clear_platform_self_monitor_cache(organization_id):
+    cache.delete(_platform_self_monitor_cache_key(organization_id))
 
 
 class RequestShieldMiddleware:
@@ -42,14 +51,15 @@ class RequestShieldMiddleware:
 
     def __call__(self, request):
         # Skip non-API and health-check paths.
-        if any(request.path.startswith(prefix) for prefix in _SKIP_PREFIXES):
+        if any(request.path.startswith(prefix) for prefix in _SKIP_PREFIXES) or (
+            "/request-shield/" in request.path
+        ):
             return self.get_response(request)
 
         start_time = time.monotonic()
         response = self.get_response(request)
         elapsed_ms = (time.monotonic() - start_time) * 1000
 
-        # Fire-and-forget: record the request asynchronously.
         try:
             self._record(request, response, elapsed_ms)
         except Exception:
@@ -66,6 +76,8 @@ class RequestShieldMiddleware:
         org_id = _extract_org_id(request.path)
         if org_id is None:
             return  # Can't attribute to an org — skip.
+        if not self._platform_self_monitor_enabled(org_id):
+            return
 
         source_ip = _get_client_ip(request)
         user_agent = request.META.get("HTTP_USER_AGENT", "")
@@ -125,6 +137,24 @@ class RequestShieldMiddleware:
             feature_vector=features,
             threat_signals=threat_signals,
         )
+
+    @staticmethod
+    def _platform_self_monitor_enabled(organization_id):
+        from sanitize.models import ShieldConfig
+
+        cache_key = _platform_self_monitor_cache_key(organization_id)
+        cached = cache.get(cache_key, None)
+        if cached is not None:
+            return cached
+
+        enabled = (
+            ShieldConfig.objects.filter(organization_id=organization_id)
+            .values_list("platform_self_monitor", flat=True)
+            .first()
+        )
+        enabled = bool(enabled)
+        cache.set(cache_key, enabled, _PLATFORM_SELF_MONITOR_CACHE_TIMEOUT)
+        return enabled
 
 
 def _get_client_ip(request):

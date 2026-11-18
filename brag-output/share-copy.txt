@@ -1,0 +1,1 @@
+03:07, prod CPU at 97%, and you're asleep. Infra Monitor enrolls a Linux server with one command, an ML model flags which metrics went abnormal, and Gemini tells you what to check first, labeled "crash not confirmed" so it doesn't pretend to know more than it does. Self-hosted: docker compose up.
