@@ -8,7 +8,7 @@ void main() {
     final labels = AppBottomNavigation.destinations
         .map((destination) => destination.label)
         .toList();
-    expect(APP_BAR_TITLES, ['Overview', 'Servers', 'Incidents', 'AI', 'More']);
+    expect(APP_BAR_TITLES, ['Overview', 'Servers', 'Incidents', 'AI', 'Shield', 'More']);
     expect(labels, APP_BAR_TITLES);
     expect(labels, isNot(contains('Analytics')));
   });
