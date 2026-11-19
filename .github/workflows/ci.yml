@@ -18,7 +18,6 @@ concurrency:
 jobs:
   frontend-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: 📂 Checkout code
         uses: actions/checkout@v6
@@ -42,12 +41,15 @@ jobs:
           channel: stable
 
       - name: 📥 Get dependencies
+        working-directory: frontend
         run: flutter pub get
 
       - name: ✅ Run tests
+        working-directory: frontend
         run: flutter test --coverage
 
       - name: 🔐 Decode Keystore
+        working-directory: frontend
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
@@ -58,6 +60,7 @@ jobs:
           fi
 
       - name: 🏗️ Build APKs
+        working-directory: frontend
         env:
           KEYSTORE_PATH: "upload-keystore.jks"
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -66,26 +69,11 @@ jobs:
         run: flutter build apk --release --split-per-abi
 
       - name: 📦 Prepare artifacts
+        working-directory: frontend
         run: |
           mkdir -p artifacts
           cp build/app/outputs/flutter-apk/*.apk artifacts/
 
-      # ─────────────── ONLY ON TAGS ───────────────
-      - name: 🏷️ Create or update Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: ncipollo/release-action@v1
-        with:
-          tag:       ${{ github.ref_name }}
-          name:      Release ${{ github.ref_name }}
-          artifacts: artifacts/*.apk
-          token:     ${{ secrets.GITHUB_TOKEN }}
-          # Update the release if it already exists (e.g. on a re-run),
-          # replacing the APKs but keeping its name, notes and flags.
-          allowUpdates:               true
-          omitNameDuringUpdate:       true
-          omitBodyDuringUpdate:       true
-          omitDraftDuringUpdate:      true
-          omitPrereleaseDuringUpdate: true
   backend-test:
     runs-on: ubuntu-latest
 
