@@ -174,8 +174,8 @@ class MonitoredService {
     required this.lifecycleReason,
     required this.consecutiveFailureObservations,
     required this.alertCount,
-    required this.monitoringSuspended,
-    required this.monitoringSuspendedAt,
+    this.monitoringSuspended = false,
+    this.monitoringSuspendedAt,
     this.metrics = const {},
   });
   final String id;
