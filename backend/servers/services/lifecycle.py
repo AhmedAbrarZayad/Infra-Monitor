@@ -19,6 +19,8 @@ def _incident_code(service):
 
 
 def _open_failure(service, now):
+    if service.monitoring_suspended:
+        return
     alert, _ = Alert.objects.get_or_create(
         organization=service.server_id.organization,
         fingerprint=_fingerprint(service),
@@ -94,6 +96,8 @@ def _resolve_failure(service, now):
 
 def desired_service_state(service, now=None):
     now = now or timezone.now()
+    if service.monitoring_suspended:
+        return Servers.Status.UNKNOWN, "monitoring_suspended"
     stale_after = timedelta(seconds=settings.SERVICE_STALE_AFTER_SECONDS)
     offline_after = timedelta(seconds=settings.SERVICE_OFFLINE_AFTER_SECONDS)
     reference = service.last_reported_at or service.created_at
@@ -158,6 +162,19 @@ def record_explicit_health(service_id, healthy, now=None):
             .select_related("server_id__organization")
             .get(service_id=service_id)
         )
+        if service.monitoring_suspended:
+            if service.status != Servers.Status.UNKNOWN or service.lifecycle_reason != "monitoring_suspended":
+                service.status = Servers.Status.UNKNOWN
+                service.lifecycle_reason = "monitoring_suspended"
+                service.consecutive_failure_observations = 0
+                service.save(
+                    update_fields=[
+                        "status",
+                        "lifecycle_reason",
+                        "consecutive_failure_observations",
+                    ]
+                )
+            return Servers.Status.UNKNOWN, "monitoring_suspended", False
         previous = service.status
         if healthy:
             service.consecutive_failure_observations = 0

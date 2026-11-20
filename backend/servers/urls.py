@@ -7,6 +7,7 @@ from servers.views import (
     ServerMetricRangeView,
     ServiceDetailView,
     ServiceHealthView,
+    ServiceLifecycleView,
     ServiceListView,
     ServiceAdminAssignmentView,
     ServiceAdminAssignmentHistoryView,
@@ -33,6 +34,11 @@ urlpatterns = [
         name="service-admin-history",
     ),
     path("services/<uuid:service_id>/health/", ServiceHealthView.as_view(), name="service-health"),
+    path(
+        "services/<uuid:service_id>/lifecycle/",
+        ServiceLifecycleView.as_view(),
+        name="service-lifecycle",
+    ),
     path(
         "services/<uuid:service_id>/metrics/",
         ServiceMetricRangeView.as_view(),

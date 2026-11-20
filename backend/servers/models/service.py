@@ -21,6 +21,8 @@ class Service(models.Model):
     status_changed_at = models.DateTimeField(null=True, blank=True)
     lifecycle_reason = models.CharField(max_length=64, default="awaiting_telemetry")
     consecutive_failure_observations = models.PositiveSmallIntegerField(default=0)
+    monitoring_suspended = models.BooleanField(default=False)
+    monitoring_suspended_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

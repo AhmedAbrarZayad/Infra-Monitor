@@ -52,6 +52,12 @@ class MonitoringApi {
           .toList(growable: false);
   Future<MonitoredService> serviceHealth(String id) async =>
       MonitoredService.fromJson(await _api.getMap('services/$id/health/'));
+  Future<MonitoredService> serviceLifecycle(
+    String id, {
+    required String action,
+  }) async => MonitoredService.fromJson(
+    await _api.post('services/$id/lifecycle/', {'action': action}),
+  );
 
   Future<ServerEnrollment> createEnrollment({
     required String serverName,

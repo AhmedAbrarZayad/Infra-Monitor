@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/api/operational_api.dart';
 import '../../domain/entities/server.dart';
 import 'server_status_badge.dart';
 import '../../../assignments/presentation/widgets/assignment_sheet.dart';
+import '../providers/servers_providers.dart';
 
-class ServiceLifecycleTile extends StatelessWidget {
+class ServiceLifecycleTile extends ConsumerWidget {
   const ServiceLifecycleTile({
     required this.service,
     this.canManageAdmins = false,
+    this.canManageLifecycle = false,
     super.key,
   });
 
   final MonitoredService service;
   final bool canManageAdmins;
+  final bool canManageLifecycle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final collectorUnavailable =
         service.lifecycleReason == 'collector_unavailable';
     final reasonColor = collectorUnavailable
@@ -93,12 +97,61 @@ class ServiceLifecycleTile extends StatelessWidget {
             ),
           ),
         ],
+        if (canManageLifecycle) ...[
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: () async {
+                final api = ref.read(monitoringApiProvider);
+                if (api == null) return;
+                try {
+                  await api.serviceLifecycle(
+                    service.id,
+                    action: service.monitoringSuspended ? 'resume' : 'suspend',
+                  );
+                  ref.invalidate(serverServicesProvider(service.serverId));
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          service.monitoringSuspended
+                              ? 'Monitoring resumed.'
+                              : 'Monitoring suspended; incident monitoring paused.',
+                        ),
+                      ),
+                    );
+                  }
+                } catch (_) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Unable to change service monitoring.'),
+                      ),
+                    );
+                  }
+                }
+              },
+              icon: Icon(
+                service.monitoringSuspended
+                    ? Icons.play_circle_outline
+                    : Icons.pause_circle_outline,
+              ),
+              label: Text(
+                service.monitoringSuspended
+                    ? 'Resume monitoring'
+                    : 'Suspend monitoring',
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }
 }
 
 String serviceLifecycleMessage(String reason) => switch (reason) {
+  'monitoring_suspended' => 'Monitoring intentionally suspended.',
   'application_unreachable' => 'Application health checks failed.',
   'service_telemetry_timeout' => 'Service stopped reporting.',
   'service_telemetry_delayed' => 'Service telemetry is delayed.',
