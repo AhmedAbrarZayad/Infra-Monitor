@@ -175,6 +175,12 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage> {
                       ),
                       data: (items) => _LifecycleServicesPanel(
                         services: items,
+                        canManageLifecycle:
+                            organization is OrganizationReady &&
+                            organization
+                                .activeMembership
+                                .capabilities
+                                .canAssignWork,
                         canManageAdmins:
                             organization is OrganizationReady &&
                             organization
@@ -402,9 +408,11 @@ class _LifecycleServicesPanel extends StatelessWidget {
   const _LifecycleServicesPanel({
     required this.services,
     required this.canManageAdmins,
+    required this.canManageLifecycle,
   });
   final List<MonitoredService> services;
   final bool canManageAdmins;
+  final bool canManageLifecycle;
 
   @override
   Widget build(BuildContext context) => AppPanel(
@@ -426,6 +434,7 @@ class _LifecycleServicesPanel extends StatelessWidget {
             (service) => ServiceLifecycleTile(
               service: service,
               canManageAdmins: canManageAdmins,
+              canManageLifecycle: canManageLifecycle,
             ),
           ),
       ],

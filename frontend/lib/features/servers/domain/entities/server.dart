@@ -174,6 +174,8 @@ class MonitoredService {
     required this.lifecycleReason,
     required this.consecutiveFailureObservations,
     required this.alertCount,
+    this.monitoringSuspended = false,
+    this.monitoringSuspendedAt,
     this.metrics = const {},
   });
   final String id;
@@ -187,6 +189,8 @@ class MonitoredService {
   final String lifecycleReason;
   final int consecutiveFailureObservations;
   final int alertCount;
+  final bool monitoringSuspended;
+  final DateTime? monitoringSuspendedAt;
   final Map<String, MetricReading?> metrics;
 
   factory MonitoredService.fromJson(Map<String, dynamic> json) {
@@ -207,6 +211,8 @@ class MonitoredService {
       consecutiveFailureObservations:
           (json['consecutive_failure_observations'] as num?)?.toInt() ?? 0,
       alertCount: (json['alert_count'] as num?)?.toInt() ?? 0,
+      monitoringSuspended: json['monitoring_suspended'] == true,
+      monitoringSuspendedAt: _date(json['monitoring_suspended_at']),
       metrics: raw.map(
         (code, value) => MapEntry(code, MetricReading.maybe(value)),
       ),

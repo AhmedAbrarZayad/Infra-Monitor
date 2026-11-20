@@ -97,6 +97,29 @@ class ServiceLifecycleTests(TestCase):
         result = evaluate_all_services(now=self.now)
         self.assertEqual(result, {"evaluated": 1, "changed": 0, "offline": 0})
 
+    def test_suspended_service_does_not_create_offline_failure(self):
+        Service.objects.filter(pk=self.service.pk).update(
+            monitoring_suspended=True,
+            monitoring_suspended_at=self.now,
+        )
+        self.service.refresh_from_db()
+        Service.objects.filter(pk=self.service.pk).update(
+            last_reported_at=self.now - timedelta(minutes=6)
+        )
+
+        state, reason, _ = evaluate_service(self.service.service_id, now=self.now)
+        explicit = record_explicit_health(
+            self.service.service_id,
+            False,
+            now=self.now,
+        )
+
+        self.assertEqual(state, Servers.Status.UNKNOWN)
+        self.assertEqual(reason, "monitoring_suspended")
+        self.assertEqual(explicit[0], Servers.Status.UNKNOWN)
+        self.assertFalse(Alert.objects.exists())
+        self.assertFalse(Incident.objects.exists())
+
     def test_two_explicit_failures_mark_offline_and_success_recovers(self):
         first = record_explicit_health(self.service.service_id, False, now=self.now)
         second = record_explicit_health(
