@@ -4,6 +4,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.dateparse import parse_datetime
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -17,6 +18,9 @@ from common.authorization import (
     servers_visible_to,
     services_visible_to,
 )
+from alert.models import Alert
+from incident.models import Incident, IncidentUpdate
+from servers.models import Servers
 from servers import presenters
 from servers.models import (
     Service,
@@ -211,6 +215,100 @@ class ServiceHealthView(APIView):
             for code in ["cpu_r", "mem_u", "disk_u"]
         }
         return Response({**present_service(service, membership), "metrics": metrics})
+
+
+class ServiceLifecycleView(APIView):
+    @transaction.atomic
+    def post(self, request, organization_id, service_id):
+        _, membership = get_organization_membership(request, organization_id)
+        service = get_object_or_404(
+            Service.objects.select_for_update(),
+            server_id__organization=membership.organization,
+            pk=service_id,
+        )
+        if not can_manage_service(membership, service):
+            return Response(
+                {"detail": "You do not have permission to change this service lifecycle."},
+                status=403,
+            )
+
+        action = str(request.data.get("action", "")).lower()
+        if action not in {"suspend", "resume"}:
+            return Response(
+                {"action": ["Use either \"suspend\" or \"resume\"."]},
+                status=400,
+            )
+
+        now = timezone.now()
+        previous_status = service.status
+        if action == "suspend":
+            service.monitoring_suspended = True
+            service.monitoring_suspended_at = now
+            service.status = Servers.Status.UNKNOWN
+            service.lifecycle_reason = "monitoring_suspended"
+            service.consecutive_failure_observations = 0
+            update_fields = [
+                "monitoring_suspended",
+                "monitoring_suspended_at",
+                "status",
+                "lifecycle_reason",
+                "consecutive_failure_observations",
+                "status_changed_at",
+            ]
+            if previous_status != Servers.Status.UNKNOWN:
+                service.status_changed_at = now
+            alerts = Alert.objects.filter(
+                organization=membership.organization,
+                service_id=service,
+                state__in=[Alert.State.ACTIVE, Alert.State.ACKNOWLEDGED],
+            )
+            alerts.update(
+                state=Alert.State.RESOLVED,
+                cleared_at=now,
+                cleared_by=request.user,
+            )
+            incident = Incident.objects.filter(
+                organization=membership.organization,
+                service=service,
+            ).exclude(status=Incident.Status.RESOLVED).first()
+            if incident is not None:
+                old_status = incident.status
+                incident.status = Incident.Status.RESOLVED
+                incident.resolved_at = now
+                incident.resolution_notes = "Monitoring intentionally suspended."
+                incident.save(
+                    update_fields=["status", "resolved_at", "resolution_notes"]
+                )
+                IncidentUpdate.objects.create(
+                    incident_id=incident,
+                    user_id=request.user,
+                    action="MONITORING_SUSPENDED",
+                    old_status=old_status,
+                    new_status=Incident.Status.RESOLVED,
+                    comment="Monitoring suspended by the service owner.",
+                )
+        else:
+            service.monitoring_suspended = False
+            service.monitoring_suspended_at = None
+            service.status = Servers.Status.UNKNOWN
+            service.lifecycle_reason = "awaiting_telemetry"
+            service.consecutive_failure_observations = 0
+            service.status_changed_at = now
+            update_fields = [
+                "monitoring_suspended",
+                "monitoring_suspended_at",
+                "status",
+                "lifecycle_reason",
+                "consecutive_failure_observations",
+                "status_changed_at",
+            ]
+
+        service.save(update_fields=update_fields)
+        if action == "resume":
+            from servers.services.lifecycle import evaluate_service
+            evaluate_service(service.service_id, now=now)
+            service.refresh_from_db()
+        return Response(present_service(service, membership))
 
 
 class ServiceAdminAssignmentView(APIView):

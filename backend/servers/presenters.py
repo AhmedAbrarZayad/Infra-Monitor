@@ -82,6 +82,8 @@ def present_service(service, membership=None):
         "status_changed_at": service.status_changed_at,
         "lifecycle_reason": service.lifecycle_reason,
         "consecutive_failure_observations": service.consecutive_failure_observations,
+        "monitoring_suspended": service.monitoring_suspended,
+        "monitoring_suspended_at": service.monitoring_suspended_at,
         "port": service.port,
         "last_reported_at": service.last_reported_at,
         "alert_count": alerts.count(),
